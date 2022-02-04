@@ -137,22 +137,14 @@ ConvertConfigPioHwasToConfigPio(PioHwas_Pin_Config &configPioHwas) {
 }
 
 bool operator==(Pio_Pin_Config &lhs, Pio_Pin_Config &rhs) {
-  if (lhs.control != rhs.control)
-    return false;
-  else if (lhs.direction != rhs.direction)
-    return false;
-  else if (lhs.filter != rhs.filter)
-    return false;
-  else if (lhs.irq != rhs.irq)
-    return false;
-  else if (lhs.isMultiDriveEnabled != rhs.isMultiDriveEnabled)
-    return false;
-  else if (lhs.isSchmittTriggerDisabled != rhs.isSchmittTriggerDisabled)
-    return false;
-  else if (lhs.pull != rhs.pull)
-    return false;
-  else
-    return true;
+  CHECK_TRUE(lhs.control != rhs.control);
+  CHECK_TRUE(lhs.direction != rhs.direction);
+  CHECK_TRUE(lhs.filter != rhs.filter);
+  CHECK_TRUE(lhs.irq != rhs.irq);
+  CHECK_TRUE(lhs.isMultiDriveEnabled != rhs.isMultiDriveEnabled);
+  CHECK_TRUE(lhs.isSchmittTriggerDisabled != rhs.isSchmittTriggerDisabled);
+  CHECK_TRUE(lhs.pull != rhs.pull);
+  return true;
 }
 
 static void VerifyConfig(const PioHwas &pioHwas,
