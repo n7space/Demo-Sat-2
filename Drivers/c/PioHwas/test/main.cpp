@@ -129,7 +129,7 @@ ConvertConfigPioHwasToConfigPio(PioHwas_Pin_Config &configPioHwas) {
   ConvertPioFilter(configPio, configPioHwas);
   ConvertPioPull(configPio, configPioHwas);
 
-  configPio.control = Pio_Control_PeripheralA;
+  configPio.control = Pio_Control_Pio;
   configPio.irq = Pio_Irq_None;
   configPio.isMultiDriveEnabled = false;
   configPio.isSchmittTriggerDisabled = false;
