@@ -220,12 +220,57 @@ TEST(PioHwas_init_pin, outputNoPullGlitch) {
             .pull = PioHwas_Pull_None,
             .filter = PioHwas_Filter_Glitch};
   PioHwas_init_pin(&testPio, &config);
+  CHECK_TRUE(piohwas_get_pin)
 }
 
 TEST(PioHwas_init_pin, outputPullUpNoFilter) {
   config = {.port = PioHwas_Port_C,
             .pin = PIO_HWAS_PIN_9,
             .direction = PioHwas_Direction_Output,
+            .pull = PioHwas_Pull_Up,
+            .filter = PioHwas_Filter_None};
+  PioHwas_init_pin(&testPio, &config);
+}
+
+TEST(PioHwas_init_pin, inputPullUpDebounce) {
+  config = {.port = PioHwas_Port_D,
+            .pin = PIO_HWAS_PIN_11,
+            .direction = PioHwas_Direction_Input,
+            .pull = PioHwas_Pull_Up,
+            .filter = PioHwas_Filter_Debounce};
+  PioHwas_init_pin(&testPio, &config);
+}
+
+TEST(PioHwas_init_pin, inputPullDownDebounce) {
+  config = {.port = PioHwas_Port_D,
+            .pin = PIO_HWAS_PIN_11,
+            .direction = PioHwas_Direction_Input,
+            .pull = PioHwas_Pull_Down,
+            .filter = PioHwas_Filter_Debounce};
+  PioHwas_init_pin(&testPio, &config);
+}
+TEST(PioHwas_init_pin, inputNoPullDebounce) {
+  config = {.port = PioHwas_Port_D,
+            .pin = PIO_HWAS_PIN_11,
+            .direction = PioHwas_Direction_Input,
+            .pull = PioHwas_Pull_None,
+            .filter = PioHwas_Filter_Debounce};
+  PioHwas_init_pin(&testPio, &config);
+}
+
+TEST(PioHwas_init_pin, inputPullUpGlitch) {
+  config = {.port = PioHwas_Port_D,
+            .pin = PIO_HWAS_PIN_11,
+            .direction = PioHwas_Direction_Input,
+            .pull = PioHwas_Pull_Up,
+            .filter = PioHwas_Filter_Glitch};
+  PioHwas_init_pin(&testPio, &config);
+}
+
+TEST(PioHwas_init_pin, inputPullUpNoFilter) {
+  config = {.port = PioHwas_Port_D,
+            .pin = PIO_HWAS_PIN_11,
+            .direction = PioHwas_Direction_Input,
             .pull = PioHwas_Pull_Up,
             .filter = PioHwas_Filter_None};
   PioHwas_init_pin(&testPio, &config);
