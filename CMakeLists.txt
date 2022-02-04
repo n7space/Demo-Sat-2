@@ -25,7 +25,10 @@ target_compile_definitions(bsp_build_options
     INTERFACE   USE_USB_USART_IO)
 
 add_subdirectory(TASTE-SAMV71-Runtime/SAMV71-BSP)
+add_subdirectory(TASTE-SAMV71-Runtime/FreeRTOS)
+add_subdirectory(TASTE-SAMV71-Runtime/src/hwas)
 
+add_subdirectory(Drivers)
 # Build cpputest
 option(TESTS OFF)
 option(TESTS_BUILD_DISCOVER OFF)
