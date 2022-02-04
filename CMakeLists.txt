@@ -27,8 +27,13 @@ target_compile_definitions(bsp_build_options
 add_subdirectory(TASTE-SAMV71-Runtime/SAMV71-BSP)
 add_subdirectory(TASTE-SAMV71-Runtime/FreeRTOS)
 add_subdirectory(TASTE-SAMV71-Runtime/src/hwas)
+add_subdirectory(TASTE-SAMV71-Runtime/src/Init)
+add_subdirectory(TASTE-SAMV71-Runtime/src/Hal)
+add_subdirectory(TASTE-SAMV71-Runtime/src/Xdmac)
 
 add_subdirectory(Drivers)
+add_subdirectory(TestUtils)
+
 # Build cpputest
 option(TESTS OFF)
 option(TESTS_BUILD_DISCOVER OFF)

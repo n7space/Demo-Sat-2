@@ -17,3 +17,5 @@ add_format_target(Samv71RuntimePioHwas)
 
 set_target_properties(Samv71RuntimePioHwas PROPERTIES OUTPUT_NAME "PioHwas")
 add_library(SAMV71::Runtime::PioHwas ALIAS Samv71RuntimePioHwas)
+
+add_subdirectory(test)
