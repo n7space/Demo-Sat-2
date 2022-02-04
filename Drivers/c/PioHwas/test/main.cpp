@@ -163,7 +163,7 @@ static void VerifyConfig(const PioHwas &pioHwas,
   Pio pio;
   Pio_init(GetPioPort(configPioHwas.port), &pio);
 
-  int errorCode;
+  int errorCode{0};
   Pio_getPinsConfig(&pio, static_cast<const uint32_t>(pioHwas.pin),
                     &configPioActual, &errorCode);
 
