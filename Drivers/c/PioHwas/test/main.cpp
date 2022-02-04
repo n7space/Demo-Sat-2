@@ -274,3 +274,36 @@ TEST(PioHwas_init_pin, inputPullUpNoFilter) {
             .filter = PioHwas_Filter_None};
   PioHwas_init_pin(&testPio, &config);
 }
+
+TEST_GROUP(PioHwas_output) {
+  PioHwas testPio;
+  PioHwas_Pin_Config config = {.port = PioHwas_Port_C,
+                               .pin = PIO_HWAS_PIN_9,
+                               .direction = PioHwas_Direction_Output,
+                               .pull = PioHwas_Pull_Up,
+                               .filter = PioHwas_Filter_Debounce};
+  void setup() override { PioHwas_init_pin(&testPio, &config); }
+  void teardown() override {
+
+    Pio_Registers *pio = (Pio_Registers *)testPio.port;
+    pio->pdr = testPio.pin;
+    memset(&config, 0, sizeof(config));
+  }
+};
+
+TEST(PioHwas_output, set) {
+  PioHwas_set_pin(&testPio);
+  CHECK_TRUE(PioHwas_get_pin(&testPio));
+}
+
+TEST(PioHwas_output, reset) {
+  PioHwas_reset_pin(&testPio);
+  CHECK_FALSE(PioHwas_get_pin(&testPio));
+}
+
+TEST(PioHwas_output, toggle) {
+  PioHwas_toggle_pin(&testPio);
+  CHECK_TRUE(PioHwas_get_pin(&testPio));
+  PioHwas_toggle_pin(&testPio);
+  CHECK_FALSE(PioHwas_get_pin(&testPio));
+}
