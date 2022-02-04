@@ -220,7 +220,6 @@ TEST(PioHwas_init_pin, outputNoPullGlitch) {
             .pull = PioHwas_Pull_None,
             .filter = PioHwas_Filter_Glitch};
   PioHwas_init_pin(&testPio, &config);
-  CHECK_TRUE(piohwas_get_pin)
 }
 
 TEST(PioHwas_init_pin, outputPullUpNoFilter) {
