@@ -196,4 +196,5 @@ TEST(PioHwas, outputPullupDebounce) {
                                .pull = PioHwas_Pull_Up,
                                .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
