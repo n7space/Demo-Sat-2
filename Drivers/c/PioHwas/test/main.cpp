@@ -139,13 +139,13 @@ ConvertConfigPioHwasToConfigPio(PioHwas_Pin_Config &configPioHwas) {
 }
 
 bool operator==(Pio_Pin_Config &lhs, Pio_Pin_Config &rhs) {
-  CHECK_TRUE(lhs.control != rhs.control);
-  CHECK_TRUE(lhs.direction != rhs.direction);
-  CHECK_TRUE(lhs.filter != rhs.filter);
-  CHECK_TRUE(lhs.irq != rhs.irq);
-  CHECK_TRUE(lhs.isMultiDriveEnabled != rhs.isMultiDriveEnabled);
-  CHECK_TRUE(lhs.isSchmittTriggerDisabled != rhs.isSchmittTriggerDisabled);
-  CHECK_TRUE(lhs.pull != rhs.pull);
+  LONGS_EQUAL(lhs.control, rhs.control);
+  LONGS_EQUAL(lhs.direction, rhs.direction);
+  LONGS_EQUAL(lhs.filter, rhs.filter);
+  LONGS_EQUAL(lhs.irq, rhs.irq);
+  LONGS_EQUAL(lhs.isMultiDriveEnabled, rhs.isMultiDriveEnabled);
+  LONGS_EQUAL(lhs.isSchmittTriggerDisabled, rhs.isSchmittTriggerDisabled);
+  LONGS_EQUAL(lhs.pull, rhs.pull);
   return true;
 }
 
@@ -162,7 +162,7 @@ static void VerifyConfig(const PioHwas &pioHwas,
                     &configPioActual, &errorCode);
 
   LONGS_EQUAL(0, errorCode);
-  CHECK_TRUE(configPioActual == configPioExpected);
+  CHECK_TRUE(configPioExpected == configPioActual);
 }
 
 static inline void Verify_PioHwas_init_pin(const PioHwas &testPio,
