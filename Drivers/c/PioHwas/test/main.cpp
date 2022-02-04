@@ -24,6 +24,8 @@
 
 #include "TestUtils/main.h"
 
+#include <cstring>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -171,22 +173,24 @@ static inline void Verify_PioHwas_init_pin(const PioHwas &testPio,
   VerifyConfig(testPio, config);
 }
 
-TEST_GROUP(PioHwas) {
+TEST_GROUP(PioHwas_init_pin) {
   PioHwas testPio;
-  void setup() override {}
+  PioHwas_Pin_Config config;
 
   void teardown() override {
+    Verify_PioHwas_init_pin(testPio, config);
+
     Pio_Registers *pio = (Pio_Registers *)testPio.port;
     pio->pdr = testPio.pin;
+    memset(&config, 0, sizeof(config));
   }
 };
 
-TEST(PioHwas, outputPullupDebounce) {
+TEST(PioHwas_init_pin, outputPullupDebounce) {
   PioHwas_Pin_Config config = {.port = PioHwas_Port_C,
                                .pin = PIO_HWAS_PIN_9,
                                .direction = PioHwas_Direction_Output,
                                .pull = PioHwas_Pull_Up,
                                .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
-  Verify_PioHwas_init_pin(testPio, config);
 }
