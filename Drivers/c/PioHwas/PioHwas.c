@@ -147,6 +147,5 @@ void PioHwas_toggle_pin(PioHwas *const pio) {
 }
 
 bool PioHwas_get_pin(PioHwas *const pio) {
-  return (Register_get_bits(pio->port + PIO_HWAS_PDSR_OFFSET, pio->pin) &
-          pio->pin);
+  return (Register_get_bits(pio->port + PIO_HWAS_PDSR_OFFSET, pio->pin));
 }
