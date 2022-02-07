@@ -37,6 +37,8 @@ extern "C" {
 }
 #endif
 
+#define PIO_HWAS_CYCLES 5000
+
 static inline void VerifyPmc(PioHwas_Port port) {
   switch (port) {
   case PioHwas_Port_A:
@@ -291,19 +293,34 @@ TEST_GROUP(PioHwas_output) {
   }
 };
 
+/**
+ * @brief Wait for for the register value to be updated.
+ */
+inline static void WaitForRegValueToUpdate() {
+  for (int i = 0; i < PIO_HWAS_CYCLES; i++)
+    asm volatile("nop");
+}
+
 TEST(PioHwas_output, set) {
   PioHwas_set_pin(&testPio);
+  WaitForRegValueToUpdate();
   CHECK_TRUE(PioHwas_get_pin(&testPio));
 }
 
 TEST(PioHwas_output, reset) {
   PioHwas_reset_pin(&testPio);
+  WaitForRegValueToUpdate();
   CHECK_FALSE(PioHwas_get_pin(&testPio));
 }
 
 TEST(PioHwas_output, toggle) {
+  PioHwas_reset_pin(&testPio);
+  WaitForRegValueToUpdate();
+  CHECK_FALSE(PioHwas_get_pin(&testPio));
   PioHwas_toggle_pin(&testPio);
+  WaitForRegValueToUpdate();
   CHECK_TRUE(PioHwas_get_pin(&testPio));
   PioHwas_toggle_pin(&testPio);
+  WaitForRegValueToUpdate();
   CHECK_FALSE(PioHwas_get_pin(&testPio));
 }
