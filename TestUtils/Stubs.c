@@ -23,32 +23,6 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-// #include <sys/stat.h>
 #include <sys/wait.h>
 
-// int _gettimeofday(struct timeval* tv, void* tzvp);
-
-// int
-// _gettimeofday(struct timeval* tv, void* tzvp)
-// {
-//     // to suppress compiler errors
-//     (void)tzvp;
-//     uint64_t t = xTaskGetTickCount() * portTICK_PERIOD_MS; // get uptime in
-//     miliseconds tv->tv_sec = t / 1000;                                 //
-//     convert to seconds tv->tv_usec = (t % 1000) / 1000; // get remaining
-//     microseconds return 0;                                              //
-//     return non-zero for error
-// } // end _gettimeofday()
-
-// pid_t
-// waitpid(pid_t a, int* b, int c)
-// {
-//     return 0;
-// }
-
-// pid_t
-// _fork(void)
-// {
-//     return 0;
-// }
 clock_t _times(struct tms *buf) {}
