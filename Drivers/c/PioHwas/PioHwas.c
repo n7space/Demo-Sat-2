@@ -143,12 +143,10 @@ void PioHwas_reset_pin(PioHwas *const pio) {
 }
 
 void PioHwas_toggle_pin(PioHwas *const pio) {
-  Register_get_bits(pio->port + PIO_HWAS_ODSR_OFFSET, pio->pin)
-      ? PioHwas_reset_pin(pio)
-      : PioHwas_set_pin(pio);
+  PioHwas_get_pin(pio) ? PioHwas_reset_pin(pio) : PioHwas_set_pin(pio);
 }
 
 bool PioHwas_get_pin(PioHwas *const pio) {
-  return (Register_get_bits(pio->port + PIO_HWAS_ODSR_OFFSET, pio->pin) &
+  return (Register_get_bits(pio->port + PIO_HWAS_PDSR_OFFSET, pio->pin) &
           pio->pin);
 }
