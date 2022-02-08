@@ -156,5 +156,5 @@ void PioHwas_toggle_pin(PioHwas *const pin);
 
 /// \brief Gets the output pin state.
 /// \param [in] pio Pio descriptor.
-/// \returns I/O port's lines status
+/// \returns I/O pin's status
 bool PioHwas_get_pin(PioHwas *const pin);
