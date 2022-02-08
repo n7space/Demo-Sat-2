@@ -187,6 +187,9 @@ TEST_GROUP(PioHwas_init_pin) {
   }
 };
 
+/// \Given initialized Pio
+/// \When a pin is configured as output, with debounce filter and pull up
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, outputPullupDebounce) {
   config = {.port = PioHwas_Port_C,
             .pin = PIO_HWAS_PIN_9,
@@ -196,6 +199,9 @@ TEST(PioHwas_init_pin, outputPullupDebounce) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as output, with debounce filter and pull down
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, outputPullDownDebounce) {
   config = {.port = PioHwas_Port_C,
             .pin = PIO_HWAS_PIN_9,
@@ -205,6 +211,9 @@ TEST(PioHwas_init_pin, outputPullDownDebounce) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as output, with glitch filter and pull up
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, outputPullupGlitch) {
   config = {.port = PioHwas_Port_C,
             .pin = PIO_HWAS_PIN_9,
@@ -214,6 +223,9 @@ TEST(PioHwas_init_pin, outputPullupGlitch) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as output, with glitch filter and no pull
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, outputNoPullGlitch) {
   config = {.port = PioHwas_Port_C,
             .pin = PIO_HWAS_PIN_9,
@@ -223,6 +235,9 @@ TEST(PioHwas_init_pin, outputNoPullGlitch) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as output, with no filter and pull up
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, outputPullUpNoFilter) {
   config = {.port = PioHwas_Port_C,
             .pin = PIO_HWAS_PIN_9,
@@ -232,6 +247,9 @@ TEST(PioHwas_init_pin, outputPullUpNoFilter) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as input, with debounce filter and pull up
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, inputPullUpDebounce) {
   config = {.port = PioHwas_Port_D,
             .pin = PIO_HWAS_PIN_11,
@@ -241,6 +259,9 @@ TEST(PioHwas_init_pin, inputPullUpDebounce) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as input, with debounce filter and pull down
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, inputPullDownDebounce) {
   config = {.port = PioHwas_Port_D,
             .pin = PIO_HWAS_PIN_11,
@@ -249,6 +270,10 @@ TEST(PioHwas_init_pin, inputPullDownDebounce) {
             .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
 }
+
+/// \Given initialized Pio
+/// \When a pin is configured as input, with debounce filter and no pull
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, inputNoPullDebounce) {
   config = {.port = PioHwas_Port_D,
             .pin = PIO_HWAS_PIN_11,
@@ -258,6 +283,9 @@ TEST(PioHwas_init_pin, inputNoPullDebounce) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as input, with glitch filter and pull up
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, inputPullUpGlitch) {
   config = {.port = PioHwas_Port_D,
             .pin = PIO_HWAS_PIN_11,
@@ -267,6 +295,9 @@ TEST(PioHwas_init_pin, inputPullUpGlitch) {
   PioHwas_init_pin(&testPio, &config);
 }
 
+/// \Given initialized Pio
+/// \When a pin is configured as input, with no filter and pull up
+/// \Then proper pin configuration can be read
 TEST(PioHwas_init_pin, inputPullUpNoFilter) {
   config = {.port = PioHwas_Port_D,
             .pin = PIO_HWAS_PIN_11,
@@ -300,18 +331,28 @@ inline static void WaitForRegValueToUpdate() {
     asm volatile("nop");
 }
 
+/// \Given initalized Pio, with pin in output mode
+/// \When pin is set
+/// \Then the pin value is set
 TEST(PioHwas_output, set) {
   PioHwas_set_pin(&testPio);
   WaitForRegValueToUpdate();
   CHECK_TRUE(PioHwas_get_pin(&testPio));
 }
 
+/// \Given initalized Pio, with pin in output mode
+/// \When pin is reset
+/// \Then the pin value is reset
 TEST(PioHwas_output, reset) {
   PioHwas_reset_pin(&testPio);
   WaitForRegValueToUpdate();
   CHECK_FALSE(PioHwas_get_pin(&testPio));
 }
 
+/// \Given initalized Pio, with pin in output mode
+/// \When pin is toggled
+/// \Then the pin value is set when it was previously reset
+///   and it is reset if it was prevoisuly set.
 TEST(PioHwas_output, toggle) {
   PioHwas_reset_pin(&testPio);
   WaitForRegValueToUpdate();
