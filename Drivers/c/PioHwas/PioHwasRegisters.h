@@ -44,6 +44,7 @@
 #define PIO_HWAS_CODR_OFFSET (asn1SccSourceAddress)0x34
 #define PIO_HWAS_ODSR_OFFSET (asn1SccSourceAddress)0x38
 #define PIO_HWAS_PDSR_OFFSET (asn1SccSourceAddress)0x3C
+#define PIO_HWAS_MDDR_OFFSET (asn1SccSourceAddress)0x54
 #define PIO_HWAS_PUDR_OFFSET (asn1SccSourceAddress)0x60
 #define PIO_HWAS_PUER_OFFSET (asn1SccSourceAddress)0x64
 #define PIO_HWAS_PUSR_OFFSET (asn1SccSourceAddress)0x68
@@ -58,3 +59,4 @@
 #define PIO_HWAS_OWER_OFFSET (asn1SccSourceAddress)0xA0
 #define PIO_HWAS_OWDR_OFFSET (asn1SccSourceAddress)0xA4
 #define PIO_HWAS_OWSR_OFFSET (asn1SccSourceAddress)0xA8
+#define PIO_HWAS_SCHMITT_OFFSET (asn1SccSourceAddress)0x100
