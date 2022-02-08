@@ -65,8 +65,8 @@ static inline void VerifyPioPsr(const PioHwas &pio) {
 }
 
 static inline void
-ConvertPioDirrection(Pio_Pin_Config &configPio,
-                     const PioHwas_Pin_Config &configHwasPio) {
+ConvertPioDirection(Pio_Pin_Config &configPio,
+                    const PioHwas_Pin_Config &configHwasPio) {
   switch (configHwasPio.direction) {
   case PioHwas_Direction_Input:
     configPio.direction = Pio_Direction_Input;
@@ -129,7 +129,7 @@ static inline Pio_Pin_Config
 ConvertConfigPioHwasToConfigPio(PioHwas_Pin_Config &configPioHwas) {
   Pio_Pin_Config configPio;
 
-  ConvertPioDirrection(configPio, configPioHwas);
+  ConvertPioDirection(configPio, configPioHwas);
   ConvertPioFilter(configPio, configPioHwas);
   ConvertPioPull(configPio, configPioHwas);
 
