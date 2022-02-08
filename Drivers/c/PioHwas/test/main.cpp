@@ -319,7 +319,6 @@ TEST_GROUP(PioHwas_output) {
 
     Pio_Registers *pio = (Pio_Registers *)testPio.port;
     pio->pdr = testPio.pin;
-    memset(&config, 0, sizeof(config));
   }
 };
 
