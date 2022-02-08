@@ -363,3 +363,36 @@ TEST(PioHwas_output, toggle) {
   WaitForRegValueToUpdate();
   CHECK_FALSE(PioHwas_get_pin(&testPio));
 }
+
+TEST_GROUP(PioHwas_Pull) {
+  PioHwas testPio;
+  PioHwas_Pin_Config config = {.port = PioHwas_Port_C,
+                               .pin = PIO_HWAS_PIN_28,
+                               .direction = PioHwas_Direction_Input,
+                               .pull = PioHwas_Pull_None,
+                               .filter = PioHwas_Filter_None};
+  void teardown() override {
+    Pio_Registers *pio = (Pio_Registers *)testPio.port;
+    pio->pdr = testPio.pin;
+  }
+};
+
+/// \Given initialized Pio, with pin in input mode
+/// \When pin pull down configuration is set
+/// \Then pin value changes to "reset".
+TEST(PioHwas_Pull, pullDown) {
+  config.pull = PioHwas_Pull_Down;
+  PioHwas_init_pin(&testPio, &config);
+  WaitForRegValueToUpdate();
+  CHECK_FALSE(PioHwas_get_pin(&testPio));
+}
+
+/// \Given initialized Pio, with pin in input mode
+/// \When pin pull up configuration is set
+/// \Then pin value changes to "set".
+TEST(PioHwas_Pull, pullUp) {
+  config.pull = PioHwas_Pull_Up;
+  PioHwas_init_pin(&testPio, &config);
+  WaitForRegValueToUpdate();
+  CHECK_TRUE(PioHwas_get_pin(&testPio));
+}
