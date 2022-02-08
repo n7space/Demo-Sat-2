@@ -23,6 +23,6 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#include <sys/wait.h>
+#include <sys/times.h>
 
 clock_t _times(struct tms *buf) {}
