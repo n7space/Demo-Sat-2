@@ -136,7 +136,7 @@ ConvertConfigPioHwasToConfigPio(PioHwas_Pin_Config &configPioHwas) {
   configPio.control = Pio_Control_Pio;
   configPio.irq = Pio_Irq_None;
   configPio.isMultiDriveEnabled = false;
-  configPio.isSchmittTriggerDisabled = false;
+  configPio.isSchmittTriggerDisabled = true;
   return configPio;
 }
 
@@ -169,7 +169,6 @@ static void VerifyConfig(const PioHwas &pioHwas,
 
 static inline void Verify_PioHwas_init_pin(const PioHwas &testPio,
                                            PioHwas_Pin_Config &config) {
-
   VerifyPmc(config.port);
   VerifyPioPsr(testPio);
   VerifyConfig(testPio, config);
