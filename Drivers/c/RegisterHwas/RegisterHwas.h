@@ -37,9 +37,11 @@ void Register_set_bits(const asn1SccSourceAddress reg,
 /// \brief Set the masked value at the given position in the reg.
 /// \param [in] reg Pointer to the value that holds the register address value.
 /// \param [in] valueToSet Value to be set after moving to the given position
-/// and masking. \param [in] mask Bitmask to mask the chosen value at the given
-/// position. \param [in] position The number by which the chosen value is
-/// shifted left.
+///             and masking.
+/// \param [in] mask Bitmask to mask the chosen value at the given
+///             position.
+/// \param [in] position The number by which the chosen value is
+///             shifted left.
 void Register_set_value(const asn1SccSourceAddress reg,
                         const asn1SccWord valueToSet,
                         const asn1SccWordMask mask, const uint8_t position);
