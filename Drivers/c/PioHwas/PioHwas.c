@@ -126,12 +126,15 @@ void PioHwas_init_pin(PioHwas *const pio,
   pio->port = PioHwas_get_port_register(config->port);
   pio->pin = config->pin;
 
+  PioHwas_init_pin_init_pmc(config->port);
   Register_set_bits(pio->port + PIO_HWAS_PER_OFFSET,
                     pio->pin); /// TODO change to config control
-  PioHwas_init_pin_init_pmc(config->port);
   PioHwas_init_pin_set_direction(pio, config->direction);
   PioHwas_init_pin_set_pull(pio, config->pull);
   pioHwas_init_pin_set_filter(pio, config->filter);
+
+  Register_set_bits(pio->port + PIO_HWAS_SCHMITT_OFFSET, pio->pin);
+  Register_set_bits(pio->port + PIO_HWAS_MDDR_OFFSET, pio->pin);
 }
 
 void PioHwas_set_pin(PioHwas *const pio) {
