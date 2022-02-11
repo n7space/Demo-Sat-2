@@ -179,8 +179,6 @@ TEST_GROUP(PioHwas_init_pin) {
   PioHwas_Pin_Config config;
 
   void teardown() override {
-    Verify_PioHwas_init_pin(testPio, config);
-
     Pio_Registers *pio = (Pio_Registers *)testPio.port;
     pio->pdr = testPio.pin;
     memset(&config, 0, sizeof(config));
@@ -197,6 +195,7 @@ TEST(PioHwas_init_pin, outputPullupDebounce) {
             .pull = PioHwas_Pull_Up,
             .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -209,6 +208,7 @@ TEST(PioHwas_init_pin, outputPullDownDebounce) {
             .pull = PioHwas_Pull_Down,
             .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -221,6 +221,7 @@ TEST(PioHwas_init_pin, outputPullupGlitch) {
             .pull = PioHwas_Pull_Up,
             .filter = PioHwas_Filter_Glitch};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -233,6 +234,7 @@ TEST(PioHwas_init_pin, outputNoPullGlitch) {
             .pull = PioHwas_Pull_None,
             .filter = PioHwas_Filter_Glitch};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -245,6 +247,7 @@ TEST(PioHwas_init_pin, outputPullUpNoFilter) {
             .pull = PioHwas_Pull_Up,
             .filter = PioHwas_Filter_None};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -257,6 +260,7 @@ TEST(PioHwas_init_pin, inputPullUpDebounce) {
             .pull = PioHwas_Pull_Up,
             .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -269,6 +273,7 @@ TEST(PioHwas_init_pin, inputPullDownDebounce) {
             .pull = PioHwas_Pull_Down,
             .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -281,6 +286,7 @@ TEST(PioHwas_init_pin, inputNoPullDebounce) {
             .pull = PioHwas_Pull_None,
             .filter = PioHwas_Filter_Debounce};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -293,6 +299,7 @@ TEST(PioHwas_init_pin, inputPullUpGlitch) {
             .pull = PioHwas_Pull_Up,
             .filter = PioHwas_Filter_Glitch};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 /// \Given initialized Pio
@@ -305,6 +312,7 @@ TEST(PioHwas_init_pin, inputPullUpNoFilter) {
             .pull = PioHwas_Pull_Up,
             .filter = PioHwas_Filter_None};
   PioHwas_init_pin(&testPio, &config);
+  Verify_PioHwas_init_pin(testPio, config);
 }
 
 TEST_GROUP(PioHwas_output) {
