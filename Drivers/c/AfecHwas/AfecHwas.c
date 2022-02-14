@@ -20,3 +20,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+void Afec_init_pmc_init();
+
+void AfecHwas_init_channel() { AfecHwas_init_pmc_init(); }

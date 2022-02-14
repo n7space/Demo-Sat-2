@@ -20,3 +20,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#pragma once
+
+#include "hwas/hwas.h"
+
+void AfecHwas_init_channel();
+
+void AfecHwas_getValue();
