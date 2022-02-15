@@ -20,3 +20,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#pragma once
+
+/// \brief AFEC register deffinitions
+
+#define AFEC1_HWAS_OFFSET (asn1SccSourceAddress)0x4003C000
+#define AFEC2_HWAS_OFFSET (asn1SccSourceAddress)0x40064000
+
+#define AFEC_HWAS_CR_OFFSET (asn1SccSourceAddress)0x00
+#define AFEC_HWAS_MR_OFFSET (asn1SccSourceAddress)0x04
+#define AFEC_HWAS_CHER_OFFSET (asn1SccSourceAddress)0x14
+#define AFEC_HWAS_LCDR_OFFSET (asn1SccSourceAddress)0x20
+#define AFEC_HWAS_ISR_OFFSET (asn1SccSourceAddress)0x30
