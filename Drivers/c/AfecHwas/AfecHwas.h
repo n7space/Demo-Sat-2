@@ -80,6 +80,9 @@ typedef struct {
   asn1SccSourceAddress afecAddress; //< AFEC instance address
 } AfecHwas;
 
+#define AFEC_HWAS_RESOLUTION 12u
+#define AFEC_HWAS_MAX_VALUE 0x1 << AFEC_HWAS_RESOLUTION
+
 /// \brief Sets the AFEC configuration.
 /// \param [in,out] afec Afec descriptor.
 /// \param [in] config AFEC configuration.

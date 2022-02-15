@@ -93,6 +93,11 @@ TEST_GROUP(AfecHwas_init) {
   }
 };
 
+/// \Given an uninitialized Afec1
+/// \When the afec is initialized and the configis set with the Prescaler value
+///       1 and startup time 0
+/// \Then the proper value is written to the MR and EMR
+///       register, and no channel is yet enabled.
 TEST(AfecHwas_init, instance1Sut0Prescal1) {
   config.instance = AfecHwas_Instance_Afec1;
   config.startupTime = AfecHwas_StartupTime_Sut0;
@@ -102,6 +107,11 @@ TEST(AfecHwas_init, instance1Sut0Prescal1) {
   VerifyConfig(&afec, &config);
 }
 
+/// \Given an uninitialized Afec1
+/// \When the afec is initialized and the configis set with the Prescaler value
+///       1 and startup time 96
+/// \Then the proper value is written to the MR and EMR
+///       register, and no channel is yet enabled.
 TEST(AfecHwas_init, instance1Sut96Prescal1) {
   config.instance = AfecHwas_Instance_Afec1;
   config.startupTime = AfecHwas_StartupTime_Sut96;
@@ -111,6 +121,11 @@ TEST(AfecHwas_init, instance1Sut96Prescal1) {
   VerifyConfig(&afec, &config);
 }
 
+/// \Given an uninitialized Afec1
+/// \When the afec is initialized and the configis set with the Prescaler value
+///       1 and startup time 960
+/// \Then the proper value is written to the MR and EMR
+///       register, and no channel is yet enabled.
 TEST(AfecHwas_init, instance1Sut960Prescal1) {
   config.instance = AfecHwas_Instance_Afec1;
   config.startupTime = AfecHwas_StartupTime_Sut960;
@@ -120,6 +135,11 @@ TEST(AfecHwas_init, instance1Sut960Prescal1) {
   VerifyConfig(&afec, &config);
 }
 
+/// \Given an uninitialized Afec0
+/// \When the afec is initialized and the configis set with the Prescaler value
+///       1 and startup time 0
+/// \Then the proper value is written to the MR and EMR
+///       register, and no channel is yet enabled.
 TEST(AfecHwas_init, instance0Sut0Prescal1) {
   config.instance = AfecHwas_Instance_Afec1;
   config.startupTime = AfecHwas_StartupTime_Sut0;
@@ -129,6 +149,11 @@ TEST(AfecHwas_init, instance0Sut0Prescal1) {
   VerifyConfig(&afec, &config);
 }
 
+/// \Given an uninitialized Afec0
+/// \When the afec is initialized and the configis set with the Prescaler value
+///       7 and startup time 0
+/// \Then the proper value is written to the MR and EMR
+///       register, and no channel is yet enabled.
 TEST(AfecHwas_init, instance0Sut0Prescal7) {
   config.instance = AfecHwas_Instance_Afec1;
   config.startupTime = AfecHwas_StartupTime_Sut0;
@@ -162,10 +187,13 @@ TEST_GROUP(AfecHwas_get_value) {
     LONGS_EQUAL(channel, actualValue);
   }
   static inline void Verify(AfecHwas *const afec,
-                            const AfecHwas_Channel channel) {
+                            const AfecHwas_Channel channel,
+                            uint32_t readValue) {
     Verify_ChannelDisabled(afec);
     Verify_NoOngoingCoversion(afec);
     Verify_ProperChannelRead(afec, channel);
+    CHECK_TRUE(readValue > 0);
+    CHECK_TRUE(readValue < AFEC_HWAS_MAX_VALUE);
   }
 
   void setup() override {
@@ -179,38 +207,62 @@ TEST_GROUP(AfecHwas_get_value) {
   }
 };
 
+/// \Given an initialized and configured Afec0
+/// \When value is read in polling mode from channel 0
+/// \Then the proper channel is enable only while conversion is performed and
+///       proper data value is read and return
 TEST(AfecHwas_get_value, instance0channel0) {
   config.instance = AfecHwas_Instance_Afec0;
   channel = AfecHwas_Channel_0;
   AfecHwas_init_instance(&afec, &config);
-  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
-  Verify(&afec, channel);
+  uint32_t readValue = AfecHwas_get_value(&afec, channel);
+  Verify(&afec, channel, readValue);
 }
+
+/// \Given an initialized and configured Afec0
+/// \When value is read in polling mode from channel 11
+/// \Then the proper channel is enable only while conversion is performed and
+///       proper data value is read and return
 TEST(AfecHwas_get_value, instance0channel11) {
   config.instance = AfecHwas_Instance_Afec0;
   channel = AfecHwas_Channel_11;
   AfecHwas_init_instance(&afec, &config);
-  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
-  Verify(&afec, channel);
+  uint32_t readValue = AfecHwas_get_value(&afec, channel);
+  Verify(&afec, channel, readValue);
 }
+
+/// \Given an initialized and configured Afec0
+/// \When value is read in polling mode from channel 4
+/// \Then the proper channel is enable only while conversion is performed and
+///       proper data value is read and return
 TEST(AfecHwas_get_value, instance0channel4) {
   config.instance = AfecHwas_Instance_Afec0;
   channel = AfecHwas_Channel_4;
   AfecHwas_init_instance(&afec, &config);
-  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
-  Verify(&afec, channel);
+  uint32_t readValue = AfecHwas_get_value(&afec, channel);
+  Verify(&afec, channel, readValue);
 }
+
+/// \Given an initialized and configured Afec1
+/// \When value is read in polling mode from channel 0
+/// \Then the proper channel is enable only while conversion is performed and
+///       proper data value is read and return
 TEST(AfecHwas_get_value, instance1channel0) {
   config.instance = AfecHwas_Instance_Afec1;
   channel = AfecHwas_Channel_0;
   AfecHwas_init_instance(&afec, &config);
-  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
-  Verify(&afec, channel);
+  uint32_t readValue = AfecHwas_get_value(&afec, channel);
+  Verify(&afec, channel, readValue);
 }
+
+/// \Given an initialized and configured Afec1
+/// \When value is read in polling mode from channel 11
+/// \Then the proper channel is enable only while conversion is performed and
+///       proper data value is read and return
 TEST(AfecHwas_get_value, instance1channel11) {
   config.instance = AfecHwas_Instance_Afec1;
   channel = AfecHwas_Channel_11;
   AfecHwas_init_instance(&afec, &config);
-  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
-  Verify(&afec, channel);
+  uint32_t readValue = AfecHwas_get_value(&afec, channel);
+  Verify(&afec, channel, readValue);
 }
