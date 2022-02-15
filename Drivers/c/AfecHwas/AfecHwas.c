@@ -27,6 +27,8 @@
 #include "PmcHwas/PmcHwasRegisters.h"
 #include "RegisterHwas/RegisterHwas.h"
 
+#include <assert.h>
+
 static inline asn1SccSourceAddress
 Afec_init_get_afec_register(const AfecHwas_Instance instance) {
   switch (instance) {
@@ -53,6 +55,8 @@ static inline void Afec_init_pmc_init(AfecHwas_Instance instance) {
 static inline void
 Afec_init_set_mode(AfecHwas *const afec,
                    const AfecHwas_Instance_Config *const config) {
+
+  assert(config->startupTime <= AfecHwas_StartupTime_Sut960);
   asn1SccWord bitsToSet = AFEC_HWAS_MR_ONE_MASK |
                           (config->prescalerValue << AFEC_HWAS_MR_PRESCAL_POS) |
                           (config->startupTime << AFEC_HWAS_MR_STARTUP_POS);
