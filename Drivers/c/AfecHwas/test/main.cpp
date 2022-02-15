@@ -42,13 +42,13 @@ static constexpr uint32_t AFEC_HWAS_MR_DEFAULT_VALUE = 0x30800000;
 static constexpr uint32_t AFEC_HWAS_EMR_DEFAULT_VALUE = AFEC_HWAS_EMR_TAG_MASK;
 static constexpr uint32_t AFEC_HWAS_CHSR_DEFAULT_VALUE = 0x00000000;
 
+static inline void TeardownResetAfecInstance(AfecHwas *const afec) {
+  Register_set_bits(afec->afecAddress, AFEC_HWAS_CR_SWRST_MASK);
+}
+
 TEST_GROUP(AfecHwas_init) {
   AfecHwas afec;
   AfecHwas_Instance_Config config;
-
-  static inline void TeardownResetAfecInstance(AfecHwas *const afec) {
-    Register_set_bits(afec->afecAddress, AFEC_HWAS_CR_SWRST_MASK);
-  }
 
   static inline void VerifyConfig_MR(
       AfecHwas *const afec, const AfecHwas_Instance_Config *const config) {
@@ -127,4 +127,90 @@ TEST(AfecHwas_init, instance0Sut0Prescal1) {
 
   AfecHwas_init_instance(&afec, &config);
   VerifyConfig(&afec, &config);
+}
+
+TEST(AfecHwas_init, instance0Sut0Prescal7) {
+  config.instance = AfecHwas_Instance_Afec1;
+  config.startupTime = AfecHwas_StartupTime_Sut0;
+  config.prescalerValue = 7;
+
+  AfecHwas_init_instance(&afec, &config);
+  VerifyConfig(&afec, &config);
+}
+
+TEST_GROUP(AfecHwas_get_value) {
+  AfecHwas afec;
+  AfecHwas_Instance_Config config;
+  AfecHwas_Channel channel;
+
+  static inline void Verify_ChannelDisabled(AfecHwas *const afec) {
+    uint32_t actualValue =
+        Register_get_bits(afec->afecAddress, WHOLE_REGISTER_MASK);
+    LONGS_EQUAL(AFEC_HWAS_CHSR_DEFAULT_VALUE, actualValue);
+  }
+
+  static inline void Verify_NoOngoingCoversion(AfecHwas *const afec) {
+    CHECK_FALSE(Register_get_bits(afec->afecAddress, AFEC_HWAS_CR_START_MASK));
+  }
+
+  static inline void Verify_ProperChannelRead(AfecHwas *const afec,
+                                              const AfecHwas_Channel channel) {
+    uint32_t actualValue =
+        Register_get_bits(afec->afecAddress + AFEC_HWAS_LCDR_OFFSET,
+                          AFEC_HWAS_LCDR_CHNB_MASK) >>
+        AFEC_HWAS_LCDR_CHNB_POS;
+    LONGS_EQUAL(channel, actualValue);
+  }
+  static inline void Verify(AfecHwas *const afec,
+                            const AfecHwas_Channel channel) {
+    Verify_ChannelDisabled(afec);
+    Verify_NoOngoingCoversion(afec);
+    Verify_ProperChannelRead(afec, channel);
+  }
+
+  void setup() override {
+    config.startupTime = AfecHwas_StartupTime_Sut96;
+    config.prescalerValue = 1;
+  }
+
+  void teardown() override {
+    TeardownResetAfecInstance(&afec);
+    memset(&config, 0, sizeof(config));
+  }
+};
+
+TEST(AfecHwas_get_value, instance0channel0) {
+  config.instance = AfecHwas_Instance_Afec0;
+  channel = AfecHwas_Channel_0;
+  AfecHwas_init_instance(&afec, &config);
+  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
+  Verify(&afec, channel);
+}
+TEST(AfecHwas_get_value, instance0channel11) {
+  config.instance = AfecHwas_Instance_Afec0;
+  channel = AfecHwas_Channel_11;
+  AfecHwas_init_instance(&afec, &config);
+  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
+  Verify(&afec, channel);
+}
+TEST(AfecHwas_get_value, instance0channel4) {
+  config.instance = AfecHwas_Instance_Afec0;
+  channel = AfecHwas_Channel_4;
+  AfecHwas_init_instance(&afec, &config);
+  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
+  Verify(&afec, channel);
+}
+TEST(AfecHwas_get_value, instance1channel0) {
+  config.instance = AfecHwas_Instance_Afec1;
+  channel = AfecHwas_Channel_0;
+  AfecHwas_init_instance(&afec, &config);
+  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
+  Verify(&afec, channel);
+}
+TEST(AfecHwas_get_value, instance1channel11) {
+  config.instance = AfecHwas_Instance_Afec1;
+  channel = AfecHwas_Channel_11;
+  AfecHwas_init_instance(&afec, &config);
+  CHECK_TRUE(AfecHwas_get_value(&afec, channel) > 0);
+  Verify(&afec, channel);
 }

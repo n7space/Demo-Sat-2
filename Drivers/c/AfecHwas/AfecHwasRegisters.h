@@ -42,7 +42,14 @@
 
 #define AFEC_HWAS_MR_ONE_MASK (asn1SccWordMask)0x00800000
 
+#define AFEC_HWAS_MR_PRESCAL_POS (asn1SccWord)8u
+#define AFEC_HWAS_MR_STARTUP_POS (asn1SccWord)16u
+
 #define AFEC_HWAS_EMR_TAG_MASK (asn1SccWordMask)0x01000000
 
-#define AFEC_HWAS_MR_PRESCAL_POS (asn1SccWord)8
-#define AFEC_HWAS_MR_STARTUP_POS (asn1SccWord)16
+#define AFEC_HWAS_LCDR_CHNB_MASK (asn1SccWordMask)0x0F000000
+#define AFEC_HWAS_LCDR_LDATA_MASK (asn1SccWordMask)0x0000FFFF
+
+#define AFEC_HWAS_LCDR_CHNB_POS (asn1SccWord)24u
+
+#define AFEC_HWAS_ISR_DRDY_MASK (asn1SccWordMask)0x01000000

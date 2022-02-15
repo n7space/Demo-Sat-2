@@ -79,4 +79,23 @@ void AfecHwas_init_instance(AfecHwas *const afec,
 }
 
 uint32_t AfecHwas_get_value(AfecHwas *const afec,
-                            const AfecHwas_Channel channel) {}
+                            const AfecHwas_Channel channel) {
+  asn1SccWord channelToEnable = 0x01 << channel;
+
+  Register_set_bits(afec->afecAddress + AFEC_HWAS_CHDR_OFFSET,
+                    ~channelToEnable);
+  Register_set_bits(afec->afecAddress + AFEC_HWAS_CHER_OFFSET, channelToEnable);
+
+  while (!(Register_get_bits(afec->afecAddress + AFEC_HWAS_CHSR_OFFSET,
+                             channelToEnable))) {
+  }
+
+  Register_set_bits(afec->afecAddress + AFEC_HWAS_CR_OFFSET,
+                    AFEC_HWAS_CR_START_MASK);
+  while (!(Register_get_bits(afec->afecAddress + AFEC_HWAS_ISR_OFFSET,
+                             AFEC_HWAS_ISR_DRDY_MASK))) {
+  }
+
+  return Register_get_bits(afec->afecAddress + AFEC_HWAS_LCDR_OFFSET,
+                           AFEC_HWAS_LCDR_LDATA_MASK);
+}
