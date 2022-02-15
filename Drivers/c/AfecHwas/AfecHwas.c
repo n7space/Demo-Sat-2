@@ -21,6 +21,11 @@
  * limitations under the License.
  */
 
+#include "AfecHwas/AfecHwas.h"
+
 void Afec_init_pmc_init();
 
-void AfecHwas_init_channel() { AfecHwas_init_pmc_init(); }
+void AfecHwas_init_instance(AfecHwas *const afec,
+                            const AfecHwas_Instance_Config *const config) {}
+uint32_t AfecHwas_get_value(AfecHwas *const afec,
+                            const AfecHwas_Channel channel) {}
