@@ -29,10 +29,73 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 #include "AfecHwas/AfecHwas.h"
+#include "AfecHwas/AfecHwasRegisters.h"
+#include "RegisterHwas/RegisterHwas.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-TEST_GROUP(AfecHwas_init){};
+TEST_GROUP(AfecHwas_init) {
+  AfecHwas afec;
+  AfecHwas_Instance_Config config;
+
+  static inline void TeardownResetAfecInstance(AfecHwas *const afec) {
+    Register_set_bits(afec->afecAddress, AFEC_HWAS_CR_SWRST_MASK);
+  }
+
+  static inline void VerfiyConfig_MR(
+      AfecHwas *const afec, const AfecHwas_Instance_Config *const config) {
+
+    Register_get_bits(afec->afecAddress + AFEC_HWAS_MR_OFFSET,
+                      WHOLE_REGISTER_MASK);
+  }
+
+  static inline void VerifyConfig(
+      AfecHwas *const afec, const AfecHwas_Instance_Config *const config) {}
+
+  void setup() override {}
+
+  void teardown() override {
+    TeardownResetAfecInstance(&afec);
+    memset(&config, 0, sizeof(config));
+  }
+};
+
+TEST(AfecHwas_init, instance1Sut0Prescal1) {
+  config.instance = AfecHwas_Instance_Afec1;
+  config.startupTime = AfecHwas_StartupTime_Sut0;
+  config.prescalerValue = 1;
+
+  AfecHwas_init_instance(&afec, &config);
+  VerifyConfig(&afec, &config);
+}
+
+TEST(AfecHwas_init, instance1Sut96Prescal1) {
+  config.instance = AfecHwas_Instance_Afec1;
+  config.startupTime = AfecHwas_StartupTime_Sut96;
+  config.prescalerValue = 1;
+
+  AfecHwas_init_instance(&afec, &config);
+  VerifyConfig(&afec, &config);
+}
+
+TEST(AfecHwas_init, instance1Sut960Prescal1) {
+  config.instance = AfecHwas_Instance_Afec1;
+  config.startupTime = AfecHwas_StartupTime_Sut960;
+  config.prescalerValue = 1;
+
+  AfecHwas_init_instance(&afec, &config);
+  VerifyConfig(&afec, &config);
+}
+
+TEST(AfecHwas_init, instance0Sut0Prescal1) {
+  config.instance = AfecHwas_Instance_Afec1;
+  config.startupTime = AfecHwas_StartupTime_Sut0;
+  config.prescalerValue = 1;
+
+  AfecHwas_init_instance(&afec, &config);
+  VerifyConfig(&afec, &config);
+}
