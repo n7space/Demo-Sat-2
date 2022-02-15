@@ -33,3 +33,11 @@
 #define AFEC_HWAS_CHER_OFFSET (asn1SccSourceAddress)0x14
 #define AFEC_HWAS_LCDR_OFFSET (asn1SccSourceAddress)0x20
 #define AFEC_HWAS_ISR_OFFSET (asn1SccSourceAddress)0x30
+
+#define AFEC_HWAS_CR_SWRST_MASK (asn1SccWordMask)0x00000001
+#define AFEC_HWAS_CR_START_MASK (asn1SccWordMask)0x00000002
+
+#define AFEC_HWAS_EMR_TAG_MASK (asn1SccWordMask)0x01000000
+
+#define AFEC_HWAS_MR_PRESCAL_POS (asn1SccWord)8
+#define AFEC_HWAS_MR_STARTUP_POS (asn1SccWord)16
