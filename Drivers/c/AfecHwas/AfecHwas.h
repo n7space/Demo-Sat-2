@@ -52,7 +52,7 @@ typedef enum {
 } AfecHwas_StartupTime;
 
 /// \brief Enumeration listing possible channel numbers.
-enum AfecHwas_Channel {
+typedef enum {
   AfecHwas_Channel_0 = 0,
   AfecHwas_Channel_1,
   AfecHwas_Channel_2,
@@ -66,12 +66,13 @@ enum AfecHwas_Channel {
   AfecHwas_Channel_10,
   AfecHwas_Channel_11,
   AfecHwas_Channel_Number
-};
+} AfecHwas_Channel;
 
 /// \brief Structure representing AFEC configuration.
 typedef struct {
   AfecHwas_Instance instance;
   AfecHwas_StartupTime startupTime;
+  uint8_t prescalerValue;
 } AfecHwas_Instance_Config;
 
 /// \brief Afec descriptor
@@ -90,5 +91,5 @@ void AfecHwas_init_instance(AfecHwas *const afec,
 /// \param [in] afec Afec descriptor.
 /// \param[in] channel Source channel number
 /// \returns Conversion result.
-uint32_t AfecHwas_getValue(AfecHwas *const afec,
-                           const AfecHwas_Channel channel);
+uint32_t AfecHwas_get_value(AfecHwas *const afec,
+                            const AfecHwas_Channel channel);
