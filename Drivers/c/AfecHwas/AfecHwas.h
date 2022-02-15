@@ -25,6 +25,70 @@
 
 #include "hwas/hwas.h"
 
-void AfecHwas_init_channel();
+/// \brief Enumeration listing AFEC instances.
+typedef enum {
+  AfecHwas_Instance_Afec0 = 0, ///< Instance 0.
+  AfecHwas_Instance_Afec1 = 1, ///< Instance 1.
+} AfecHwas_Instance;
 
-void AfecHwas_getValue();
+/// \brief Enumeration listing possible Startup Times.
+typedef enum {
+  AfecHwas_StartupTime_Sut0 = 0,    ///< 0 periods of AFE clock.
+  AfecHwas_StartupTime_Sut8 = 1,    ///< 8 periods of AFE clock.
+  AfecHwas_StartupTime_Sut16 = 2,   ///< 16 periods of AFE clock.
+  AfecHwas_StartupTime_Sut24 = 3,   ///< 24 periods of AFE clock.
+  AfecHwas_StartupTime_Sut64 = 4,   ///< 64 periods of AFE clock.
+  AfecHwas_StartupTime_Sut80 = 5,   ///< 80 periods of AFE clock.
+  AfecHwas_StartupTime_Sut96 = 6,   ///< 96 periods of AFE clock.
+  AfecHwas_StartupTime_Sut112 = 7,  ///< 112 periods of AFE clock.
+  AfecHwas_StartupTime_Sut512 = 8,  ///< 512 periods of AFE clock.
+  AfecHwas_StartupTime_Sut576 = 9,  ///< 576 periods of AFE clock.
+  AfecHwas_StartupTime_Sut640 = 10, ///< 640 periods of AFE clock.
+  AfecHwas_StartupTime_Sut704 = 11, ///< 704 periods of AFE clock.
+  AfecHwas_StartupTime_Sut768 = 12, ///< 768 periods of AFE clock.
+  AfecHwas_StartupTime_Sut832 = 13, ///< 832 periods of AFE clock.
+  AfecHwas_StartupTime_Sut896 = 14, ///< 896 periods of AFE clock.
+  AfecHwas_StartupTime_Sut960 = 15, ///< 960 periods of AFE clock.
+} AfecHwas_StartupTime;
+
+/// \brief Enumeration listing possible channel numbers.
+enum AfecHwas_Channel {
+  AfecHwas_Channel_0 = 0,
+  AfecHwas_Channel_1,
+  AfecHwas_Channel_2,
+  AfecHwas_Channel_3,
+  AfecHwas_Channel_4,
+  AfecHwas_Channel_5,
+  AfecHwas_Channel_6,
+  AfecHwas_Channel_7,
+  AfecHwas_Channel_8,
+  AfecHwas_Channel_9,
+  AfecHwas_Channel_10,
+  AfecHwas_Channel_11,
+  AfecHwas_Channel_Number
+};
+
+/// \brief Structure representing AFEC configuration.
+typedef struct {
+  AfecHwas_Instance instance;
+  AfecHwas_StartupTime startupTime;
+} AfecHwas_Instance_Config;
+
+/// \brief Afec descriptor
+typedef struct {
+  asn1SccSourceAddress afecAddress; //< AFEC instance address
+} AfecHwas;
+
+/// \brief Sets the AFEC configuration.
+/// \param [in,out] afec Afec descriptor.
+/// \param [in] config AFEC configuration.
+void AfecHwas_init_instance(AfecHwas *const afec,
+                            const AfecHwas_Instance_Config *const config);
+
+/// \brief Gets the result of the conversion from the given channel in a polling
+///        mode
+/// \param [in] afec Afec descriptor.
+/// \param[in] channel Source channel number
+/// \returns Conversion result.
+uint32_t AfecHwas_getValue(AfecHwas *const afec,
+                           const AfecHwas_Channel channel);
