@@ -25,17 +25,22 @@
 
 /// \brief AFEC register deffinitions
 
-#define AFEC1_HWAS_OFFSET (asn1SccSourceAddress)0x4003C000
-#define AFEC2_HWAS_OFFSET (asn1SccSourceAddress)0x40064000
+#define AFEC0_HWAS_OFFSET (asn1SccSourceAddress)0x4003C000
+#define AFEC1_HWAS_OFFSET (asn1SccSourceAddress)0x40064000
 
 #define AFEC_HWAS_CR_OFFSET (asn1SccSourceAddress)0x00
 #define AFEC_HWAS_MR_OFFSET (asn1SccSourceAddress)0x04
+#define AFEC_HWAS_EMR_OFFSET (asn1SccSourceAddress)0x08
 #define AFEC_HWAS_CHER_OFFSET (asn1SccSourceAddress)0x14
+#define AFEC_HWAS_CHDR_OFFSET (asn1SccSourceAddress)0x18
+#define AFEC_HWAS_CHSR_OFFSET (asn1SccSourceAddress)0x1C
 #define AFEC_HWAS_LCDR_OFFSET (asn1SccSourceAddress)0x20
 #define AFEC_HWAS_ISR_OFFSET (asn1SccSourceAddress)0x30
 
 #define AFEC_HWAS_CR_SWRST_MASK (asn1SccWordMask)0x00000001
 #define AFEC_HWAS_CR_START_MASK (asn1SccWordMask)0x00000002
+
+#define AFEC_HWAS_MR_ONE_MASK (asn1SccWordMask)0x00800000
 
 #define AFEC_HWAS_EMR_TAG_MASK (asn1SccWordMask)0x01000000
 

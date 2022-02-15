@@ -22,10 +22,57 @@
  */
 
 #include "AfecHwas/AfecHwas.h"
+#include "AfecHwas/AfecHwasRegisters.h"
 
-void Afec_init_pmc_init();
+#include "PmcHwas/PmcHwasRegisters.h"
+#include "RegisterHwas/RegisterHwas.h"
+
+static inline asn1SccSourceAddress
+Afec_init_get_afec_register(const AfecHwas_Instance instance) {
+  switch (instance) {
+  case AfecHwas_Instance_Afec0:
+    return AFEC0_HWAS_OFFSET;
+  case AfecHwas_Instance_Afec1:
+    return AFEC1_HWAS_OFFSET;
+  }
+}
+
+static inline void Afec_init_pmc_init(AfecHwas_Instance instance) {
+  switch (instance) {
+  case AfecHwas_Instance_Afec0:
+    if (!(Register_get_bits(PMC_PCSR0, PMC_PCxR0_PID29_AFEC0_MASK)))
+      Register_set_bits(PMC_PCER0, (asn1SccWord)PMC_PCxR0_PID29_AFEC0_MASK);
+    break;
+  case AfecHwas_Instance_Afec1:
+    if (!(Register_get_bits(PMC_PCSR1, PMC_PCxR1_PID40_AFEC1_MASK)))
+      Register_set_bits(PMC_PCER1, (asn1SccWord)PMC_PCxR1_PID40_AFEC1_MASK);
+    break;
+  }
+}
+
+static inline void
+Afec_init_set_mode(AfecHwas *const afec,
+                   const AfecHwas_Instance_Config *const config) {
+  asn1SccWord bitsToSet = AFEC_HWAS_MR_ONE_MASK |
+                          (config->prescalerValue << AFEC_HWAS_MR_PRESCAL_POS) |
+                          (config->startupTime << AFEC_HWAS_MR_STARTUP_POS);
+
+  Register_set_bits(afec->afecAddress + AFEC_HWAS_MR_OFFSET, bitsToSet);
+}
+
+static inline void Afec_init_set_extended_mode(AfecHwas *const afec) {
+  Register_set_bits(afec->afecAddress + AFEC_HWAS_EMR_OFFSET,
+                    AFEC_HWAS_EMR_TAG_MASK);
+}
 
 void AfecHwas_init_instance(AfecHwas *const afec,
-                            const AfecHwas_Instance_Config *const config) {}
+                            const AfecHwas_Instance_Config *const config) {
+
+  afec->afecAddress = Afec_init_get_afec_register(config->instance);
+  Afec_init_pmc_init(config->instance);
+  Afec_init_set_mode(afec, config);
+  Afec_init_set_extended_mode(afec);
+}
+
 uint32_t AfecHwas_get_value(AfecHwas *const afec,
                             const AfecHwas_Channel channel) {}

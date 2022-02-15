@@ -38,6 +38,10 @@ extern "C" {
 }
 #endif
 
+static constexpr uint32_t AFEC_HWAS_MR_DEFAULT_VALUE = 0x30800000;
+static constexpr uint32_t AFEC_HWAS_EMR_DEFAULT_VALUE = AFEC_HWAS_EMR_TAG_MASK;
+static constexpr uint32_t AFEC_HWAS_CHSR_DEFAULT_VALUE = 0x00000000;
+
 TEST_GROUP(AfecHwas_init) {
   AfecHwas afec;
   AfecHwas_Instance_Config config;
@@ -46,15 +50,40 @@ TEST_GROUP(AfecHwas_init) {
     Register_set_bits(afec->afecAddress, AFEC_HWAS_CR_SWRST_MASK);
   }
 
-  static inline void VerfiyConfig_MR(
+  static inline void VerifyConfig_MR(
       AfecHwas *const afec, const AfecHwas_Instance_Config *const config) {
+    const uint32_t actualValue = Register_get_bits(
+        afec->afecAddress + AFEC_HWAS_MR_OFFSET, WHOLE_REGISTER_MASK);
 
-    Register_get_bits(afec->afecAddress + AFEC_HWAS_MR_OFFSET,
-                      WHOLE_REGISTER_MASK);
+    const uint32_t expectedValue =
+        AFEC_HWAS_MR_DEFAULT_VALUE |
+        (config->prescalerValue << AFEC_HWAS_MR_PRESCAL_POS) |
+        (config->startupTime << AFEC_HWAS_MR_STARTUP_POS);
+
+    LONGS_EQUAL(expectedValue, actualValue);
+  }
+
+  static inline void VerifyConfig_EMR(
+      AfecHwas *const afec, const AfecHwas_Instance_Config *const config) {
+    const uint32_t actualValue = Register_get_bits(
+        afec->afecAddress + AFEC_HWAS_EMR_OFFSET, WHOLE_REGISTER_MASK);
+
+    LONGS_EQUAL(AFEC_HWAS_EMR_DEFAULT_VALUE, actualValue);
+  }
+
+  static inline void VerifyConfig_CHSR(AfecHwas *const afec) {
+    const uint32_t actualValue = Register_get_bits(
+        afec->afecAddress + AFEC_HWAS_CHSR_OFFSET, WHOLE_REGISTER_MASK);
+
+    LONGS_EQUAL(AFEC_HWAS_CHSR_DEFAULT_VALUE, actualValue);
   }
 
   static inline void VerifyConfig(
-      AfecHwas *const afec, const AfecHwas_Instance_Config *const config) {}
+      AfecHwas *const afec, const AfecHwas_Instance_Config *const config) {
+    VerifyConfig_MR(afec, config);
+    VerifyConfig_EMR(afec, config);
+    VerifyConfig_CHSR(afec);
+  }
 
   void setup() override {}
 
