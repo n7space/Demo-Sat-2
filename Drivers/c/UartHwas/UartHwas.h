@@ -23,8 +23,37 @@
 
 #pragma once
 
-void UartHwas_init();
+#include "hwas/hwas.h"
 
-void UartHwas_rx();
+/// \brief Uart device identifiers.
+typedef enum {
+	UartHwas_Id_0 = 0, ///< Uart instance 0.
+	UartHwas_Id_1 = 1, ///< Uart instance 1.
+	UartHwas_Id_2 = 2, ///< Uart instance 2.
+	UartHwas_Id_3 = 3, ///< Uart instance 3.
+	UartHwas_Id_4 = 4, ///< Uart instance 4.
+} UartHwas_Id;
 
-void UartHwas_tx();
+/// \brief Uart device identifiers.
+typedef enum {
+	UartHwas_Baudrate_9600 = 0, ///< Uart baudrate 9600 bps
+	UartHwas_Baudrate_115200 = 1, ///< Uart baudrate 115200 bps
+} UartHwas_Baudrate;
+
+/// \brief Uart configuration descriptor.
+typedef struct 
+{
+    UartHwas_Id id;
+    UartHwas_Baudrate baudrate;
+}UartHwas_Config;
+
+/// \brief Uart descriptor
+typedef struct {
+  asn1SccSourceAddress uartAddress; //< Uart instance address
+} UartHwas;
+
+void UartHwas_init(UartHwas * const uart, const UartHwas_Config * const config);
+
+void UartHwas_rx(UartHwas * const uart);
+
+void UartHwas_tx(UartHwas * const uart);
