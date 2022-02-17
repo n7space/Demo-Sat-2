@@ -1,4 +1,3 @@
-
 /**@file
  * This file is a part of the DemoSat2 validation use case for the EDS TASTE
  * Bridge project.
