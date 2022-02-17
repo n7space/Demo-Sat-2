@@ -9,7 +9,7 @@ target_include_directories(UartHwasTest
                 ${CMAKE_SOURCE_DIR}/TASTE-SAMV71-Runtime/src
                 ${CMAKE_SOURCE_DIR}/cpputest/include )
 target_link_libraries(UartHwasTest
-    PRIVATE     SAMV71::Runtime::PioHwas
+    PRIVATE     SAMV71::Runtime::UartHwas
                 CppUTestExt
                 CppUTest
                 m
@@ -19,9 +19,7 @@ target_link_libraries(UartHwasTest
                 SAMV71::FreeRTOS
                 SAMV71::Stubs
                 SAMV71::Runtime::Stubs
-                SAMV71::Runtime::PioHwas
-                SAMV71::Runtime::Init
-                SAMV71::Runtime::PioHwas)
+                SAMV71::Runtime::Init)
 set(CMAKE_EXE_LINKER_FLAGS
                 " ${CMAKE_EXE_LINKER_FLAGS} \
                 -lnosys \
