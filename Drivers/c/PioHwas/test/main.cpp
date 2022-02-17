@@ -1,6 +1,7 @@
 
 /**@file
- * This file is part of the ARM BSP for the Test Environment.
+ * This file is a part of the DemoSat2 validation use case for the EDS TASTE
+ * Bridge project.
  *
  * @copyright 2020-2022 N7 Space Sp. z o.o.
  *
