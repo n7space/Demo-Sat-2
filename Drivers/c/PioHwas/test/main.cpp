@@ -1,4 +1,3 @@
-
 /**@file
  * This file is part of the ARM BSP for the Test Environment.
  *
