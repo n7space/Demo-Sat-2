@@ -59,27 +59,20 @@ TEST_GROUP(UartHwas_init) {
     }
   }
 
-  static inline void Verify_Cr(const Uart_Registers *const uartReg) {
-    constexpr uint32_t EXPECTED_VALUE =
-        UART_HWAS_CR_TXEN_MASK | UART_HWAS_CR_RXEN_MASK;
-    LONGS_EQUAL(EXPECTED_VALUE, uartReg->cr);
-  }
-
   static inline void Verify_Mr(const Uart_Registers *const uartReg) {
     constexpr uint32_t EXPECTED_VALUE = UART_HWAS_MR_NO_PARITY_MASK;
-    LONGS_EQUAL(EXPECTED_VALUE, uartReg->mr);
+    LONGS_EQUAL(EXPECTED_VALUE, uartReg->mr & UART_HWAS_MR_MASK);
   }
 
   static inline void Verify_Imr(const Uart_Registers *const uartReg) {
     constexpr uint32_t EXPECTED_VALUE = 0x00;
-    LONGS_EQUAL(EXPECTED_VALUE, uartReg->imr);
+    LONGS_EQUAL(EXPECTED_VALUE, uartReg->imr & UART_HWAS_IxR_MASK);
   }
 
   static inline void Verify_Sr(const Uart_Registers *const uartReg) {
-    constexpr uint32_t EXPECTED_VALUE = UART_HWAS_IxR_RXRDY_MASK |
-                                        UART_HWAS_IxR_TXEMPTY_MASK |
-                                        UART_HWAS_IxR_TXRDY_MASK;
-    LONGS_EQUAL(EXPECTED_VALUE, uartReg->sr);
+    constexpr uint32_t EXPECTED_VALUE =
+        UART_HWAS_IxR_TXEMPTY_MASK | UART_HWAS_IxR_TXRDY_MASK;
+    LONGS_EQUAL(EXPECTED_VALUE, uartReg->sr & UART_HWAS_IxR_MASK);
   }
 
   static inline void Verify_Brgr(const Uart_Registers *const uartReg,
@@ -87,20 +80,20 @@ TEST_GROUP(UartHwas_init) {
     uint32_t EXPECTED_VALUE;
     switch (config.baudrate) {
     case UartHwas_Baudrate_9600:
-      EXPECTED_VALUE = UART_HWAS_BRGR_9600_VALUE;
+      EXPECTED_VALUE = UART_HWAS_BRGR_CD_9600_VALUE;
       break;
     case UartHwas_Baudrate_115200:
-      EXPECTED_VALUE = UART_HWAS_BRGR_115200_VALUE;
+      EXPECTED_VALUE = UART_HWAS_BRGR_CD_115200_VALUE;
       break;
     }
 
-    LONGS_EQUAL(EXPECTED_VALUE, uartReg->brgr);
+    LONGS_EQUAL(EXPECTED_VALUE, uartReg->brgr & UART_HWAS_BRGR_CD_MASK);
   }
 
   static inline void Verify(const UartHwas &uart,
                             const UartHwas_Config &config) {
     const Uart_Registers *uartReg = (Uart_Registers *)uart.uartAddress;
-    Verify_Cr(uartReg);
+
     Verify_Mr(uartReg);
     Verify_Imr(uartReg);
     Verify_Sr(uartReg);
