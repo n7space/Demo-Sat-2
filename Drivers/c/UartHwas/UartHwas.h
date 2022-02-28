@@ -34,6 +34,15 @@ typedef enum {
   UartHwas_Id_4 = 4, ///< Uart instance 4.
 } UartHwas_Id;
 
+/// \brief Uart nvic numbers
+typedef enum {
+  NvicHwas_Irq_Uart0 = 7,
+  NvicHwas_Irq_Uart1 = 8,
+  NvicHwas_Irq_Uart2 = 44,
+  NvicHwas_Irq_Uart3 = 45,
+  NvicHwas_Irq_Uart4 = 46,
+} NvicHwas_Irq;
+
 /// \brief Uart device identifiers.
 typedef enum {
   UartHwas_Baudrate_9600 = 0,   ///< Uart baudrate 9600 bps
@@ -44,15 +53,65 @@ typedef enum {
 typedef struct {
   UartHwas_Id id;
   UartHwas_Baudrate baudrate;
+  asn1SccInterruptNumber irqNumber;
 } UartHwas_Config;
+
+/// \brief A function serving as a callback called at the end of single byte
+/// transmission.
+typedef void (*UartHwasTxEmptyCallback)();
+
+/// \brief A descriptor of single byte end-of-transmission event handler
+typedef struct {
+  UartHwasTxEmptyCallback callback;
+} UartHwasTxHandler;
+
+/// \brief A function serving as a callback called upon a reception of a single
+/// byte
+typedef void (*UartHwasRxReadyCallback)(uint8_t readByte);
+
+/// \brief A descriptor of a single byte reception event handler
+typedef struct {
+  UartHwasRxReadyCallback callback;
+} UartHwasRxHandler;
 
 /// \brief Uart descriptor
 typedef struct {
   asn1SccSourceAddress uartAddress; //< Uart instance address
+  UartHwasTxEmptyCallback txCallback;
+  UartHwasRxReadyCallback rxCallback;
+  NvicHwas_Irq irqNumber;
 } UartHwas;
 
+/**
+ * @brief Initializes uart peripheral
+ *
+ * @param uart
+ * @param config
+ */
 void UartHwas_init(UartHwas *const uart, const UartHwas_Config *const config);
 
-void UartHwas_rx(UartHwas *const uart);
+/**
+ * @brief
+ *
+ * @param uart
+ * @param rxHandler
+ */
+void UartHwas_readByteAsync(UartHwas *const uart,
+                            UartHwasRxReadyCallback rxHandler);
 
-void UartHwas_tx(UartHwas *const uart);
+/**
+ * @brief
+ *
+ * @param uart
+ * @param txHandler
+ */
+void UartHwas_sendByteAsync(UartHwas *const uart,
+                            UartHwasTxEmptyCallback txHandler,
+                            uint8_t byteToSend);
+
+/**
+ * @brief
+ *
+ * @param uart
+ */
+void UartHwas_handleInterrupt(UartHwas *const uart);

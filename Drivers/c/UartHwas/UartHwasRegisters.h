@@ -42,14 +42,18 @@
 #define UART_HWAS_THR_OFFSET (asn1SccSourceAddress)0x1C
 #define UART_HWAS_BRGR_OFFSET (asn1SccSourceAddress)0x20
 
+#define UART_HWAS_CR_RSTRX_MASK (asn1SccWordMask)0x00000002
+#define UART_HWAS_CR_RSTTX_MASK (asn1SccWordMask)0x00000004
 #define UART_HWAS_CR_RXEN_MASK (asn1SccWordMask)0x00000010
 #define UART_HWAS_CR_TXEN_MASK (asn1SccWordMask)0x00000040
+#define UART_HWAS_CR_MASK (asn1SccWordMask)0x000011fC
 
 #define UART_HWAS_MR_MASK (asn1SccWordMask)0x0000DE10
 #define UART_HWAS_MR_NO_PARITY_MASK (asn1SccWordMask)0x00000800
 #define UART_HWAS_MR_CHMODE_MASK (asn1SccWordMask)0x0000C000
 
 #define UART_HWAS_MR_CHMODE_LOCAL_LOOPBACK_VALUE (asn1SccWordMask)0x00008000
+#define UART_HWAS_MR_CHMODE_REMOTE_LOOPBACK_VALUE (asn1SccWordMask)0x0000C000
 
 #define UART_HWAS_IxR_MASK (asn1SccWordMask)0x000082E3
 #define UART_HWAS_IxR_RXRDY_MASK (asn1SccWordMask)0x00000001
@@ -59,8 +63,9 @@
 #define UART_HWAS_IxR_PARE_MASK (asn1SccWordMask)0x00000080
 #define UART_HWAS_IxR_TXEMPTY_MASK (asn1SccWordMask)0x00000200
 
+#define UART_HWAS_RHR_RXCHR_MASK (asn1SccWordMask)0x000000FF
+#define UART_HWAS_THR_TXCHR_MASK (asn1SccWordMask)0x000000FF
+
 #define UART_HWAS_BRGR_CD_MASK (asn1SccWordMask)0x0000FFFF
 #define UART_HWAS_BRGR_CD_115200_VALUE (asn1SccWordMask)0x00000028 //< Assuming peripheral clock is 75 MHz
-#define UART_HWAS_BRGR_CD_9600_VALUE (asn1SccWordMask)0x000001E8 //< Assuming peripheral clock is 75 MHz
-
-
+#define UART_HWAS_BRGR_CD_9600_VALUE (asn1SccWordMask)0x000001E8   //< Assuming peripheral clock is 75 MHz

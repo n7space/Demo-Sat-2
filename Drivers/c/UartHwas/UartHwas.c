@@ -69,8 +69,9 @@ static inline void UartHwas_init_pmc_init(UartHwas_Id id) {
 }
 
 static inline void UartHwas_init_cr_init(const UartHwas *const uart) {
-  Register_set_bits(uart->uartAddress + UART_HWAS_CR_OFFSET,
-                    UART_HWAS_CR_TXEN_MASK | UART_HWAS_CR_RXEN_MASK);
+  Register_set_value(uart->uartAddress + UART_HWAS_CR_OFFSET,
+                     UART_HWAS_CR_TXEN_MASK | UART_HWAS_CR_RXEN_MASK,
+                     UART_HWAS_CR_MASK, 0);
 }
 
 static inline void UartHwas_init_mr_init(const UartHwas *const uart) {
@@ -96,14 +97,81 @@ UartHwas_init_brgr_init(const UartHwas *const uart,
   }
 }
 
+void UartHwas_init_irq(UartHwas *const uart, UartHwas_Id id) {
+  switch (id) {
+  case UartHwas_Id_0:
+    uart->irqNumber = NvicHwas_Irq_Uart0;
+    break;
+  case UartHwas_Id_1:
+    uart->irqNumber = NvicHwas_Irq_Uart1;
+    break;
+  case UartHwas_Id_2:
+    uart->irqNumber = NvicHwas_Irq_Uart2;
+    break;
+  case UartHwas_Id_3:
+    uart->irqNumber = NvicHwas_Irq_Uart3;
+    break;
+  case UartHwas_Id_4:
+    uart->irqNumber = NvicHwas_Irq_Uart4;
+    break;
+  }
+}
+
 void UartHwas_init(UartHwas *const uart, const UartHwas_Config *const config) {
   uart->uartAddress = UartHwas_init_get_uart_register(config->id);
   UartHwas_init_pmc_init(config->id);
   UartHwas_init_cr_init(uart);
   UartHwas_init_mr_init(uart);
   UartHwas_init_brgr_init(uart, config);
+  UartHwas_init_irq(uart, config->id);
 }
 
-void UartHwas_rx(UartHwas *const uart) {}
+void UartHwas_readByteAsync(UartHwas *const uart,
+                            UartHwasRxReadyCallback rxHandler) {
+  uart->rxCallback = rxHandler;
+  Register_set_bits(uart->uartAddress + UART_HWAS_IER_OFFSET,
+                    UART_HWAS_IxR_RXRDY_MASK);
 
-void UartHwas_tx(UartHwas *const uart) {}
+  hwas_PI_InterruptSubscriptionManagement_SubscribeToInterrupt_Pi(
+      (asn1SccInterruptNumber *)&uart->irqNumber);
+  hwas_PI_InterruptManagement_EnableInterrupt_Pi(
+      (asn1SccInterruptNumber *)&uart->irqNumber);
+}
+
+void UartHwas_sendByteAsync(UartHwas *const uart,
+                            UartHwasTxEmptyCallback txHandler,
+                            uint8_t byteToSend) {
+  uart->txCallback = txHandler;
+
+  hwas_PI_InterruptSubscriptionManagement_SubscribeToInterrupt_Pi(
+      (asn1SccInterruptNumber *)&uart->irqNumber);
+  hwas_PI_InterruptManagement_EnableInterrupt_Pi(
+      (asn1SccInterruptNumber *)&uart->irqNumber);
+
+  Register_set_bits(uart->uartAddress + UART_HWAS_THR_OFFSET,
+                    (asn1SccWord)byteToSend & UART_HWAS_THR_TXCHR_MASK);
+  Register_set_bits(uart->uartAddress + UART_HWAS_IER_OFFSET,
+                    UART_HWAS_IxR_TXEMPTY_MASK);
+}
+
+void UartHwas_handleInterrupt(UartHwas *const uart) {
+  uint32_t imr = Register_get_bits(uart->uartAddress + UART_HWAS_IMR_OFFSET,
+                                   WHOLE_REGISTER_MASK);
+  uint32_t maskedSr =
+      Register_get_bits(uart->uartAddress + UART_HWAS_SR_OFFSET, imr);
+
+  //< Have rx ready interrupt occured
+  if (maskedSr & UART_HWAS_IxR_RXRDY_MASK) {
+    uint8_t readByte;
+    readByte = (uint8_t)Register_get_bits(
+        uart->uartAddress + UART_HWAS_RHR_OFFSET, UART_HWAS_RHR_RXCHR_MASK);
+    if (uart->rxCallback != NULL)
+      uart->rxCallback(readByte);
+  }
+
+  //< Have tx empty interrupt occured
+  if (maskedSr & UART_HWAS_IxR_TXEMPTY_MASK) {
+    if (uart->txCallback != NULL)
+      uart->txCallback();
+  }
+}
