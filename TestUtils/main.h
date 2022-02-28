@@ -24,25 +24,37 @@
  */
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "FreeRTOS.h"
 #include "task.h"
 
 #include <Hal/Hal.h>
+#include <hwas/hwas.h>
 #include <Init/Init.h>
 
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef __cplusplus
+}
+#endif
+
+#include <CppUTest/CommandLineTestRunner.h>
+#include <CppUTest/TestHarness.h>
+
+#define TEST_TASK_STACK_SIZE 1024
+
 void vApplicationMallocFailedHook();
 void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName);
 void vApplicationIdleHook();
 void vApplicationTickHook();
 
-typedef struct __attribute__((packed)) ContextStateFrame {
+typedef struct __attribute__((packed)) ContextStateFrame
+{
   uint32_t r0;
   uint32_t r1;
   uint32_t r2;
@@ -55,38 +67,39 @@ typedef struct __attribute__((packed)) ContextStateFrame {
 
 // NOTE: If you are using CMSIS, the registers can also be
 // accessed through CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk
-#define HALT_IF_DEBUGGING()                                                    \
-  do {                                                                         \
-    if ((*(volatile uint32_t *)0xE000EDF0) & (1 << 0)) {                       \
-      __asm("bkpt 1");                                                         \
-    }                                                                          \
+#define HALT_IF_DEBUGGING()                            \
+  do                                                   \
+  {                                                    \
+    if ((*(volatile uint32_t *)0xE000EDF0) & (1 << 0)) \
+    {                                                  \
+      __asm("bkpt 1");                                 \
+    }                                                  \
   } while (0)
 
 // Disable optimizations for this function so "frame" argument
 // does not get optimized away
 __attribute__((optimize("O0"))) void
-my_fault_handler_c(sContextStateFrame *frame) {
+my_fault_handler_c(sContextStateFrame *frame)
+{
   // If and only if a debugger is attached, execute a breakpoint
   // instruction so we can take a look at what triggered the fault
   HALT_IF_DEBUGGING();
 }
 
-#define HARDFAULT_HANDLING_ASM(_x)                                             \
-  __asm volatile("tst lr, #4 \n"                                               \
-                 "ite eq \n"                                                   \
-                 "mrseq r0, msp \n"                                            \
-                 "mrsne r0, psp \n"                                            \
+#define HARDFAULT_HANDLING_ASM(_x)  \
+  __asm volatile("tst lr, #4 \n"    \
+                 "ite eq \n"        \
+                 "mrseq r0, msp \n" \
+                 "mrsne r0, psp \n" \
                  "b my_fault_handler_c \n")
 
-void HardFault_Handler(void) { HARDFAULT_HANDLING_ASM(); }
-#ifdef __cplusplus
+void HardFault_Handler(void)
+{
+  HARDFAULT_HANDLING_ASM();
 }
-#endif
 
-#include <CppUTest/CommandLineTestRunner.h>
-#include <CppUTest/TestHarness.h>
-
-int main() {
+int main()
+{
   Init_setup_hardware();
 
   char **av{};
@@ -97,14 +110,16 @@ int main() {
 
 void vApplicationMallocFailedHook() { configASSERT(0); }
 
-void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName) {
+void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName)
+{
   (void)pxTask;
   (void)pcTaskName;
 
   configASSERT(0);
 }
 
-void vApplicationIdleHook() {
+void vApplicationIdleHook()
+{
   volatile size_t xFreeHeapSpace = xPortGetFreeHeapSize();
   (void)xFreeHeapSpace;
 }
