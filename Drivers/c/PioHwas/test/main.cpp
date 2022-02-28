@@ -29,13 +29,21 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#include <Nvic/Nvic.h>
 #include <Pio/Pio.h>
-#include <PioHwas/PioHwas.h>
 #include <Pmc/Pmc.h>
+
+#include <PioHwas/PioHwas.h>
+#include <RegisterHwas/RegisterHwas.h>
 
 #ifdef __cplusplus
 }
 #endif
+
+void hwas_RI_InterruptSubscription_Interrupt_Ri(
+    const asn1SccInterrupt_Type *irq) {
+  (void)irq;
+}
 
 #define PIO_HWAS_CYCLES 5000
 
