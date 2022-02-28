@@ -20,7 +20,8 @@ target_link_libraries(AfecHwasTest
                 SAMV71::Stubs
                 SAMV71::Runtime::Stubs
                 SAMV71::Runtime::AfecHwas
-                SAMV71::Runtime::Init)
+                SAMV71::Runtime::Init
+                SAMV71::Runtime::Hwas)
 
 set(CMAKE_EXE_LINKER_FLAGS
                 " ${CMAKE_EXE_LINKER_FLAGS} \
