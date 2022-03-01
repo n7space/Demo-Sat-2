@@ -26,7 +26,8 @@
 #include "hwas/hwas.h"
 
 /// \brief Uart device identifiers.
-typedef enum {
+typedef enum
+{
   UartHwas_Id_0 = 0, ///< Uart instance 0.
   UartHwas_Id_1 = 1, ///< Uart instance 1.
   UartHwas_Id_2 = 2, ///< Uart instance 2.
@@ -35,7 +36,8 @@ typedef enum {
 } UartHwas_Id;
 
 /// \brief Uart nvic numbers
-typedef enum {
+typedef enum
+{
   NvicHwas_Irq_Uart0 = 7,
   NvicHwas_Irq_Uart1 = 8,
   NvicHwas_Irq_Uart2 = 44,
@@ -44,13 +46,15 @@ typedef enum {
 } NvicHwas_Irq;
 
 /// \brief Uart device identifiers.
-typedef enum {
+typedef enum
+{
   UartHwas_Baudrate_9600 = 0,   ///< Uart baudrate 9600 bps
   UartHwas_Baudrate_115200 = 1, ///< Uart baudrate 115200 bps
 } UartHwas_Baudrate;
 
 /// \brief Uart configuration descriptor.
-typedef struct {
+typedef struct
+{
   UartHwas_Id id;
   UartHwas_Baudrate baudrate;
   asn1SccInterruptNumber irqNumber;
@@ -61,7 +65,8 @@ typedef struct {
 typedef void (*UartHwasTxEmptyCallback)();
 
 /// \brief A descriptor of single byte end-of-transmission event handler
-typedef struct {
+typedef struct
+{
   UartHwasTxEmptyCallback callback;
 } UartHwasTxHandler;
 
@@ -70,48 +75,38 @@ typedef struct {
 typedef void (*UartHwasRxReadyCallback)(uint8_t readByte);
 
 /// \brief A descriptor of a single byte reception event handler
-typedef struct {
+typedef struct
+{
   UartHwasRxReadyCallback callback;
 } UartHwasRxHandler;
 
 /// \brief Uart descriptor
-typedef struct {
+typedef struct
+{
   asn1SccSourceAddress uartAddress; //< Uart instance address
   UartHwasTxEmptyCallback txCallback;
   UartHwasRxReadyCallback rxCallback;
   NvicHwas_Irq irqNumber;
 } UartHwas;
 
-/**
- * @brief Initializes uart peripheral
- *
- * @param uart
- * @param config
- */
+/// \brief Initializes uart peripheral
+/// \param [in] uart Uart device descriptor
+/// \param [in] config Configurator descriptor
 void UartHwas_init(UartHwas *const uart, const UartHwas_Config *const config);
 
-/**
- * @brief
- *
- * @param uart
- * @param rxHandler
- */
+/// \brief Asynchronously receives a byte over Uart
+/// \param [in] uart Uart device descriptor
+/// \param rxHandler descriptor of reception handler
 void UartHwas_readByteAsync(UartHwas *const uart,
                             UartHwasRxReadyCallback rxHandler);
 
-/**
- * @brief
- *
- * @param uart
- * @param txHandler
- */
+/// \brief Asynchronously sends byte over uart
+/// \param [in] uart Uart device descriptor
+/// \param txHandler Descriptor of transmission handler
 void UartHwas_sendByteAsync(UartHwas *const uart,
                             UartHwasTxEmptyCallback txHandler,
                             uint8_t byteToSend);
 
-/**
- * @brief
- *
- * @param uart
- */
+/// \brief Interrupt handler
+/// \param [in] uart Uart device descriptor
 void UartHwas_handleInterrupt(UartHwas *const uart);
