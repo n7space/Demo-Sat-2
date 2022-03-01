@@ -18,7 +18,6 @@ target_link_libraries(PioHwasTest
                 gcc
                 SAMV71::FreeRTOS
                 SAMV71::Stubs
-                SAMV71::Runtime::Hwas
                 SAMV71::Runtime::Stubs
                 SAMV71::Runtime::Init)
 set(CMAKE_EXE_LINKER_FLAGS
