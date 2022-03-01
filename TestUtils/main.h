@@ -32,7 +32,6 @@ extern "C"
 #include "task.h"
 
 #include <Hal/Hal.h>
-#include <hwas/hwas.h>
 #include <Init/Init.h>
 
 #include <assert.h>
@@ -45,8 +44,6 @@ extern "C"
 
 #include <CppUTest/CommandLineTestRunner.h>
 #include <CppUTest/TestHarness.h>
-
-#define TEST_TASK_STACK_SIZE 1024
 
 void vApplicationMallocFailedHook();
 void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName);
