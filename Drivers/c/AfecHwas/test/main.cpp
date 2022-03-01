@@ -39,9 +39,6 @@ extern "C" {
 }
 #endif
 
-void hwas_RI_InterruptSubscription_Interrupt_Ri(const asn1SccInterrupt_Type *) {
-}
-
 static constexpr uint32_t AFEC_HWAS_MR_DEFAULT_VALUE = 0x30800000;
 static constexpr uint32_t AFEC_HWAS_EMR_DEFAULT_VALUE = AFEC_HWAS_EMR_TAG_MASK;
 static constexpr uint32_t AFEC_HWAS_CHSR_DEFAULT_VALUE = 0x00000000;
