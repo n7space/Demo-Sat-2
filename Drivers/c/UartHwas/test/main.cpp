@@ -200,7 +200,8 @@ TEST(UartHwas, uart0Baud9600) {
   VerifyInit(uart, config);
 }
 
-/// \Given uninitialized UAbr U/// \When UART1 is initialized with 9600 bps
+/// \Given uninitialized UART
+/// \When UART1 is initialized with 9600 bps
 /// \Then proper configuration shall be read.
 TEST(UartHwas, uart1Baud9600) {
   //< Setup
