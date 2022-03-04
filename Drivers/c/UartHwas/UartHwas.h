@@ -32,6 +32,7 @@ typedef enum {
   UartHwas_Id_2 = 2, ///< Uart instance 2.
   UartHwas_Id_3 = 3, ///< Uart instance 3.
   UartHwas_Id_4 = 4, ///< Uart instance 4.
+  UartHwas_Id_number,
 } UartHwas_Id;
 
 /// \brief Uart nvic numbers
