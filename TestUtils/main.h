@@ -117,8 +117,6 @@ void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName)
 
 void vApplicationIdleHook()
 {
-  volatile size_t xFreeHeapSpace = xPortGetFreeHeapSize();
-  (void)xFreeHeapSpace;
 }
 
 void vApplicationTickHook() {}
