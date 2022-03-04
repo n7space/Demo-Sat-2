@@ -23,6 +23,7 @@
 
 #include "TestUtils/main_FreeRTOS.h"
 
+#include <array>
 #include <cstring>
 #include <string>
 
@@ -59,12 +60,22 @@ void hwas_RI_InterruptSubscription_Interrupt_Ri(
 }
 
 volatile uint8_t rxByte = 0;
+volatile uint8_t rxCallbackFlag = 0;
+volatile uint8_t txCallbackFlag = 0;
 void UartTxCallback() {
   const Uart_Registers *uartReg = (Uart_Registers *)uart.uartAddress;
+
+  //< wait for byte to be read
+  while (!(uartReg->sr & UART_HWAS_IxR_RXRDY_MASK)) {
+  }
   rxByte = static_cast<uint8_t>(uartReg->rhr & UART_HWAS_RHR_RXCHR_MASK);
+  txCallbackFlag = 1;
 }
 
-void UartRxCallback(uint8_t readByte) { rxByte = readByte; }
+void UartRxCallback(uint8_t readByte) {
+  rxByte = readByte;
+  rxCallbackFlag = 1;
+}
 
 TEST_GROUP(UartHwas) {
 
@@ -139,6 +150,12 @@ TEST_GROUP(UartHwas) {
                       UART_HWAS_MR_CHMODE_LOCAL_LOOPBACK_VALUE);
   }
 
+  void TeardownInterrupt() {
+    rxByte = 0;
+    rxCallbackFlag = 0;
+    txCallbackFlag = 0;
+  }
+
   static inline void Verify_Tx(const UartHwas &uart,
                                const uint8_t EXPECTED_RX_VALUE) {
     const Uart_Registers *uartReg = (Uart_Registers *)uart.uartAddress;
@@ -149,6 +166,10 @@ TEST_GROUP(UartHwas) {
 
     /// wait for byte to be received
     while (uartReg->sr & UART_HWAS_IxR_RXRDY_MASK) {
+    }
+
+    /// wait for callback
+    while (!txCallbackFlag) {
     }
 
     constexpr uint32_t EXPECTED_TX_EMPTY_VALUE = UART_HWAS_IxR_TXEMPTY_MASK;
@@ -171,93 +192,48 @@ TEST_GROUP(UartHwas) {
     while (uartReg->sr & UART_HWAS_IxR_RXRDY_MASK) {
     }
 
+    /// wait for callback
+    while (!rxCallbackFlag) {
+    }
+
     LONGS_EQUAL(EXPECTED_RX_VALUE, rxByte);
   }
 
   UartHwas_Config config;
 
+  const std::array<UartHwas_Id, UartHwas_Id_number> ids{
+      UartHwas_Id_0, UartHwas_Id_1, UartHwas_Id_2, UartHwas_Id_3,
+      UartHwas_Id_4};
+
   void teardown() override {
-    Register_set_bits(uart.uartAddress + UART_HWAS_IDR_OFFSET,
-                      UART_HWAS_IxR_TXEMPTY_MASK | UART_HWAS_IxR_RXRDY_MASK);
-    Register_set_bits(uart.uartAddress + UART_HWAS_CR_OFFSET,
-                      UART_HWAS_CR_RSTRX_MASK | UART_HWAS_CR_RSTTX_MASK);
+    // get the register address and deinit
+    for (UartHwas_Id id : ids) {
+      config.id = id;
+      UartHwas_init(&uart, &config);
+      Register_set_bits(uart.uartAddress + UART_HWAS_IDR_OFFSET,
+                        UART_HWAS_IxR_TXEMPTY_MASK | UART_HWAS_IxR_RXRDY_MASK);
+      Register_set_bits(uart.uartAddress + UART_HWAS_CR_OFFSET,
+                        UART_HWAS_CR_RSTRX_MASK | UART_HWAS_CR_RSTTX_MASK);
+    }
     memset(&config, 0, sizeof(config));
   }
 };
 
 /// \Given uninitialized UART
-/// \When UART0 is initialized with 9600 bps
+/// \When UART is initialized with 9600 bps
 /// \Then proper configuration shall be read.
-TEST(UartHwas, uart0Baud9600) {
-  //< Setup
-  config.baudrate = UartHwas_Baudrate_9600;
-  config.id = UartHwas_Id_0;
+TEST(UartHwas, uartBaud9600) {
+  for (UartHwas_Id id : ids) {
+    //< Setup
+    config.baudrate = UartHwas_Baudrate_9600;
+    config.id = id;
 
-  //< Exercise
-  UartHwas_init(&uart, &config);
+    //< Exercise
+    UartHwas_init(&uart, &config);
 
-  //< Verify
-  VerifyInit(uart, config);
-}
-
-/// \Given uninitialized UART
-/// \When UART1 is initialized with 9600 bps
-/// \Then proper configuration shall be read.
-TEST(UartHwas, uart1Baud9600) {
-  //< Setup
-  config.baudrate = UartHwas_Baudrate_9600;
-  config.id = UartHwas_Id_1;
-
-  //< Exercise
-  UartHwas_init(&uart, &config);
-
-  //< Verify
-  VerifyInit(uart, config);
-}
-
-/// \Given uninitialized UART
-/// \When UART2 is initialized with 9600 bps
-/// \Then proper configuration shall be read.
-TEST(UartHwas, uart2Baud9600) {
-  //< Setup
-  config.baudrate = UartHwas_Baudrate_9600;
-  config.id = UartHwas_Id_2;
-
-  //< Exercise
-  UartHwas_init(&uart, &config);
-
-  //< Verify
-  VerifyInit(uart, config);
-}
-
-/// \Given uninitialized UART
-/// \When UART3 is initialized with 9600 bps
-/// \Then proper configuration shall be read.
-TEST(UartHwas, uart3Baud9600) {
-  //< Setup
-  config.baudrate = UartHwas_Baudrate_9600;
-  config.id = UartHwas_Id_3;
-
-  //< Exercise
-  UartHwas_init(&uart, &config);
-
-  //< Verify
-  VerifyInit(uart, config);
-}
-
-/// \Given uninitialized UART
-/// \When UART4 is initialized with 9600 bps
-/// \Then proper configuration shall be read.
-TEST(UartHwas, uart4Baud9600) {
-  //< Setup
-  config.baudrate = UartHwas_Baudrate_9600;
-  config.id = UartHwas_Id_4;
-
-  //< Exercise
-  UartHwas_init(&uart, &config);
-
-  //< Verify
-  VerifyInit(uart, config);
+    //< Verify
+    VerifyInit(uart, config);
+  }
 }
 
 /// \Given uninitialized UART
@@ -275,157 +251,43 @@ TEST(UartHwas, uart4Baud115200) {
   VerifyInit(uart, config);
 }
 
-/// \Given initialized UART0 in loopback mode
+/// \Given initialized UART in loopback mode
 /// \When byte is read asynchroniously and data byte is transfered to THR
 /// \Then the same byte shall be read in the interrupt
-TEST(UartHwas, uart0Rx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_0, UartHwas_Baudrate_9600);
+TEST(UartHwas, uartRx) {
+  for (UartHwas_Id id : ids) {
+    //< Setup
+    SetupInterrupt(id, UartHwas_Baudrate_9600);
 
-  //< Exercise
-  uint8_t byteToSend = 0xC5;
-  UartHwas_readByteAsync(&uart, UartRxCallback);
-  Register_set_bits(uart.uartAddress + UART_HWAS_THR_OFFSET, byteToSend);
+    //< Exercise
+    uint8_t byteToSend = 0xC5;
+    UartHwas_readByteAsync(&uart, UartRxCallback);
+    Register_set_bits(uart.uartAddress + UART_HWAS_THR_OFFSET, byteToSend);
 
-  //< Verify
-  Verify_Rx(uart, byteToSend);
+    //< Verify
+    Verify_Rx(uart, byteToSend);
+
+    //< Teardown
+    TeardownInterrupt();
+  }
 }
 
-/// \Given initialized UART0 in loopback mode
+/// \Given initialized UART in loopback mode
 /// \When byte is written asynchroniously
 /// \Then the same byte shall be received
-TEST(UartHwas, uart0Tx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_0, UartHwas_Baudrate_9600);
+TEST(UartHwas, uartTx) {
+  for (UartHwas_Id id : ids) {
+    //< Setup
+    SetupInterrupt(id, UartHwas_Baudrate_9600);
 
-  //< Exercise
-  uint8_t byteToSend = 0x5C;
-  UartHwas_sendByteAsync(&uart, UartTxCallback, byteToSend);
+    //< Exercise
+    uint8_t byteToSend = 0x5C;
+    UartHwas_sendByteAsync(&uart, UartTxCallback, byteToSend);
 
-  //< Verify
-  Verify_Tx(uart, byteToSend);
-}
+    //< Verify
+    Verify_Tx(uart, byteToSend);
 
-/// \Given initialized UART1 in loopback mode
-/// \When byte is read asynchroniously and data byte is transfered to THR
-/// \Then the same byte shall be read in the interrupt
-TEST(UartHwas, uart1Rx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_1, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0xC5;
-  UartHwas_readByteAsync(&uart, UartRxCallback);
-  Register_set_bits(uart.uartAddress + UART_HWAS_THR_OFFSET, byteToSend);
-
-  //< Verify
-  Verify_Rx(uart, byteToSend);
-}
-
-/// \Given initialized UART1 in loopback mode
-/// \When byte is written asynchroniously
-/// \Then the same byte shall be received
-TEST(UartHwas, uart1Tx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_1, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0x5C;
-  UartHwas_sendByteAsync(&uart, UartTxCallback, byteToSend);
-
-  //< Verify
-  Verify_Tx(uart, byteToSend);
-}
-
-/// \Given initialized UART2 in loopback mode
-/// \When byte is read asynchroniously and data byte is transfered to THR
-/// \Then the same byte shall be read in the interrupt
-TEST(UartHwas, uart2Rx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_2, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0xC5;
-  UartHwas_readByteAsync(&uart, UartRxCallback);
-  Register_set_bits(uart.uartAddress + UART_HWAS_THR_OFFSET, byteToSend);
-
-  //< Verify
-  Verify_Rx(uart, byteToSend);
-}
-
-/// \Given initialized UART2 in loopback mode
-/// \When byte is written asynchroniously
-/// \Then the same byte shall be received
-TEST(UartHwas, uart2Tx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_2, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0x5C;
-  UartHwas_sendByteAsync(&uart, UartTxCallback, byteToSend);
-
-  //< Verify
-  Verify_Tx(uart, byteToSend);
-}
-
-/// \Given initialized UART3 in loopback mode
-/// \When byte is read asynchroniously and data byte is transfered to THR
-/// \Then the same byte shall be read in the interrupt
-TEST(UartHwas, uart3Rx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_3, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0xC5;
-  UartHwas_readByteAsync(&uart, UartRxCallback);
-  Register_set_bits(uart.uartAddress + UART_HWAS_THR_OFFSET, byteToSend);
-
-  //< Verify
-  Verify_Rx(uart, byteToSend);
-}
-
-/// \Given initialized UART3 in loopback mode
-/// \When byte is written asynchroniously
-/// \Then the same byte shall be received
-TEST(UartHwas, uart3Tx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_3, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0x5C;
-  UartHwas_sendByteAsync(&uart, UartTxCallback, byteToSend);
-
-  //< Verify
-  Verify_Tx(uart, byteToSend);
-}
-
-/// \Given initialized UART4 in loopback mode
-/// \When byte is read asynchroniously and data byte is transfered to THR
-/// \Then the same byte shall be read in the interrupt
-TEST(UartHwas, uart4Rx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_4, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0xC5;
-  UartHwas_readByteAsync(&uart, UartRxCallback);
-  Register_set_bits(uart.uartAddress + UART_HWAS_THR_OFFSET, byteToSend);
-
-  //< Verify
-  Verify_Rx(uart, byteToSend);
-}
-
-/// \Given initialized UART4 in loopback mode
-/// \When byte is written asynchroniously
-/// \Then the same byte shall be received
-TEST(UartHwas, uart4Tx) {
-  //< Setup
-  SetupInterrupt(UartHwas_Id_4, UartHwas_Baudrate_9600);
-
-  //< Exercise
-  uint8_t byteToSend = 0x5C;
-  UartHwas_sendByteAsync(&uart, UartTxCallback, byteToSend);
-
-  //< Verify
-  Verify_Tx(uart, byteToSend);
+    //< Teardown
+    TeardownInterrupt();
+  }
 }
