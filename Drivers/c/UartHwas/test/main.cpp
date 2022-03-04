@@ -54,8 +54,6 @@ void hwas_RI_InterruptSubscription_Interrupt_Ri(
   case Nvic_Irq_Uart4:
     UartHwas_handleInterrupt(&uart);
     break;
-  default:
-    break;
   }
 }
 
@@ -154,6 +152,13 @@ TEST_GROUP(UartHwas) {
     rxByte = 0;
     rxCallbackFlag = 0;
     txCallbackFlag = 0;
+
+    Register_set_bits(uart.uartAddress + UART_HWAS_IDR_OFFSET,
+                      UART_HWAS_IxR_TXEMPTY_MASK | UART_HWAS_IxR_RXRDY_MASK);
+    Register_set_bits(uart.uartAddress + UART_HWAS_CR_OFFSET,
+                      UART_HWAS_CR_RSTRX_MASK | UART_HWAS_CR_RSTTX_MASK);
+    Register_reset_bits(uart.uartAddress + UART_HWAS_MR_OFFSET,
+                        UART_HWAS_MR_CHMODE_LOCAL_LOOPBACK_VALUE);
   }
 
   static inline void Verify_Tx(const UartHwas &uart,
@@ -207,14 +212,11 @@ TEST_GROUP(UartHwas) {
 
   void teardown() override {
     // get the register address and deinit
-    for (UartHwas_Id id : ids) {
-      config.id = id;
-      UartHwas_init(&uart, &config);
-      Register_set_bits(uart.uartAddress + UART_HWAS_IDR_OFFSET,
-                        UART_HWAS_IxR_TXEMPTY_MASK | UART_HWAS_IxR_RXRDY_MASK);
-      Register_set_bits(uart.uartAddress + UART_HWAS_CR_OFFSET,
-                        UART_HWAS_CR_RSTRX_MASK | UART_HWAS_CR_RSTTX_MASK);
-    }
+
+    Register_set_bits(uart.uartAddress + UART_HWAS_IDR_OFFSET,
+                      UART_HWAS_IxR_TXEMPTY_MASK | UART_HWAS_IxR_RXRDY_MASK);
+    Register_set_bits(uart.uartAddress + UART_HWAS_CR_OFFSET,
+                      UART_HWAS_CR_RSTRX_MASK | UART_HWAS_CR_RSTTX_MASK);
     memset(&config, 0, sizeof(config));
   }
 };
