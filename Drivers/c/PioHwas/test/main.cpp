@@ -1,4 +1,3 @@
-
 /**@file
  * This file is a part of the DemoSat2 validation use case for the EDS TASTE
  * Bridge project.
@@ -31,8 +30,9 @@
 extern "C" {
 #endif
 #include <Pio/Pio.h>
-#include <PioHwas/PioHwas.h>
 #include <Pmc/Pmc.h>
+
+#include <PioHwas/PioHwas.h>
 
 #ifdef __cplusplus
 }

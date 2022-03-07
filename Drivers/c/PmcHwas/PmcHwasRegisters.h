@@ -34,14 +34,26 @@
 #define PMC_PCDR1_OFFSET (asn1SccSourceAddress)0x0104
 #define PMC_PCSR1_OFFSET (asn1SccSourceAddress)0x0108
 
+#define PMC_PCxR0_PID7_UART0_POSITION 7u
+#define PMC_PCxR0_PID8_UART1_POSITION 8u
+
 #define PMC_PCxR0_PID10_PIOA_POSITION 10u
 #define PMC_PCxR0_PID11_PIOB_POSITION 11u
 #define PMC_PCxR0_PID12_PIOC_POSITION 12u
 #define PMC_PCxR0_PID16_PIOD_POSITION 16u
 #define PMC_PCxR0_PID17_PIOE_POSITION 17u
-#define PMC_PCxR0_PID29_AFEC0_POSITION 29u
 
+#define PMC_PCxR0_PID29_AFEC0_POSITION 29u
 #define PMC_PCxR1_PID40_AFEC1_POSITION 8u
+
+#define PMC_PCxR1_PID44_UART2_POSITION 12u
+#define PMC_PCxR1_PID45_UART3_POSITION 13u
+#define PMC_PCxR1_PID46_UART4_POSITION 14u
+
+#define PMC_PCxR0_PID7_UART0_MASK                                              \
+  (asn1SccWordMask)(0x1 << PMC_PCxR0_PID7_UART0_POSITION)
+#define PMC_PCxR0_PID8_UART1_MASK                                              \
+  (asn1SccWordMask)(0x1 << PMC_PCxR0_PID8_UART1_POSITION)
 
 #define PMC_PCxR0_PID10_PIOA_MASK                                              \
   (asn1SccWordMask)(0x1 << PMC_PCxR0_PID10_PIOA_POSITION)
@@ -53,10 +65,18 @@
   (asn1SccWordMask)(0x1 << PMC_PCxR0_PID16_PIOD_POSITION)
 #define PMC_PCxR0_PID17_PIOE_MASK                                              \
   (asn1SccWordMask)(0x1 << PMC_PCxR0_PID17_PIOE_POSITION)
+
 #define PMC_PCxR0_PID29_AFEC0_MASK                                             \
   (asn1SccWordMask)(0x1 << PMC_PCxR0_PID29_AFEC0_POSITION)
 #define PMC_PCxR1_PID40_AFEC1_MASK                                             \
   (asn1SccWordMask)(0x1 << PMC_PCxR1_PID40_AFEC1_POSITION)
+
+#define PMC_PCxR1_PID44_UART2_MASK                                             \
+  (asn1SccWordMask)(0x1 << PMC_PCxR1_PID44_UART2_POSITION)
+#define PMC_PCxR1_PID45_UART3_MASK                                             \
+  (asn1SccWordMask)(0x1 << PMC_PCxR1_PID45_UART3_POSITION)
+#define PMC_PCxR1_PID46_UART4_MASK                                             \
+  (asn1SccWordMask)(0x1 << PMC_PCxR1_PID46_UART4_POSITION)
 
 #define PMC_PCER0 (asn1SccSourceAddress)(PMC_OFFSET + PMC_PCER0_OFFSET)
 #define PMC_PCDR0 (asn1SccSourceAddress)(PMC_OFFSET + PMC_PCDR0_OFFSET)

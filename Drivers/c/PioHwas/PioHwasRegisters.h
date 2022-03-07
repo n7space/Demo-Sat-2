@@ -24,7 +24,7 @@
 
 #pragma once
 
-/// \brief PMC register offsets
+/// \brief Pio register definitions
 
 #define PIO_HWAS_A_OFFSET (asn1SccSourceAddress)0x400E0E00
 #define PIO_HWAS_B_OFFSET (asn1SccSourceAddress)0x400E1000

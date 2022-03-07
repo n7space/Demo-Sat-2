@@ -32,6 +32,7 @@ extern "C"
 #include "task.h"
 
 #include <Hal/Hal.h>
+#include <hwas/hwas.h>
 #include <Init/Init.h>
 
 #include <assert.h>
@@ -44,6 +45,11 @@ extern "C"
 
 #include <CppUTest/CommandLineTestRunner.h>
 #include <CppUTest/TestHarness.h>
+
+#define TEST_TASK_STACK_SIZE 1024
+
+__attribute__((section(".sdramMemorySection"))) static StackType_t testTaskStackBuffer[TEST_TASK_STACK_SIZE];
+__attribute__((section(".sdramMemorySection"))) static StaticTask_t testTaskBuffer;
 
 void vApplicationMallocFailedHook();
 void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName);
@@ -95,12 +101,22 @@ void HardFault_Handler(void)
   HARDFAULT_HANDLING_ASM();
 }
 
+static void TestRunner(void *args)
+{
+  char **av{};
+  const int r = CommandLineTestRunner::RunAllTests(0, av);
+  while (1)
+  {
+  }
+}
+
 int main()
 {
   Init_setup_hardware();
 
-  char **av{};
-  const int r = CommandLineTestRunner::RunAllTests(0, av);
+  hwas_startup();
+  assert(xTaskCreateStatic(TestRunner, "TaskRunner", TEST_TASK_STACK_SIZE, NULL, 1, testTaskStackBuffer, &testTaskBuffer));
+  vTaskStartScheduler();
 
   return EXIT_SUCCESS;
 }
