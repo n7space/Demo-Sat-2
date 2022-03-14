@@ -7,3 +7,6 @@
 [submodule "cmake"]
 	path = cmake
 	url = git@github.com:n7space/cmake-tools.git
+[submodule "adac-hybrid-arm"]
+	path = adac-hybrid-arm
+	url = git@github.com:n7space/adac-hybrid-arm.git
