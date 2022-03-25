@@ -28,4 +28,14 @@ void piohwasdriver_PI_PioHwas_InitPin_Pi(asn1SccPioHwas *pio,
 void piohwasdriver_PI_PioHwas_ResetPin_Pi(asn1SccPioHwas *pio);
 void piohwasdriver_PI_PioHwas_SetPin_Pi(asn1SccPioHwas *pio);
 
-int main(void) { return 0; }
+int main(void) {
+
+  asn1SccPioHwas pio;
+  asn1SccPioHwasPinConfig config = {.mPortConfig = asn1SccpioHwas_Port_A,
+                                    .mPinConfig = 1,
+                                    .mDirectionConfig =
+                                        asn1SccpioHwas_Direction_Input};
+  piohwasdriver_PI_PioHwas_InitPin_Pi(&pio, &config);
+
+  return 0;
+}
