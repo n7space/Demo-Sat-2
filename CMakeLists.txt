@@ -16,8 +16,6 @@ include(MessageColors)
 include(LoggingHelper)
 include(ClangFormat)
 
-include(Adac)
-
 add_library(common_build_options INTERFACE)
 include(CommonBuildOptions)
 include(Sanitizers)
