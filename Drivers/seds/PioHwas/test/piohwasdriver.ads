@@ -8,8 +8,12 @@ use Interfaces,
     Interfaces.C.Strings,
     Ada.Characters.Handling;
 
-with SYSTEM_DATAVIEW;
-use SYSTEM_DATAVIEW;
+with COM_N7SPACE_PIOHWAS;
+use COM_N7SPACE_PIOHWAS;
+with PROJECT3_DATAVIEW;
+use PROJECT3_DATAVIEW;
+with TASTE_BasicTypes;
+use TASTE_BasicTypes;
 with adaasn1rtl;
 use adaasn1rtl;
 with PioHwasDriver_Datamodel; use PioHwasDriver_Datamodel;
@@ -36,11 +40,11 @@ package PioHwasDriver with Elaborate_Body is
    --  Synchronous Required Interface "RawMemoryAccess_ReadBuffer_Ri"
    procedure RI_0_RawMemoryAccess_ReadBuffer_Ri (Address : in out asn1SccSourceAddress; Buffer : out asn1SccByteBuffer) renames PioHwasDriver_RI.RawMemoryAccess_ReadBuffer_Ri;
    --  Synchronous Required Interface "RawMemoryAccess_ReadWord_Ri"
-   procedure RI_0_RawMemoryAccess_ReadWord_Ri (Address : in out asn1SccSourceAddress; Mask : in out asn1SccWordMask; Value : out asn1SccWord) renames PioHwasDriver_RI.RawMemoryAccess_ReadWord_Ri;
+   procedure RI_0_RawMemoryAccess_ReadWord_Ri (Address : in out asn1SccSourceAddress; Mask : in out asn1SccWordMask; Inputvalue : out asn1SccWord) renames PioHwasDriver_RI.RawMemoryAccess_ReadWord_Ri;
    --  Synchronous Required Interface "RawMemoryAccess_WriteBuffer_Ri"
    procedure RI_0_RawMemoryAccess_WriteBuffer_Ri (Address : in out asn1SccDestinationAddress; Buffer : in out asn1SccByteBuffer) renames PioHwasDriver_RI.RawMemoryAccess_WriteBuffer_Ri;
    --  Synchronous Required Interface "RawMemoryAccess_WriteWord_Ri"
-   procedure RI_0_RawMemoryAccess_WriteWord_Ri (Address : in out asn1SccDestinationAddress; Mask : in out asn1SccWordMask; Value : in out asn1SccWord) renames PioHwasDriver_RI.RawMemoryAccess_WriteWord_Ri;
+   procedure RI_0_RawMemoryAccess_WriteWord_Ri (Address : in out asn1SccDestinationAddress; Mask : in out asn1SccWordMask; Inputvalue : in out asn1SccWord) renames PioHwasDriver_RI.RawMemoryAccess_WriteWord_Ri;
    procedure Execute_Transition (Id : Integer);
    CS_Only : constant := 4;
 end PioHwasDriver;
