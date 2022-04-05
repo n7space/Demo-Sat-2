@@ -1,0 +1,47 @@
+COM-N7SPACE-PIOHWAS DEFINITIONS ::= BEGIN
+DestinationAddress [size 32, encoding pos-int, endianness little]
+SourceAddress [size 32, encoding pos-int, endianness little]
+Word [size 32, encoding pos-int, endianness little]
+WordMask [size 32, encoding pos-int, endianness little]
+BufferSize [size 16, encoding pos-int, endianness little]
+Byte [size 8, encoding pos-int]
+ByteBuffer []
+PinNumber [size 8, encoding pos-int]
+PioHwas-Port [size 8, encoding pos-int]
+PioHwas-Direction [size 8, encoding pos-int]
+PioHwas []
+{
+    mPortAddress [],
+    mPin [],
+    mPortPerAddress [],
+    mPortOerAddress [],
+    mPortOdrAddress [],
+    mPortIfdrAddress [],
+    mPortSodrAddress [],
+    mPortCodrAddress [],
+    mPortOdsrAddress [],
+    mPortMddrAddress [],
+    mPortPudrAddress [],
+    mPortOwerAddress [],
+    mPortOwdrAddress [],
+    mPortIfscdrAddress [],
+    mPortPpddrAddress [],
+    mPortSchmittAddress []
+}
+PioHwasPinConfig []
+{
+    mPortConfig [],
+    mPinConfig [],
+    mDirectionConfig []
+}
+PmcHwas []
+{
+    pMC-PCER0-OFFSET [],
+    pMC-PCxR0-PID10-PIOA-MASK [],
+    pMC-PCxR0-PID11-PIOB-MASK [],
+    pMC-PCxR0-PID12-PIOC-MASK [],
+    pMC-PCxR0-PID16-PIOD-MASK [],
+    pMC-PCxR0-PID17-PIOE-MASK []
+}
+END
+

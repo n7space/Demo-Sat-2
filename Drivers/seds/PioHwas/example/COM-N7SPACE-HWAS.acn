@@ -1,0 +1,8 @@
+ COM-N7SPACE-HWAS DEFINITIONS ::= BEGIN
+InterruptNumber [size 8, encoding pos-int]
+Interrupt-Type []
+{
+    interrupt []
+}
+END
+

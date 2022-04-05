@@ -1,0 +1,482 @@
+/* CIF Process (0, 0), (800, 100) */
+process PioHwasDriver;
+    /* CIF Text (0, 150), (400, 500) */
+    dcl Piovar PioHwas;
+    dcl Configvar PioHwasPinConfig;
+    dcl Pmcvar PmcHwas;
+    dcl Pinvaluevar Word;
+    dcl Pinmaskvar WordMask;
+    dcl Destinationaddressvar DestinationAddress;
+    dcl Sourceaddressvar SourceAddress;
+    /* CIF ENDTEXT */
+    /* CIF Procedure (0, 900), (800, 50) */
+    procedure InitPmc;
+        /* CIF Start (0, 0), (200, 75) */
+        START;
+            /* CIF Task (0, 187), (100, 50) */
+            task Pmcvar.Pmc_pcer0_offset := 1074660880;
+            /* CIF Task (0, 262), (100, 50) */
+            task Pmcvar.Pmc_pcxr0_pid10_pioa_mask := 1024;
+            /* CIF Task (0, 337), (100, 50) */
+            task Pmcvar.Pmc_pcxr0_pid11_piob_mask := 2048;
+            /* CIF Task (0, 412), (100, 50) */
+            task Pmcvar.Pmc_pcxr0_pid12_pioc_mask := 4096;
+            /* CIF Task (0, 487), (100, 50) */
+            task Pmcvar.Pmc_pcxr0_pid16_piod_mask := 65536;
+            /* CIF Task (0, 562), (100, 50) */
+            task Pmcvar.Pmc_pcxr0_pid17_pioe_mask := 131072;
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 975), (800, 50) */
+    procedure InitPioContainer;
+        /* CIF Start (0, 0), (200, 75) */
+        START;
+            /* CIF Task (0, 187), (100, 50) */
+            task Piovar.Mportperaddress := 0;
+            /* CIF Task (0, 262), (100, 50) */
+            task Piovar.Mportperaddress := Piovar.Mportaddress + 0;
+            /* CIF Task (0, 337), (100, 50) */
+            task Piovar.Mportoeraddress := 16;
+            /* CIF Task (0, 412), (100, 50) */
+            task Piovar.Mportoeraddress := Piovar.Mportaddress + Piovar.Mportoeraddress;
+            /* CIF Task (0, 487), (100, 50) */
+            task Piovar.Mportodraddress := 20;
+            /* CIF Task (0, 562), (100, 50) */
+            task Piovar.Mportodraddress := Piovar.Mportaddress + Piovar.Mportodraddress;
+            /* CIF Task (0, 637), (100, 50) */
+            task Piovar.Mportifdraddress := 36;
+            /* CIF Task (0, 712), (100, 50) */
+            task Piovar.Mportifdraddress := Piovar.Mportaddress + Piovar.Mportifdraddress;
+            /* CIF Task (0, 787), (100, 50) */
+            task Piovar.Mportsodraddress := 48;
+            /* CIF Task (0, 862), (100, 50) */
+            task Piovar.Mportsodraddress := Piovar.Mportaddress + Piovar.Mportsodraddress;
+            /* CIF Task (0, 937), (100, 50) */
+            task Piovar.Mportcodraddress := 52;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Piovar.Mportcodraddress := Piovar.Mportaddress + Piovar.Mportcodraddress;
+            /* CIF Task (0, 1087), (100, 50) */
+            task Piovar.Mportodsraddress := 56;
+            /* CIF Task (0, 1162), (100, 50) */
+            task Piovar.Mportodsraddress := Piovar.Mportaddress + Piovar.Mportodsraddress;
+            /* CIF Task (0, 1237), (100, 50) */
+            task Piovar.Mportmddraddress := 84;
+            /* CIF Task (0, 1312), (100, 50) */
+            task Piovar.Mportmddraddress := Piovar.Mportaddress + Piovar.Mportmddraddress;
+            /* CIF Task (0, 1387), (100, 50) */
+            task Piovar.Mportpudraddress := 96;
+            /* CIF Task (0, 1462), (100, 50) */
+            task Piovar.Mportpudraddress := Piovar.Mportaddress + Piovar.Mportpudraddress;
+            /* CIF Task (0, 1537), (100, 50) */
+            task Piovar.Mportifscdraddress := 128;
+            /* CIF Task (0, 1612), (100, 50) */
+            task Piovar.Mportifscdraddress := Piovar.Mportaddress + Piovar.Mportifscdraddress;
+            /* CIF Task (0, 1687), (100, 50) */
+            task Piovar.Mportppddraddress := 144;
+            /* CIF Task (0, 1762), (100, 50) */
+            task Piovar.Mportppddraddress := Piovar.Mportaddress + Piovar.Mportppddraddress;
+            /* CIF Task (0, 1837), (100, 50) */
+            task Piovar.Mportoweraddress := 160;
+            /* CIF Task (0, 1912), (100, 50) */
+            task Piovar.Mportoweraddress := Piovar.Mportaddress + Piovar.Mportoweraddress;
+            /* CIF Task (0, 1987), (100, 50) */
+            task Piovar.Mportowdraddress := 164;
+            /* CIF Task (0, 2062), (100, 50) */
+            task Piovar.Mportowdraddress := Piovar.Mportaddress + Piovar.Mportowdraddress;
+            /* CIF Task (0, 2137), (100, 50) */
+            task Piovar.Mportschmittaddress := 256;
+            /* CIF Task (0, 2212), (100, 50) */
+            task Piovar.Mportschmittaddress := Piovar.Mportaddress + Piovar.Mportschmittaddress;
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1050), (800, 50) */
+    procedure InitializePin;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Config PioHwasPinConfig;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF ProcedureCall (0, 937), (100, 50) */
+            call InitPmc;
+            /* CIF Decision (0, 937), (400, 50) */
+            decision Config.Mportconfig = PioHwas_Port_A;
+                /* CIF Answer (0, 1012), (400, 50) */
+                (True):
+                    /* CIF Task (0, 1087), (100, 50) */
+                    task Piovar.Mportaddress := 1074662912;
+                    /* CIF Join (0, 1162), (100, 50) */
+                    join condition_1;
+                /* CIF Answer (600, 1012), (400, 50) */
+                (False):
+                    /* CIF Decision (600, 1012), (400, 50) */
+                    decision Config.Mportconfig = PioHwas_Port_B;
+                        /* CIF Answer (600, 1087), (400, 50) */
+                        (True):
+                            /* CIF Task (600, 1162), (100, 50) */
+                            task Piovar.Mportaddress := 1074663424;
+                            /* CIF Join (600, 1237), (100, 50) */
+                            join condition_2;
+                        /* CIF Answer (1200, 1087), (400, 50) */
+                        (False):
+                            /* CIF Decision (1200, 1087), (400, 50) */
+                            decision Config.Mportconfig = PioHwas_Port_C;
+                                /* CIF Answer (1200, 1162), (400, 50) */
+                                (True):
+                                    /* CIF Task (1200, 1237), (100, 50) */
+                                    task Piovar.Mportaddress := 1074663936;
+                                    /* CIF Join (1200, 1312), (100, 50) */
+                                    join condition_3;
+                                /* CIF Answer (1800, 1162), (400, 50) */
+                                (False):
+                                    /* CIF Decision (1800, 1162), (400, 50) */
+                                    decision Config.Mportconfig = PioHwas_Port_D;
+                                        /* CIF Answer (1800, 1237), (400, 50) */
+                                        (True):
+                                            /* CIF Task (1800, 1312), (100, 50) */
+                                            task Piovar.Mportaddress := 1074664448;
+                                            /* CIF Join (1800, 1387), (100, 50) */
+                                            join condition_4;
+                                        /* CIF Answer (2400, 1237), (400, 50) */
+                                        (False):
+                                            /* CIF Decision (2400, 1237), (400, 50) */
+                                            decision Config.Mportconfig = PioHwas_Port_E;
+                                                /* CIF Answer (2400, 1312), (400, 50) */
+                                                (True):
+                                                    /* CIF Task (2400, 1387), (100, 50) */
+                                                    task Piovar.Mportaddress := 1074664960;
+                                                    /* CIF Join (2400, 1462), (100, 50) */
+                                                    join condition_5;
+                                                /* CIF Answer (3000, 1312), (400, 50) */
+                                                (False):
+                                                    /* CIF Join (3000, 1387), (100, 50) */
+                                                    join condition_5;
+                                            enddecision;
+                                            /* CIF Label (3600, 1387), (100, 50) */
+                                            condition_5:
+                                            /* CIF Join (3600, 1462), (100, 50) */
+                                            join condition_4;
+                                    enddecision;
+                                    /* CIF Label (4200, 1312), (100, 50) */
+                                    condition_4:
+                                    /* CIF Join (4200, 1387), (100, 50) */
+                                    join condition_3;
+                            enddecision;
+                            /* CIF Label (4800, 1237), (100, 50) */
+                            condition_3:
+                            /* CIF Join (4800, 1312), (100, 50) */
+                            join condition_2;
+                    enddecision;
+                    /* CIF Label (5400, 1162), (100, 50) */
+                    condition_2:
+                    /* CIF Join (5400, 1237), (100, 50) */
+                    join condition_1;
+            enddecision;
+            /* CIF Label (6000, 1087), (100, 50) */
+            condition_1:
+            /* CIF ProcedureCall (6000, 1162), (100, 50) */
+            call InitPioContainer;
+            /* CIF Task (6000, 1237), (100, 50) */
+            task Destinationaddressvar := Pmcvar.Pmc_pcer0_offset;
+            /* CIF Decision (6000, 1237), (400, 50) */
+            decision Config.Mportconfig = PioHwas_Port_A;
+                /* CIF Answer (6000, 1312), (400, 50) */
+                (True):
+                    /* CIF Task (6000, 1387), (100, 50) */
+                    task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid10_pioa_mask;
+                    /* CIF Task (6000, 1462), (100, 50) */
+                    task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid10_pioa_mask;
+                    /* CIF Join (6000, 1537), (100, 50) */
+                    join condition_6;
+                /* CIF Answer (6600, 1312), (400, 50) */
+                (False):
+                    /* CIF Decision (6600, 1312), (400, 50) */
+                    decision Config.Mportconfig = PioHwas_Port_B;
+                        /* CIF Answer (6600, 1387), (400, 50) */
+                        (True):
+                            /* CIF Task (6600, 1462), (100, 50) */
+                            task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid11_piob_mask;
+                            /* CIF Task (6600, 1537), (100, 50) */
+                            task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid11_piob_mask;
+                            /* CIF Join (6600, 1612), (100, 50) */
+                            join condition_7;
+                        /* CIF Answer (7200, 1387), (400, 50) */
+                        (False):
+                            /* CIF Decision (7200, 1387), (400, 50) */
+                            decision Config.Mportconfig = PioHwas_Port_C;
+                                /* CIF Answer (7200, 1462), (400, 50) */
+                                (True):
+                                    /* CIF Task (7200, 1537), (100, 50) */
+                                    task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid12_pioc_mask;
+                                    /* CIF Task (7200, 1612), (100, 50) */
+                                    task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid12_pioc_mask;
+                                    /* CIF Join (7200, 1687), (100, 50) */
+                                    join condition_8;
+                                /* CIF Answer (7800, 1462), (400, 50) */
+                                (False):
+                                    /* CIF Decision (7800, 1462), (400, 50) */
+                                    decision Config.Mportconfig = PioHwas_Port_D;
+                                        /* CIF Answer (7800, 1537), (400, 50) */
+                                        (True):
+                                            /* CIF Task (7800, 1612), (100, 50) */
+                                            task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid16_piod_mask;
+                                            /* CIF Task (7800, 1687), (100, 50) */
+                                            task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid16_piod_mask;
+                                            /* CIF Join (7800, 1762), (100, 50) */
+                                            join condition_9;
+                                        /* CIF Answer (8400, 1537), (400, 50) */
+                                        (False):
+                                            /* CIF Decision (8400, 1537), (400, 50) */
+                                            decision Config.Mportconfig = PioHwas_Port_E;
+                                                /* CIF Answer (8400, 1612), (400, 50) */
+                                                (True):
+                                                    /* CIF Task (8400, 1687), (100, 50) */
+                                                    task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid17_pioe_mask;
+                                                    /* CIF Task (8400, 1762), (100, 50) */
+                                                    task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid17_pioe_mask;
+                                                    /* CIF Join (8400, 1837), (100, 50) */
+                                                    join condition_10;
+                                                /* CIF Answer (9000, 1612), (400, 50) */
+                                                (False):
+                                                    /* CIF Join (9000, 1687), (100, 50) */
+                                                    join condition_10;
+                                            enddecision;
+                                            /* CIF Label (9600, 1687), (100, 50) */
+                                            condition_10:
+                                            /* CIF Join (9600, 1762), (100, 50) */
+                                            join condition_9;
+                                    enddecision;
+                                    /* CIF Label (10200, 1612), (100, 50) */
+                                    condition_9:
+                                    /* CIF Join (10200, 1687), (100, 50) */
+                                    join condition_8;
+                            enddecision;
+                            /* CIF Label (10800, 1537), (100, 50) */
+                            condition_8:
+                            /* CIF Join (10800, 1612), (100, 50) */
+                            join condition_7;
+                    enddecision;
+                    /* CIF Label (11400, 1462), (100, 50) */
+                    condition_7:
+                    /* CIF Join (11400, 1537), (100, 50) */
+                    join condition_6;
+            enddecision;
+            /* CIF Label (12000, 1387), (100, 50) */
+            condition_6:
+            /* CIF ProcedureCall (12000, 1462), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Task (12000, 1537), (100, 50) */
+            task Piovar.Mpin := power(2, config.mPinConfig);
+            /* CIF Task (12000, 1612), (100, 50) */
+            task Pinvaluevar := Piovar.Mpin;
+            /* CIF Task (12000, 1687), (100, 50) */
+            task Pinmaskvar := Piovar.Mpin;
+            /* CIF Task (12000, 1762), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportperaddress;
+            /* CIF ProcedureCall (12000, 1837), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Decision (12000, 1837), (400, 50) */
+            decision Config.Mdirectionconfig = PioHwas_Direction_Input;
+                /* CIF Answer (12000, 1912), (400, 50) */
+                (True):
+                    /* CIF Task (12000, 1987), (100, 50) */
+                    task Destinationaddressvar := Piovar.Mportodraddress;
+                    /* CIF ProcedureCall (12000, 2062), (100, 50) */
+                    call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+                    /* CIF Join (12000, 2137), (100, 50) */
+                    join condition_11;
+                /* CIF Answer (12600, 1912), (400, 50) */
+                (False):
+                    /* CIF Decision (12600, 1912), (400, 50) */
+                    decision Config.Mdirectionconfig = PioHwas_Direction_Output;
+                        /* CIF Answer (12600, 1987), (400, 50) */
+                        (True):
+                            /* CIF Task (12600, 2062), (100, 50) */
+                            task Destinationaddressvar := Piovar.Mportoeraddress;
+                            /* CIF ProcedureCall (12600, 2137), (100, 50) */
+                            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+                            /* CIF Join (12600, 2212), (100, 50) */
+                            join condition_12;
+                        /* CIF Answer (13200, 1987), (400, 50) */
+                        (False):
+                            /* CIF Join (13200, 2062), (100, 50) */
+                            join condition_12;
+                    enddecision;
+                    /* CIF Label (13800, 2062), (100, 50) */
+                    condition_12:
+                    /* CIF Join (13800, 2137), (100, 50) */
+                    join condition_11;
+            enddecision;
+            /* CIF Label (14400, 1987), (100, 50) */
+            condition_11:
+            /* CIF Task (14400, 2062), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportowdraddress;
+            /* CIF ProcedureCall (14400, 2137), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Task (14400, 2212), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportpudraddress;
+            /* CIF ProcedureCall (14400, 2287), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Task (14400, 2362), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportppddraddress;
+            /* CIF ProcedureCall (14400, 2437), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Task (14400, 2512), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportifdraddress;
+            /* CIF ProcedureCall (14400, 2587), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Task (14400, 2662), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportifscdraddress;
+            /* CIF ProcedureCall (14400, 2737), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Task (14400, 2812), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportschmittaddress;
+            /* CIF ProcedureCall (14400, 2887), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            /* CIF Task (14400, 2962), (100, 50) */
+            task Destinationaddressvar := Piovar.Mportmddraddress;
+            /* CIF ProcedureCall (14400, 3037), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1125), (800, 50) */
+    procedure SetPin;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Pio PioHwas;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Destinationaddressvar := Pio.Mportsodraddress;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Pinmaskvar := Pio.Mpin;
+            /* CIF Task (0, 1087), (100, 50) */
+            task Pinvaluevar := Pio.Mpin;
+            /* CIF ProcedureCall (0, 1162), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1200), (800, 50) */
+    procedure ResetPin;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Pio PioHwas;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Destinationaddressvar := Pio.Mportcodraddress;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Pinmaskvar := Pio.Mpin;
+            /* CIF Task (0, 1087), (100, 50) */
+            task Pinvaluevar := Pio.Mpin;
+            /* CIF ProcedureCall (0, 1162), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1275), (800, 50) */
+    procedure GetPinValue;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Pio PioHwas;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Sourceaddressvar := Pio.Mportodsraddress;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Pinmaskvar := Pio.Mpin;
+            /* CIF ProcedureCall (0, 1087), (100, 50) */
+            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, Pinmaskvar, Pinvaluevar);
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1350), (800, 50) */
+    procedure PioHwas_GetPin_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Pio PioHwas,
+            in/out Pinvalue Word;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Piovar := Pio;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call GetPinValue(Piovar);
+            /* CIF Task (0, 1087), (100, 50) */
+            task Pinvalue := Pinvaluevar;
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1425), (800, 50) */
+    procedure PioHwas_InitPin_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in/out Pio PioHwas,
+            in Config PioHwasPinConfig;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Configvar := Config;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call InitializePin(Configvar);
+            /* CIF Task (0, 1087), (100, 50) */
+            task Pio := Piovar;
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1500), (800, 50) */
+    procedure PioHwas_ResetPin_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Pio PioHwas;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Piovar := Pio;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call ResetPin(Piovar);
+        return ;
+    endprocedure;
+    /* CIF Procedure (0, 1575), (800, 50) */
+    procedure PioHwas_SetPin_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Pio PioHwas;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Piovar := Pio;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call SetPin(Piovar);
+        return ;
+    endprocedure;
+    /* CIF Start (0, 1650), (200, 75) */
+    START;
+        /* CIF NextState (0, 1837), (200, 50) */
+        NEXTSTATE Off;
+    /* CIF State (0, 1912), (200, 50) */
+    state Idle;
+        /* CIF Input (0, 1912), (200, 50) */
+        input PioHwas_SetPin_Pi;
+            /* CIF NextState (0, 1987), (200, 50) */
+            NEXTSTATE Idle;
+        /* CIF Input (300, 1912), (200, 50) */
+        input PioHwas_ResetPin_Pi;
+            /* CIF NextState (300, 1987), (200, 50) */
+            NEXTSTATE Idle;
+        /* CIF Input (600, 1912), (200, 50) */
+        input PioHwas_GetPin_Pi;
+            /* CIF NextState (600, 1987), (200, 50) */
+            NEXTSTATE Idle;
+    endstate;
+    /* CIF State (1200, 1912), (200, 50) */
+    state Off;
+        /* CIF Input (1200, 1912), (200, 50) */
+        input PioHwas_InitPin_Pi;
+            /* CIF NextState (1200, 1987), (200, 50) */
+            NEXTSTATE Idle;
+    endstate;
+endprocess PioHwasDriver;
