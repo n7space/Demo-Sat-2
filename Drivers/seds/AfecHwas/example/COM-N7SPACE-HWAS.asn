@@ -1,0 +1,10 @@
+COM-N7SPACE-HWAS DEFINITIONS ::= BEGIN
+InterruptNumber ::= INTEGER(0 .. 255)
+Byte ::= INTEGER(0 .. 255)
+ByteBuffer ::= SEQUENCE (SIZE(0 .. 65535)) OF Byte(0 .. 255)
+Interrupt-Type ::= SEQUENCE 
+{ 
+    interrupt InterruptNumber(0 .. 255)
+} 
+END
+

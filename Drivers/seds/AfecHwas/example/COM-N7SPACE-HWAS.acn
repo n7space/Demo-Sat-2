@@ -1,0 +1,11 @@
+COM-N7SPACE-HWAS DEFINITIONS ::= BEGIN
+BufferSize [size 16, encoding pos-int, endianness little]
+InterruptNumber [size 8, encoding pos-int]
+Byte [size 8, encoding pos-int]
+ByteBuffer []
+Interrupt-Type []
+{
+    interrupt []
+}
+END
+

@@ -1,0 +1,26 @@
+Afechwasdriver-Datamodel DEFINITIONS ::=
+BEGIN
+IMPORTS
+   DestinationAddress, SourceAddress, Word, WordMask, AfecHwas-Instance, AfecHwas-StartupTime, AfecHwasChannel, AfecHwas, AfecHwasConfig, PmcHwas FROM COM-N7SPACE-AFECHWAS
+   InterruptNumber, Byte, ByteBuffer, Interrupt-Type FROM COM-N7SPACE-HWAS
+   MyInteger FROM SAMV71AFEC-DATAVIEW
+   T-Int32, T-UInt32, T-Int8, T-UInt8, T-Boolean, T-Null-Record FROM TASTE-BasicTypes;
+
+Afechwasdriver-States ::= ENUMERATED {idle, off}
+
+Afechwasdriver-Context ::= SEQUENCE {
+   state Afechwasdriver-States,
+   init-done BOOLEAN,
+   afecvar AfecHwas,
+   configvar AfecHwasConfig,
+   pmcvar PmcHwas,
+   channelvar AfecHwasChannel,
+   bitstosetvar Word,
+   readbitsvar Word,
+   channelmaskvar WordMask,
+   destinationaddressvar DestinationAddress,
+   sourceaddressvar SourceAddress,
+   pinmaskvar WordMask
+}
+
+END

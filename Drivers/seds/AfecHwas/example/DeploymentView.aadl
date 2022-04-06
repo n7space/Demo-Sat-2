@@ -1,0 +1,74 @@
+--  This file was generated automatically - do not modify it manually
+--  If you wish to modify the template used to create this file, it is located
+--  in ~/tool-src/misc/space-creator/dv2aadl/deploymentview.tmplt
+--  After modifications, install it by running ~/tool-src/install/90_misc
+--  Template written by Maxime Perrotin (maxime.perrotin@esa.int) 2021-09
+package deploymentview::DV::Node_1
+public
+
+ with Deployment;
+ with TASTE;
+ with TASTE_DV_Properties;
+
+
+ --  Declare partition(s) of node "Node_1" (aka "SAM_V71_FreeRTOS_N7S_1").
+ process Partition_1
+ end Partition_1;
+
+ process implementation Partition_1.others
+ end Partition_1.others;
+
+end deploymentview::DV::Node_1;
+
+package deploymentview::DV
+public
+
+ with TASTE;
+ with Deployment;
+ with Interfaceview::IV;
+ with TASTE_DV_Properties;
+
+ --  Dependencies of node Node_1
+ with interfaceview::IV::AfecHwasDriver;
+ with interfaceview::IV::HWAS;
+ with interfaceview::IV::Manager;
+ with deploymentview::DV::Node_1;
+ with ocarina_processors_arm;
+
+ --  Node Node_1
+ system Node_1
+ end Node_1;
+
+ system implementation Node_1.others
+ subcomponents
+    IV_AfecHwasDriver : system Interfaceview::IV::AfecHwasDriver::AfecHwasDriver.others {
+       Taste::FunctionName => "AfecHwasDriver";
+    };
+    IV_HWAS : system Interfaceview::IV::HWAS::HWAS.others {
+       Taste::FunctionName => "HWAS";
+    };
+    IV_Manager : system Interfaceview::IV::Manager::Manager.others {
+       Taste::FunctionName => "Manager";
+    };
+    Partition_1 : process deploymentview::DV::Node_1::Partition_1.others { 
+       TASTE_DV_Properties::CoverageEnabled => false;
+    };
+    p1 : processor ocarina_processors_arm::samv71.freertos;
+ properties
+    TASTE::APLC_Binding => (reference (Partition_1)) applies to IV_AfecHwasDriver;
+    TASTE::APLC_Binding => (reference (Partition_1)) applies to IV_HWAS;
+    TASTE::APLC_Binding => (reference (Partition_1)) applies to IV_Manager;
+    Actual_Processor_Binding => (reference (p1)) applies to Partition_1;
+ end Node_1.others;
+
+
+system deploymentview
+end deploymentview;
+
+system implementation deploymentview.others
+subcomponents
+   interfaceview: system interfaceview::IV::interfaceview.others;
+   Node_1 : system Node_1.others;
+end deploymentview.others;
+
+end deploymentview::DV;
