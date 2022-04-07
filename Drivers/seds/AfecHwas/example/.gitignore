@@ -1,0 +1,13 @@
+# Ignore genereted folders
+binaries
+dataview
+glue_debug
+work/afechwasdriver/SDL/code
+work/afechwasdriver/SDL/wrappers
+work/manager/implem/default/C/wrappers/
+work/hwas/implem/default/C/wrappers/
+# Ignore generated files
+work/afechwasdriver/SDL/src/dataview*
+
+# Ignore aadl files
+*.aadl
