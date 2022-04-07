@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/PioHwas">
+    <DataTypeSet>
+      <IntegerDataType name="DestinationAddress">
+        <LongDescription>Type for a memory destination address.</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" sizeInBits="32" byteOrder="littleEndian" />
+        <Range>
+          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
+        </Range>
+      </IntegerDataType>
+      <IntegerDataType name="SourceAddress">
+        <LongDescription>Type for a memory source address.</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" sizeInBits="32" byteOrder="littleEndian" />
+        <Range>
+          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
+        </Range>
+      </IntegerDataType>
+      <IntegerDataType name="Word">
+        <LongDescription>Machine word.</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="32" />
+        <Range>
+          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
+        </Range>
+      </IntegerDataType>
+      <IntegerDataType name="WordMask">
+        <LongDescription>Mask for a machine word.</LongDescription>
+        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="32" encoding="unsigned" />
+        <Range>
+          <MinMaxRange min="0" max="4294967295" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <IntegerDataType name="BufferSize">
+        <LongDescription>Size of a memory transfer.</LongDescription>
+        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="16" encoding="unsigned" />
+        <Range>
+          <MinMaxRange max="65535" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <IntegerDataType name="InterruptNumber">
+        <LongDescription>Interrupt number for NVIC.</LongDescription>
+        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="8" encoding="unsigned" />
+        <Range>
+          <MinMaxRange max="255" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <IntegerDataType name="Byte">
+        <LongDescription>Byte.</LongDescription>
+        <IntegerDataEncoding byteOrder="littleEndian" encoding="unsigned" sizeInBits="8" />
+        <Range>
+          <MinMaxRange max="255" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <ArrayDataType name="ByteBuffer" dataTypeRef="Byte">
+        <LongDescription>Byte buffer.</LongDescription>
+        <DimensionList>
+          <Dimension size="65535" />
+        </DimensionList>
+      </ArrayDataType>
+      <IntegerDataType name="PinNumber">
+        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="8" encoding="unsigned" />
+        <Range>
+          <MinMaxRange max="15" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <EnumeratedDataType name="PioHwas_Port">
+        <LongDescription>Definitions of PIO ports</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="PioHwas_Port_A" value="0"></Enumeration>
+          <Enumeration label="PioHwas_Port_B" value="1" />
+          <Enumeration label="PioHwas_Port_C" value="2" />
+          <Enumeration label="PioHwas_Port_D" value="3" />
+          <Enumeration label="PioHwas_Port_E" value="4" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <EnumeratedDataType name="PioHwas_Direction">
+        <LongDescription>I/O line flow direction</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="PioHwas_Direction_Input" value="0"></Enumeration>
+          <Enumeration label="PioHwas_Direction_Output" value="1" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <ContainerDataType name="PioHwas" shortDescription="Pio descriptor">
+        <EntryList>
+          <Entry name="mPortAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPin" type="Word" />
+          <Entry name="mPortPerAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortOerAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortOdrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortIfdrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortSodrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortCodrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortOdsrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortMddrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortPudrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortOwerAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortOwdrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortIfscdrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortPpddrAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortSchmittAddress" type="DestinationAddress"></Entry>
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="PioHwasPinConfig" shortDescription="Pin configuration container">
+        <EntryList>
+          <Entry name="mPortConfig" type="PioHwas_Port" />
+          <Entry name="mPinConfig" type="PinNumber" />
+          <Entry name="mDirectionConfig" type="PioHwas_Direction" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="PmcHwas" shortDescription="Pmc descriptor">
+        <EntryList>
+          <Entry name="PMC_PCER0_OFFSET" type="DestinationAddress" />
+          <Entry name="PMC_PCxR0_PID10_PIOA_MASK" type="WordMask" />
+          <Entry name="PMC_PCxR0_PID11_PIOB_MASK" type="WordMask" />
+          <Entry name="PMC_PCxR0_PID12_PIOC_MASK" type="WordMask" />
+          <Entry name="PMC_PCxR0_PID16_PIOD_MASK" type="WordMask" />
+          <Entry name="PMC_PCxR0_PID17_PIOE_MASK" type="WordMask" />
+        </EntryList>
+      </ContainerDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="subnetwork" name="RawMemoryAccessInterfaceType">
+        <LongDescription>Interface for accessing RAW memory.</LongDescription>
+        <CommandSet>
+          <Command name="ReadWord" mode="sync">
+            <LongDescription>Read word from memory, masked by the mask. The address must be word-aligned.</LongDescription>
+            <Argument name="address" type="SourceAddress" mode="in" />
+            <Argument name="mask" type="WordMask" mode="in" />
+            <Argument name="outputValue" type="Word" mode="out" />
+          </Command>
+          <Command name="WriteWord" mode="sync">
+            <LongDescription>Write word to memory, masked by the mask.  The address must be word-aligned.</LongDescription>
+            <Argument name="address" type="DestinationAddress" mode="in" />
+            <Argument name="mask" type="WordMask" mode="in" />
+            <Argument name="inputValue" type="Word" mode="in" />
+          </Command>
+        </CommandSet>
+      </Interface>
+      <Interface level="functional" name="PioHwasInterfaceType">
+        <CommandSet>
+          <Command name="InitPin" mode="sync">
+            <LongDescription>Initializes pin</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="out" />
+            <Argument name="config" type="PioHwasPinConfig" mode="in" />
+          </Command>
+          <Command name="SetPin" mode="sync">
+            <LongDescription>Sets pin state to high</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="in" />
+          </Command>
+          <Command name="ResetPin" mode="sync">
+            <LongDescription>Sets pin state to low</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="in" />
+          </Command>
+          <Command name="GetPin" mode="sync">
+            <LongDescription>Gets pin value</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="in" />
+            <Argument name="pinValue" type="Word" mode="out" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+    <ComponentSet>
+      <Component name="PioHwasDriver">
+        <LongDescription>SEDS PioHwas driver implementation</LongDescription>
+        <ProvidedInterfaceSet>
+          <Interface name="PioHwas" type="PioHwasInterfaceType"></Interface>
+        </ProvidedInterfaceSet>
+        <RequiredInterfaceSet>
+          <Interface name="RawMemoryAccess" type="RawMemoryAccessInterfaceType" />
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable name="pioVar" type="PioHwas"></Variable>
+            <Variable name="configVar" type="PioHwasPinConfig" />
+            <Variable name="pmcVar" type="PmcHwas" />
+            <Variable name="pinValueVar" type="Word" />
+            <Variable name="pinMaskVar" type="WordMask" />
+            <Variable name="destinationAddressVar" type="DestinationAddress" />
+            <Variable name="sourceAddressVar" type="SourceAddress"></Variable>
+          </VariableSet>
+          <ActivitySet>
+            <Activity name="InitPmc">
+              <Body>
+                <Assignment outputVariableRef="pmcVar.PMC_PCER0_OFFSET">
+                  <Value value="1074660880" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCxR0_PID10_PIOA_MASK">
+                  <Value value="1024" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCxR0_PID11_PIOB_MASK">
+                  <Value value="2048" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCxR0_PID12_PIOC_MASK">
+                  <Value value="4096" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCxR0_PID16_PIOD_MASK">
+                  <Value value="65536" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCxR0_PID17_PIOE_MASK">
+                  <Value value="131072" />
+                </Assignment>
+              </Body>
+            </Activity>
+            <Activity name="InitPioContainer">
+              <Body>
+                <Assignment outputVariableRef="pioVar.mPortPerAddress">
+                  <Value value="0" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortPerAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <Value value="0" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortOerAddress">
+                  <Value value="16" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortOerAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortOerAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortOdrAddress">
+                  <Value value="20" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortOdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortOdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortIfdrAddress">
+                  <Value value="36" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortIfdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortIfdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortSodrAddress">
+                  <Value value="48" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortSodrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortSodrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortCodrAddress">
+                  <Value value="52" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortCodrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortCodrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortOdsrAddress">
+                  <Value value="56" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortOdsrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortOdsrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortMddrAddress">
+                  <Value value="84" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortMddrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortMddrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortPudrAddress">
+                  <Value value="96" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortPudrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortPudrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortIfscdrAddress">
+                  <Value value="128" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortIfscdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortIfscdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortPpddrAddress">
+                  <Value value="144" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortPpddrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortPpddrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortOwerAddress">
+                  <Value value="160" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortOwerAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortOwerAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortOwdrAddress">
+                  <Value value="164" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortOwdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortOwdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortSchmittAddress">
+                  <Value value="256" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortSchmittAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortSchmittAddress" />
+                </MathOperation>
+              </Body>
+            </Activity>
+            <Activity name="InitializePin">
+              <Argument name="config" type="PioHwasPinConfig"></Argument>
+              <Body>
+                <Call activity="InitPmc">
+                  <LongDescription>Init PMC with definitions of masks and addresses</LongDescription>
+                </Call>
+                <Conditional shortDescription="Set PIO port register addres">
+                  <LongDescription>Is port equal to port A?</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="config.mPortConfig" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="PioHwas_Port_A" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="pioVar.mPortAddress">
+                      <Value value="1074662912"></Value>
+                    </Assignment>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <LongDescription>Is port equal to port B?</LongDescription>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="config.mPortConfig" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="PioHwas_Port_B" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="pioVar.mPortAddress">
+                          <Value value="1074663424" />
+                        </Assignment>
+                      </OnConditionTrue>
+                      <OnConditionFalse>
+                        <Conditional>
+                          <LongDescription>Is port equal to port C?</LongDescription>
+                          <Condition>
+                            <Condition>
+                              <FirstOperand variableRef="config.mPortConfig" />
+                              <ComparisonOperator>equals</ComparisonOperator>
+                              <Value value="PioHwas_Port_C" />
+                            </Condition>
+                          </Condition>
+                          <OnConditionTrue>
+                            <Assignment outputVariableRef="pioVar.mPortAddress">
+                              <Value value="1074663936" />
+                            </Assignment>
+                          </OnConditionTrue>
+                          <OnConditionFalse>
+                            <Conditional>
+                              <LongDescription>Is port equal to port D?</LongDescription>
+                              <Condition>
+                                <Condition>
+                                  <FirstOperand variableRef="config.mPortConfig" />
+                                  <ComparisonOperator>equals</ComparisonOperator>
+                                  <Value value="PioHwas_Port_D" />
+                                </Condition>
+                              </Condition>
+                              <OnConditionTrue>
+                                <Assignment outputVariableRef="pioVar.mPortAddress">
+                                  <Value value="1074664448" />
+                                </Assignment>
+                              </OnConditionTrue>
+                              <OnConditionFalse>
+                                <Conditional>
+                                  <LongDescription>Is port equal to port E?</LongDescription>
+                                  <Condition>
+                                    <Condition>
+                                      <FirstOperand variableRef="config.mPortConfig" />
+                                      <ComparisonOperator>equals</ComparisonOperator>
+                                      <Value value="PioHwas_Port_E" />
+                                    </Condition>
+                                  </Condition>
+                                  <OnConditionTrue>
+                                    <Assignment outputVariableRef="pioVar.mPortAddress">
+                                      <Value value="1074664960" />
+                                    </Assignment>
+                                  </OnConditionTrue>
+                                </Conditional>
+                              </OnConditionFalse>
+                            </Conditional>
+                          </OnConditionFalse>
+                        </Conditional>
+                      </OnConditionFalse>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+                <Call activity="InitPioContainer">
+                  <LongDescription>Set the rest of the Pio register addresses</LongDescription>
+                </Call>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to PCER0">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pmcVar.PMC_PCER0_OFFSET" />
+                </Assignment>
+                <Conditional shortDescription="Init Pmc">
+                  <LongDescription>Is port equal to port A?</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="config.mPortConfig" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="PioHwas_Port_A" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="pinMaskVar">
+                      <LongDescription>Assign mask to variable</LongDescription>
+                      <VariableRef variableRef="pmcVar.PMC_PCxR0_PID10_PIOA_Mask" />
+                    </Assignment>
+                    <Assignment outputVariableRef="pinValueVar">
+                      <LongDescription>Assign register value to variable</LongDescription>
+                      <VariableRef variableRef="pmcVar.PMC_PCxR0_PID10_PIOA_Mask" />
+                    </Assignment>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <LongDescription>Is port equal to port B?</LongDescription>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="config.mPortConfig" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="PioHwas_Port_B" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="pinMaskVar">
+                          <LongDescription>Assign mask to variable</LongDescription>
+                          <VariableRef variableRef="pmcVar.PMC_PCxR0_PID11_PIOB_Mask" />
+                        </Assignment>
+                        <Assignment outputVariableRef="pinValueVar">
+                          <LongDescription>Assign register value to variable</LongDescription>
+                          <VariableRef variableRef="pmcVar.PMC_PCxR0_PID11_PIOB_Mask" />
+                        </Assignment>
+                      </OnConditionTrue>
+                      <OnConditionFalse>
+                        <Conditional>
+                          <LongDescription>Is port equal to port C?</LongDescription>
+                          <Condition>
+                            <Condition>
+                              <FirstOperand variableRef="config.mPortConfig" />
+                              <ComparisonOperator>equals</ComparisonOperator>
+                              <Value value="PioHwas_Port_C" />
+                            </Condition>
+                          </Condition>
+                          <OnConditionTrue>
+                            <Assignment outputVariableRef="pinMaskVar">
+                              <LongDescription>Assign mask to variable</LongDescription>
+                              <VariableRef variableRef="pmcVar.PMC_PCxR0_PID12_PIOC_MASK" />
+                            </Assignment>
+                            <Assignment outputVariableRef="pinValueVar">
+                              <LongDescription>Assign register value to variable</LongDescription>
+                              <VariableRef variableRef="pmcVar.PMC_PCxR0_PID12_PIOC_MASK" />
+                            </Assignment>
+                          </OnConditionTrue>
+                          <OnConditionFalse>
+                            <Conditional>
+                              <LongDescription>Is port equal to port D?</LongDescription>
+                              <Condition>
+                                <Condition>
+                                  <FirstOperand variableRef="config.mPortConfig" />
+                                  <ComparisonOperator>equals</ComparisonOperator>
+                                  <Value value="PioHwas_Port_D" />
+                                </Condition>
+                              </Condition>
+                              <OnConditionTrue>
+                                <Assignment outputVariableRef="pinMaskVar">
+                                  <LongDescription>Assign mask to variable</LongDescription>
+                                  <VariableRef variableRef="pmcVar.PMC_PCxR0_PID16_PIOD_Mask" />
+                                </Assignment>
+                                <Assignment outputVariableRef="pinValueVar">
+                                  <LongDescription>Assign register value to variable</LongDescription>
+                                  <VariableRef variableRef="pmcVar.PMC_PCxR0_PID16_PIOD_Mask" />
+                                </Assignment>
+                              </OnConditionTrue>
+                              <OnConditionFalse>
+                                <Conditional>
+                                  <LongDescription>Is port equal to port E?</LongDescription>
+                                  <Condition>
+                                    <Condition>
+                                      <FirstOperand variableRef="config.mPortConfig" />
+                                      <ComparisonOperator>equals</ComparisonOperator>
+                                      <Value value="PioHwas_Port_E" />
+                                    </Condition>
+                                  </Condition>
+                                  <OnConditionTrue>
+                                    <Assignment outputVariableRef="pinMaskVar">
+                                      <LongDescription>Assign mask to variable</LongDescription>
+                                      <VariableRef variableRef="pmcVar.PMC_PCxR0_PID17_PIOE_Mask" />
+                                    </Assignment>
+                                    <Assignment outputVariableRef="pinValueVar">
+                                      <LongDescription>Assign register value to variable</LongDescription>
+                                      <VariableRef variableRef="pmcVar.PMC_PCxR0_PID17_PIOE_Mask" />
+                                    </Assignment>
+                                  </OnConditionTrue>
+                                </Conditional>
+                              </OnConditionFalse>
+                            </Conditional>
+                          </OnConditionFalse>
+                        </Conditional>
+                      </OnConditionFalse>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+                <SendCommandPrimitive shortDescription="Enable proper PIO PORT clock" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <MathOperation outputVariableRef="pioVar.mPin">
+                  <LongDescription>Create pin mask</LongDescription>
+                  <Operator operator="pow" />
+                  <Value value="2" />
+                  <VariableRef variableRef="config.mPinConfig" />
+                </MathOperation>
+                <Assignment outputVariableRef="pinValueVar">
+                  <LongDescription>Assign register value to set to the variable</LongDescription>
+                  <VariableRef variableRef="pioVar.mPin" />
+                </Assignment>
+                <Assignment outputVariableRef="pinMaskVar">
+                  <LongDescription>Assign register mask to the variable</LongDescription>
+                  <VariableRef variableRef="pioVar.mPin" />
+                </Assignment>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Per">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortPerAddress" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Enable Pio" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Conditional shortDescription="Init direction">
+                  <LongDescription>Is direction equal to Input</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="config.mDirectionConfig" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="PioHwas_Direction_Input" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to ODR">
+                      <LongDescription>Assign destination address for register write</LongDescription>
+                      <VariableRef variableRef="pioVar.mPortOdrAddress" />
+                    </Assignment>
+                    <SendCommandPrimitive interface="RawMemoryAccess" command="WriteWord">
+                      <ArgumentValue name="address">
+                        <VariableRef variableRef="destinationAddressVar" />
+                      </ArgumentValue>
+                      <ArgumentValue name="mask">
+                        <VariableRef variableRef="pinMaskVar" />
+                      </ArgumentValue>
+                      <ArgumentValue name="inputValue">
+                        <VariableRef variableRef="pinValueVar" />
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <LongDescription>Is direction equal to Output</LongDescription>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="config.mDirectionConfig" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="PioHwas_Direction_Output"></Value>
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to OER">
+                          <LongDescription>Assign destination address for register write</LongDescription>
+                          <VariableRef variableRef="pioVar.mPortOerAddress" />
+                        </Assignment>
+                        <SendCommandPrimitive interface="RawMemoryAccess" command="WriteWord">
+                          <ArgumentValue name="address">
+                            <VariableRef variableRef="destinationAddressVar" />
+                          </ArgumentValue>
+                          <ArgumentValue name="mask">
+                            <VariableRef variableRef="pinMaskVar" />
+                          </ArgumentValue>
+                          <ArgumentValue name="inputValue">
+                            <VariableRef variableRef="pinValueVar" />
+                          </ArgumentValue>
+                        </SendCommandPrimitive>
+                      </OnConditionTrue>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Owdr">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortOwdrAddress" />
+                </Assignment>
+                <SendCommandPrimitive interface="RawMemoryAccess" command="WriteWord" shortDescription="Disables writing PIO_ODSR for the I/O line.">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Pudr">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortPudrAddress" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set no pull. PUDR register" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Ppddr">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortPpddrAddress" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set no pull. PPDDR register" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Ifdr">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortIfdrAddress" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set no filter. Ifdr register" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Ifscdr">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortIfscdrAddress" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set no filter. Ifscdr register" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to SCHMITT">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortSchmittAddress" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set no schmitt trigger. Ifscdr register" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to MDDR">
+                  <LongDescription>Assign destination address for register write</LongDescription>
+                  <VariableRef variableRef="pioVar.mPortMddrAddress" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set no opendrain. Ifscdr register" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive interface="PioHwas" command="InitPin">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="pioVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="SetPin">
+              <Argument name="pio" type="PioHwas" />
+              <Body>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign source address to variable</LongDescription>
+                  <VariableRef variableRef="pio.mPortSodrAddress" />
+                </Assignment>
+                <Assignment outputVariableRef="pinMaskVar">
+                  <LongDescription>Assign register mask to the variable</LongDescription>
+                  <VariableRef variableRef="pio.mPin" />
+                </Assignment>
+                <Assignment outputVariableRef="pinValueVar">
+                  <LongDescription>Assign register value to set to the variable</LongDescription>
+                  <VariableRef variableRef="pio.mPin" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set pin" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="ResetPin">
+              <Argument name="pio" type="PioHwas" />
+              <Body>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign source address to variable</LongDescription>
+                  <VariableRef variableRef="pio.mPortCodrAddress" />
+                </Assignment>
+                <Assignment outputVariableRef="pinMaskVar">
+                  <LongDescription>Assign register mask to the variable</LongDescription>
+                  <VariableRef variableRef="pio.mPin" />
+                </Assignment>
+                <Assignment outputVariableRef="pinValueVar">
+                  <LongDescription>Assign register value to variable</LongDescription>
+                  <VariableRef variableRef="pio.mPin" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Resets pin value" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="GetPinValue">
+              <Argument name="pio" type="PioHwas" />
+              <Body>
+                <Assignment outputVariableRef="sourceAddressVar">
+                  <LongDescription>Assign source address to variable</LongDescription>
+                  <VariableRef variableRef="pio.mPortOdsrAddress" />
+                </Assignment>
+                <Assignment outputVariableRef="pinMaskVar">
+                  <LongDescription>Assign mask to variable</LongDescription>
+                  <VariableRef variableRef="pio.mPin" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Gets pin value" interface="RawMemoryAccess" command="ReadWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="sourceAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="outputValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive interface="PioHwas" command="GetPin">
+                  <ArgumentValue name="pinValue">
+                    <VariableRef variableRef="pinValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+          </ActivitySet>
+          <StateMachineSet>
+            <StateMachine name="PioHwasDriver">
+              <EntryState name="Off" />
+              <State name="Idle" />
+              <Transition fromState="Off" toState="Idle" name="Init">
+                <OnCommandPrimitive command="InitPin" interface="PioHwas">
+                  <ArgumentValue name="config" outputVariableRef="configVar"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="InitializePin">
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="configVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="Set">
+                <OnCommandPrimitive command="SetPin" interface="PioHwas">
+                  <ArgumentValue name="pio" outputVariableRef="pioVar" />
+                </OnCommandPrimitive>
+                <Do activity="SetPin">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="pioVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="Reset">
+                <OnCommandPrimitive command="ResetPin" interface="PioHwas">
+                  <ArgumentValue name="pio" outputVariableRef="pioVar" />
+                </OnCommandPrimitive>
+                <Do activity="ResetPin">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="pioVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="Get">
+                <OnCommandPrimitive command="GetPin" interface="PioHwas">
+                  <ArgumentValue name="pio" outputVariableRef="pioVar" />
+                </OnCommandPrimitive>
+                <Do activity="GetPinValue">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="pioVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+            </StateMachine>
+          </StateMachineSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+  </Package>
+</PackageFile>

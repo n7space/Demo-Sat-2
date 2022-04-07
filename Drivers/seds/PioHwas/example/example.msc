@@ -1,0 +1,12 @@
+mscdocument example /* MSC AND */;
+    language ASN.1;
+    data example.asn;
+
+/* CIF MSCDOCUMENT (0, 0) (4200, 2300) */
+
+mscdocument Nominal /* MSC LEAF */;
+
+msc example;
+endmsc;
+endmscdocument;
+endmscdocument;
