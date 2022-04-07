@@ -440,7 +440,7 @@
                       <ArgumentValue name="mask">
                         <VariableRef variableRef="channelMaskVar" />
                       </ArgumentValue>
-                      <ArgumentValue name="inputValue">
+                      <ArgumentValue name="outputValue">
                         <VariableRef variableRef="readBitsVar" />
                       </ArgumentValue>
                     </SendCommandPrimitive>
@@ -481,7 +481,7 @@
                       <ArgumentValue name="mask">
                         <Value value="16777216" />
                       </ArgumentValue>
-                      <ArgumentValue name="inputValue">
+                      <ArgumentValue name="outputValue">
                         <VariableRef variableRef="readBitsVar" />
                       </ArgumentValue>
                     </SendCommandPrimitive>
@@ -498,7 +498,7 @@
                   <ArgumentValue name="mask">
                     <Value value="65535" />
                   </ArgumentValue>
-                  <ArgumentValue name="inputValue">
+                  <ArgumentValue name="outputValue">
                     <VariableRef variableRef="readBitsVar" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
