@@ -538,7 +538,7 @@
                   <LongDescription>Create pin mask</LongDescription>
                   <Operator operator="pow" />
                   <Value value="2" />
-                  <Value value="config.mPinConfig" />
+                  <VariableRef variableRef="config.mPinConfig" />
                 </MathOperation>
                 <Assignment outputVariableRef="pinValueVar">
                   <LongDescription>Assign register value to set to the variable</LongDescription>

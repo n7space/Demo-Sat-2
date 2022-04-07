@@ -233,8 +233,8 @@ package body PioHwasDriver is
          <<condition_6>>
          --  RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar) (267,17)
          RI_0_RawMemoryAccess_WriteWord_Ri(ctxt.Destinationaddressvar, ctxt.Pinmaskvar, ctxt.Pinvaluevar);
-         --  Piovar.Mpin := power(2, config.mPinConfig) (269,17)
-         ctxt.Piovar.mpin := 2 ** Natural(config.mpinconfig);
+         --  Piovar.Mpin := power(2, Config.Mpinconfig) (269,17)
+         ctxt.Piovar.mpin := 2 ** Natural(Config.mpinconfig);
          --  Pinvaluevar := Piovar.Mpin (271,17)
          ctxt.Pinvaluevar := ctxt.Piovar.mpin;
          --  Pinmaskvar := Piovar.Mpin (273,17)

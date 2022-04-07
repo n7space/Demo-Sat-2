@@ -266,7 +266,7 @@ process PioHwasDriver;
             /* CIF ProcedureCall (12000, 1462), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
             /* CIF Task (12000, 1537), (100, 50) */
-            task Piovar.Mpin := power(2, config.mPinConfig);
+            task Piovar.Mpin := power(2, Config.Mpinconfig);
             /* CIF Task (12000, 1612), (100, 50) */
             task Pinvaluevar := Piovar.Mpin;
             /* CIF Task (12000, 1687), (100, 50) */
