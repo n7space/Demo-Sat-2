@@ -4,11 +4,11 @@
  * Provided interfaces : GetTemperature
  * Required interfaces : AfecHwasInterface_GetValue_Pi, AfecHwasInterface_InitInstance_Pi
  * User-defined properties for this function:
- * Timers              : 
+ * Timers              :
  */
 
 #include "manager.h"
-//#include <stdio.h>
+
 static bool initialized = false;
 static asn1SccAfecHwas afec = {};
 static asn1SccAfecHwasConfig config = {.mAfecInstance = asn1SccafecHwas_Instance_Afec0, .mStartupTime = 10,.mPrescalerValue = 2};
@@ -32,5 +32,3 @@ void manager_PI_GetTemperature(void)
         manager_RI_AfecHwasInterface_GetValue_Pi(&afec, &channelNumber, &tempRawValue);
     }
 }
-
-
