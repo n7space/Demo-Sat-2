@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# Ignore build folders
+build
+Debug
+
+# Ignore CMake generated folders
+CMakeFiles
+
+# Ignore CMake cache files
+CMakeCache.txt

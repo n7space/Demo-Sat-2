@@ -2,14 +2,12 @@
 binaries
 dataview
 glue_debug
-work/piohwasdriver/SDL/code
-work/piohwasdriver/SDL/wrappers
-work/manager/C/wrappers
+work/afechwasdriver/SDL/code
+work/afechwasdriver/SDL/wrappers
 work/manager/implem/default/C/wrappers/
 work/hwas/implem/default/C/wrappers/
-
 # Ignore generated files
-work/piohwasdriver/SDL/src/dataview*
+work/afechwasdriver/SDL/src/dataview*
 
 # Ignore aadl files
 *.aadl
