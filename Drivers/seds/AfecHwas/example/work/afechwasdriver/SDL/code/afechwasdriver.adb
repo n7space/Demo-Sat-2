@@ -66,8 +66,8 @@ package body AfecHwasDriver is
       
 
    procedure p_0_InitSync(Config: in asn1SccAfecHwasConfig) is
-      tmp179 : asn1SccWord;
       tmp178 : asn1SccWordMask;
+      tmp179 : asn1SccWord;
       --  !! stack: _call_external_function line 1656
       begin
          --  InitPmc (76,17)
@@ -166,14 +166,14 @@ package body AfecHwasDriver is
       
 
    procedure p_0_GetValue(Afec: in asn1SccAfecHwas;Analogchannel: in asn1SccAfecHwasChannel) is
-      tmp204 : asn1SccWordMask;
-      tmp235 : asn1SccWord;
-      --  !! stack: _call_external_function line 1656
-      tmp234 : asn1SccWordMask;
       tmp274 : asn1SccWord;
-      tmp251 : asn1SccWordMask;
-      tmp264 : asn1SccWordMask;
+      tmp235 : asn1SccWord;
       tmp273 : asn1SccWordMask;
+      --  !! stack: _call_external_function line 1656
+      tmp264 : asn1SccWordMask;
+      tmp234 : asn1SccWordMask;
+      tmp251 : asn1SccWordMask;
+      tmp204 : asn1SccWordMask;
       begin
          --  Channelmaskvar := power(2, Analogchannel) (171,17)
          ctxt.Channelmaskvar := 2 ** Natural(Analogchannel);
