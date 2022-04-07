@@ -425,7 +425,7 @@
                   <VariableRef variableRef="afecVar.mInstanceChsrAddress"></VariableRef>
                 </Assignment>
                 <Iteration iteratorVariableRef="readBitsVar">
-                  <LongDescription>Wait for analogChannel to be enabled</LongDescription>
+                  <LongDescription>(TODO: change this using onTimer or async read) Wait for analogChannel to be enabled</LongDescription>
                   <StartAt>
                     <Value value="0"></Value>
                   </StartAt>
@@ -466,7 +466,7 @@
                   <VariableRef variableRef="afecVar.mInstanceIsrAddress"></VariableRef>
                 </Assignment>
                 <Iteration iteratorVariableRef="readBitsVar">
-                  <LongDescription>Wait for interrupt to occure</LongDescription>
+                  <LongDescription>(TODO: change this using onTimer or async read) Wait for interrupt to occure</LongDescription>
                   <StartAt>
                     <Value value="0"></Value>
                   </StartAt>
