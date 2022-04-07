@@ -3,7 +3,6 @@ BEGIN
 IMPORTS
    InterruptNumber, Interrupt-Type FROM COM-N7SPACE-HWAS
    DestinationAddress, SourceAddress, Word, WordMask, BufferSize, Byte, ByteBuffer, PinNumber, PioHwas-Port, PioHwas-Direction, PioHwas, PioHwasPinConfig, PmcHwas FROM COM-N7SPACE-PIOHWAS
-   MyInteger FROM TEST3-DATAVIEW
    T-Int32, T-UInt32, T-Int8, T-UInt8, T-Boolean, T-Null-Record FROM TASTE-BasicTypes;
 
 Piohwasdriver-States ::= ENUMERATED {idle, off}

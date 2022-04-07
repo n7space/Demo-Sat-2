@@ -12,8 +12,6 @@ with COM_N7SPACE_HWAS;
 use COM_N7SPACE_HWAS;
 with COM_N7SPACE_PIOHWAS;
 use COM_N7SPACE_PIOHWAS;
-with TEST3_DATAVIEW;
-use TEST3_DATAVIEW;
 with TASTE_BasicTypes;
 use TASTE_BasicTypes;
 with adaasn1rtl;
