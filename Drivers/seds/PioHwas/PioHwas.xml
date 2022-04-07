@@ -178,7 +178,7 @@
             <Variable name="pinValueVar" type="Word" />
             <Variable name="pinMaskVar" type="WordMask" />
             <Variable name="destinationAddressVar" type="DestinationAddress" />
-            <Variable name="sourceAddressVar" type="SourceAddress" />
+            <Variable name="sourceAddressVar" type="SourceAddress"></Variable>
           </VariableSet>
           <ActivitySet>
             <Activity name="InitPmc">
@@ -430,7 +430,7 @@
                       <VariableRef variableRef="pmcVar.PMC_PCxR0_PID10_PIOA_Mask" />
                     </Assignment>
                     <Assignment outputVariableRef="pinValueVar">
-                      <LongDescription>Assign mask to variable</LongDescription>
+                      <LongDescription>Assign register value to variable</LongDescription>
                       <VariableRef variableRef="pmcVar.PMC_PCxR0_PID10_PIOA_Mask" />
                     </Assignment>
                   </OnConditionTrue>
@@ -450,7 +450,7 @@
                           <VariableRef variableRef="pmcVar.PMC_PCxR0_PID11_PIOB_Mask" />
                         </Assignment>
                         <Assignment outputVariableRef="pinValueVar">
-                          <LongDescription>Assign mask to variable</LongDescription>
+                          <LongDescription>Assign register value to variable</LongDescription>
                           <VariableRef variableRef="pmcVar.PMC_PCxR0_PID11_PIOB_Mask" />
                         </Assignment>
                       </OnConditionTrue>
@@ -470,7 +470,7 @@
                               <VariableRef variableRef="pmcVar.PMC_PCxR0_PID12_PIOC_MASK" />
                             </Assignment>
                             <Assignment outputVariableRef="pinValueVar">
-                              <LongDescription>Assign mask to variable</LongDescription>
+                              <LongDescription>Assign register value to variable</LongDescription>
                               <VariableRef variableRef="pmcVar.PMC_PCxR0_PID12_PIOC_MASK" />
                             </Assignment>
                           </OnConditionTrue>
@@ -490,7 +490,7 @@
                                   <VariableRef variableRef="pmcVar.PMC_PCxR0_PID16_PIOD_Mask" />
                                 </Assignment>
                                 <Assignment outputVariableRef="pinValueVar">
-                                  <LongDescription>Assign mask to variable</LongDescription>
+                                  <LongDescription>Assign register value to variable</LongDescription>
                                   <VariableRef variableRef="pmcVar.PMC_PCxR0_PID16_PIOD_Mask" />
                                 </Assignment>
                               </OnConditionTrue>
@@ -510,7 +510,7 @@
                                       <VariableRef variableRef="pmcVar.PMC_PCxR0_PID17_PIOE_Mask" />
                                     </Assignment>
                                     <Assignment outputVariableRef="pinValueVar">
-                                      <LongDescription>Assign mask to variable</LongDescription>
+                                      <LongDescription>Assign register value to variable</LongDescription>
                                       <VariableRef variableRef="pmcVar.PMC_PCxR0_PID17_PIOE_Mask" />
                                     </Assignment>
                                   </OnConditionTrue>
@@ -771,7 +771,7 @@
                   <VariableRef variableRef="pio.mPin" />
                 </Assignment>
                 <Assignment outputVariableRef="pinValueVar">
-                  <LongDescription>Assign register value to set to the variable</LongDescription>
+                  <LongDescription>Assign register value to variable</LongDescription>
                   <VariableRef variableRef="pio.mPin" />
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Resets pin value" interface="RawMemoryAccess" command="WriteWord">
@@ -791,7 +791,7 @@
               <Argument name="pio" type="PioHwas" />
               <Body>
                 <Assignment outputVariableRef="sourceAddressVar">
-                  <LongDescription>Assign register value to set to the variable</LongDescription>
+                  <LongDescription>Assign source address to variable</LongDescription>
                   <VariableRef variableRef="pio.mPortOdsrAddress" />
                 </Assignment>
                 <Assignment outputVariableRef="pinMaskVar">
