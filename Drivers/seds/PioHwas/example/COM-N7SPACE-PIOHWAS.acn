@@ -2,6 +2,7 @@ COM-N7SPACE-PIOHWAS DEFINITIONS ::= BEGIN
 PinNumber [size 8, encoding pos-int]
 PioHwas-Port [size 8, encoding pos-int]
 PioHwas-Direction [size 8, encoding pos-int]
+PioHwas-Control [size 8, encoding pos-int]
 PioHwas []
 {
     mPortAddress [],
@@ -18,6 +19,8 @@ PioHwas []
     mPortOwerAddress [],
     mPortOwdrAddress [],
     mPortIfscdrAddress [],
+    mPortAbcdsr0Address [],
+    mPortAbcdsr1Address [],
     mPortPpddrAddress [],
     mPortSchmittAddress []
 }
@@ -25,7 +28,8 @@ PioHwasPinConfig []
 {
     mPortConfig [],
     mPinConfig [],
-    mDirectionConfig []
+    mDirectionConfig [],
+    mControlConfig []
 }
 PmcHwas []
 {
