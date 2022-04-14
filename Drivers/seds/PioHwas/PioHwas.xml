@@ -1,62 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="Pio" />
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
   <Package name="com/n7space/PioHwas">
     <DataTypeSet>
-      <IntegerDataType name="DestinationAddress">
-        <LongDescription>Type for a memory destination address.</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" sizeInBits="32" byteOrder="littleEndian" />
-        <Range>
-          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="SourceAddress">
-        <LongDescription>Type for a memory source address.</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" sizeInBits="32" byteOrder="littleEndian" />
-        <Range>
-          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="Word">
-        <LongDescription>Machine word.</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="32" />
-        <Range>
-          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="WordMask">
-        <LongDescription>Mask for a machine word.</LongDescription>
-        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="32" encoding="unsigned" />
-        <Range>
-          <MinMaxRange min="0" max="4294967295" rangeType="inclusiveMinInclusiveMax" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="BufferSize">
-        <LongDescription>Size of a memory transfer.</LongDescription>
-        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="16" encoding="unsigned" />
-        <Range>
-          <MinMaxRange max="65535" min="0" rangeType="inclusiveMinInclusiveMax" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="InterruptNumber">
-        <LongDescription>Interrupt number for NVIC.</LongDescription>
-        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="8" encoding="unsigned" />
-        <Range>
-          <MinMaxRange max="255" min="0" rangeType="inclusiveMinInclusiveMax" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="Byte">
-        <LongDescription>Byte.</LongDescription>
-        <IntegerDataEncoding byteOrder="littleEndian" encoding="unsigned" sizeInBits="8" />
-        <Range>
-          <MinMaxRange max="255" min="0" rangeType="inclusiveMinInclusiveMax" />
-        </Range>
-      </IntegerDataType>
-      <ArrayDataType name="ByteBuffer" dataTypeRef="Byte">
-        <LongDescription>Byte buffer.</LongDescription>
-        <DimensionList>
-          <Dimension size="65535" />
-        </DimensionList>
-      </ArrayDataType>
       <IntegerDataType name="PinNumber">
         <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="8" encoding="unsigned" />
         <Range>
@@ -84,22 +31,22 @@
       </EnumeratedDataType>
       <ContainerDataType name="PioHwas" shortDescription="Pio descriptor">
         <EntryList>
-          <Entry name="mPortAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPin" type="Word" />
-          <Entry name="mPortPerAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortOerAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortOdrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortIfdrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortSodrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortCodrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortOdsrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortMddrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortPudrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortOwerAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortOwdrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortIfscdrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortPpddrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mPortSchmittAddress" type="DestinationAddress"></Entry>
+          <Entry name="mPortAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPin" type="com/n7space/Hwas/Word" />
+          <Entry name="mPortPerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortIfdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortSodrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortCodrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOdsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortMddrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPudrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOwerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOwdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortIfscdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPpddrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortSchmittAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
         </EntryList>
       </ContainerDataType>
       <ContainerDataType name="PioHwasPinConfig" shortDescription="Pin configuration container">
@@ -111,33 +58,16 @@
       </ContainerDataType>
       <ContainerDataType name="PmcHwas" shortDescription="Pmc descriptor">
         <EntryList>
-          <Entry name="PMC_PCER0_OFFSET" type="DestinationAddress" />
-          <Entry name="PMC_PCxR0_PID10_PIOA_MASK" type="WordMask" />
-          <Entry name="PMC_PCxR0_PID11_PIOB_MASK" type="WordMask" />
-          <Entry name="PMC_PCxR0_PID12_PIOC_MASK" type="WordMask" />
-          <Entry name="PMC_PCxR0_PID16_PIOD_MASK" type="WordMask" />
-          <Entry name="PMC_PCxR0_PID17_PIOE_MASK" type="WordMask" />
+          <Entry name="PMC_PCER0_OFFSET" type="com/n7space/Hwas/DestinationAddress" />
+          <Entry name="PMC_PCxR0_PID10_PIOA_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID11_PIOB_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID12_PIOC_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID16_PIOD_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID17_PIOE_MASK" type="com/n7space/Hwas/WordMask" />
         </EntryList>
       </ContainerDataType>
     </DataTypeSet>
     <DeclaredInterfaceSet>
-      <Interface level="subnetwork" name="RawMemoryAccessInterfaceType">
-        <LongDescription>Interface for accessing RAW memory.</LongDescription>
-        <CommandSet>
-          <Command name="ReadWord" mode="sync">
-            <LongDescription>Read word from memory, masked by the mask. The address must be word-aligned.</LongDescription>
-            <Argument name="address" type="SourceAddress" mode="in" />
-            <Argument name="mask" type="WordMask" mode="in" />
-            <Argument name="outputValue" type="Word" mode="out" />
-          </Command>
-          <Command name="WriteWord" mode="sync">
-            <LongDescription>Write word to memory, masked by the mask.  The address must be word-aligned.</LongDescription>
-            <Argument name="address" type="DestinationAddress" mode="in" />
-            <Argument name="mask" type="WordMask" mode="in" />
-            <Argument name="inputValue" type="Word" mode="in" />
-          </Command>
-        </CommandSet>
-      </Interface>
       <Interface level="functional" name="PioHwasInterfaceType">
         <CommandSet>
           <Command name="InitPin" mode="sync">
@@ -156,7 +86,7 @@
           <Command name="GetPin" mode="sync">
             <LongDescription>Gets pin value</LongDescription>
             <Argument name="pio" type="PioHwas" mode="in" />
-            <Argument name="pinValue" type="Word" mode="out" />
+            <Argument name="pinValue" type="com/n7space/Hwas/Word" mode="out" />
           </Command>
         </CommandSet>
       </Interface>
@@ -168,17 +98,17 @@
           <Interface name="PioHwas" type="PioHwasInterfaceType"></Interface>
         </ProvidedInterfaceSet>
         <RequiredInterfaceSet>
-          <Interface name="RawMemoryAccess" type="RawMemoryAccessInterfaceType" />
+          <Interface name="RawMemoryAccess" type="com/n7space/Hwas/RawMemoryAccessInterfaceType" />
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
             <Variable name="pioVar" type="PioHwas"></Variable>
             <Variable name="configVar" type="PioHwasPinConfig" />
             <Variable name="pmcVar" type="PmcHwas" />
-            <Variable name="pinValueVar" type="Word" />
-            <Variable name="pinMaskVar" type="WordMask" />
-            <Variable name="destinationAddressVar" type="DestinationAddress" />
-            <Variable name="sourceAddressVar" type="SourceAddress"></Variable>
+            <Variable name="pinValueVar" type="com/n7space/Hwas/Word" />
+            <Variable name="pinMaskVar" type="com/n7space/Hwas/WordMask" />
+            <Variable name="destinationAddressVar" type="com/n7space/Hwas/DestinationAddress" />
+            <Variable name="sourceAddressVar" type="com/n7space/Hwas/SourceAddress"></Variable>
           </VariableSet>
           <ActivitySet>
             <Activity name="InitPmc">
@@ -867,4 +797,4 @@
       </Component>
     </ComponentSet>
   </Package>
-</PackageFile>
+</DataSheet>
