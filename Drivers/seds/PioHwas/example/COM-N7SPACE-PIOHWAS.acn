@@ -1,11 +1,4 @@
 COM-N7SPACE-PIOHWAS DEFINITIONS ::= BEGIN
-DestinationAddress [size 32, encoding pos-int, endianness little]
-SourceAddress [size 32, encoding pos-int, endianness little]
-Word [size 32, encoding pos-int, endianness little]
-WordMask [size 32, encoding pos-int, endianness little]
-BufferSize [size 16, encoding pos-int, endianness little]
-Byte [size 8, encoding pos-int]
-ByteBuffer []
 PinNumber [size 8, encoding pos-int]
 PioHwas-Port [size 8, encoding pos-int]
 PioHwas-Direction [size 8, encoding pos-int]

@@ -97,8 +97,11 @@ process PioHwasDriver;
         /* CIF ENDTEXT */
         /* CIF Start (0, 750), (200, 75) */
         START;
+            -- Init PMC with definitions of masks and addresses
             /* CIF ProcedureCall (0, 937), (100, 50) */
             call InitPmc;
+            -- Set PIO port register addres
+            -- Is port equal to port A?
             /* CIF Decision (0, 937), (400, 50) */
             decision Config.Mportconfig = PioHwas_Port_A;
                 /* CIF Answer (0, 1012), (400, 50) */
@@ -109,6 +112,7 @@ process PioHwasDriver;
                     join condition_1;
                 /* CIF Answer (600, 1012), (400, 50) */
                 (False):
+                    -- Is port equal to port B?
                     /* CIF Decision (600, 1012), (400, 50) */
                     decision Config.Mportconfig = PioHwas_Port_B;
                         /* CIF Answer (600, 1087), (400, 50) */
@@ -119,6 +123,7 @@ process PioHwasDriver;
                             join condition_2;
                         /* CIF Answer (1200, 1087), (400, 50) */
                         (False):
+                            -- Is port equal to port C?
                             /* CIF Decision (1200, 1087), (400, 50) */
                             decision Config.Mportconfig = PioHwas_Port_C;
                                 /* CIF Answer (1200, 1162), (400, 50) */
@@ -129,6 +134,7 @@ process PioHwasDriver;
                                     join condition_3;
                                 /* CIF Answer (1800, 1162), (400, 50) */
                                 (False):
+                                    -- Is port equal to port D?
                                     /* CIF Decision (1800, 1162), (400, 50) */
                                     decision Config.Mportconfig = PioHwas_Port_D;
                                         /* CIF Answer (1800, 1237), (400, 50) */
@@ -139,6 +145,7 @@ process PioHwasDriver;
                                             join condition_4;
                                         /* CIF Answer (2400, 1237), (400, 50) */
                                         (False):
+                                            -- Is port equal to port E?
                                             /* CIF Decision (2400, 1237), (400, 50) */
                                             decision Config.Mportconfig = PioHwas_Port_E;
                                                 /* CIF Answer (2400, 1312), (400, 50) */
@@ -174,64 +181,83 @@ process PioHwasDriver;
             enddecision;
             /* CIF Label (6000, 1087), (100, 50) */
             condition_1:
+            -- Set the rest of the Pio register addresses
             /* CIF ProcedureCall (6000, 1162), (100, 50) */
             call InitPioContainer;
+            -- Set destination register to PCER0
+            -- Assign destination address for register write
             /* CIF Task (6000, 1237), (100, 50) */
             task Destinationaddressvar := Pmcvar.Pmc_pcer0_offset;
+            -- Init Pmc
+            -- Is port equal to port A?
             /* CIF Decision (6000, 1237), (400, 50) */
             decision Config.Mportconfig = PioHwas_Port_A;
                 /* CIF Answer (6000, 1312), (400, 50) */
                 (True):
+                    -- Assign mask to variable
                     /* CIF Task (6000, 1387), (100, 50) */
                     task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid10_pioa_mask;
+                    -- Assign register value to variable
                     /* CIF Task (6000, 1462), (100, 50) */
                     task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid10_pioa_mask;
                     /* CIF Join (6000, 1537), (100, 50) */
                     join condition_6;
                 /* CIF Answer (6600, 1312), (400, 50) */
                 (False):
+                    -- Is port equal to port B?
                     /* CIF Decision (6600, 1312), (400, 50) */
                     decision Config.Mportconfig = PioHwas_Port_B;
                         /* CIF Answer (6600, 1387), (400, 50) */
                         (True):
+                            -- Assign mask to variable
                             /* CIF Task (6600, 1462), (100, 50) */
                             task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid11_piob_mask;
+                            -- Assign register value to variable
                             /* CIF Task (6600, 1537), (100, 50) */
                             task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid11_piob_mask;
                             /* CIF Join (6600, 1612), (100, 50) */
                             join condition_7;
                         /* CIF Answer (7200, 1387), (400, 50) */
                         (False):
+                            -- Is port equal to port C?
                             /* CIF Decision (7200, 1387), (400, 50) */
                             decision Config.Mportconfig = PioHwas_Port_C;
                                 /* CIF Answer (7200, 1462), (400, 50) */
                                 (True):
+                                    -- Assign mask to variable
                                     /* CIF Task (7200, 1537), (100, 50) */
                                     task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid12_pioc_mask;
+                                    -- Assign register value to variable
                                     /* CIF Task (7200, 1612), (100, 50) */
                                     task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid12_pioc_mask;
                                     /* CIF Join (7200, 1687), (100, 50) */
                                     join condition_8;
                                 /* CIF Answer (7800, 1462), (400, 50) */
                                 (False):
+                                    -- Is port equal to port D?
                                     /* CIF Decision (7800, 1462), (400, 50) */
                                     decision Config.Mportconfig = PioHwas_Port_D;
                                         /* CIF Answer (7800, 1537), (400, 50) */
                                         (True):
+                                            -- Assign mask to variable
                                             /* CIF Task (7800, 1612), (100, 50) */
                                             task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid16_piod_mask;
+                                            -- Assign register value to variable
                                             /* CIF Task (7800, 1687), (100, 50) */
                                             task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid16_piod_mask;
                                             /* CIF Join (7800, 1762), (100, 50) */
                                             join condition_9;
                                         /* CIF Answer (8400, 1537), (400, 50) */
                                         (False):
+                                            -- Is port equal to port E?
                                             /* CIF Decision (8400, 1537), (400, 50) */
                                             decision Config.Mportconfig = PioHwas_Port_E;
                                                 /* CIF Answer (8400, 1612), (400, 50) */
                                                 (True):
+                                                    -- Assign mask to variable
                                                     /* CIF Task (8400, 1687), (100, 50) */
                                                     task Pinmaskvar := Pmcvar.Pmc_pcxr0_pid17_pioe_mask;
+                                                    -- Assign register value to variable
                                                     /* CIF Task (8400, 1762), (100, 50) */
                                                     task Pinvaluevar := Pmcvar.Pmc_pcxr0_pid17_pioe_mask;
                                                     /* CIF Join (8400, 1837), (100, 50) */
@@ -263,22 +289,33 @@ process PioHwasDriver;
             enddecision;
             /* CIF Label (12000, 1387), (100, 50) */
             condition_6:
+            -- Enable proper PIO PORT clock
             /* CIF ProcedureCall (12000, 1462), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Create pin mask
             /* CIF Task (12000, 1537), (100, 50) */
             task Piovar.Mpin := power(2, Config.Mpinconfig);
+            -- Assign register value to set to the variable
             /* CIF Task (12000, 1612), (100, 50) */
             task Pinvaluevar := Piovar.Mpin;
+            -- Assign register mask to the variable
             /* CIF Task (12000, 1687), (100, 50) */
             task Pinmaskvar := Piovar.Mpin;
+            -- Set destination register to Per
+            -- Assign destination address for register write
             /* CIF Task (12000, 1762), (100, 50) */
             task Destinationaddressvar := Piovar.Mportperaddress;
+            -- Enable Pio
             /* CIF ProcedureCall (12000, 1837), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Init direction
+            -- Is direction equal to Input
             /* CIF Decision (12000, 1837), (400, 50) */
             decision Config.Mdirectionconfig = PioHwas_Direction_Input;
                 /* CIF Answer (12000, 1912), (400, 50) */
                 (True):
+                    -- Set destination register to ODR
+                    -- Assign destination address for register write
                     /* CIF Task (12000, 1987), (100, 50) */
                     task Destinationaddressvar := Piovar.Mportodraddress;
                     /* CIF ProcedureCall (12000, 2062), (100, 50) */
@@ -287,10 +324,13 @@ process PioHwasDriver;
                     join condition_11;
                 /* CIF Answer (12600, 1912), (400, 50) */
                 (False):
+                    -- Is direction equal to Output
                     /* CIF Decision (12600, 1912), (400, 50) */
                     decision Config.Mdirectionconfig = PioHwas_Direction_Output;
                         /* CIF Answer (12600, 1987), (400, 50) */
                         (True):
+                            -- Set destination register to OER
+                            -- Assign destination address for register write
                             /* CIF Task (12600, 2062), (100, 50) */
                             task Destinationaddressvar := Piovar.Mportoeraddress;
                             /* CIF ProcedureCall (12600, 2137), (100, 50) */
@@ -309,32 +349,53 @@ process PioHwasDriver;
             enddecision;
             /* CIF Label (14400, 1987), (100, 50) */
             condition_11:
+            -- Set destination register to Owdr
+            -- Assign destination address for register write
             /* CIF Task (14400, 2062), (100, 50) */
             task Destinationaddressvar := Piovar.Mportowdraddress;
+            -- Disables writing PIO_ODSR for the I/O line.
             /* CIF ProcedureCall (14400, 2137), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Set destination register to Pudr
+            -- Assign destination address for register write
             /* CIF Task (14400, 2212), (100, 50) */
             task Destinationaddressvar := Piovar.Mportpudraddress;
+            -- Set no pull. PUDR register
             /* CIF ProcedureCall (14400, 2287), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Set destination register to Ppddr
+            -- Assign destination address for register write
             /* CIF Task (14400, 2362), (100, 50) */
             task Destinationaddressvar := Piovar.Mportppddraddress;
+            -- Set no pull. PPDDR register
             /* CIF ProcedureCall (14400, 2437), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Set destination register to Ifdr
+            -- Assign destination address for register write
             /* CIF Task (14400, 2512), (100, 50) */
             task Destinationaddressvar := Piovar.Mportifdraddress;
+            -- Set no filter. Ifdr register
             /* CIF ProcedureCall (14400, 2587), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Set destination register to Ifscdr
+            -- Assign destination address for register write
             /* CIF Task (14400, 2662), (100, 50) */
             task Destinationaddressvar := Piovar.Mportifscdraddress;
+            -- Set no filter. Ifscdr register
             /* CIF ProcedureCall (14400, 2737), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Set destination register to SCHMITT
+            -- Assign destination address for register write
             /* CIF Task (14400, 2812), (100, 50) */
             task Destinationaddressvar := Piovar.Mportschmittaddress;
+            -- Set no schmitt trigger. Ifscdr register
             /* CIF ProcedureCall (14400, 2887), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Set destination register to MDDR
+            -- Assign destination address for register write
             /* CIF Task (14400, 2962), (100, 50) */
             task Destinationaddressvar := Piovar.Mportmddraddress;
+            -- Set no opendrain. Ifscdr register
             /* CIF ProcedureCall (14400, 3037), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
         return ;
@@ -347,12 +408,16 @@ process PioHwasDriver;
         /* CIF ENDTEXT */
         /* CIF Start (0, 750), (200, 75) */
         START;
+            -- Assign source address to variable
             /* CIF Task (0, 937), (100, 50) */
             task Destinationaddressvar := Pio.Mportsodraddress;
+            -- Assign register mask to the variable
             /* CIF Task (0, 1012), (100, 50) */
             task Pinmaskvar := Pio.Mpin;
+            -- Assign register value to set to the variable
             /* CIF Task (0, 1087), (100, 50) */
             task Pinvaluevar := Pio.Mpin;
+            -- Set pin
             /* CIF ProcedureCall (0, 1162), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
         return ;
@@ -365,12 +430,16 @@ process PioHwasDriver;
         /* CIF ENDTEXT */
         /* CIF Start (0, 750), (200, 75) */
         START;
+            -- Assign source address to variable
             /* CIF Task (0, 937), (100, 50) */
             task Destinationaddressvar := Pio.Mportcodraddress;
+            -- Assign register mask to the variable
             /* CIF Task (0, 1012), (100, 50) */
             task Pinmaskvar := Pio.Mpin;
+            -- Assign register value to variable
             /* CIF Task (0, 1087), (100, 50) */
             task Pinvaluevar := Pio.Mpin;
+            -- Resets pin value
             /* CIF ProcedureCall (0, 1162), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
         return ;
@@ -383,10 +452,13 @@ process PioHwasDriver;
         /* CIF ENDTEXT */
         /* CIF Start (0, 750), (200, 75) */
         START;
+            -- Assign source address to variable
             /* CIF Task (0, 937), (100, 50) */
             task Sourceaddressvar := Pio.Mportodsraddress;
+            -- Assign mask to variable
             /* CIF Task (0, 1012), (100, 50) */
             task Pinmaskvar := Pio.Mpin;
+            -- Gets pin value
             /* CIF ProcedureCall (0, 1087), (100, 50) */
             call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, Pinmaskvar, Pinvaluevar);
         return ;
