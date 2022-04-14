@@ -1,12 +1,11 @@
 COM-N7SPACE-PIOHWAS DEFINITIONS ::= BEGIN
-DestinationAddress ::= INTEGER(0 .. 4294967295)
-SourceAddress ::= INTEGER(0 .. 4294967295)
-Word ::= INTEGER(0 .. 4294967295)
-WordMask ::= INTEGER(0 .. 4294967295)
-BufferSize ::= INTEGER(0 .. 65535)
-Byte ::= INTEGER(0 .. 255)
-ByteBuffer ::= SEQUENCE (SIZE(0 .. 65535)) OF Byte(0 .. 255)
+IMPORTS
+DestinationAddress FROM COM-N7SPACE-HWAS
+Word FROM COM-N7SPACE-HWAS
+WordMask FROM COM-N7SPACE-HWAS
+;
 PinNumber ::= INTEGER(0 .. 15)
+-- Definitions of PIO ports
 PioHwas-Port ::= ENUMERATED
 {
     pioHwas-Port-A(0),
@@ -15,11 +14,13 @@ PioHwas-Port ::= ENUMERATED
     pioHwas-Port-D(3),
     pioHwas-Port-E(4)
 }
+-- I/O line flow direction
 PioHwas-Direction ::= ENUMERATED
 {
     pioHwas-Direction-Input(0),
     pioHwas-Direction-Output(1)
 }
+-- Pio descriptor
 PioHwas ::= SEQUENCE 
 { 
     mPortAddress DestinationAddress(0 .. 4294967295), 
@@ -39,12 +40,14 @@ PioHwas ::= SEQUENCE
     mPortPpddrAddress DestinationAddress(0 .. 4294967295), 
     mPortSchmittAddress DestinationAddress(0 .. 4294967295)
 } 
+-- Pin configuration container
 PioHwasPinConfig ::= SEQUENCE 
 { 
     mPortConfig PioHwas-Port, 
     mPinConfig PinNumber(0 .. 15), 
     mDirectionConfig PioHwas-Direction
 } 
+-- Pmc descriptor
 PmcHwas ::= SEQUENCE 
 { 
     pMC-PCER0-OFFSET DestinationAddress(0 .. 4294967295), 
