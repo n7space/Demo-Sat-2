@@ -86,10 +86,14 @@ process PioHwasDriver;
             /* CIF Task (0, 2137), (100, 50) */
             task Piovar.Mportabcdsr0address := 112;
             /* CIF Task (0, 2212), (100, 50) */
-            task Piovar.Mportabcdsr1address := 116;
+            task Piovar.Mportabcdsr0address := Piovar.Mportaddress + Piovar.Mportabcdsr0address;
             /* CIF Task (0, 2287), (100, 50) */
-            task Piovar.Mportschmittaddress := 256;
+            task Piovar.Mportabcdsr1address := 116;
             /* CIF Task (0, 2362), (100, 50) */
+            task Piovar.Mportabcdsr1address := Piovar.Mportaddress + Piovar.Mportabcdsr1address;
+            /* CIF Task (0, 2437), (100, 50) */
+            task Piovar.Mportschmittaddress := 256;
+            /* CIF Task (0, 2512), (100, 50) */
             task Piovar.Mportschmittaddress := Piovar.Mportaddress + Piovar.Mportschmittaddress;
         return ;
     endprocedure;

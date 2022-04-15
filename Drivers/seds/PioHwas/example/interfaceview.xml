@@ -1,11 +1,11 @@
-<InterfaceView asn1file="COM-N7SPACE-PIOHWASCOMPONENT.acn">
+<InterfaceView asn1file="COM-N7SPACE-PIOHWAS.acn">
 <Function name="manager" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
     <Property name="Taste::coordinates" value="-17400 48100 42300 57300"/>
-<Provided_Interface name="Blink" kind="Cyclic" layer="default" wcet="0" stack_size="4096" priority="1">
+<Provided_Interface name="Blink" kind="Cyclic" layer="default" stack_size="4096" dispatch_offset="0" period="1000" priority="1" wcet="0">
     <Property name="Taste::coordinates" value="32400 57300"/>
 </Provided_Interface>
 
-<Required_Interface name="PioHwas_InitPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+<Required_Interface name="PioHwas_InitPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
     <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
     <Property name="Taste::coordinates" value="-15200 48100"/>
@@ -13,21 +13,21 @@
     <Property name="Taste::Autonamed" value="true"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_SetPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+<Required_Interface name="PioHwas_SetPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
     <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Property name="Taste::coordinates" value="-600 48100"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="true"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_ResetPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+<Required_Interface name="PioHwas_ResetPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
     <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Property name="Taste::coordinates" value="14400 48100"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="true"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_GetPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+<Required_Interface name="PioHwas_GetPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
     <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
     <Property name="Taste::coordinates" value="31300 48100"/>
@@ -40,16 +40,63 @@
     </Implementations>
 </Function>
 
+<Function name="PioHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="-17600 35400 42900 43400"/>
+<Provided_Interface name="PioHwas_InitPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
+    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-15200 43400"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_SetPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-500 43400"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_ResetPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="14700 43400"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_GetPin_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="31100 43400"/>
+</Provided_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-15100 35400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="14500 35400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
 <Function name="HWAS" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
     <Property name="Taste::coordinates" value="-16700 16700 43000 24700"/>
-<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
     <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
     <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
     <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
     <Property name="Taste::coordinates" value="-14900 24700"/>
 </Provided_Interface>
 
-<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" layer="default" stack_size="1024" dispatch_offset="0" priority="1" wcet="0">
     <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
     <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
     <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
@@ -61,53 +108,6 @@
     </Implementations>
 </Function>
 
-<Function name="PioHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="-17600 35400 42900 43400"/>
-<Provided_Interface name="PioHwas_InitPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
-    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-15200 43400"/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_SetPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-500 43400"/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_ResetPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="14700 43400"/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_GetPin_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="31100 43400"/>
-</Provided_Interface>
-
-<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="14600 35400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
-    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-15400 35400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
 <Connection >
     <Source func_name="manager" ri_name="PioHwas_InitPin_Pi"/>
     <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
@@ -115,15 +115,9 @@
 </Connection>
 
 <Connection >
-    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
+    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
     <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
-    <Property name="Taste::coordinates" value="14600 34800 14600 29900 14500 25000"/>
-</Connection>
-
-<Connection >
-    <Source func_name="manager" ri_name="PioHwas_SetPin_Pi"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="-600 47500 -500 43700"/>
+    <Property name="Taste::coordinates" value="14500 34800 14500 25000"/>
 </Connection>
 
 <Connection >
@@ -133,15 +127,21 @@
 </Connection>
 
 <Connection >
-    <Source func_name="manager" ri_name="PioHwas_ResetPin_Pi"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
-    <Property name="Taste::coordinates" value="14400 47500 14400 45600 14700 43700"/>
+    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
+    <Property name="Taste::coordinates" value="-15100 34800 -15100 29900 -14900 25000"/>
 </Connection>
 
 <Connection >
-    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
-    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
-    <Property name="Taste::coordinates" value="-15400 34800 -15400 29900 -14900 26600 -14900 25000"/>
+    <Source func_name="manager" ri_name="PioHwas_SetPin_Pi"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="-600 47500 -500 43700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="manager" ri_name="PioHwas_ResetPin_Pi"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
+    <Property name="Taste::coordinates" value="14400 47500 14400 45600 14700 43700"/>
 </Connection>
 
 </InterfaceView>
