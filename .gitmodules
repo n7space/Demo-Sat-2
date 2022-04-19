@@ -7,3 +7,6 @@
 [submodule "cmake"]
 	path = cmake
 	url = git@github.com:n7space/cmake-tools.git
+[submodule "TASTE-Linux-Drivers"]
+	path = TASTE-Linux-Drivers
+	url = git@github.com:n7space/TASTE-Linux-Drivers.git
