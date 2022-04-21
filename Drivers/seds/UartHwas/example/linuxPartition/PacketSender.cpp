@@ -27,10 +27,10 @@
 #include <cstring>
 #include <unistd.h>
 
-uint8_t PacketSender::packetData1[PACKET_SIZE2]{};
+uint8_t PacketSender::packetData[PACKET_SIZE]{};
 
 void PacketSender::Init() {
-  memcpy(&packetData1[SPACE_PACKET_PRIMARY_HEADER_SIZE], TEXT, DATA_SIZE);
+  memcpy(&packetData[SPACE_PACKET_PRIMARY_HEADER_SIZE], TEXT, DATA_SIZE);
 
   Packetizer_init(&packetizer);
   Packetizer_packetize(&packetizer, Packetizer_PacketType_Telemetry, DEVICE_ID,

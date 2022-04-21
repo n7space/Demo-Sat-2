@@ -36,7 +36,7 @@ public:
 private:
   static constexpr uint16_t DEVICE_ID = 0;
 
-  static constexpr char const *TEXT{"PI: Hello\n\r"};
+  static constexpr char const *TEXT{"1Hello\n\r"};
 
   static constexpr size_t DATA_SIZE = sizeof(TEXT);
   static constexpr size_t PACKET_SIZE = SPACE_PACKET_PRIMARY_HEADER_SIZE +
