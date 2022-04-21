@@ -4,6 +4,8 @@ dataview
 glue_debug
 work/piohwasdriver/SDL/code
 work/piohwasdriver/SDL/wrappers
+work/uarthwasdriver/SDL/code
+work/uarthwasdriver/SDL/wrappers
 work/manager/C/wrappers
 work/manager/implem/default/C/wrappers/
 work/hwas/implem/default/C/wrappers/
