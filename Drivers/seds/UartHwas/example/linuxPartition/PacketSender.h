@@ -1,7 +1,7 @@
 /**@file
- * This file is part of the TASTE Linux Runtime.
+ * This file is part of the TASTE DemoSat2
  *
- * @copyright 2021 N7 Space Sp. z o.o.
+ * @copyright 2022 N7 Space Sp. z o.o.
  *
  * TASTE Linux Runtime was developed under a programme of,
  * and funded by, the European Space Agency (the "ESA").
