@@ -18,4 +18,11 @@ add_library(common_build_options INTERFACE)
 include(CommonBuildOptions)
 include(Sanitizers)
 
+add_subdirectory(TASTE-Linux-Drivers/src/linux_serial_ccsds)
+add_subdirectory(TASTE-Linux-Drivers/TASTE-Linux-Runtime/src)
+add_subdirectory(TASTE-Linux-Drivers/TASTE-Runtime-Common/src/Escaper)
+add_subdirectory(TASTE-Linux-Drivers/TASTE-Runtime-Common/src/Broker)
+add_subdirectory(TASTE-Linux-Drivers/TASTE-Runtime-Common/src/Packetizer)
+add_subdirectory(TASTE-Linux-Drivers/TASTE-Runtime-Common/src/RuntimeMocks)
+
 add_subdirectory(UartHwas/example/linuxPartition)
