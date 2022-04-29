@@ -36,14 +36,16 @@ void PacketSender::Init() {
   Packetizer_packetize(&packetizer, Packetizer_PacketType_Telemetry, DEVICE_ID,
                        0, packetData, SPACE_PACKET_PRIMARY_HEADER_SIZE,
                        DATA_SIZE);
+
+  Serial_CCSDS_Linux_Conf_T device{"/tmp/serialTest",
+                                   Serial_CCSDS_Linux_Baudrate_T_b9600,
+                                   Serial_CCSDS_Linux_Parity_T_odd,
+                                   8,
+                                   0,
+                                   {}};
+  serial.driver_init(BUS_INVALID_ID, DEVICE_INVALID_ID, &device, nullptr);
 }
 
-void PacketSender::SendThreadMethod(void *args) {
-  linux_serial_ccsds_private_data *serial;
-
-  static constexpr int numOfExe{10};
-  while (true) {
-    serial->driver_send(PacketSender::packetData, PACKET_SIZE);
-    usleep(250000);
-  }
+void PacketSender::SendPacket() {
+  serial.driver_send(PacketSender::packetData, PACKET_SIZE);
 }

@@ -23,6 +23,8 @@
 #ifndef PACKET_SENDER_H
 #define PACKET_SENDER_H
 
+#include "linux_serial_ccsds/linux_serial_ccsds.h"
+
 extern "C" {
 #include <Packetizer.h>
 }
@@ -30,13 +32,12 @@ extern "C" {
 class PacketSender {
 public:
   void Init();
-
-  static void SendThreadMethod(void *args);
+  void SendPacket();
 
 private:
   static constexpr uint16_t DEVICE_ID = 0;
 
-  static constexpr char const *TEXT{"1Hello\n\r"};
+  static constexpr char const *TEXT{"Hello\n\r"};
 
   static constexpr size_t DATA_SIZE = sizeof(TEXT);
   static constexpr size_t PACKET_SIZE = SPACE_PACKET_PRIMARY_HEADER_SIZE +
@@ -46,6 +47,7 @@ private:
 private:
   Packetizer packetizer{};
   static uint8_t packetData[PACKET_SIZE];
+  linux_serial_ccsds_private_data serial;
 };
 
 #endif
