@@ -8,9 +8,9 @@ target_sources(LinuxPartition
 
 target_include_directories(LinuxPartition
   PRIVATE   ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_SOURCE_DIR}/TASTE-Linux-Drivers/src
-            ${CMAKE_SOURCE_DIR}/TASTE-Linux-Drivers/src/RuntimeMocks
-            ${CMAKE_SOURCE_DIR}/TASTE-Linux-Drivers/TASTE-Linux-Runtime/src)
+            ${CMAKE_CURRENT_SOURCE_DIR}/TASTE-Linux-Drivers/src
+            ${CMAKE_CURRENT_SOURCE_DIR}/TASTE-Linux-Drivers/src/RuntimeMocks
+            ${CMAKE_CURRENT_SOURCE_DIR}/TASTE-Linux-Drivers/TASTE-Linux-Runtime/src)
 
 target_link_libraries(LinuxPartition
   PRIVATE   common_build_options

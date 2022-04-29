@@ -24,6 +24,7 @@
 #include <cstring>
 
 #include "PacketSender.h"
+#include <unistd.h>
 
 static constexpr size_t NUMBER_OF_DEVICES = 1;
 static constexpr char const *RX_MSG = {"Msg Received\n\r"};
@@ -37,7 +38,6 @@ void msgCallback(const uint8_t *const data, const size_t data_size) {
     }
   } else {
     printf("Linux: PASSED\n\r");
-    tester.SendPacket();
   }
 }
 
@@ -51,9 +51,11 @@ int main() {
 
   // Setup test
   tester.Init();
+
   // Exercise test
-  tester.SendPacket();
   while (true) {
+    tester.SendPacket();
+    usleep(250000);
   }
   return 0;
 }
