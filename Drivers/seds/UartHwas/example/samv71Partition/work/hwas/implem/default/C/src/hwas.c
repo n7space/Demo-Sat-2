@@ -9,12 +9,13 @@
 #include <queue.h>
 #include <task.h>
 
+
 static volatile bool interruptSubscribe[Nvic_InterruptCount] = { 0 };
 
 #define HWAS_INTERRUPT_QUEUE_SIZE 100
 #define HWAS_INTERRUPT_QUEUE_ITEM_SIZE (sizeof(asn1SccInterrupt_Type))
 #define HWAS_INTERRUPT_STACK_SIZE 100
-#define HWAS_INTERRUPT_PRIORITY 1
+#define HWAS_INTERRUPT_PRIORITY 3
 
 #define PERIPH_INTERRUPT_PRIORITY 1
 
@@ -31,6 +32,7 @@ HwasHandleInterrupt(asn1SccInterrupt_Type* irq)
 {
     xQueueSendFromISR(hwasInterruptQueueHandle, irq, NULL);
     hwas_PI_InterruptManagement_DisableInterrupt_Pi(&irq->interrupt);
+    portEND_SWITCHING_ISR(true);
 }
 
 void
@@ -184,6 +186,7 @@ HwasInterruptHandlerTask(void* args)
         asn1SccInterrupt_Type value;
         if(xQueueReceive(hwasInterruptQueueHandle, &value, portMAX_DELAY) == pdTRUE) {
             hwas_RI_InterruptSubscription_Interrupt_Ri(&value);
+            taskYIELD();
         } else {
             assert(false && "Error while reading the queue");
             break;
@@ -248,12 +251,12 @@ hwas_PI_RawMemoryAccess_ReadWord_Pi(const asn1SccSourceAddress* IN_address,
                                     const asn1SccWordMask* IN_mask,
                                     asn1SccWord* OUT_value)
 {
+    *OUT_value = 0;
     uint32_t* address = (uint32_t*)((uint32_t)*IN_address);
     uint32_t maskValue = (uint32_t)*IN_mask;
     uint32_t* addressOut = (uint32_t*)OUT_value;
     *addressOut = maskValue & *address;
 }
-
 
 void
 hwas_PI_RawMemoryAccess_WriteWord_Pi(const asn1SccDestinationAddress* IN_address,
