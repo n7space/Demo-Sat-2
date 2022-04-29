@@ -29,6 +29,8 @@ debug:	work/glue_debug
 	rm -rf work/glue_coverage
 	$(MAKE) -C work check_targets
 	$(MAKE) -C work
+	./buildLinuxPartition.sh
+	
 
 coverage: work/glue_coverage
 	rm -rf work/glue_release
