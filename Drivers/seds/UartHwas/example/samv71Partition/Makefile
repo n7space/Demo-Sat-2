@@ -5,7 +5,7 @@ SPACECREATOR?=spacecreator.AppImage
 # external code you want to compile and link for a specific partition.
 # Use upper case for the partition name:
 #
-# export <PARTITIONNAME>_USER_CFLAGS=...
+export PARTITION_1_USER_CFLAGS=-DSTANDARD_SPACE_PACKET=1
 # export <PARTITIONNAME>_USER_LDFLAGS=...
 # export <PARTITIONNAME>_EXTERNAL_SOURCE_PATH=
 
