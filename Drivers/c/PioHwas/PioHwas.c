@@ -68,8 +68,29 @@ static inline void PioHwas_init_pin_init_pmc(PioHwas_Port port) {
   }
 }
 
-static inline void PioHwas_init_pin_set_control(PioHwas *const pio) {
-  Register_set_bits(pio->port + PIO_HWAS_PER_OFFSET, pio->pin);
+static inline void PioHwas_init_pin_set_control(PioHwas *const pio,
+                                                PioHwas_Control control) {
+  switch (control) {
+  case Pio_Control_Pio:
+    Register_set_bits(pio->port + PIO_HWAS_PER_OFFSET, pio->pin);
+    break;
+  case Pio_Control_PeripheralA:
+    Register_reset_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
+    Register_reset_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
+    break;
+  case Pio_Control_PeripheralB:
+    Register_set_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
+    Register_reset_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
+    break;
+  case Pio_Control_PeripheralC:
+    Register_reset_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
+    Register_set_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
+    break;
+  case Pio_Control_PeripheralD:
+    Register_set_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
+    Register_set_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
+    break;
+  }
 }
 static inline void PioHwas_init_pin_set_direction(PioHwas *const pio,
                                                   PioHwas_Direction direction) {
@@ -140,7 +161,7 @@ void PioHwas_init_pin(PioHwas *const pio,
 
   PioHwas_init_pin_init_pmc(config->port);
 
-  PioHwas_init_pin_set_control(pio);
+  PioHwas_init_pin_set_control(pio, config->control);
   PioHwas_init_pin_set_direction(pio, config->direction);
   PioHwas_init_pin_set_pull(pio, config->pull);
   PioHwas_init_pin_set_filter(pio, config->filter);
