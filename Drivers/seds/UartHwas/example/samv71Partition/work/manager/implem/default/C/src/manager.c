@@ -59,32 +59,22 @@ extern deliver_function interface_to_deliver_function[INTERFACE_MAX_ID];
 
 void managerMsgCallback(uint8_t* const msg, const size_t msgLength);
 
-void manager_startup(void)
+inline static manager_initPacketizer()
 {
+    Packetizer_init(&packetizer);
+    memcpy(&txBuffer[SPACE_PACKET_PRIMARY_HEADER_SIZE], TX_MSG, TX_MSG_LENGTH);
+    Packetizer_packetize(&packetizer, 
+                            Packetizer_PacketType_Telemetry,
+                            SOURCE_DEVICE_ID,
+                            DESTINATION_DEVICE_ID,
+                            txBuffer,
+                            SPACE_PACKET_PRIMARY_HEADER_SIZE,
+                            TX_MSG_LENGTH);
+
+    interface_to_deliver_function[SOURCE_DEVICE_ID] =  managerMsgCallback;
 }
 
-void manager_PI_SendData( void )
-{
-    if(!wasInitialized)
-    {
-        manager_RI_UartHwas_InitUartCmd_Pi(&uart, &config);
-
-        readByte.uart = uart;
-        manager_RI_UartHwas_ReadByteAsyncCmd_Pi(&readByte);
-
-        /// todo check if this can be moved to manager_startup
-        Packetizer_init(&packetizer);
-        memcpy(&txBuffer[SPACE_PACKET_PRIMARY_HEADER_SIZE], TX_MSG, TX_MSG_LENGTH);
-        Packetizer_packetize(&packetizer, 
-                                Packetizer_PacketType_Telemetry,
-                                SOURCE_DEVICE_ID,
-                                DESTINATION_DEVICE_ID,
-                                txBuffer,
-                                SPACE_PACKET_PRIMARY_HEADER_SIZE,
-                                TX_MSG_LENGTH);
-        interface_to_deliver_function[SOURCE_DEVICE_ID] =  managerMsgCallback;
-        Hal_console_usart_init();
-
+inline static manager_initEscaper(){
         Escaper_init(&escaper, 
                         encodedPacketBuffer,
                         ENCODED_PACKET_BUFFER_SIZE,
@@ -93,6 +83,23 @@ void manager_PI_SendData( void )
         Escaper_start_decoder(&escaper);
         size_t index = 0;
         bytesToSend = Escaper_encode_packet(&escaper, txBuffer, TX_PACKET_LENGTH, &index);
+}
+
+void manager_startup(void)
+{
+    manager_initPacketizer();
+    manager_initEscaper();
+    Hal_console_usart_init();
+}
+
+void manager_PI_SendData( void )
+{
+    if(!wasInitialized)
+    {
+        manager_RI_UartHwas_InitUartCmd_Pi(&uart, &config);
+        readByte.uart = uart;
+        manager_RI_UartHwas_ReadByteAsyncCmd_Pi(&readByte);
+
         wasInitialized = true;
     }
 }
