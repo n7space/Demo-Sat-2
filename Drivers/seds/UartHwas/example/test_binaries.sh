@@ -1,7 +1,4 @@
 #!/bin/bash
-
-# 
-
 echo "Test start!"
 
 cd "$( dirname "${BASH_SOURCE[0]}" )" || exit
