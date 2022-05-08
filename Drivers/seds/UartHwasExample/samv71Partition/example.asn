@@ -1,10 +1,7 @@
-EXAMPLE-DATAVIEW DEFINITIONS ::=
+SAMV71PARTITION-DATAVIEW DEFINITIONS ::=
 BEGIN
 
    MyInteger ::= INTEGER (0 .. 10000)
-
--- Byte buffer.
-   ByteBuffer ::= SEQUENCE (SIZE(8)) OF INTEGER(0 .. 255)
 
 -- ASN.1 Type definitions must start with an uppercase
 -- Field names in records (SEQUENCE) must start with a lowercase

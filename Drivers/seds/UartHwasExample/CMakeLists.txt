@@ -8,7 +8,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/../../../../cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/../../../cmake)
 
 include(MessageColors)
 include(LoggingHelper)
