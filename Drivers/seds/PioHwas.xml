@@ -5,7 +5,7 @@
       <IntegerDataType name="PinNumber">
         <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="8" encoding="unsigned" />
         <Range>
-          <MinMaxRange max="15" min="0" rangeType="inclusiveMinInclusiveMax" />
+          <MinMaxRange max="31" min="0" rangeType="inclusiveMinInclusiveMax" />
         </Range>
       </IntegerDataType>
       <EnumeratedDataType name="PioHwas_Port">
@@ -31,10 +31,11 @@
         <LongDescription>Possible I/O line assignment to peripherals.</LongDescription>
         <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
         <EnumerationList>
-          <Enumeration label="PioHwas_Control_PeripheralA" value="0"></Enumeration>
-          <Enumeration label="PioHwas_Control_PeripheralB" value="1"></Enumeration>
-          <Enumeration label="PioHwas_Control_PeripheralC" value="2"></Enumeration>
-          <Enumeration label="PioHwas_Control_PeripheralD" value="3"></Enumeration>
+          <Enumeration label="PioHwas_Control_Pio" value="0"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralA" value="1"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralB" value="2"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralC" value="3"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralD" value="4"></Enumeration>
         </EnumerationList>
       </EnumeratedDataType>
       <ContainerDataType name="PioHwas" shortDescription="Pio descriptor">
@@ -42,6 +43,7 @@
           <Entry name="mPortAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPin" type="com/n7space/Hwas/Word" />
           <Entry name="mPortPerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortOerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortOdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortIfdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
@@ -49,6 +51,7 @@
           <Entry name="mPortCodrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortOdsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortMddrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPuerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortPudrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortOwerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortOwdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>

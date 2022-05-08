@@ -54,6 +54,14 @@
                   <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
                   <Value value="0" />
                 </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortPdrAddress">
+                  <Value value="4" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortPdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortPdrAddress" />
+                </MathOperation>
                 <Assignment outputVariableRef="pioVar.mPortOerAddress">
                   <Value value="16" />
                 </Assignment>
@@ -118,6 +126,14 @@
                   <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
                   <VariableRef variableRef="pioVar.mPortPudrAddress" />
                 </MathOperation>
+                <Assignment outputVariableRef="pioVar.mPortPuerAddress">
+                  <Value value="100" />
+                </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortPuerAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortPuerAddress" />
+                </MathOperation>
                 <Assignment outputVariableRef="pioVar.mPortIfscdrAddress">
                   <Value value="128" />
                 </Assignment>
@@ -153,9 +169,19 @@
                 <Assignment outputVariableRef="pioVar.mPortAbcdsr0Address">
                   <Value value="112" />
                 </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortAbcdsr0Address">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortAbcdsr0Address" />
+                </MathOperation>
                 <Assignment outputVariableRef="pioVar.mPortAbcdsr1Address">
                   <Value value="116" />
                 </Assignment>
+                <MathOperation outputVariableRef="pioVar.mPortAbcdsr1Address">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
+                  <VariableRef variableRef="pioVar.mPortAbcdsr1Address" />
+                </MathOperation>
                 <Assignment outputVariableRef="pioVar.mPortSchmittAddress">
                   <Value value="256" />
                 </Assignment>
@@ -395,21 +421,6 @@
                   <LongDescription>Assign register mask to the variable</LongDescription>
                   <VariableRef variableRef="pioVar.mPin" />
                 </Assignment>
-                <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Per">
-                  <LongDescription>Assign destination address for register write</LongDescription>
-                  <VariableRef variableRef="pioVar.mPortPerAddress" />
-                </Assignment>
-                <SendCommandPrimitive shortDescription="Enable Pio" interface="RawMemoryAccess" command="WriteWord">
-                  <ArgumentValue name="address">
-                    <VariableRef variableRef="destinationAddressVar" />
-                  </ArgumentValue>
-                  <ArgumentValue name="mask">
-                    <VariableRef variableRef="pinMaskVar" />
-                  </ArgumentValue>
-                  <ArgumentValue name="inputValue">
-                    <VariableRef variableRef="pinValueVar" />
-                  </ArgumentValue>
-                </SendCommandPrimitive>
                 <Conditional shortDescription="Init direction">
                   <LongDescription>Is direction equal to Input</LongDescription>
                   <Condition>
@@ -483,9 +494,9 @@
                 </SendCommandPrimitive>
                 <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Pudr">
                   <LongDescription>Assign destination address for register write</LongDescription>
-                  <VariableRef variableRef="pioVar.mPortPudrAddress" />
+                  <VariableRef variableRef="pioVar.mPortPuerAddress" />
                 </Assignment>
-                <SendCommandPrimitive shortDescription="Set no pull. PUDR register" interface="RawMemoryAccess" command="WriteWord">
+                <SendCommandPrimitive shortDescription="Set pull up. PUeR register" interface="RawMemoryAccess" command="WriteWord">
                   <ArgumentValue name="address">
                     <VariableRef variableRef="destinationAddressVar" />
                   </ArgumentValue>
@@ -500,7 +511,7 @@
                   <LongDescription>Assign destination address for register write</LongDescription>
                   <VariableRef variableRef="pioVar.mPortPpddrAddress" />
                 </Assignment>
-                <SendCommandPrimitive shortDescription="Set no pull. PPDDR register" interface="RawMemoryAccess" command="WriteWord">
+                <SendCommandPrimitive shortDescription="Set pull up. PPDDR register" interface="RawMemoryAccess" command="WriteWord">
                   <ArgumentValue name="address">
                     <VariableRef variableRef="destinationAddressVar" />
                   </ArgumentValue>
@@ -541,91 +552,135 @@
                     <VariableRef variableRef="pinValueVar" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
-                <Conditional shortDescription="Set control config">
-                  <LongDescription>Is control peripheral equal to Peripheral A</LongDescription>
+                <Conditional>
+                  <LongDescription>Is control perupheral equal to Pio?</LongDescription>
                   <Condition>
                     <Condition>
                       <FirstOperand variableRef="config.mControlConfig" />
                       <ComparisonOperator>equals</ComparisonOperator>
-                      <Value value="PioHwas_Control_PeripheralA" />
+                      <Value value="PioHwas_Control_Pio" />
                     </Condition>
                   </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Per">
+                      <LongDescription>Assign destination address for register write</LongDescription>
+                      <VariableRef variableRef="pioVar.mPortPerAddress" />
+                    </Assignment>
+                    <SendCommandPrimitive shortDescription="Enable Pio" interface="RawMemoryAccess" command="WriteWord">
+                      <ArgumentValue name="address">
+                        <VariableRef variableRef="destinationAddressVar" />
+                      </ArgumentValue>
+                      <ArgumentValue name="mask">
+                        <VariableRef variableRef="pinMaskVar" />
+                      </ArgumentValue>
+                      <ArgumentValue name="inputValue">
+                        <VariableRef variableRef="pinValueVar" />
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                  </OnConditionTrue>
                   <OnConditionFalse>
-                    <Conditional>
-                      <LongDescription>Is control peripheral equal to Peripheral B</LongDescription>
+                    <Assignment outputVariableRef="destinationAddressVar" shortDescription="Set destination register to Pdr">
+                      <LongDescription>Assign destination address for register write</LongDescription>
+                      <VariableRef variableRef="pioVar.mPortPdrAddress" />
+                    </Assignment>
+                    <SendCommandPrimitive shortDescription="Disable Pio" interface="RawMemoryAccess" command="WriteWord">
+                      <ArgumentValue name="address">
+                        <VariableRef variableRef="destinationAddressVar" />
+                      </ArgumentValue>
+                      <ArgumentValue name="mask">
+                        <VariableRef variableRef="pinMaskVar" />
+                      </ArgumentValue>
+                      <ArgumentValue name="inputValue">
+                        <VariableRef variableRef="pinValueVar" />
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                    <Conditional shortDescription="Set control config">
+                      <LongDescription>Is control peripheral equal to Peripheral A</LongDescription>
                       <Condition>
                         <Condition>
                           <FirstOperand variableRef="config.mControlConfig" />
                           <ComparisonOperator>equals</ComparisonOperator>
-                          <Value value="PioHwas_Control_PeripheralB" />
+                          <Value value="PioHwas_Control_PeripheralA" />
                         </Condition>
                       </Condition>
-                      <OnConditionTrue>
-                        <Assignment outputVariableRef="destinationAddressVar">
-                          <VariableRef variableRef="pioVar.mPortAbcdsr0Address" />
-                        </Assignment>
-                        <SendCommandPrimitive shortDescription="Assign the I/O line to the Peripheral B" interface="RawMemoryAccess" command="WriteWord">
-                          <ArgumentValue name="address">
-                            <VariableRef variableRef="destinationAddressVar" />
-                          </ArgumentValue>
-                          <ArgumentValue name="mask">
-                            <VariableRef variableRef="pinMaskVar" />
-                          </ArgumentValue>
-                          <ArgumentValue name="inputValue">
-                            <VariableRef variableRef="pinValueVar" />
-                          </ArgumentValue>
-                        </SendCommandPrimitive>
-                      </OnConditionTrue>
                       <OnConditionFalse>
-                        <Assignment outputVariableRef="destinationAddressVar">
-                          <VariableRef variableRef="pioVar.mPortAbcdsr1Address" />
-                        </Assignment>
-                        <SendCommandPrimitive shortDescription="Make is possible to assign the I/O line to the Peripheral C or D" interface="RawMemoryAccess" command="WriteWord">
-                          <ArgumentValue name="address">
-                            <VariableRef variableRef="destinationAddressVar" />
-                          </ArgumentValue>
-                          <ArgumentValue name="mask">
-                            <VariableRef variableRef="pinMaskVar" />
-                          </ArgumentValue>
-                          <ArgumentValue name="inputValue">
-                            <VariableRef variableRef="pinValueVar" />
-                          </ArgumentValue>
-                        </SendCommandPrimitive>
                         <Conditional>
-                          <LongDescription>Is control peripheral equal to Peripheral C</LongDescription>
+                          <LongDescription>Is control peripheral equal to Peripheral B</LongDescription>
                           <Condition>
                             <Condition>
                               <FirstOperand variableRef="config.mControlConfig" />
                               <ComparisonOperator>equals</ComparisonOperator>
-                              <Value value="PioHwas_Control_PeripheralC" />
+                              <Value value="PioHwas_Control_PeripheralB" />
                             </Condition>
                           </Condition>
+                          <OnConditionTrue>
+                            <Assignment outputVariableRef="destinationAddressVar">
+                              <VariableRef variableRef="pioVar.mPortAbcdsr0Address" />
+                            </Assignment>
+                            <SendCommandPrimitive shortDescription="Assign the I/O line to the Peripheral B" interface="RawMemoryAccess" command="WriteWord">
+                              <ArgumentValue name="address">
+                                <VariableRef variableRef="destinationAddressVar" />
+                              </ArgumentValue>
+                              <ArgumentValue name="mask">
+                                <VariableRef variableRef="pinMaskVar" />
+                              </ArgumentValue>
+                              <ArgumentValue name="inputValue">
+                                <VariableRef variableRef="pinValueVar" />
+                              </ArgumentValue>
+                            </SendCommandPrimitive>
+                          </OnConditionTrue>
                           <OnConditionFalse>
+                            <Assignment outputVariableRef="destinationAddressVar">
+                              <VariableRef variableRef="pioVar.mPortAbcdsr1Address" />
+                            </Assignment>
+                            <SendCommandPrimitive shortDescription="Make is possible to assign the I/O line to the Peripheral C or D" interface="RawMemoryAccess" command="WriteWord">
+                              <ArgumentValue name="address">
+                                <VariableRef variableRef="destinationAddressVar" />
+                              </ArgumentValue>
+                              <ArgumentValue name="mask">
+                                <VariableRef variableRef="pinMaskVar" />
+                              </ArgumentValue>
+                              <ArgumentValue name="inputValue">
+                                <VariableRef variableRef="pinValueVar" />
+                              </ArgumentValue>
+                            </SendCommandPrimitive>
                             <Conditional>
-                              <LongDescription>Is port equal to port D?</LongDescription>
+                              <LongDescription>Is control peripheral equal to Peripheral C</LongDescription>
                               <Condition>
                                 <Condition>
                                   <FirstOperand variableRef="config.mControlConfig" />
                                   <ComparisonOperator>equals</ComparisonOperator>
-                                  <Value value="PioHwas_Control_PeripheralD" />
+                                  <Value value="PioHwas_Control_PeripheralC" />
                                 </Condition>
                               </Condition>
-                              <OnConditionTrue>
-                                <Assignment outputVariableRef="destinationAddressVar">
-                                  <VariableRef variableRef="pioVar.mPortAbcdsr0Address" />
-                                </Assignment>
-                                <SendCommandPrimitive shortDescription="Assign the I/O line to the Peripheral D" interface="RawMemoryAccess" command="WriteWord">
-                                  <ArgumentValue name="address">
-                                    <VariableRef variableRef="destinationAddressVar" />
-                                  </ArgumentValue>
-                                  <ArgumentValue name="mask">
-                                    <VariableRef variableRef="pinMaskVar" />
-                                  </ArgumentValue>
-                                  <ArgumentValue name="inputValue">
-                                    <VariableRef variableRef="pinValueVar" />
-                                  </ArgumentValue>
-                                </SendCommandPrimitive>
-                              </OnConditionTrue>
+                              <OnConditionFalse>
+                                <Conditional>
+                                  <LongDescription>Is control peripheral equal to Peripheral D?</LongDescription>
+                                  <Condition>
+                                    <Condition>
+                                      <FirstOperand variableRef="config.mControlConfig" />
+                                      <ComparisonOperator>equals</ComparisonOperator>
+                                      <Value value="PioHwas_Control_PeripheralD" />
+                                    </Condition>
+                                  </Condition>
+                                  <OnConditionTrue>
+                                    <Assignment outputVariableRef="destinationAddressVar">
+                                      <VariableRef variableRef="pioVar.mPortAbcdsr0Address" />
+                                    </Assignment>
+                                    <SendCommandPrimitive shortDescription="Assign the I/O line to the Peripheral D" interface="RawMemoryAccess" command="WriteWord">
+                                      <ArgumentValue name="address">
+                                        <VariableRef variableRef="destinationAddressVar" />
+                                      </ArgumentValue>
+                                      <ArgumentValue name="mask">
+                                        <VariableRef variableRef="pinMaskVar" />
+                                      </ArgumentValue>
+                                      <ArgumentValue name="inputValue">
+                                        <VariableRef variableRef="pinValueVar" />
+                                      </ArgumentValue>
+                                    </SendCommandPrimitive>
+                                  </OnConditionTrue>
+                                </Conditional>
+                              </OnConditionFalse>
                             </Conditional>
                           </OnConditionFalse>
                         </Conditional>
@@ -806,6 +861,6 @@
       </Component>
     </ComponentSet>
   </Package>
-  <xi:include href="Pio.xml" xpointer="element(/1/1)" />
   <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="PioHwas.xml" xpointer="element(/1/1)" />
 </DataSheet>

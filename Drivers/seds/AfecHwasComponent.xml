@@ -1,141 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
-  <Package name="com/n7space/AfecHwas">
-    <DataTypeSet>
-      <IntegerDataType name="DestinationAddress">
-        <LongDescription>Type for a memory destination address.</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" sizeInBits="32" byteOrder="littleEndian" />
-        <Range>
-          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="SourceAddress">
-        <LongDescription>Type for a memory source address.</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" sizeInBits="32" byteOrder="littleEndian" />
-        <Range>
-          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="Word">
-        <LongDescription>Machine word.</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="32" />
-        <Range>
-          <MinMaxRange rangeType="inclusiveMinInclusiveMax" min="0" max="4294967295" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="WordMask">
-        <LongDescription>WordMask for a machine word.</LongDescription>
-        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="32" encoding="unsigned" />
-        <Range>
-          <MinMaxRange min="0" max="4294967295" rangeType="inclusiveMinInclusiveMax" />
-        </Range>
-      </IntegerDataType>
-      <EnumeratedDataType name="AfecHwas_Instance">
-        <LongDescription>Definitions of PIO ports</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="32" />
-        <EnumerationList>
-          <Enumeration label="AfecHwas_Instance_Afec0" value="0"></Enumeration>
-          <Enumeration label="AfecHwas_Instance_Afec1" value="1" />
-        </EnumerationList>
-      </EnumeratedDataType>
-      <IntegerDataType name="AfecHwas_StartupTime">
-        <LongDescription>Value expressing possible Startup Times (0-15) refer to documentation</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
-        <Range>
-          <MinMaxRange max="15" min="0" rangeType="inclusiveMinInclusiveMax" />
-        </Range>
-      </IntegerDataType>
-      <IntegerDataType name="AfecHwasChannel">
-        <LongDescription>Number of AFEC channel (0-11, each AFEC instance has 12 channels)</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
-        <Range>
-          <MinMaxRange max="11" min="0" rangeType="inclusiveMinInclusiveMax" />
-        </Range>
-      </IntegerDataType>
-      <ContainerDataType name="AfecHwas" shortDescription="Afec descriptor">
-        <EntryList>
-          <Entry name="mInstanceAddress" type="DestinationAddress"></Entry>
-          <Entry name="mInstanceMrAddress" type="DestinationAddress" />
-          <Entry name="mInstanceEmrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mInstanceChdrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mInstanceCherAddress" type="DestinationAddress"></Entry>
-          <Entry name="mInstanceChsrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mInstanceCrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mInstanceIsrAddress" type="DestinationAddress"></Entry>
-          <Entry name="mInstanceLcdrAddress" type="DestinationAddress"></Entry>
-        </EntryList>
-      </ContainerDataType>
-      <ContainerDataType name="AfecHwasConfig" shortDescription="Afec instance configuration container">
-        <EntryList>
-          <Entry name="mAfecInstance" type="AfecHwas_Instance" />
-          <Entry name="mStartupTime" type="AfecHwas_StartupTime" />
-          <Entry name="mPrescalerValue" type="Word" />
-        </EntryList>
-      </ContainerDataType>
-      <ContainerDataType name="PmcHwas" shortDescription="Pmc descriptor">
-        <EntryList>
-          <Entry name="PMC_PCER0_OFFSET" type="DestinationAddress" />
-          <Entry name="PMC_PCER1_OFFSET" type="DestinationAddress" />
-          <Entry name="PMC_PCxR0_PID29_AFEC0_MASK" type="WordMask" />
-          <Entry name="PMC_PCxR1_PID40_AFEC1_MASK" type="WordMask" />
-        </EntryList>
-      </ContainerDataType>
-    </DataTypeSet>
-    <DeclaredInterfaceSet>
-      <Interface level="subnetwork" name="RawMemoryAccessInterfaceType">
-        <LongDescription>Interface for accessing RAW memory.</LongDescription>
-        <CommandSet>
-          <Command name="ReadWord" mode="sync">
-            <LongDescription>Read word from memory, masked by the mask. The address must be word-aligned.</LongDescription>
-            <Argument name="address" type="SourceAddress" mode="in" />
-            <Argument name="mask" type="WordMask" mode="in" />
-            <Argument name="outputValue" type="Word" mode="out" />
-          </Command>
-          <Command name="WriteWord" mode="sync">
-            <LongDescription>Write word to memory, masked by the mask.  The address must be word-aligned.</LongDescription>
-            <Argument name="address" type="DestinationAddress" mode="in" />
-            <Argument name="mask" type="WordMask" mode="in" />
-            <Argument name="inputValue" type="Word" mode="in" />
-          </Command>
-        </CommandSet>
-      </Interface>
-      <Interface level="functional" name="AfecHwasInterfaceType">
-        <CommandSet>
-          <Command name="InitInstance" mode="sync">
-            <LongDescription>Initializes Afec Instance</LongDescription>
-            <Argument name="afec" type="AfecHwas" mode="out" />
-            <Argument name="config" type="AfecHwasConfig" mode="in" />
-          </Command>
-          <Command name="GetValue" mode="sync">
-            <LongDescription>Gets analog value of the given channel</LongDescription>
-            <Argument name="afec" type="AfecHwas" mode="in" />
-            <Argument name="analogChannel" type="AfecHwasChannel" mode="in" />
-            <Argument name="channelOutput" type="Word" mode="out" />
-          </Command>
-        </CommandSet>
-      </Interface>
-    </DeclaredInterfaceSet>
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="AfecComponent" />
+  <Package name="com/n7space/AfecHwasComponent">
     <ComponentSet>
       <Component name="AfecHwasDriver">
         <LongDescription>SEDS AfecHwas driver implementation</LongDescription>
         <ProvidedInterfaceSet>
-          <Interface name="AfecHwasInterface" type="AfecHwasInterfaceType"></Interface>
+          <Interface name="AfecHwas" type="com/n7space/AfecHwas/AfecHwasInterfaceType"></Interface>
         </ProvidedInterfaceSet>
         <RequiredInterfaceSet>
-          <Interface name="RawMemoryAccess" type="RawMemoryAccessInterfaceType" />
+          <Interface name="RawMemoryAccess" type="com/n7space/Hwas/RawMemoryAccessInterfaceType" />
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
-            <Variable name="afecVar" type="AfecHwas"></Variable>
-            <Variable name="configVar" type="AfecHwasConfig" />
-            <Variable name="pmcVar" type="PmcHwas" />
-            <Variable name="channelVar" type="AfecHwasChannel" />
-            <Variable name="bitsToSetVar" type="Word" />
-            <Variable name="readBitsVar" type="Word" />
-            <Variable name="channelMaskVar" type="WordMask" />
-            <Variable name="destinationAddressVar" type="DestinationAddress" />
-            <Variable name="sourceAddressVar" type="SourceAddress"></Variable>
-            <Variable name="pinMaskVar" type="WordMask" />
+            <Variable name="afecVar" type="com/n7space/AfecHwas/AfecHwas"></Variable>
+            <Variable name="configVar" type="com/n7space/AfecHwas/AfecHwasConfig" />
+            <Variable name="pmcVar" type="com/n7space/AfecHwas/PmcAfecHwas" />
+            <Variable name="channelVar" type="com/n7space/AfecHwas/AfecHwasChannel" />
+            <Variable name="bitsToSetVar" type="com/n7space/Hwas/Word" />
+            <Variable name="readBitsVar" type="com/n7space/Hwas/Word" />
+            <Variable name="channelMaskVar" type="com/n7space/Hwas/WordMask" />
+            <Variable name="destinationAddressVar" type="com/n7space/Hwas/DestinationAddress" />
+            <Variable name="sourceAddressVar" type="com/n7space/Hwas/SourceAddress"></Variable>
+            <Variable name="pinMaskVar" type="com/n7space/Hwas/WordMask" />
           </VariableSet>
           <ActivitySet>
             <Activity name="InitPmc">
@@ -227,7 +114,7 @@
               </Body>
             </Activity>
             <Activity name="InitSync">
-              <Argument name="config" type="AfecHwasConfig"></Argument>
+              <Argument name="config" type="com/n7space/AfecHwas/AfecHwasConfig"></Argument>
               <Body>
                 <Call activity="InitPmc">
                   <LongDescription>Init PMC with definitions </LongDescription>
@@ -369,7 +256,7 @@
                     <Value value="16777216" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
-                <SendCommandPrimitive interface="AfecHwasInterface" command="InitInstance">
+                <SendCommandPrimitive interface="AfecHwas" command="InitInstance">
                   <ArgumentValue name="afec">
                     <VariableRef variableRef="afecVar" />
                   </ArgumentValue>
@@ -377,8 +264,8 @@
               </Body>
             </Activity>
             <Activity name="GetValue">
-              <Argument name="afec" type="AfecHwas" />
-              <Argument name="analogChannel" type="AfecHwasChannel" />
+              <Argument name="afec" type="com/n7space/AfecHwas/AfecHwas" />
+              <Argument name="analogChannel" type="com/n7space/AfecHwas/AfecHwasChannel" />
               <Body>
                 <MathOperation shortDescription="Calculate analogChannel mask" outputVariableRef="channelMaskVar">
                   <Operator operator="pow" />
@@ -517,7 +404,7 @@
                     <Value value="4095" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
-                <SendCommandPrimitive shortDescription="Return the output" interface="AfecHwasInterface" command="GetValue">
+                <SendCommandPrimitive shortDescription="Return the output" interface="AfecHwas" command="GetValue">
                   <ArgumentValue name="channelOutput">
                     <VariableRef variableRef="readBitsVar" />
                   </ArgumentValue>
@@ -530,7 +417,7 @@
               <EntryState name="Off" />
               <State name="Idle" />
               <Transition fromState="Off" toState="Idle" name="Init">
-                <OnCommandPrimitive command="InitInstance" interface="AfecHwasInterface">
+                <OnCommandPrimitive command="InitInstance" interface="AfecHwas">
                   <ArgumentValue name="config" outputVariableRef="configVar"></ArgumentValue>
                 </OnCommandPrimitive>
                 <Do activity="InitSync">
@@ -540,7 +427,7 @@
                 </Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="Get">
-                <OnCommandPrimitive command="GetValue" interface="AfecHwasInterface">
+                <OnCommandPrimitive command="GetValue" interface="AfecHwas">
                   <ArgumentValue name="afec" outputVariableRef="afecVar" />
                   <ArgumentValue name="analogChannel" outputVariableRef="channelVar" />
                 </OnCommandPrimitive>
@@ -559,4 +446,6 @@
       </Component>
     </ComponentSet>
   </Package>
-</PackageFile>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="AfecHwas.xml" xpointer="element(/1/1)" />
+</DataSheet>
