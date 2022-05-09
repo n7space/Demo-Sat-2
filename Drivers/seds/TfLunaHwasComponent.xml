@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="TfLunaComponent" />
+  <Package name="com/n7space/TfLunaHwasComponent">
+    <ComponentSet>
+      <Component name="TfLunaHwasDriver">
+        <LongDescription>SEDS UartHwas driver implementation</LongDescription>
+        <ProvidedInterfaceSet>
+          <Interface name="TfLunaHwas" type="com/n7space/TfLunaHwas/TfLunaHwasInterfaceType"></Interface>
+        </ProvidedInterfaceSet>
+        <RequiredInterfaceSet>
+          <Interface name="UartHwas" type="com/n7space/UartHwas/UartHwasInterfaceType" />
+          <Interface name="TfLunaReturnHwas" type="com/n7space/TfLunaHwas/TfLunaReturnHwasInterfaceType" />
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable name="uartVar" type="com/n7space/UartHwas/UartHwas"></Variable>
+            <Variable name="uartConfigVar" type="com/n7space/UartHwas/UartHwasConfig" />
+            <Variable name="dataVar" type="com/n7space/TfLunaHwas/TfLunaHwas_Data"></Variable>
+            <Variable name="readByteVar" type="com/n7space/Hwas/Word"></Variable>
+            <Variable name="checksumVar" type="com/n7space/Hwas/Word"></Variable>
+            <Variable name="readStateVar" type="com/n7space/TfLunaHwas/TfLunaHwas_ReadSM"></Variable>
+          </VariableSet>
+          <ActivitySet>
+            <Activity name="InitTfLuna">
+              <Argument name="temp" type="com/n7space/Hwas/Word" />
+              <Body>
+                <Assignment outputVariableRef="uartConfigVar">
+                  <LongDescription>Set Uart instance</LongDescription>
+                  <Value value="com/n7space/UartHwas/UartHwas_Instance_2" />
+                </Assignment>
+                <Assignment outputVariableRef="uartConfigVar">
+                  <LongDescription>Set Uart Baudrate</LongDescription>
+                  <Value value="com/n7space/UartHwas/UartHwas_Baudrate9600" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Configure UART2" interface="UartHwas" command="InitUartCmd">
+                  <ArgumentValue name="uart">
+                    <VariableRef variableRef="uartVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="uartConfigVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="readStateVar">
+                  <LongDescription>Init state machine</LongDescription>
+                  <Value value="TfLunaHwas_ReadSM_NotFound" />
+                </Assignment>
+              </Body>
+            </Activity>
+            <Activity name="IncreaseCheckSum">
+              <Argument name="byte" type="com/n7space/Hwas/Word" />
+              <Body>
+                <MathOperation outputVariableRef="checksumVar">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="checksumVar" />
+                  <VariableRef variableRef="byte" />
+                </MathOperation>
+              </Body>
+            </Activity>
+            <Activity name="ResetStateMachine">
+              <Body>
+                <Assignment outputVariableRef="readStateVar">
+                  <Value value="TfLunaHwas_ReadSM_NotFound" />
+                </Assignment>
+                <Assignment outputVariableRef="checksumVar">
+                  <Value value="0" />
+                </Assignment>
+              </Body>
+            </Activity>
+            <Activity name="ReadByteTfLuna">
+              <Argument name="readByte" type="com/n7space/Hwas/Word" />
+              <Body>
+                <Assignment outputVariableRef="readByteVar">
+                  <Value value="readByte" />
+                </Assignment>
+                <Conditional>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="readStateVar" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="TfLunaHwas_ReadSM_NotFound" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Conditional>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="readByteVar" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="TfLunaHwas_DataFrame_Head" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="readStateVar">
+                          <Value value="TfLunaHwas_ReadSM_Head" />
+                        </Assignment>
+                        <Call activity="IncreaseCheckSum">
+                          <ArgumentValue name="byte">
+                            <VariableRef variableRef="readByteVar" />
+                          </ArgumentValue>
+                        </Call>
+                      </OnConditionTrue>
+                      <OnConditionFalse>
+                        <Call activity="ResetStateMachine" />
+                        <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                          <ArgumentValue name="err">
+                            <Value value="TfLunaHwas_DataFrameErr_NoHead1" />
+                          </ArgumentValue>
+                        </SendCommandPrimitive>
+                      </OnConditionFalse>
+                    </Conditional>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="readStateVar" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="TfLunaHwas_ReadSM_Head" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Conditional>
+                          <Condition>
+                            <Condition>
+                              <FirstOperand variableRef="readByteVar" />
+                              <ComparisonOperator>equals</ComparisonOperator>
+                              <Value value="TfLunaHwas_DataFrame_Head" />
+                            </Condition>
+                          </Condition>
+                          <OnConditionTrue>
+                            <Assignment outputVariableRef="readStateVar">
+                              <Value value="TfLunaHwas_ReadSM_DisL" />
+                            </Assignment>
+                            <Call activity="IncreaseCheckSum">
+                              <ArgumentValue name="byte">
+                                <VariableRef variableRef="readByteVar" />
+                              </ArgumentValue>
+                            </Call>
+                          </OnConditionTrue>
+                          <OnConditionFalse>
+                            <Call activity="ResetStateMachine" />
+                            <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                              <ArgumentValue name="err">
+                                <Value value="TfLunaHwas_DataFrameErr_NoHead2" />
+                              </ArgumentValue>
+                            </SendCommandPrimitive>
+                          </OnConditionFalse>
+                        </Conditional>
+                      </OnConditionTrue>
+                      <OnConditionFalse>
+                        <Conditional>
+                          <Condition>
+                            <Condition>
+                              <FirstOperand variableRef="readStateVar" />
+                              <ComparisonOperator>equals</ComparisonOperator>
+                              <Value value="TfLunaHwas_ReadSM_DisL" />
+                            </Condition>
+                          </Condition>
+                          <OnConditionTrue>
+                            <Assignment outputVariableRef="readStateVar">
+                              <Value value="TfLunaHwas_ReadSM_DisH" />
+                            </Assignment>
+                            <Call activity="IncreaseCheckSum">
+                              <ArgumentValue name="byte">
+                                <VariableRef variableRef="readByteVar" />
+                              </ArgumentValue>
+                            </Call>
+                            <Assignment outputVariableRef="dataVar.mDistance">
+                              <VariableRef variableRef="readByteVar" />
+                            </Assignment>
+                          </OnConditionTrue>
+                          <OnConditionFalse>
+                            <Conditional>
+                              <Condition>
+                                <Condition>
+                                  <FirstOperand variableRef="readStateVar" />
+                                  <ComparisonOperator>equals</ComparisonOperator>
+                                  <Value value="TfLunaHwas_ReadSM_DisH" />
+                                </Condition>
+                              </Condition>
+                              <OnConditionTrue>
+                                <Assignment outputVariableRef="readStateVar">
+                                  <Value value="TfLunaHwas_ReadSM_StrengthL" />
+                                </Assignment>
+                                <Call activity="IncreaseCheckSum">
+                                  <ArgumentValue name="byte">
+                                    <VariableRef variableRef="readByteVar" />
+                                  </ArgumentValue>
+                                </Call>
+                                <MathOperation outputVariableRef="dataVar.mDistance">
+                                  <LongDescription>Add MSB </LongDescription>
+                                  <Operator operator="add" />
+                                  <Operator operator="multiply" />
+                                  <VariableRef variableRef="readByteVar" />
+                                  <Value value="256" />
+                                  <VariableRef variableRef="dataVar.mDistance" />
+                                </MathOperation>
+                              </OnConditionTrue>
+                              <OnConditionFalse>
+                                <Conditional>
+                                  <Condition>
+                                    <Condition>
+                                      <FirstOperand variableRef="readStateVar" />
+                                      <ComparisonOperator>equals</ComparisonOperator>
+                                      <Value value="TfLunaHwas_ReadSM_StrengthL" />
+                                    </Condition>
+                                  </Condition>
+                                  <OnConditionTrue>
+                                    <Assignment outputVariableRef="readStateVar">
+                                      <Value value="TfLunaHwas_ReadSM_StrengthH" />
+                                    </Assignment>
+                                    <Call activity="IncreaseCheckSum">
+                                      <ArgumentValue name="byte">
+                                        <VariableRef variableRef="readByteVar" />
+                                      </ArgumentValue>
+                                    </Call>
+                                    <Assignment outputVariableRef="dataVar.mStrength">
+                                      <LongDescription>Add LSB </LongDescription>
+                                      <VariableRef variableRef="readByteVar" />
+                                    </Assignment>
+                                  </OnConditionTrue>
+                                  <OnConditionFalse>
+                                    <Conditional>
+                                      <Condition>
+                                        <Condition>
+                                          <FirstOperand variableRef="readStateVar" />
+                                          <ComparisonOperator>equals</ComparisonOperator>
+                                          <Value value="TfLunaHwas_ReadSM_StrengthH" />
+                                        </Condition>
+                                      </Condition>
+                                      <OnConditionTrue>
+                                        <Assignment outputVariableRef="readStateVar">
+                                          <Value value="TfLunaHwas_ReadSM_TempL" />
+                                        </Assignment>
+                                        <Call activity="IncreaseCheckSum">
+                                          <ArgumentValue name="byte">
+                                            <VariableRef variableRef="readByteVar" />
+                                          </ArgumentValue>
+                                        </Call>
+                                        <MathOperation outputVariableRef="dataVar.mStrength">
+                                          <LongDescription>Add MSB </LongDescription>
+                                          <Operator operator="add" />
+                                          <Operator operator="multiply" />
+                                          <VariableRef variableRef="readByteVar" />
+                                          <Value value="256" />
+                                          <VariableRef variableRef="dataVar.mStrength" />
+                                        </MathOperation>
+                                      </OnConditionTrue>
+                                      <OnConditionFalse>
+                                        <Conditional>
+                                          <Condition>
+                                            <Condition>
+                                              <FirstOperand variableRef="readStateVar" />
+                                              <ComparisonOperator>equals</ComparisonOperator>
+                                              <Value value="TfLunaHwas_ReadSM_TempL" />
+                                            </Condition>
+                                          </Condition>
+                                          <OnConditionTrue>
+                                            <Assignment outputVariableRef="readStateVar">
+                                              <Value value="TfLunaHwas_ReadSM_TempH" />
+                                            </Assignment>
+                                            <Call activity="IncreaseCheckSum">
+                                              <ArgumentValue name="byte">
+                                                <VariableRef variableRef="readByteVar" />
+                                              </ArgumentValue>
+                                            </Call>
+                                            <Assignment outputVariableRef="dataVar.mTemp">
+                                              <LongDescription>Add LSB </LongDescription>
+                                              <VariableRef variableRef="readByteVar" />
+                                            </Assignment>
+                                          </OnConditionTrue>
+                                          <OnConditionFalse>
+                                            <Conditional>
+                                              <Condition>
+                                                <Condition>
+                                                  <FirstOperand variableRef="readStateVar" />
+                                                  <ComparisonOperator>equals</ComparisonOperator>
+                                                  <Value value="TfLunaHwas_ReadSM_TempH" />
+                                                </Condition>
+                                              </Condition>
+                                              <OnConditionTrue>
+                                                <Assignment outputVariableRef="readStateVar">
+                                                  <Value value="TfLunaHwas_ReadSM_Checksum" />
+                                                </Assignment>
+                                                <Call activity="IncreaseCheckSum">
+                                                  <ArgumentValue name="byte">
+                                                    <VariableRef variableRef="readByteVar" />
+                                                  </ArgumentValue>
+                                                </Call>
+                                                <MathOperation outputVariableRef="dataVar.mTemp">
+                                                  <LongDescription>Add MSB </LongDescription>
+                                                  <Operator operator="add" />
+                                                  <Operator operator="multiply" />
+                                                  <VariableRef variableRef="readByteVar" />
+                                                  <Value value="256" />
+                                                  <VariableRef variableRef="dataVar.mTemp" />
+                                                </MathOperation>
+                                              </OnConditionTrue>
+                                              <OnConditionFalse>
+                                                <Conditional>
+                                                  <Condition>
+                                                    <Condition>
+                                                      <FirstOperand variableRef="readStateVar" />
+                                                      <ComparisonOperator>equals</ComparisonOperator>
+                                                      <Value value="TfLunaHwas_ReadSM_Checksum" />
+                                                    </Condition>
+                                                  </Condition>
+                                                  <OnConditionTrue>
+                                                    <Conditional>
+                                                      <Condition>
+                                                        <Condition>
+                                                          <FirstOperand variableRef="checksumVar" />
+                                                          <ComparisonOperator>equals</ComparisonOperator>
+                                                          <SecondOperand variableRef="readByteVar" />
+                                                        </Condition>
+                                                      </Condition>
+                                                      <OnConditionTrue>
+                                                        <Call activity="ResetStateMachine" />
+                                                        <SendCommandPrimitive command="ReadDataCmd" interface="TfLunaReturnHwas">
+                                                          <ArgumentValue name="lidarTfLunaData">
+                                                            <VariableRef variableRef="dataVar" />
+                                                          </ArgumentValue>
+                                                        </SendCommandPrimitive>
+                                                      </OnConditionTrue>
+                                                      <OnConditionFalse>
+                                                        <Call activity="ResetStateMachine" />
+                                                        <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                                                          <ArgumentValue name="err">
+                                                            <Value value="TfLunaHwas_DataFrameErr_WrongCrc" />
+                                                          </ArgumentValue>
+                                                        </SendCommandPrimitive>
+                                                      </OnConditionFalse>
+                                                    </Conditional>
+                                                  </OnConditionTrue>
+                                                  <OnConditionFalse>
+                                                    <Call activity="ResetStateMachine" />
+                                                    <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                                                      <ArgumentValue name="err">
+                                                        <Value value="TfLunaHwas_DataFrameErr_WrongState" />
+                                                      </ArgumentValue>
+                                                    </SendCommandPrimitive>
+                                                  </OnConditionFalse>
+                                                </Conditional>
+                                              </OnConditionFalse>
+                                            </Conditional>
+                                          </OnConditionFalse>
+                                        </Conditional>
+                                      </OnConditionFalse>
+                                    </Conditional>
+                                  </OnConditionFalse>
+                                </Conditional>
+                              </OnConditionFalse>
+                            </Conditional>
+                          </OnConditionFalse>
+                        </Conditional>
+                      </OnConditionFalse>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+              </Body>
+            </Activity>
+          </ActivitySet>
+          <StateMachineSet>
+            <StateMachine name="TfLunaDriver">
+              <EntryState name="Off" />
+              <State name="Idle" />
+              <Transition fromState="Off" toState="Idle" name="Init">
+                <OnCommandPrimitive command="InitTfLunaCmd" interface="TfLunaHwas">
+                  <ArgumentValue name="temp" outputVariableRef="readByteVar" />
+                </OnCommandPrimitive>
+                <Do activity="InitTfLuna">
+                  <ArgumentValue name="temp">
+                    <VariableRef variableRef="readByteVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="ReadByte">
+                <OnCommandPrimitive command="ReadByteAsyncCmd" interface="UartHwas">
+                  <ArgumentValue name="byteToRead" outputVariableRef="readByteVar" />
+                </OnCommandPrimitive>
+                <Do activity="ReadByteTfLuna">
+                  <ArgumentValue name="readByte">
+                    <VariableRef variableRef="readByteVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+            </StateMachine>
+          </StateMachineSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+  </Package>
+  <xi:include href="UartHwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="TfLunaHwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+</DataSheet>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/TfLunaHwas">
+    <DataTypeSet>
+      <EnumeratedDataType name="TfLunaHwas_ReadSM">
+        <LongDescription>Enum listing UART read data frame state machine states</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="TfLunaHwas_ReadSM_NotFound" value="0" />
+          <Enumeration label="TfLunaHwas_ReadSM_Head" value="1"></Enumeration>
+          <Enumeration label="TfLunaHwas_ReadSM_DisL" value="3" />
+          <Enumeration label="TfLunaHwas_ReadSM_DisH" value="4" />
+          <Enumeration label="TfLunaHwas_ReadSM_StrengthL" value="5" />
+          <Enumeration label="TfLunaHwas_ReadSM_StrengthH" value="6" />
+          <Enumeration label="TfLunaHwas_ReadSM_TempL" value="7" />
+          <Enumeration label="TfLunaHwas_ReadSM_TempH" value="8" />
+          <Enumeration label="TfLunaHwas_ReadSM_Checksum" value="9" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <EnumeratedDataType name="TfLunaHwas_DataFrame">
+        <LongDescription>Enum listing data frame elements</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="TfLunaHwas_DataFrame_Head" value="89" />
+          <Enumeration label="TfLunaHwas_DataFrame_Length" value="9" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <ContainerDataType name="TfLunaHwas_Data" shortDescription="Lidar data container (Distance, signal strength and temperature)">
+        <EntryList>
+          <Entry name="mDistance" type="com/n7space/Hwas/Word" />
+          <Entry name="mStrength" type="com/n7space/Hwas/Word" />
+          <Entry name="mTemp" type="com/n7space/Hwas/Word" />
+        </EntryList>
+      </ContainerDataType>
+      <EnumeratedDataType name="TfLunaHwas_DataFrameErr">
+        <LongDescription>Enum listing possible rx errors</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="TfLunaHwas_DataFrameErr_NoHead1" value="0" />
+          <Enumeration label="TfLunaHwas_DataFrameErr_NoHead2" value="1" />
+          <Enumeration label="TfLunaHwas_DataFrameErr_WrongCrc" value="2" />
+          <Enumeration label="TfLunaHwas_DataFrameErr_WrongState" value="3" />
+        </EnumerationList>
+      </EnumeratedDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="functional" name="TfLunaHwasInterfaceType">
+        <CommandSet>
+          <Command name="InitTfLunaCmd" mode="sync">
+            <LongDescription>Initializes uart for communication with LIDAR</LongDescription>
+            <Argument name="temp" type="com/n7space/Hwas/Word" mode="in" />
+          </Command>
+        </CommandSet>
+      </Interface>
+      <Interface level="functional" name="TfLunaReturnHwasInterfaceType">
+        <CommandSet>
+          <Command name="ReadDataCmd" mode="sync">
+            <LongDescription>Reads one byte asynchroniously</LongDescription>
+            <Argument name="lidarTfLunaData" type="TfLunaHwas_Data" mode="out" />
+          </Command>
+          <Command name="ErrorReadDataCmd" mode="sync">
+            <LongDescription>Reports error</LongDescription>
+            <Argument name="err" type="TfLunaHwas_DataFrameErr" mode="out" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+</PackageFile>
