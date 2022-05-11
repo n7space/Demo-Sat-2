@@ -1,0 +1,11 @@
+COM-N7SPACE-SUNSENSORHWAS DEFINITIONS ::= BEGIN
+ReadDataAsyncCmd-Type []
+{
+    dummyIn []
+}
+ReadDataAsyncCmd-Type1 []
+{
+    sensorOutput []
+}
+END
+

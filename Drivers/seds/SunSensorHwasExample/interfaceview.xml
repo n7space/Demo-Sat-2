@@ -1,0 +1,174 @@
+<InterfaceView asn1file="SunSensorHwasExample.acn">
+<Function name="SunSensorHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="15200 49500 95800 58300"/>
+<Provided_Interface name="SunSensorHwas_InitSunSensorCmd_Pi" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="afecConfig" type="AfecHwasConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="45600 58300"/>
+</Provided_Interface>
+
+<Provided_Interface name="SunSensorHwas_ReadDataAsyncCmd_Pi" kind="Sporadic" layer="default" priority="1" stack_size="4096" queue_size="1" wcet="0" miat="0">
+    <Input_Parameter name="InputParam" type="ReadDataAsyncCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="17300 58300"/>
+</Provided_Interface>
+
+<Required_Interface name="SunSensorHwas_ReadDataAsyncCmd_Ri" kind="Sporadic" layer="default" priority="1" stack_size="4096" queue_size="1" wcet="0" miat="0">
+    <Input_Parameter name="InputParam" type="ReadDataAsyncCmd-Type1" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="75900 58300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="AfecHwas_InitInstance_Ri" kind="Unprotected" layer="default" wcet="0">
+    <Output_Parameter name="afec" type="AfecHwas" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="AfecHwasConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="61900 49500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="AfecHwas_GetValue_Ri" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="afec" type="AfecHwas" encoding="NATIVE"/>
+    <Input_Parameter name="analogChannel" type="AfecHwasChannel" encoding="NATIVE"/>
+    <Output_Parameter name="channelOutput" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="17400 49500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function name="Manager" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="14900 67000 95700 75000"/>
+<Provided_Interface name="SunSensorHwas_ReadDataAsyncCmd_Ri" kind="Sporadic" layer="default" priority="1" stack_size="4096" queue_size="1" wcet="0" miat="0">
+    <Input_Parameter name="InputParam" type="ReadDataAsyncCmd-Type1" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="75800 67000"/>
+</Provided_Interface>
+
+<Provided_Interface name="ReadData" kind="Cyclic" layer="default" priority="1" stack_size="4096" dispatch_offset="0" wcet="0" period="1000">
+    <Property name="Taste::coordinates" value="95700 70500"/>
+</Provided_Interface>
+
+<Required_Interface name="SunSensorHwas_ReadDataAsyncCmd_Pi" kind="Sporadic" layer="default" priority="1" stack_size="4096" queue_size="1" wcet="0" miat="0">
+    <Input_Parameter name="InputParam" type="ReadDataAsyncCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="17300 67000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="SunSensorHwas_InitSunSensorCmd_Pi" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="afecConfig" type="AfecHwasConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="45500 67000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function name="HWAS" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="15200 18700 95200 26700"/>
+<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="18000 26700"/>
+</Provided_Interface>
+
+<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="61700 26700"/>
+</Provided_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function name="AfecHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="15300 34200 95600 42500"/>
+<Provided_Interface name="AfecHwas_InitInstance_Pi" kind="Unprotected" layer="default" wcet="0">
+    <Output_Parameter name="afec" type="AfecHwas" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="AfecHwasConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="61900 42500"/>
+</Provided_Interface>
+
+<Provided_Interface name="AfecHwas_GetValue_Pi" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="afec" type="AfecHwas" encoding="NATIVE"/>
+    <Input_Parameter name="analogChannel" type="AfecHwasChannel" encoding="NATIVE"/>
+    <Output_Parameter name="channelOutput" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="17400 42500"/>
+</Provided_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="18000 34200"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Unprotected" layer="default" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="61700 34200"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Connection >
+    <Source func_name="SunSensorHwasDriver" ri_name="AfecHwas_GetValue_Ri"/>
+    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_GetValue_Pi"/>
+    <Property name="Taste::coordinates" value="17400 48900 17400 42800"/>
+</Connection>
+
+<Connection >
+    <Source func_name="SunSensorHwasDriver" ri_name="AfecHwas_InitInstance_Ri"/>
+    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_InitInstance_Pi"/>
+    <Property name="Taste::coordinates" value="61900 48900 61900 42800"/>
+</Connection>
+
+<Connection >
+    <Source func_name="AfecHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
+    <Property name="Taste::coordinates" value="18000 33600 18000 27000"/>
+</Connection>
+
+<Connection >
+    <Source func_name="Manager" ri_name="SunSensorHwas_ReadDataAsyncCmd_Pi"/>
+    <Target func_name="SunSensorHwasDriver" pi_name="SunSensorHwas_ReadDataAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="17300 66400 17300 58600"/>
+</Connection>
+
+<Connection >
+    <Source func_name="SunSensorHwasDriver" ri_name="SunSensorHwas_ReadDataAsyncCmd_Ri"/>
+    <Target func_name="Manager" pi_name="SunSensorHwas_ReadDataAsyncCmd_Ri"/>
+    <Property name="Taste::coordinates" value="75900 58900 75800 66700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="Manager" ri_name="SunSensorHwas_InitSunSensorCmd_Pi"/>
+    <Target func_name="SunSensorHwasDriver" pi_name="SunSensorHwas_InitSunSensorCmd_Pi"/>
+    <Property name="Taste::coordinates" value="45500 66400 45600 58600"/>
+</Connection>
+
+<Connection >
+    <Source func_name="AfecHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
+    <Property name="Taste::coordinates" value="61700 33600 61700 27000"/>
+</Connection>
+
+</InterfaceView>

@@ -1,0 +1,14 @@
+COM-N7SPACE-SUNSENSORHWAS DEFINITIONS ::= BEGIN
+IMPORTS
+Word FROM COM-N7SPACE-HWAS
+;
+ReadDataAsyncCmd-Type ::= SEQUENCE 
+{ 
+    dummyIn Word(0 .. 4294967295)
+} 
+ReadDataAsyncCmd-Type1 ::= SEQUENCE 
+{ 
+    sensorOutput Word(0 .. 4294967295)
+} 
+END
+
