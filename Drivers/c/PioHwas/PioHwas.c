@@ -71,22 +71,22 @@ static inline void PioHwas_init_pin_init_pmc(PioHwas_Port port) {
 static inline void PioHwas_init_pin_set_control(PioHwas *const pio,
                                                 PioHwas_Control control) {
   switch (control) {
-  case Pio_Control_Pio:
+  case PioHwas_Control_Pio:
     Register_set_bits(pio->port + PIO_HWAS_PER_OFFSET, pio->pin);
     break;
-  case Pio_Control_PeripheralA:
+  case PioHwas_Control_PeripheralA:
     Register_reset_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
     Register_reset_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
     break;
-  case Pio_Control_PeripheralB:
+  case PioHwas_Control_PeripheralB:
     Register_set_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
     Register_reset_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
     break;
-  case Pio_Control_PeripheralC:
+  case PioHwas_Control_PeripheralC:
     Register_reset_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
     Register_set_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
     break;
-  case Pio_Control_PeripheralD:
+  case PioHwas_Control_PeripheralD:
     Register_set_bits(pio->port + PIO_HWAS_ABCDSR0_OFFSET, pio->pin);
     Register_set_bits(pio->port + PIO_HWAS_ABCDSR1_OFFSET, pio->pin);
     break;
