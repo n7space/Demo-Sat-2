@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="SunSensorComponent" />
+  <Package name="com/n7space/SunSensorComponent">
+    <ComponentSet>
+      <Component name="SunSensorHwasDriver">
+        <LongDescription>SEDS SunSensor driver implementation</LongDescription>
+        <ProvidedInterfaceSet>
+          <Interface name="SunSensorHwas" type="com/n7space/SunSensorHwas/SunSensorHwasInterfaceType"></Interface>
+        </ProvidedInterfaceSet>
+        <RequiredInterfaceSet>
+          <Interface name="AfecHwas" type="com/n7space/AfecHwas/AfecHwasInterfaceType" />
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable name="afecVar" type="com/n7space/AfecHwas/AfecHwas"></Variable>
+            <Variable name="afecConfigVar" type="com/n7space/AfecHwas/AfecHwasConfig" />
+            <Variable name="dataVar" type="com/n7space/Hwas/Word"></Variable>
+          </VariableSet>
+          <ActivitySet>
+            <Activity name="InitSunSensor">
+              <Body>
+                <Assignment outputVariableRef="afecConfigVar.mAfecInstance">
+                  <LongDescription>Set Afec instance to instance 0</LongDescription>
+                  <Value value="AfecHwas_Instance_Afec0" />
+                </Assignment>
+                <Assignment outputVariableRef="afecConfigVar.mStartupTime">
+                  <Value value="3" />
+                </Assignment>
+                <Assignment outputVariableRef="afecConfigVar.mPrescalerValue">
+                  <Value value="2" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Configure Afec" interface="AfecHwas" command="InitInstance">
+                  <ArgumentValue name="uart">
+                    <VariableRef variableRef="afecVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="afecConfigVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="ReadData">
+              <Body>
+                <SendCommandPrimitive command="GetValue" interface="AfecHwas" shortDescription="Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3">
+                  <ArgumentValue name="afec">
+                    <VariableRef variableRef="afecVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="analogChannel">
+                    <Value value="8" />
+                  </ArgumentValue>
+                  <ArgumentValue name="channelOutput">
+                    <VariableRef variableRef="dataVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive command="ReadDataAsyncCmd" interface="SunSensorHwas">
+                  <ArgumentValue name="sensorOutput">
+                    <VariableRef variableRef="dataVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+          </ActivitySet>
+          <StateMachineSet>
+            <StateMachine name="SunSensorDriver">
+              <EntryState name="Off" />
+              <State name="Idle" />
+              <Transition fromState="Off" toState="Idle" name="Init">
+                <OnCommandPrimitive command="InitSunSensorCmd" interface="SunSensorHwas"></OnCommandPrimitive>
+                <Do activity="InitSunSensor"></Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="ReadSensorOutput">
+                <OnCommandPrimitive command="ReadDataAsyncCmd" interface="SunSensorHwas">
+                  <ArgumentValue name="dummyIn" outputVariableRef="dataVar" />
+                </OnCommandPrimitive>
+                <Do activity="ReadData"></Do>
+              </Transition>
+            </StateMachine>
+          </StateMachineSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+  </Package>
+  <xi:include href="SunSensorHwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="AfecHwas.xml" xpointer="element(/1/1)" />
+</DataSheet>
