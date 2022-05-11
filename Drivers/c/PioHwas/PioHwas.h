@@ -124,11 +124,11 @@ typedef enum {
 
 /// \brief Possible I/O line assignment to peripherals.
 typedef enum {
-  Pio_Control_Pio,         ///< General purpose I/O mode.
-  Pio_Control_PeripheralA, ///< Peripheral A mode.
-  Pio_Control_PeripheralB, ///< Peripheral B mode.
-  Pio_Control_PeripheralC, ///< Peripheral C mode.
-  Pio_Control_PeripheralD, ///< Peripheral D mode.
+  PioHwas_Control_Pio,         ///< General purpose I/O mode.
+  PioHwas_Control_PeripheralA, ///< Peripheral A mode.
+  PioHwas_Control_PeripheralB, ///< Peripheral B mode.
+  PioHwas_Control_PeripheralC, ///< Peripheral C mode.
+  PioHwas_Control_PeripheralD, ///< Peripheral D mode.
 } PioHwas_Control;
 
 /// \brief I/O line configuration structure.
