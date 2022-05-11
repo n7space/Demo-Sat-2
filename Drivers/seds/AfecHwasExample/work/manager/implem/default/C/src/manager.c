@@ -9,6 +9,11 @@
 
 #include "manager.h"
 
+#include <Hal.h>
+
+#include <stdio.h>
+#include <string.h>
+
 static bool initialized = false;
 static asn1SccAfecHwas afec = {};
 static asn1SccAfecHwasConfig config = {.mAfecInstance = asn1SccafecHwas_Instance_Afec0, .mStartupTime = 10,.mPrescalerValue = 2};
@@ -17,18 +22,20 @@ static asn1SccWord channelNumber = 11;
 
 void manager_startup(void)
 {
-   // Write your initialisation code, but DO NOT CALL REQUIRED INTERFACES
-   // puts ("[Manager] Startup");
+    Hal_console_usart_init();
 }
 
 void manager_PI_GetTemperature(void)
 {
    // Write your code here
+   uint8_t buffer[30];
     if(!initialized)
     {
         manager_RI_AfecHwasInterface_InitInstance_Pi(&afec, &config);
         initialized = true;
     }else {
         manager_RI_AfecHwasInterface_GetValue_Pi(&afec, &channelNumber, &tempRawValue);
+        sprintf(buffer, "Voltage value %i\n", tempRawValue);
+        Hal_console_usart_write(buffer, strlen(buffer));
     }
 }
