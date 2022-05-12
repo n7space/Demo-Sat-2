@@ -7,9 +7,12 @@
         <LongDescription>SEDS AfecHwas driver implementation</LongDescription>
         <ProvidedInterfaceSet>
           <Interface name="AfecHwas" type="com/n7space/AfecHwas/AfecHwasInterfaceType"></Interface>
+          <Interface name="InterruptSubscription" type="com/n7space/Hwas/InterruptSubscriptionInterfaceType" />
         </ProvidedInterfaceSet>
         <RequiredInterfaceSet>
           <Interface name="RawMemoryAccess" type="com/n7space/Hwas/RawMemoryAccessInterfaceType" />
+          <Interface name="InterruptSubscriptionManagement" type="com/n7space/Hwas/InterruptSubscriptionManagementInterfaceType" />
+          <Interface name="InterruptManagement" type="com/n7space/Hwas/InterruptManagementInterfaceType" />
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
@@ -23,6 +26,8 @@
             <Variable name="destinationAddressVar" type="com/n7space/Hwas/DestinationAddress" />
             <Variable name="sourceAddressVar" type="com/n7space/Hwas/SourceAddress"></Variable>
             <Variable name="pinMaskVar" type="com/n7space/Hwas/WordMask" />
+            <Variable name="chOutputVar" type="com/n7space/AfecHwas/ConversionData" />
+            <Variable name="irqNumberVar" type="com/n7space/Hwas/InterruptNumber"></Variable>
           </VariableSet>
           <ActivitySet>
             <Activity name="InitPmc">
@@ -94,6 +99,14 @@
                   <Operator operator="add" />
                   <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
                   <VariableRef variableRef="afecVar.mInstanceCrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceIerAddress">
+                  <Value value="36" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceIerAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceIerAddress" />
                 </MathOperation>
                 <Assignment outputVariableRef="afecVar.mInstanceIsrAddress">
                   <Value value="48" />
@@ -265,8 +278,21 @@
             </Activity>
             <Activity name="GetValue">
               <Argument name="afec" type="com/n7space/AfecHwas/AfecHwas" />
-              <Argument name="analogChannel" type="com/n7space/AfecHwas/AfecHwasChannel" />
+              <Argument name="analogChannel" type="com/n7space/AfecHwas/AfecHwasChannel"></Argument>
               <Body>
+                <Assignment outputVariableRef="irqNumberVar">
+                  <Value value="29" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Enable Uart interrupt" interface="InterruptManagement" command="EnableInterrupt">
+                  <ArgumentValue name="interrupt">
+                    <VariableRef variableRef="irqNumberVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive shortDescription="Subscribe to Uart interrupt" interface="InterruptSubscriptionManagement" command="SubscribeToInterrupt">
+                  <ArgumentValue name="interrupt">
+                    <VariableRef variableRef="irqNumberVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
                 <MathOperation shortDescription="Calculate analogChannel mask" outputVariableRef="channelMaskVar">
                   <Operator operator="pow" />
                   <Value value="2" />
@@ -277,6 +303,21 @@
                   <VariableRef variableRef="afecVar.mInstanceCherAddress"></VariableRef>
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Enable chosen analogChannel" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="channelMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="channelMaskVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceIerAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Enable the interrupt for the given channel" interface="RawMemoryAccess" command="WriteWord">
                   <ArgumentValue name="address">
                     <VariableRef variableRef="destinationAddressVar" />
                   </ArgumentValue>
@@ -307,32 +348,6 @@
                     <VariableRef variableRef="bitsToSetVar" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
-                <Assignment outputVariableRef="sourceAddressVar">
-                  <LongDescription>Assign destination register address</LongDescription>
-                  <VariableRef variableRef="afecVar.mInstanceChsrAddress"></VariableRef>
-                </Assignment>
-                <Iteration iteratorVariableRef="readBitsVar">
-                  <LongDescription>(TODO: change this using onTimer or async read) Wait for analogChannel to be enabled</LongDescription>
-                  <StartAt>
-                    <Value value="0"></Value>
-                  </StartAt>
-                  <EndAt>
-                    <VariableRef variableRef="channelMaskVar" />
-                  </EndAt>
-                  <Do>
-                    <SendCommandPrimitive shortDescription="Get analogChannel status register value" interface="RawMemoryAccess" command="ReadWord">
-                      <ArgumentValue name="address">
-                        <VariableRef variableRef="sourceAddressVar" />
-                      </ArgumentValue>
-                      <ArgumentValue name="mask">
-                        <VariableRef variableRef="channelMaskVar" />
-                      </ArgumentValue>
-                      <ArgumentValue name="outputValue">
-                        <VariableRef variableRef="readBitsVar" />
-                      </ArgumentValue>
-                    </SendCommandPrimitive>
-                  </Do>
-                </Iteration>
                 <Assignment outputVariableRef="destinationAddressVar">
                   <LongDescription>Assign destination register address</LongDescription>
                   <VariableRef variableRef="afecVar.mInstanceCrAddress"></VariableRef>
@@ -348,47 +363,39 @@
                     <Value value="2" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
-                <Assignment outputVariableRef="sourceAddressVar">
-                  <LongDescription>Assign destination register address</LongDescription>
-                  <VariableRef variableRef="afecVar.mInstanceIsrAddress"></VariableRef>
-                </Assignment>
-                <Iteration iteratorVariableRef="readBitsVar">
-                  <LongDescription>(TODO: change this using onTimer or async read) Wait for interrupt to occure</LongDescription>
-                  <StartAt>
-                    <Value value="0"></Value>
-                  </StartAt>
-                  <EndAt>
-                    <Value value="16777216" />
-                  </EndAt>
-                  <Do>
-                    <SendCommandPrimitive shortDescription="Get interrupt status register value" interface="RawMemoryAccess" command="ReadWord">
-                      <ArgumentValue name="address">
-                        <VariableRef variableRef="sourceAddressVar" />
-                      </ArgumentValue>
-                      <ArgumentValue name="mask">
-                        <Value value="16777216" />
-                      </ArgumentValue>
-                      <ArgumentValue name="outputValue">
-                        <VariableRef variableRef="readBitsVar" />
-                      </ArgumentValue>
-                    </SendCommandPrimitive>
-                  </Do>
-                </Iteration>
+              </Body>
+            </Activity>
+            <Activity name="ReturnValAndDisableChannels">
+              <Body>
                 <Assignment outputVariableRef="sourceAddressVar">
                   <LongDescription>Assign source register address</LongDescription>
                   <VariableRef variableRef="afecVar.mInstanceLcdrAddress"></VariableRef>
                 </Assignment>
-                <SendCommandPrimitive shortDescription="Read the result" interface="RawMemoryAccess" command="ReadWord">
+                <SendCommandPrimitive shortDescription="Read the result (value and channel)" interface="RawMemoryAccess" command="ReadWord">
                   <ArgumentValue name="address">
                     <VariableRef variableRef="sourceAddressVar" />
                   </ArgumentValue>
                   <ArgumentValue name="mask">
-                    <Value value="65535" />
+                    <Value value="251723775" />
                   </ArgumentValue>
                   <ArgumentValue name="outputValue">
                     <VariableRef variableRef="readBitsVar" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
+                <MathOperation outputVariableRef="chOutputVar.mChNumber">
+                  <LongDescription>Extract channel</LongDescription>
+                  <Operator operator="divide" />
+                  <VariableRef variableRef="readBitsVar" />
+                  <Value value="16777216" />
+                </MathOperation>
+                <MathOperation outputVariableRef="chOutputVar.mValue">
+                  <LongDescription>Extract Value</LongDescription>
+                  <Operator operator="subtract" />
+                  <VariableRef variableRef="readBitsVar" />
+                  <Operator operator="multiply" />
+                  <VariableRef variableRef="chOutputVar.mChNumber" />
+                  <Value value="16777216" />
+                </MathOperation>
                 <Assignment outputVariableRef="destinationAddressVar">
                   <LongDescription>Assign source register address</LongDescription>
                   <VariableRef variableRef="afecVar.mInstanceChdrAddress"></VariableRef>
@@ -404,11 +411,50 @@
                     <Value value="4095" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
-                <SendCommandPrimitive shortDescription="Return the output" interface="AfecHwas" command="GetValue">
-                  <ArgumentValue name="channelOutput">
-                    <VariableRef variableRef="readBitsVar" />
+                <SendCommandPrimitive shortDescription="Return the output" interface="AfecHwas" command="GetValueCmd">
+                  <ArgumentValue name="chOutput">
+                    <VariableRef variableRef="chOutputVar" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="IRQHandler">
+              <Argument name="irq" type="com/n7space/Hwas/InterruptNumber" />
+              <Body>
+                <Conditional>
+                  <LongDescription>Check if interrupt is comming from afec0</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="irqNumberVar" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="29" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="chOutputVar.mInstance">
+                      <Value value="AfecHwas_Instance_Afec0" />
+                    </Assignment>
+                    <Call activity="ReturnValAndDisableChannels" />
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <LongDescription>Check if interrupt is comming from afec1</LongDescription>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="irqNumberVar" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="40" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="chOutputVar.mInstance">
+                          <Value value="AfecHwas_Instance_Afec1" />
+                        </Assignment>
+                        <Call activity="ReturnValAndDisableChannels" />
+                      </OnConditionTrue>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
               </Body>
             </Activity>
           </ActivitySet>
@@ -427,7 +473,7 @@
                 </Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="Get">
-                <OnCommandPrimitive command="GetValue" interface="AfecHwas">
+                <OnCommandPrimitive command="GetValueCmd" interface="AfecHwas">
                   <ArgumentValue name="afec" outputVariableRef="afecVar" />
                   <ArgumentValue name="analogChannel" outputVariableRef="channelVar" />
                 </OnCommandPrimitive>
@@ -437,6 +483,16 @@
                   </ArgumentValue>
                   <ArgumentValue name="analogChannel">
                     <VariableRef variableRef="channelVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="IRQHandling">
+                <OnCommandPrimitive command="Interrupt" interface="InterruptSubscription">
+                  <ArgumentValue name="interrupt" outputVariableRef="irqNumberVar" />
+                </OnCommandPrimitive>
+                <Do activity="IRQHandler">
+                  <ArgumentValue name="irq">
+                    <VariableRef variableRef="irqNumberVar" />
                   </ArgumentValue>
                 </Do>
               </Transition>

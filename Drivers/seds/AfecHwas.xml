@@ -33,6 +33,7 @@
           <Entry name="mInstanceCherAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceChsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceCrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceIerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceIsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceLcdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
         </EntryList>
@@ -52,6 +53,13 @@
           <Entry name="PMC_PCxR1_PID40_AFEC1_MASK" type="com/n7space/Hwas/WordMask" />
         </EntryList>
       </ContainerDataType>
+      <ContainerDataType name="ConversionData" shortDescription="Contains ADC voltage value and ADC channel">
+        <EntryList>
+          <Entry name="mInstance" type="AfecHwas_Instance" />
+          <Entry name="mValue" type="com/n7space/Hwas/Word" />
+          <Entry name="mChNumber" type="AfecHwasChannel" />
+        </EntryList>
+      </ContainerDataType>
     </DataTypeSet>
     <DeclaredInterfaceSet>
       <Interface level="functional" name="AfecHwasInterfaceType">
@@ -61,11 +69,11 @@
             <Argument name="afec" type="AfecHwas" mode="out" />
             <Argument name="config" type="AfecHwasConfig" mode="in" />
           </Command>
-          <Command name="GetValue" mode="sync">
+          <Command name="GetValueCmd" mode="async">
             <LongDescription>Gets analog value of the given channel</LongDescription>
-            <Argument name="afec" type="com/n7space/AfecHwas/AfecHwas" mode="in" />
-            <Argument name="analogChannel" type="com/n7space/AfecHwas/AfecHwasChannel" mode="in" />
-            <Argument name="channelOutput" type="com/n7space/Hwas/Word" mode="out" />
+            <Argument name="afec" type="AfecHwas" mode="in" />
+            <Argument name="analogChannel" type="AfecHwasChannel" mode="in" />
+            <Argument name="chOutput" type="ConversionData" mode="notify" />
           </Command>
         </CommandSet>
       </Interface>
