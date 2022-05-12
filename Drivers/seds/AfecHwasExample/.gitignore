@@ -2,10 +2,14 @@
 binaries
 dataview
 glue_debug
+serial
+work
+
 work/afechwasdriver/SDL/code
 work/afechwasdriver/SDL/wrappers
 work/manager/implem/default/C/wrappers/
 work/hwas/implem/default/C/wrappers/
+
 # Ignore generated files
 work/afechwasdriver/SDL/src/dataview*
 
