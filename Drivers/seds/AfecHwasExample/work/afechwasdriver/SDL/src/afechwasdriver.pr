@@ -88,7 +88,7 @@ process AfecHwasDriver;
             -- Init PMC with definitions 
             /* CIF ProcedureCall (0, 937), (100, 50) */
             call InitPmc;
-            -- Set afec instance register address
+            -- Set afec instance register address and irq number
             -- Is instance equal to 0?
             /* CIF Decision (0, 937), (400, 50) */
             decision Config.Mafecinstance = AfecHwas_Instance_Afec0;
@@ -96,7 +96,9 @@ process AfecHwasDriver;
                 (True):
                     /* CIF Task (0, 1087), (100, 50) */
                     task Afecvar.Minstanceaddress := 1073987584;
-                    /* CIF Join (0, 1162), (100, 50) */
+                    /* CIF Task (0, 1162), (100, 50) */
+                    task Afecvar.Mirqnumber := 29;
+                    /* CIF Join (0, 1237), (100, 50) */
                     join condition_1;
                 /* CIF Answer (600, 1012), (400, 50) */
                 (False):
@@ -107,7 +109,9 @@ process AfecHwasDriver;
                         (True):
                             /* CIF Task (600, 1162), (100, 50) */
                             task Afecvar.Minstanceaddress := 1074151424;
-                            /* CIF Join (600, 1237), (100, 50) */
+                            /* CIF Task (600, 1237), (100, 50) */
+                            task Afecvar.Mirqnumber := 40;
+                            /* CIF Join (600, 1312), (100, 50) */
                             join condition_2;
                         /* CIF Answer (1200, 1087), (400, 50) */
                         (False):
@@ -201,7 +205,7 @@ process AfecHwasDriver;
         /* CIF Start (0, 750), (200, 75) */
         START;
             /* CIF Task (0, 937), (100, 50) */
-            task Irqnumbervar := 29;
+            task Irqnumbervar := Afec.Mirqnumber;
             -- Enable Uart interrupt
             /* CIF ProcedureCall (0, 1012), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
