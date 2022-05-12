@@ -25,7 +25,7 @@ void manager_startup(void)
     Hal_console_usart_init();
 }
 
-void manager_PI_AfecHwas_GetValueCmd_Ri( const asn1SccGetValueCmd_Type1 * args)
+void manager_PI_AfecDataHwas_GetValueCmd_Ri( const asn1SccGetValueCmd_Type1 * args)
 {
     uint8_t buffer[30];
     sprintf(buffer, "Voltage %i Ch %i Instance %i\n", args->chOutput.mValue, args->chOutput.mChNumber, args->chOutput.mInstance);
@@ -42,6 +42,6 @@ void manager_PI_GetTemperature(void)
         initialized = true;
     }else {
         asn1SccGetValueCmd_Type getValueArgs = {.afec = afec, .analogChannel = channelNumber};
-        manager_RI_AfecHwas_GetValueCmd_Pi(&getValueArgs);
+        manager_RI_AfecDataHwas_GetValueCmd_Pi(&getValueArgs);
     }
 }
