@@ -1,8 +1,4 @@
 COM-N7SPACE-AFECHWAS DEFINITIONS ::= BEGIN
-DestinationAddress [size 32, encoding pos-int, endianness little]
-SourceAddress [size 32, encoding pos-int, endianness little]
-Word [size 32, encoding pos-int, endianness little]
-WordMask [size 32, encoding pos-int, endianness little]
 AfecHwas-Instance [size 32, encoding pos-int, endianness little]
 AfecHwas-StartupTime [size 8, encoding pos-int]
 AfecHwasChannel [size 8, encoding pos-int]
@@ -15,6 +11,7 @@ AfecHwas []
     mInstanceCherAddress [],
     mInstanceChsrAddress [],
     mInstanceCrAddress [],
+    mInstanceIerAddress [],
     mInstanceIsrAddress [],
     mInstanceLcdrAddress []
 }
@@ -24,12 +21,27 @@ AfecHwasConfig []
     mStartupTime [],
     mPrescalerValue []
 }
-PmcHwas []
+PmcAfecHwas []
 {
     pMC-PCER0-OFFSET [],
     pMC-PCER1-OFFSET [],
     pMC-PCxR0-PID29-AFEC0-MASK [],
     pMC-PCxR1-PID40-AFEC1-MASK []
+}
+ConversionData []
+{
+    mInstance [],
+    mValue [],
+    mChNumber []
+}
+GetValueCmd-Type []
+{
+    afec [],
+    analogChannel []
+}
+GetValueCmd-Type1 []
+{
+    chOutput []
 }
 END
 

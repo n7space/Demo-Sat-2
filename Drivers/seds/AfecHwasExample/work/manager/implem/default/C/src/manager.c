@@ -18,24 +18,30 @@ static bool initialized = false;
 static asn1SccAfecHwas afec = {};
 static asn1SccAfecHwasConfig config = {.mAfecInstance = asn1SccafecHwas_Instance_Afec0, .mStartupTime = 10,.mPrescalerValue = 2};
 static asn1SccWord tempRawValue = 0;
-static asn1SccWord channelNumber = 11;
+static asn1SccWord channelNumber = 8;
 
 void manager_startup(void)
 {
     Hal_console_usart_init();
 }
 
+void manager_PI_AfecHwas_GetValueCmd_Ri( const asn1SccGetValueCmd_Type1 * args)
+{
+    uint8_t buffer[30];
+    sprintf(buffer, "Voltage %i Ch %i Instance %i\n", args->chOutput.mValue, args->chOutput.mChNumber, args->chOutput.mInstance);
+    Hal_console_usart_write(buffer, strlen(buffer));
+}
+
+
 void manager_PI_GetTemperature(void)
 {
    // Write your code here
-   uint8_t buffer[30];
     if(!initialized)
     {
-        manager_RI_AfecHwasInterface_InitInstance_Pi(&afec, &config);
+        manager_RI_AfecHwas_InitInstance_Pi(&afec, &config);
         initialized = true;
     }else {
-        manager_RI_AfecHwasInterface_GetValue_Pi(&afec, &channelNumber, &tempRawValue);
-        sprintf(buffer, "Voltage value %i\n", tempRawValue);
-        Hal_console_usart_write(buffer, strlen(buffer));
+        asn1SccGetValueCmd_Type getValueArgs = {.afec = afec, .analogChannel = channelNumber};
+        manager_RI_AfecHwas_GetValueCmd_Pi(&getValueArgs);
     }
 }
