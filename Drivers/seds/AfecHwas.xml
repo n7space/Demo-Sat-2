@@ -35,7 +35,8 @@
           <Entry name="mInstanceCrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceIerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceIsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
-          <Entry name="mInstanceLcdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceLcdrAddress" type="com/n7space/Hwas/SourceAddress"></Entry>
+          <Entry name="mIrqNumber" type="com/n7space/Hwas/InterruptNumber"></Entry>
         </EntryList>
       </ContainerDataType>
       <ContainerDataType name="AfecHwasConfig" shortDescription="Afec instance configuration container">

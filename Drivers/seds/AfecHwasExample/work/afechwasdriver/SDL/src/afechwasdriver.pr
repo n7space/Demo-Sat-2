@@ -13,9 +13,9 @@ process AfecHwasDriver;
     dcl Pinmaskvar WordMask;
     dcl Choutputvar ConversionData;
     dcl Irqnumbervar InterruptNumber;
-    dcl Io_afecdatahwas_getvaluecmd_pi GetValueCmd_Type;
+    dcl Io_afechwas_getvaluecmd_pi GetValueCmd_Type;
     dcl Io_interruptsubscription_interrupt_pi Interrupt_Type;
-    dcl Io_afecdatahwas_getvaluecmd_ri GetValueCmd_Type1;
+    dcl Io_afechwas_getvaluecmd_ri GetValueCmd_Type1;
     /* CIF ENDTEXT */
     /* CIF Procedure (0, 900), (800, 50) */
     procedure InitPmc;
@@ -33,7 +33,7 @@ process AfecHwasDriver;
             -- Assign mask of AFEC1
             /* CIF Task (0, 412), (100, 50) */
             task Pmcvar.Pmc_pcxr1_pid40_afec1_mask := 256;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 975), (800, 50) */
     procedure InitAfecContainer;
@@ -75,7 +75,7 @@ process AfecHwasDriver;
             task Afecvar.Minstancelcdraddress := 32;
             /* CIF Task (0, 1462), (100, 50) */
             task Afecvar.Minstancelcdraddress := Afecvar.Minstanceaddress + Afecvar.Minstancelcdraddress;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1050), (800, 50) */
     procedure InitSync;
@@ -96,7 +96,9 @@ process AfecHwasDriver;
                 (True):
                     /* CIF Task (0, 1087), (100, 50) */
                     task Afecvar.Minstanceaddress := 1073987584;
-                    /* CIF Join (0, 1162), (100, 50) */
+                    /* CIF Task (0, 1162), (100, 50) */
+                    task Afecvar.Mirqnumber := 29;
+                    /* CIF Join (0, 1237), (100, 50) */
                     join condition_1;
                 /* CIF Answer (600, 1012), (400, 50) */
                 (False):
@@ -107,7 +109,9 @@ process AfecHwasDriver;
                         (True):
                             /* CIF Task (600, 1162), (100, 50) */
                             task Afecvar.Minstanceaddress := 1074151424;
-                            /* CIF Join (600, 1237), (100, 50) */
+                            /* CIF Task (600, 1237), (100, 50) */
+                            task Afecvar.Mirqnumber := 40;
+                            /* CIF Join (600, 1312), (100, 50) */
                             join condition_2;
                         /* CIF Answer (1200, 1087), (400, 50) */
                         (False):
@@ -189,7 +193,7 @@ process AfecHwasDriver;
             -- Set extended mode register (tag mode). Set tag mask value (0x0100 0000)
             /* CIF ProcedureCall (4800, 1762), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 16777216, 16777216);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1125), (800, 50) */
     procedure GetValue;
@@ -201,7 +205,7 @@ process AfecHwasDriver;
         /* CIF Start (0, 750), (200, 75) */
         START;
             /* CIF Task (0, 937), (100, 50) */
-            task Irqnumbervar := 29;
+            task Irqnumbervar := Afecvar.Mirqnumber;
             -- Enable Uart interrupt
             /* CIF ProcedureCall (0, 1012), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
@@ -238,7 +242,7 @@ process AfecHwasDriver;
             -- Start The conversion
             /* CIF ProcedureCall (0, 1837), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 2, 2);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1200), (800, 50) */
     procedure ReturnValAndDisableChannels;
@@ -263,11 +267,11 @@ process AfecHwasDriver;
             /* CIF ProcedureCall (0, 562), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 4095, 4095);
             /* CIF Task (0, 637), (100, 50) */
-            task Io_afecdatahwas_getvaluecmd_ri.Choutput := Choutputvar;
+            task Io_afechwas_getvaluecmd_ri.Choutput := Choutputvar;
             -- Return the output
             /* CIF Output (0, 712), (200, 50) */
-            output AfecDataHwas_GetValueCmd_Ri(Io_afecdatahwas_getvaluecmd_ri);
-        return ;
+            output AfecHwas_GetValueCmd_Ri(Io_afechwas_getvaluecmd_ri);
+    return;
     endprocedure;
     /* CIF Procedure (0, 1275), (800, 50) */
     procedure IRQHandler;
@@ -279,7 +283,7 @@ process AfecHwasDriver;
         START;
             -- Check if interrupt is comming from afec0
             /* CIF Decision (0, 862), (400, 50) */
-            decision Irqnumbervar = 29;
+            decision Afecvar.Mirqnumber = 29;
                 /* CIF Answer (0, 937), (400, 50) */
                 (True):
                     /* CIF Task (0, 1012), (100, 50) */
@@ -292,7 +296,7 @@ process AfecHwasDriver;
                 (False):
                     -- Check if interrupt is comming from afec1
                     /* CIF Decision (600, 937), (400, 50) */
-                    decision Irqnumbervar = 40;
+                    decision Afecvar.Mirqnumber = 40;
                         /* CIF Answer (600, 1012), (400, 50) */
                         (True):
                             /* CIF Task (600, 1087), (100, 50) */
@@ -313,7 +317,7 @@ process AfecHwasDriver;
             enddecision;
             /* CIF Label (2400, 1012), (100, 50) */
             condition_1:
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1350), (800, 50) */
     procedure AfecHwas_InitInstance_Pi;
@@ -330,7 +334,7 @@ process AfecHwasDriver;
             call InitSync(Configvar);
             /* CIF Task (0, 1087), (100, 50) */
             task Afec := Afecvar;
-        return ;
+    return;
     endprocedure;
     /* CIF Start (0, 1425), (200, 75) */
     START;
@@ -339,11 +343,11 @@ process AfecHwasDriver;
     /* CIF State (0, 1687), (200, 50) */
     state Idle;
         /* CIF Input (0, 1687), (200, 50) */
-        input AfecDataHwas_GetValueCmd_Pi(Io_afecdatahwas_getvaluecmd_pi);
+        input AfecHwas_GetValueCmd_Pi(Io_afechwas_getvaluecmd_pi);
             /* CIF Task (0, 1762), (100, 50) */
-            task Afecvar := Io_afecdatahwas_getvaluecmd_pi.Afec;
+            task Afecvar := Io_afechwas_getvaluecmd_pi.Afec;
             /* CIF Task (0, 1837), (100, 50) */
-            task Channelvar := Io_afecdatahwas_getvaluecmd_pi.Analogchannel;
+            task Channelvar := Io_afechwas_getvaluecmd_pi.Analogchannel;
             /* CIF ProcedureCall (0, 1912), (100, 50) */
             call GetValue(Afecvar, Channelvar);
             /* CIF NextState (0, 1987), (200, 50) */

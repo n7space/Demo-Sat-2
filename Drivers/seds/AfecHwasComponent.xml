@@ -145,6 +145,9 @@
                     <Assignment outputVariableRef="afecVar.mInstanceAddress">
                       <Value value="1073987584"></Value>
                     </Assignment>
+                    <Assignment outputVariableRef="afecVar.mIrqNumber">
+                      <Value value="29" />
+                    </Assignment>
                   </OnConditionTrue>
                   <OnConditionFalse>
                     <Conditional>
@@ -159,6 +162,9 @@
                       <OnConditionTrue>
                         <Assignment outputVariableRef="afecVar.mInstanceAddress">
                           <Value value="1074151424" />
+                        </Assignment>
+                        <Assignment outputVariableRef="afecVar.mIrqNumber">
+                          <Value value="40" />
                         </Assignment>
                       </OnConditionTrue>
                     </Conditional>
@@ -281,7 +287,7 @@
               <Argument name="analogChannel" type="com/n7space/AfecHwas/AfecHwasChannel"></Argument>
               <Body>
                 <Assignment outputVariableRef="irqNumberVar">
-                  <Value value="29" />
+                  <VariableRef variableRef="afecVar.mIrqNumber" />
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Enable Uart interrupt" interface="InterruptManagement" command="EnableInterrupt">
                   <ArgumentValue name="interrupt">
@@ -425,7 +431,7 @@
                   <LongDescription>Check if interrupt is comming from afec0</LongDescription>
                   <Condition>
                     <Condition>
-                      <FirstOperand variableRef="irqNumberVar" />
+                      <FirstOperand variableRef="afecVar.mirqNumber" />
                       <ComparisonOperator>equals</ComparisonOperator>
                       <Value value="29" />
                     </Condition>
@@ -441,7 +447,7 @@
                       <LongDescription>Check if interrupt is comming from afec1</LongDescription>
                       <Condition>
                         <Condition>
-                          <FirstOperand variableRef="irqNumberVar" />
+                          <FirstOperand variableRef="afecVar.mirqNumber" />
                           <ComparisonOperator>equals</ComparisonOperator>
                           <Value value="40" />
                         </Condition>
