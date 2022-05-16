@@ -6,11 +6,19 @@
         <CommandSet>
           <Command name="InitSunSensorCmd" mode="sync">
             <LongDescription>Initializes afec for reading Sun sensor data</LongDescription>
+            <Argument name="afecConfig" type="com/n7space/AfecHwas/AfecHwasConfig" mode="in" />
           </Command>
-          <Command name="ReadDataAsyncCmd" mode="async">
+          <Command name="RequestDataCmd" mode="sync">
             <LongDescription>Reads Sun sensor data</LongDescription>
-            <Argument name="dummyIn" type="com/n7space/Hwas/Word" mode="in" />
-            <Argument name="sensorOutput" type="com/n7space/Hwas/Word" mode="notify" />
+            <Argument name="dummy" type="com/n7space/Hwas/Word" mode="in" />
+          </Command>
+        </CommandSet>
+      </Interface>
+      <Interface level="functional" name="SunSensorHwasReturnInterfaceType">
+        <CommandSet>
+          <Command name="ReturnDataCmd" mode="sync">
+            <LongDescription>Reads Sun sensor data</LongDescription>
+            <Argument name="chOutput" type="com/n7space/AfecHwas/ConversionData" mode="in" />
           </Command>
         </CommandSet>
       </Interface>

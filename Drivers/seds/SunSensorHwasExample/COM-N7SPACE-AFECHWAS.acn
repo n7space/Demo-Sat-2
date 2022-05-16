@@ -11,8 +11,10 @@ AfecHwas []
     mInstanceCherAddress [],
     mInstanceChsrAddress [],
     mInstanceCrAddress [],
+    mInstanceIerAddress [],
     mInstanceIsrAddress [],
-    mInstanceLcdrAddress []
+    mInstanceLcdrAddress [],
+    mIrqNumber []
 }
 AfecHwasConfig []
 {
@@ -26,6 +28,21 @@ PmcAfecHwas []
     pMC-PCER1-OFFSET [],
     pMC-PCxR0-PID29-AFEC0-MASK [],
     pMC-PCxR1-PID40-AFEC1-MASK []
+}
+ConversionData []
+{
+    mInstance [],
+    mValue [],
+    mChNumber []
+}
+GetValueCmd-Type []
+{
+    afec [],
+    analogChannel []
+}
+GetValueCmd-Type1 []
+{
+    chOutput []
 }
 END
 

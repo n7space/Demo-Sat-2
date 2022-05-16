@@ -3,7 +3,7 @@ MAKEFILE_PATH   := $(lastword $(MAKEFILE_LIST))
 TOOL_INST       := $(shell taste-config --prefix)
 OUTDIR          := $(dir $(MAKEFILE_PATH))
 TASTE_SHARED_TYPES?=${HOME}/.local/share/QtProject/QtCreator/shared_types
-ASN1_FILES      := ../COM-N7SPACE-AFECHWAS.asn ../COM-N7SPACE-HWAS.asn ../COM-N7SPACE-SUNSENSORHWAS.asn ../SunSensorHwasExample.asn ${TOOL_INST}/share/taste-types/taste-types.asn
+ASN1_FILES      := ../COM-N7SPACE-AFECHWAS.asn ../COM-N7SPACE-HWAS.asn ../SunSensorHwasExample.asn ${TOOL_INST}/share/taste-types/taste-types.asn
 CP_FILES        :=       # Context parameters
 DATAVIEW_PATH   := ${OUTDIR}/dataview
 DATAVIEW_UNIQ   := ${DATAVIEW_PATH}/dataview-uniq.asn
@@ -66,7 +66,7 @@ ${DATAVIEW_UNIQ}:	${ASN1_FILES}
 	sed -e '$$s/$$/\n/' -s $^ > $@
 
 # Create dataview-uniq.acn by concatenating all input files
-${DATAVIEW_ACN}:	../COM-N7SPACE-AFECHWAS.acn ../COM-N7SPACE-HWAS.acn ../COM-N7SPACE-SUNSENSORHWAS.acn ../SunSensorHwasExample.acn
+${DATAVIEW_ACN}:	../COM-N7SPACE-AFECHWAS.acn ../COM-N7SPACE-HWAS.acn ../SunSensorHwasExample.acn
 	mkdir -p ${DATAVIEW_PATH}
 	sed -e '$$s/$$/\n/' -s $^ > $@
 

@@ -9,6 +9,7 @@
 #include <queue.h>
 #include <task.h>
 
+
 static volatile bool interruptSubscribe[Nvic_InterruptCount] = { 0 };
 
 #define HWAS_INTERRUPT_QUEUE_SIZE 100
@@ -31,6 +32,7 @@ HwasHandleInterrupt(asn1SccInterrupt_Type* irq)
 {
     xQueueSendFromISR(hwasInterruptQueueHandle, irq, NULL);
     hwas_PI_InterruptManagement_DisableInterrupt_Pi(&irq->interrupt);
+    portEND_SWITCHING_ISR(true);
 }
 
 void
@@ -167,11 +169,32 @@ MCAN1_Handler(void)
     }
 }
 
-void hwas_RI_InterruptSubscription_Interrupt_Ri(asn1SccInterrupt_Type *value)
+void
+UART4_Handler(void)
 {
-
+    if(interruptSubscribe[Nvic_Irq_Uart4]) {
+        asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Uart4 };
+        HwasHandleInterrupt(&irq);
+    }
 }
 
+void
+AFEC0_Handler(void)
+{
+    if(interruptSubscribe[Nvic_Irq_Afec0]) {
+        asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Afec0 };
+        HwasHandleInterrupt(&irq);
+    }
+}
+
+void
+AFEC1_Handler(void)
+{
+    if(interruptSubscribe[Nvic_Irq_Afec1]) {
+        asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Afec1 };
+        HwasHandleInterrupt(&irq);
+    }
+}
 void
 HwasInterruptHandlerTask(void* args)
 {
@@ -180,6 +203,7 @@ HwasInterruptHandlerTask(void* args)
         asn1SccInterrupt_Type value;
         if(xQueueReceive(hwasInterruptQueueHandle, &value, portMAX_DELAY) == pdTRUE) {
             hwas_RI_InterruptSubscription_Interrupt_Ri(&value);
+            taskYIELD();
         } else {
             assert(false && "Error while reading the queue");
             break;
@@ -244,6 +268,7 @@ hwas_PI_RawMemoryAccess_ReadWord_Pi(const asn1SccSourceAddress* IN_address,
                                     const asn1SccWordMask* IN_mask,
                                     asn1SccWord* OUT_value)
 {
+    *OUT_value = 0;
     uint32_t* address = (uint32_t*)((uint32_t)*IN_address);
     uint32_t maskValue = (uint32_t)*IN_mask;
     uint32_t* addressOut = (uint32_t*)OUT_value;

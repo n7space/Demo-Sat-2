@@ -23,17 +23,16 @@ void manager_startup(void)
     Hal_console_usart_init();
 }
 
-void manager_PI_SunSensorHwas_ReadDataAsyncCmd_Ri
-      (const asn1SccReadDataAsyncCmd_Type1 *IN_inputparam)
 
+void manager_PI_SunSensorReturnHwas_ReturnDataCmd_Ri( const asn1SccConversionData * data)
 {
-        // Write your code here
-        uint8_t buffer[30];
-        sprintf(buffer, "Sunsens %i\n", IN_inputparam->sensorOutput);
-        Hal_console_usart_write(buffer, strlen(buffer));
+    // Write your code here
+    uint8_t buffer[30];
+    sprintf(buffer, "Vol %i Chn %i Ins %i\n", data->mValue, data->mChNumber, data->mInstance);
+    Hal_console_usart_write(buffer, strlen(buffer));
 }
 
-void manager_PI_ReadData( void )
+void manager_PI_GetLuminosity( void )
 {
     if (!initialized)
     {
@@ -44,7 +43,7 @@ void manager_PI_ReadData( void )
     }
     else
     {
-        asn1SccReadDataAsyncCmd_Type dummy;
-        manager_RI_SunSensorHwas_ReadDataAsyncCmd_Pi(&dummy);
+        asn1SccWord dummy;
+        manager_RI_SunSensorHwas_RequestDataCmd_Pi(&dummy);
     }
 }
