@@ -27,6 +27,7 @@
             <Variable name="pmcVar" type="com/n7space/UartHwas/PmcHwasUart" />
             <Variable name="bitsValueVar" type="com/n7space/Hwas/Word" />
             <Variable name="bitsMaskVar" type="com/n7space/Hwas/WordMask" />
+            <Variable name="byteVar" type="com/n7space/Hwas/Byte"></Variable>
             <Variable name="destinationAddressVar" type="com/n7space/Hwas/DestinationAddress" />
             <Variable name="sourceAddressVar" type="com/n7space/Hwas/SourceAddress"></Variable>
             <Variable name="irqNumberVar" type="com/n7space/Hwas/InterruptNumber"></Variable>
@@ -1002,7 +1003,7 @@
             </Activity>
             <Activity name="SendByteAsync">
               <Argument name="uart" type="com/n7space/UartHwas/UartHwas"></Argument>
-              <Argument name="byte" type="com/n7space/Hwas/Word"></Argument>
+              <Argument name="byte" type="com/n7space/Hwas/Byte"></Argument>
               <Body>
                 <Assignment outputVariableRef="irqNumberVar">
                   <VariableRef variableRef="uartVar.mIrqNumber" />
@@ -1019,6 +1020,9 @@
                 </SendCommandPrimitive>
                 <Assignment outputVariableRef="destinationAddressVar">
                   <VariableRef variableRef="uart.mUartThrAddress" />
+                </Assignment>
+                <Assignment outputVariableRef="bitsValueVar">
+                  <Value value="0" />
                 </Assignment>
                 <Assignment outputVariableRef="bitsValueVar">
                   <VariableRef variableRef="byte" />
@@ -1106,9 +1110,12 @@
                         <VariableRef variableRef="bitsValueVar" />
                       </ArgumentValue>
                     </SendCommandPrimitive>
+                    <Assignment outputVariableRef="byteVar">
+                      <VariableRef variableRef="bitsValueVar" />
+                    </Assignment>
                     <SendCommandPrimitive interface="UartHwas" command="ReadByteAsyncCmd">
                       <ArgumentValue name="byteToRead">
-                        <VariableRef variableRef="bitsValueVar" />
+                        <VariableRef variableRef="byteVar" />
                       </ArgumentValue>
                     </SendCommandPrimitive>
                   </OnConditionTrue>

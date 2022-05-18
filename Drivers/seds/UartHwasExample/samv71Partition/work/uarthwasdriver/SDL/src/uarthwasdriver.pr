@@ -11,6 +11,7 @@ process UartHwasDriver;
     dcl Pmcvar PmcHwasUart;
     dcl Bitsvaluevar Word;
     dcl Bitsmaskvar WordMask;
+    dcl Bytevar Byte;
     dcl Destinationaddressvar DestinationAddress;
     dcl Sourceaddressvar SourceAddress;
     dcl Irqnumbervar InterruptNumber;
@@ -112,7 +113,7 @@ process UartHwasDriver;
             enddecision;
             /* CIF Label (6000, 1012), (100, 50) */
             condition_1:
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 975), (800, 50) */
     procedure GetLocalUart;
@@ -199,7 +200,7 @@ process UartHwasDriver;
             enddecision;
             /* CIF Label (6000, 262), (100, 50) */
             condition_1:
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1050), (800, 50) */
     procedure InitPmc;
@@ -219,7 +220,7 @@ process UartHwasDriver;
             task Pmcvar.Pmc_pcxr1_pid45_uart3_mask := 8192;
             /* CIF Task (0, 637), (100, 50) */
             task Pmcvar.Pmc_pcxr1_pid46_uart4_mask := 16384;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1125), (800, 50) */
     procedure InitPio;
@@ -390,15 +391,7 @@ process UartHwasDriver;
             enddecision;
             /* CIF Label (6000, 1012), (100, 50) */
             condition_1:
-            /* CIF Task (6000, 1087), (100, 50) */
-            task Pioconfigvar.Mportconfig := PioHwas_Port_D;
-            /* CIF Task (6000, 1162), (100, 50) */
-            task Pioconfigvar.Mpinconfig := 18;
-            /* CIF Task (6000, 1237), (100, 50) */
-            task Pioconfigvar.Mdirectionconfig := PioHwas_Direction_Input;
-            /* CIF Task (6000, 1312), (100, 50) */
-            task Pioconfigvar.Mcontrolconfig := PioHwas_Control_PeripheralD;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1200), (800, 50) */
     procedure InitUartContainer;
@@ -440,7 +433,7 @@ process UartHwasDriver;
             task Uartvar.Muartbrgraddress := 32;
             /* CIF Task (0, 1462), (100, 50) */
             task Uartvar.Muartbrgraddress := Uartvar.Minstanceaddress + Uartvar.Muartbrgraddress;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1275), (800, 50) */
     procedure InitUart;
@@ -786,7 +779,7 @@ process UartHwasDriver;
             -- Updates spcific local UART variable
             /* CIF ProcedureCall (20400, 2362), (100, 50) */
             call UpdateLocalUart(Uartvar, Configvar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1350), (800, 50) */
     procedure ReadByteAsync;
@@ -809,14 +802,14 @@ process UartHwasDriver;
             -- Enable Uart interrupt
             /* CIF ProcedureCall (0, 1237), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1425), (800, 50) */
     procedure SendByteAsync;
         /* CIF Text (0, 0), (400, 500) */
         fpar
             in Uart UartHwas,
-            in Byte Word;
+            in Byte Byte;
         /* CIF ENDTEXT */
         /* CIF Start (0, 750), (200, 75) */
         START;
@@ -831,17 +824,19 @@ process UartHwasDriver;
             /* CIF Task (0, 1162), (100, 50) */
             task Destinationaddressvar := Uart.Muartthraddress;
             /* CIF Task (0, 1237), (100, 50) */
+            task Bitsvaluevar := 0;
+            /* CIF Task (0, 1312), (100, 50) */
             task Bitsvaluevar := Byte;
             -- Write byte to Thr 
-            /* CIF ProcedureCall (0, 1312), (100, 50) */
+            /* CIF ProcedureCall (0, 1387), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 255, Bitsvaluevar);
             -- Assign source address to variable
-            /* CIF Task (0, 1387), (100, 50) */
+            /* CIF Task (0, 1462), (100, 50) */
             task Destinationaddressvar := Uart.Muartieraddress;
             -- Enable Tx empty interrupt
-            /* CIF ProcedureCall (0, 1462), (100, 50) */
+            /* CIF ProcedureCall (0, 1537), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 512, 512);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1500), (800, 50) */
     procedure IRQHandler;
@@ -870,10 +865,12 @@ process UartHwasDriver;
                     /* CIF ProcedureCall (0, 712), (100, 50) */
                     call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 255, Bitsvaluevar);
                     /* CIF Task (0, 787), (100, 50) */
-                    task Io_uarthwas_readbyteasynccmd_ri.Bytetoread := Bitsvaluevar;
-                    /* CIF Output (0, 862), (200, 50) */
+                    task Bytevar := Bitsvaluevar;
+                    /* CIF Task (0, 862), (100, 50) */
+                    task Io_uarthwas_readbyteasynccmd_ri.Bytetoread := Bytevar;
+                    /* CIF Output (0, 937), (200, 50) */
                     output UartHwas_ReadByteAsyncCmd_Ri(Io_uarthwas_readbyteasynccmd_ri);
-                    /* CIF Join (0, 937), (100, 50) */
+                    /* CIF Join (0, 1012), (100, 50) */
                     join condition_1;
                 /* CIF Answer (600, 562), (400, 50) */
                 (False):
@@ -924,7 +921,7 @@ process UartHwasDriver;
             -- Enable uartVar interrupt
             /* CIF ProcedureCall (2400, 1312), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1575), (800, 50) */
     procedure UartHwas_InitUartCmd_Pi;
@@ -941,7 +938,7 @@ process UartHwasDriver;
             call InitUart(Configvar);
             /* CIF Task (0, 1087), (100, 50) */
             task Uart := Uartvar;
-        return ;
+    return;
     endprocedure;
     /* CIF Start (0, 1650), (200, 75) */
     START;

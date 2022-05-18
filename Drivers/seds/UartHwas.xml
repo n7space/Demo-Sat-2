@@ -65,13 +65,13 @@
           <Command name="ReadByteAsyncCmd" mode="async">
             <LongDescription>Reads one byte asynchroniously</LongDescription>
             <Argument name="uart" type="UartHwas" mode="in" />
-            <Argument name="byteToRead" type="com/n7space/Hwas/Word" mode="notify" />
+            <Argument name="byteToRead" type="com/n7space/Hwas/Byte" mode="notify" />
           </Command>
           <Command name="SendByteAsyncCmd" mode="async">
             <LongDescription>Sends one byte asynchroniously</LongDescription>
             <Argument name="uart" type="UartHwas" mode="in" />
-            <Argument name="byteToSend" type="com/n7space/Hwas/Word" mode="in" />
-            <Argument name="byteSentFlag" type="com/n7space/Hwas/Word" mode="notify" />
+            <Argument name="byteToSend" type="com/n7space/Hwas/Byte" mode="in" />
+            <Argument name="byteSentFlag" type="com/n7space/Hwas/Byte" mode="notify" />
           </Command>
         </CommandSet>
       </Interface>
