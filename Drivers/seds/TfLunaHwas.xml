@@ -17,14 +17,6 @@
           <Enumeration label="TfLunaHwas_ReadSM_Checksum" value="9" />
         </EnumerationList>
       </EnumeratedDataType>
-      <EnumeratedDataType name="TfLunaHwas_DataFrame">
-        <LongDescription>Enum listing data frame elements</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
-        <EnumerationList>
-          <Enumeration label="TfLunaHwas_DataFrame_Head" value="89" />
-          <Enumeration label="TfLunaHwas_DataFrame_Length" value="9" />
-        </EnumerationList>
-      </EnumeratedDataType>
       <ContainerDataType name="TfLunaHwas_Data" shortDescription="Lidar data container (Distance, signal strength and temperature)">
         <EntryList>
           <Entry name="mDistance" type="com/n7space/Hwas/Word" />
@@ -48,19 +40,18 @@
         <CommandSet>
           <Command name="InitTfLunaCmd" mode="sync">
             <LongDescription>Initializes uart for communication with LIDAR</LongDescription>
-            <Argument name="temp" type="com/n7space/Hwas/Word" mode="in" />
           </Command>
         </CommandSet>
       </Interface>
       <Interface level="functional" name="TfLunaReturnHwasInterfaceType">
         <CommandSet>
           <Command name="ReadDataCmd" mode="sync">
-            <LongDescription>Reads one byte asynchroniously</LongDescription>
-            <Argument name="lidarTfLunaData" type="TfLunaHwas_Data" mode="out" />
+            <LongDescription>Returns LIDAR data</LongDescription>
+            <Argument name="lidarTfLunaData" type="TfLunaHwas_Data" mode="in" />
           </Command>
           <Command name="ErrorReadDataCmd" mode="sync">
             <LongDescription>Reports error</LongDescription>
-            <Argument name="err" type="TfLunaHwas_DataFrameErr" mode="out" />
+            <Argument name="err" type="TfLunaHwas_DataFrameErr" mode="in" />
           </Command>
         </CommandSet>
       </Interface>

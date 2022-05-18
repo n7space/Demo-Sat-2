@@ -1,0 +1,74 @@
+COM-N7SPACE-UARTHWAS DEFINITIONS ::= BEGIN
+IMPORTS
+Byte FROM COM-N7SPACE-HWAS
+DestinationAddress FROM COM-N7SPACE-HWAS
+InterruptNumber FROM COM-N7SPACE-HWAS
+SourceAddress FROM COM-N7SPACE-HWAS
+WordMask FROM COM-N7SPACE-HWAS
+;
+-- Enum listing Uart instances
+UartHwas-Instance ::= ENUMERATED
+{
+    uartHwas-Instance-0(0),
+    uartHwas-Instance-1(1),
+    uartHwas-Instance-2(2),
+    uartHwas-Instance-3(3),
+    uartHwas-Instance-4(4)
+}
+-- Enum listing supported baudrates
+UartHwas-Baudrate ::= ENUMERATED
+{
+    uartHwas-Baudrate9600(0),
+    uartHwas-Baudrate115200(1)
+}
+-- Uart descriptor
+UartHwas ::= SEQUENCE 
+{ 
+    mInstanceAddress DestinationAddress(0 .. 4294967295), 
+    mIrqNumber InterruptNumber(0 .. 255), 
+    mUartCrAddress DestinationAddress(0 .. 4294967295), 
+    mUartMrAddress DestinationAddress(0 .. 4294967295), 
+    mUartIerAddress DestinationAddress(0 .. 4294967295), 
+    mUartIdrAddress DestinationAddress(0 .. 4294967295), 
+    mUartImrAddress SourceAddress(0 .. 4294967295), 
+    mUartSrAddress SourceAddress(0 .. 4294967295), 
+    mUartRhrAddress SourceAddress(0 .. 4294967295), 
+    mUartThrAddress DestinationAddress(0 .. 4294967295), 
+    mUartBrgrAddress DestinationAddress(0 .. 4294967295)
+} 
+-- Uart configuration container
+UartHwasConfig ::= SEQUENCE 
+{ 
+    mInstance UartHwas-Instance, 
+    mBaudrate UartHwas-Baudrate
+} 
+-- Pmc descriptor
+PmcHwasUart ::= SEQUENCE 
+{ 
+    pMC-PCER0-OFFSET DestinationAddress(0 .. 4294967295), 
+    pMC-PCER1-OFFSET DestinationAddress(0 .. 4294967295), 
+    pMC-PCxR0-PID7-UART0-MASK WordMask(0 .. 4294967295), 
+    pMC-PCxR0-PID8-UART1-MASK WordMask(0 .. 4294967295), 
+    pMC-PCxR1-PID44-UART2-MASK WordMask(0 .. 4294967295), 
+    pMC-PCxR1-PID45-UART3-MASK WordMask(0 .. 4294967295), 
+    pMC-PCxR1-PID46-UART4-MASK WordMask(0 .. 4294967295)
+} 
+ReadByteAsyncCmd-Type ::= SEQUENCE 
+{ 
+    uart UartHwas
+} 
+ReadByteAsyncCmd-Type1 ::= SEQUENCE 
+{ 
+    byteToRead Byte(0 .. 255)
+} 
+SendByteAsyncCmd-Type ::= SEQUENCE 
+{ 
+    uart UartHwas, 
+    byteToSend Byte(0 .. 255)
+} 
+SendByteAsyncCmd-Type1 ::= SEQUENCE 
+{ 
+    byteSentFlag Byte(0 .. 255)
+} 
+END
+

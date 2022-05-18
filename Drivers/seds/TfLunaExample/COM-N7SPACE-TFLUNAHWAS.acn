@@ -1,0 +1,11 @@
+COM-N7SPACE-TFLUNAHWAS DEFINITIONS ::= BEGIN
+TfLunaHwas-ReadSM [size 8, encoding pos-int]
+TfLunaHwas-Data []
+{
+    mDistance [],
+    mStrength [],
+    mTemp []
+}
+TfLunaHwas-DataFrameErr [size 8, encoding pos-int]
+END
+

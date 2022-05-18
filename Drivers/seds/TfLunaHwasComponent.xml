@@ -4,7 +4,7 @@
   <Package name="com/n7space/TfLunaHwasComponent">
     <ComponentSet>
       <Component name="TfLunaHwasDriver">
-        <LongDescription>SEDS UartHwas driver implementation</LongDescription>
+        <LongDescription>SEDS TfLuna driver implementation</LongDescription>
         <ProvidedInterfaceSet>
           <Interface name="TfLunaHwas" type="com/n7space/TfLunaHwas/TfLunaHwasInterfaceType"></Interface>
         </ProvidedInterfaceSet>
@@ -23,15 +23,14 @@
           </VariableSet>
           <ActivitySet>
             <Activity name="InitTfLuna">
-              <Argument name="temp" type="com/n7space/Hwas/Word" />
               <Body>
-                <Assignment outputVariableRef="uartConfigVar">
+                <Assignment outputVariableRef="uartConfigVar.mInstance">
                   <LongDescription>Set Uart instance</LongDescription>
-                  <Value value="com/n7space/UartHwas/UartHwas_Instance_2" />
+                  <Value value="UartHwas_Instance_2" />
                 </Assignment>
-                <Assignment outputVariableRef="uartConfigVar">
+                <Assignment outputVariableRef="uartConfigVar.mBaudrate">
                   <LongDescription>Set Uart Baudrate</LongDescription>
-                  <Value value="com/n7space/UartHwas/UartHwas_Baudrate9600" />
+                  <Value value="UartHwas_Baudrate9600" />
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Configure UART2" interface="UartHwas" command="InitUartCmd">
                   <ArgumentValue name="uart">
@@ -87,7 +86,7 @@
                         <Condition>
                           <FirstOperand variableRef="readByteVar" />
                           <ComparisonOperator>equals</ComparisonOperator>
-                          <Value value="TfLunaHwas_DataFrame_Head" />
+                          <Value value="89" />
                         </Condition>
                       </Condition>
                       <OnConditionTrue>
@@ -125,7 +124,7 @@
                             <Condition>
                               <FirstOperand variableRef="readByteVar" />
                               <ComparisonOperator>equals</ComparisonOperator>
-                              <Value value="TfLunaHwas_DataFrame_Head" />
+                              <Value value="89" />
                             </Condition>
                           </Condition>
                           <OnConditionTrue>
@@ -366,14 +365,8 @@
               <EntryState name="Off" />
               <State name="Idle" />
               <Transition fromState="Off" toState="Idle" name="Init">
-                <OnCommandPrimitive command="InitTfLunaCmd" interface="TfLunaHwas">
-                  <ArgumentValue name="temp" outputVariableRef="readByteVar" />
-                </OnCommandPrimitive>
-                <Do activity="InitTfLuna">
-                  <ArgumentValue name="temp">
-                    <VariableRef variableRef="readByteVar" />
-                  </ArgumentValue>
-                </Do>
+                <OnCommandPrimitive command="InitTfLunaCmd" interface="TfLunaHwas"></OnCommandPrimitive>
+                <Do activity="InitTfLuna"></Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="ReadByte">
                 <OnCommandPrimitive command="ReadByteAsyncCmd" interface="UartHwas">
