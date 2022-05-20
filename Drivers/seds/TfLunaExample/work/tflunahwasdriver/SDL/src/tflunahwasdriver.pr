@@ -105,7 +105,7 @@ process TfLunaHwasDriver;
                                 /* CIF Answer (1800, 1162), (400, 50) */
                                 (True):
                                     /* CIF Task (1800, 1237), (100, 50) */
-                                    task Readstatevar := TfLunaHwas_ReadSM_DisL;
+                                    task Readstatevar := TfLunaHwas_ReadSM_DistanceLow;
                                     /* CIF ProcedureCall (1800, 1312), (100, 50) */
                                     call IncreaseCheckSum(Readbytevar);
                                     /* CIF Join (1800, 1387), (100, 50) */
@@ -126,11 +126,11 @@ process TfLunaHwasDriver;
                         /* CIF Answer (3600, 1087), (400, 50) */
                         (False):
                             /* CIF Decision (3600, 1087), (400, 50) */
-                            decision Readstatevar = TfLunaHwas_ReadSM_DisL;
+                            decision Readstatevar = TfLunaHwas_ReadSM_DistanceLow;
                                 /* CIF Answer (3600, 1162), (400, 50) */
                                 (True):
                                     /* CIF Task (3600, 1237), (100, 50) */
-                                    task Readstatevar := TfLunaHwas_ReadSM_DisH;
+                                    task Readstatevar := TfLunaHwas_ReadSM_DistanceHigh;
                                     /* CIF ProcedureCall (3600, 1312), (100, 50) */
                                     call IncreaseCheckSum(Readbytevar);
                                     /* CIF Task (3600, 1387), (100, 50) */
@@ -140,11 +140,11 @@ process TfLunaHwasDriver;
                                 /* CIF Answer (4200, 1162), (400, 50) */
                                 (False):
                                     /* CIF Decision (4200, 1162), (400, 50) */
-                                    decision Readstatevar = TfLunaHwas_ReadSM_DisH;
+                                    decision Readstatevar = TfLunaHwas_ReadSM_DistanceHigh;
                                         /* CIF Answer (4200, 1237), (400, 50) */
                                         (True):
                                             /* CIF Task (4200, 1312), (100, 50) */
-                                            task Readstatevar := TfLunaHwas_ReadSM_StrengthL;
+                                            task Readstatevar := TfLunaHwas_ReadSM_StrengthLow;
                                             /* CIF ProcedureCall (4200, 1387), (100, 50) */
                                             call IncreaseCheckSum(Readbytevar);
                                             -- Add MSB 
@@ -155,11 +155,11 @@ process TfLunaHwasDriver;
                                         /* CIF Answer (4800, 1237), (400, 50) */
                                         (False):
                                             /* CIF Decision (4800, 1237), (400, 50) */
-                                            decision Readstatevar = TfLunaHwas_ReadSM_StrengthL;
+                                            decision Readstatevar = TfLunaHwas_ReadSM_StrengthLow;
                                                 /* CIF Answer (4800, 1312), (400, 50) */
                                                 (True):
                                                     /* CIF Task (4800, 1387), (100, 50) */
-                                                    task Readstatevar := TfLunaHwas_ReadSM_StrengthH;
+                                                    task Readstatevar := TfLunaHwas_ReadSM_StrengthHigh;
                                                     /* CIF ProcedureCall (4800, 1462), (100, 50) */
                                                     call IncreaseCheckSum(Readbytevar);
                                                     -- Add LSB 
@@ -170,11 +170,11 @@ process TfLunaHwasDriver;
                                                 /* CIF Answer (5400, 1312), (400, 50) */
                                                 (False):
                                                     /* CIF Decision (5400, 1312), (400, 50) */
-                                                    decision Readstatevar = TfLunaHwas_ReadSM_StrengthH;
+                                                    decision Readstatevar = TfLunaHwas_ReadSM_StrengthHigh;
                                                         /* CIF Answer (5400, 1387), (400, 50) */
                                                         (True):
                                                             /* CIF Task (5400, 1462), (100, 50) */
-                                                            task Readstatevar := TfLunaHwas_ReadSM_TempL;
+                                                            task Readstatevar := TfLunaHwas_ReadSM_TemperatureLow;
                                                             /* CIF ProcedureCall (5400, 1537), (100, 50) */
                                                             call IncreaseCheckSum(Readbytevar);
                                                             -- Add MSB 
@@ -185,11 +185,11 @@ process TfLunaHwasDriver;
                                                         /* CIF Answer (6000, 1387), (400, 50) */
                                                         (False):
                                                             /* CIF Decision (6000, 1387), (400, 50) */
-                                                            decision Readstatevar = TfLunaHwas_ReadSM_TempL;
+                                                            decision Readstatevar = TfLunaHwas_ReadSM_TemperatureLow;
                                                                 /* CIF Answer (6000, 1462), (400, 50) */
                                                                 (True):
                                                                     /* CIF Task (6000, 1537), (100, 50) */
-                                                                    task Readstatevar := TfLunaHwas_ReadSM_TempH;
+                                                                    task Readstatevar := TfLunaHwas_ReadSM_TemperatureHigh;
                                                                     /* CIF ProcedureCall (6000, 1612), (100, 50) */
                                                                     call IncreaseCheckSum(Readbytevar);
                                                                     -- Add LSB 
@@ -200,7 +200,7 @@ process TfLunaHwasDriver;
                                                                 /* CIF Answer (6600, 1462), (400, 50) */
                                                                 (False):
                                                                     /* CIF Decision (6600, 1462), (400, 50) */
-                                                                    decision Readstatevar = TfLunaHwas_ReadSM_TempH;
+                                                                    decision Readstatevar = TfLunaHwas_ReadSM_TemperatureHigh;
                                                                         /* CIF Answer (6600, 1537), (400, 50) */
                                                                         (True):
                                                                             /* CIF Task (6600, 1612), (100, 50) */

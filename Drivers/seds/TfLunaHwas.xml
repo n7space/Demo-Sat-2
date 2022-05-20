@@ -8,12 +8,12 @@
         <EnumerationList>
           <Enumeration label="TfLunaHwas_ReadSM_Idle" value="0" />
           <Enumeration label="TfLunaHwas_ReadSM_Head" value="1"></Enumeration>
-          <Enumeration label="TfLunaHwas_ReadSM_DisL" value="3" />
-          <Enumeration label="TfLunaHwas_ReadSM_DisH" value="4" />
-          <Enumeration label="TfLunaHwas_ReadSM_StrengthL" value="5" />
-          <Enumeration label="TfLunaHwas_ReadSM_StrengthH" value="6" />
-          <Enumeration label="TfLunaHwas_ReadSM_TempL" value="7" />
-          <Enumeration label="TfLunaHwas_ReadSM_TempH" value="8" />
+          <Enumeration label="TfLunaHwas_ReadSM_DistanceLow" value="3" />
+          <Enumeration label="TfLunaHwas_ReadSM_DistanceHigh" value="4" />
+          <Enumeration label="TfLunaHwas_ReadSM_StrengthLow" value="5" />
+          <Enumeration label="TfLunaHwas_ReadSM_StrengthHigh" value="6" />
+          <Enumeration label="TfLunaHwas_ReadSM_TemperatureLow" value="7" />
+          <Enumeration label="TfLunaHwas_ReadSM_TemperatureHigh" value="8" />
           <Enumeration label="TfLunaHwas_ReadSM_Checksum" value="9" />
         </EnumerationList>
       </EnumeratedDataType>

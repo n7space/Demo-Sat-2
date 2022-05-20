@@ -142,7 +142,7 @@
                           </Condition>
                           <OnConditionTrue>
                             <Assignment outputVariableRef="readStateVar">
-                              <Value value="TfLunaHwas_ReadSM_DisL" />
+                              <Value value="TfLunaHwas_ReadSM_DistanceLow" />
                             </Assignment>
                             <Call activity="IncreaseCheckSum">
                               <ArgumentValue name="byte">
@@ -166,12 +166,12 @@
                             <Condition>
                               <FirstOperand variableRef="readStateVar" />
                               <ComparisonOperator>equals</ComparisonOperator>
-                              <Value value="TfLunaHwas_ReadSM_DisL" />
+                              <Value value="TfLunaHwas_ReadSM_DistanceLow" />
                             </Condition>
                           </Condition>
                           <OnConditionTrue>
                             <Assignment outputVariableRef="readStateVar">
-                              <Value value="TfLunaHwas_ReadSM_DisH" />
+                              <Value value="TfLunaHwas_ReadSM_DistanceHigh" />
                             </Assignment>
                             <Call activity="IncreaseCheckSum">
                               <ArgumentValue name="byte">
@@ -188,12 +188,12 @@
                                 <Condition>
                                   <FirstOperand variableRef="readStateVar" />
                                   <ComparisonOperator>equals</ComparisonOperator>
-                                  <Value value="TfLunaHwas_ReadSM_DisH" />
+                                  <Value value="TfLunaHwas_ReadSM_DistanceHigh" />
                                 </Condition>
                               </Condition>
                               <OnConditionTrue>
                                 <Assignment outputVariableRef="readStateVar">
-                                  <Value value="TfLunaHwas_ReadSM_StrengthL" />
+                                  <Value value="TfLunaHwas_ReadSM_StrengthLow" />
                                 </Assignment>
                                 <Call activity="IncreaseCheckSum">
                                   <ArgumentValue name="byte">
@@ -215,12 +215,12 @@
                                     <Condition>
                                       <FirstOperand variableRef="readStateVar" />
                                       <ComparisonOperator>equals</ComparisonOperator>
-                                      <Value value="TfLunaHwas_ReadSM_StrengthL" />
+                                      <Value value="TfLunaHwas_ReadSM_StrengthLow" />
                                     </Condition>
                                   </Condition>
                                   <OnConditionTrue>
                                     <Assignment outputVariableRef="readStateVar">
-                                      <Value value="TfLunaHwas_ReadSM_StrengthH" />
+                                      <Value value="TfLunaHwas_ReadSM_StrengthHigh" />
                                     </Assignment>
                                     <Call activity="IncreaseCheckSum">
                                       <ArgumentValue name="byte">
@@ -238,12 +238,12 @@
                                         <Condition>
                                           <FirstOperand variableRef="readStateVar" />
                                           <ComparisonOperator>equals</ComparisonOperator>
-                                          <Value value="TfLunaHwas_ReadSM_StrengthH" />
+                                          <Value value="TfLunaHwas_ReadSM_StrengthHigh" />
                                         </Condition>
                                       </Condition>
                                       <OnConditionTrue>
                                         <Assignment outputVariableRef="readStateVar">
-                                          <Value value="TfLunaHwas_ReadSM_TempL" />
+                                          <Value value="TfLunaHwas_ReadSM_TemperatureLow" />
                                         </Assignment>
                                         <Call activity="IncreaseCheckSum">
                                           <ArgumentValue name="byte">
@@ -265,12 +265,12 @@
                                             <Condition>
                                               <FirstOperand variableRef="readStateVar" />
                                               <ComparisonOperator>equals</ComparisonOperator>
-                                              <Value value="TfLunaHwas_ReadSM_TempL" />
+                                              <Value value="TfLunaHwas_ReadSM_TemperatureLow" />
                                             </Condition>
                                           </Condition>
                                           <OnConditionTrue>
                                             <Assignment outputVariableRef="readStateVar">
-                                              <Value value="TfLunaHwas_ReadSM_TempH" />
+                                              <Value value="TfLunaHwas_ReadSM_TemperatureHigh" />
                                             </Assignment>
                                             <Call activity="IncreaseCheckSum">
                                               <ArgumentValue name="byte">
@@ -288,7 +288,7 @@
                                                 <Condition>
                                                   <FirstOperand variableRef="readStateVar" />
                                                   <ComparisonOperator>equals</ComparisonOperator>
-                                                  <Value value="TfLunaHwas_ReadSM_TempH" />
+                                                  <Value value="TfLunaHwas_ReadSM_TemperatureHigh" />
                                                 </Condition>
                                               </Condition>
                                               <OnConditionTrue>
