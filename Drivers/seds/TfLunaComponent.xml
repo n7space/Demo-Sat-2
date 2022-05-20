@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
   <Device name="TfLunaComponent" />
-  <Package name="com/n7space/TfLunaHwasComponent">
+  <Package name="com/n7space/TfLunaComponent">
     <ComponentSet>
-      <Component name="TfLunaHwasDriver">
+      <Component name="TfLunaDriver">
         <LongDescription>SEDS TfLuna driver implementation</LongDescription>
         <ProvidedInterfaceSet>
-          <Interface name="TfLunaHwas" type="com/n7space/TfLunaHwas/TfLunaHwasInterfaceType"></Interface>
+          <Interface name="TfLuna" type="com/n7space/TfLuna/TfLunaInterfaceType"></Interface>
         </ProvidedInterfaceSet>
         <RequiredInterfaceSet>
           <Interface name="UartHwas" type="com/n7space/UartHwas/UartHwasInterfaceType" />
-          <Interface name="TfLunaReturnHwas" type="com/n7space/TfLunaHwas/TfLunaReturnHwasInterfaceType" />
+          <Interface name="TfLunaReturnHwas" type="com/n7space/TfLuna/TfLunaReturnHwasInterfaceType" />
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
             <Variable name="uartVar" type="com/n7space/UartHwas/UartHwas"></Variable>
             <Variable name="uartConfigVar" type="com/n7space/UartHwas/UartHwasConfig" />
-            <Variable name="dataVar" type="com/n7space/TfLunaHwas/TfLunaHwas_Data"></Variable>
+            <Variable name="dataVar" type="com/n7space/TfLuna/TfLuna_Data"></Variable>
             <Variable name="readByteVar" type="com/n7space/Hwas/Byte"></Variable>
             <Variable name="checksumVar" type="com/n7space/Hwas/Word"></Variable>
-            <Variable name="readStateVar" type="com/n7space/TfLunaHwas/TfLunaHwas_ReadSM"></Variable>
+            <Variable name="readStateVar" type="com/n7space/TfLuna/TfLuna_ReadSM"></Variable>
           </VariableSet>
           <ActivitySet>
             <Activity name="InitTfLuna">
@@ -42,7 +42,7 @@
                 </SendCommandPrimitive>
                 <Assignment outputVariableRef="readStateVar">
                   <LongDescription>Init state machine</LongDescription>
-                  <Value value="TfLunaHwas_ReadSM_Idle" />
+                  <Value value="TfLuna_ReadSM_Idle" />
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Start read UART2" interface="UartHwas" command="ReadByteAsyncCmd">
                   <ArgumentValue name="uart">
@@ -72,7 +72,7 @@
             <Activity name="ResetStateMachine">
               <Body>
                 <Assignment outputVariableRef="readStateVar">
-                  <Value value="TfLunaHwas_ReadSM_Idle" />
+                  <Value value="TfLuna_ReadSM_Idle" />
                 </Assignment>
                 <Assignment outputVariableRef="checksumVar">
                   <Value value="0" />
@@ -90,7 +90,7 @@
                     <Condition>
                       <FirstOperand variableRef="readStateVar" />
                       <ComparisonOperator>equals</ComparisonOperator>
-                      <Value value="TfLunaHwas_ReadSM_Idle" />
+                      <Value value="TfLuna_ReadSM_Idle" />
                     </Condition>
                   </Condition>
                   <OnConditionTrue>
@@ -104,7 +104,7 @@
                       </Condition>
                       <OnConditionTrue>
                         <Assignment outputVariableRef="readStateVar">
-                          <Value value="TfLunaHwas_ReadSM_Head" />
+                          <Value value="TfLuna_ReadSM_Head" />
                         </Assignment>
                         <Call activity="IncreaseCheckSum">
                           <ArgumentValue name="byte">
@@ -116,7 +116,7 @@
                         <Call activity="ResetStateMachine" />
                         <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
                           <ArgumentValue name="err">
-                            <Value value="TfLunaHwas_DataFrameErr_NoHead1" />
+                            <Value value="TfLuna_DataFrameErr_NoHead1" />
                           </ArgumentValue>
                         </SendCommandPrimitive>
                       </OnConditionFalse>
@@ -128,7 +128,7 @@
                         <Condition>
                           <FirstOperand variableRef="readStateVar" />
                           <ComparisonOperator>equals</ComparisonOperator>
-                          <Value value="TfLunaHwas_ReadSM_Head" />
+                          <Value value="TfLuna_ReadSM_Head" />
                         </Condition>
                       </Condition>
                       <OnConditionTrue>
@@ -142,7 +142,7 @@
                           </Condition>
                           <OnConditionTrue>
                             <Assignment outputVariableRef="readStateVar">
-                              <Value value="TfLunaHwas_ReadSM_DistanceLow" />
+                              <Value value="TfLuna_ReadSM_DistanceLow" />
                             </Assignment>
                             <Call activity="IncreaseCheckSum">
                               <ArgumentValue name="byte">
@@ -154,7 +154,7 @@
                             <Call activity="ResetStateMachine" />
                             <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
                               <ArgumentValue name="err">
-                                <Value value="TfLunaHwas_DataFrameErr_NoHead2" />
+                                <Value value="TfLuna_DataFrameErr_NoHead2" />
                               </ArgumentValue>
                             </SendCommandPrimitive>
                           </OnConditionFalse>
@@ -166,12 +166,12 @@
                             <Condition>
                               <FirstOperand variableRef="readStateVar" />
                               <ComparisonOperator>equals</ComparisonOperator>
-                              <Value value="TfLunaHwas_ReadSM_DistanceLow" />
+                              <Value value="TfLuna_ReadSM_DistanceLow" />
                             </Condition>
                           </Condition>
                           <OnConditionTrue>
                             <Assignment outputVariableRef="readStateVar">
-                              <Value value="TfLunaHwas_ReadSM_DistanceHigh" />
+                              <Value value="TfLuna_ReadSM_DistanceHigh" />
                             </Assignment>
                             <Call activity="IncreaseCheckSum">
                               <ArgumentValue name="byte">
@@ -188,12 +188,12 @@
                                 <Condition>
                                   <FirstOperand variableRef="readStateVar" />
                                   <ComparisonOperator>equals</ComparisonOperator>
-                                  <Value value="TfLunaHwas_ReadSM_DistanceHigh" />
+                                  <Value value="TfLuna_ReadSM_DistanceHigh" />
                                 </Condition>
                               </Condition>
                               <OnConditionTrue>
                                 <Assignment outputVariableRef="readStateVar">
-                                  <Value value="TfLunaHwas_ReadSM_StrengthLow" />
+                                  <Value value="TfLuna_ReadSM_StrengthLow" />
                                 </Assignment>
                                 <Call activity="IncreaseCheckSum">
                                   <ArgumentValue name="byte">
@@ -215,12 +215,12 @@
                                     <Condition>
                                       <FirstOperand variableRef="readStateVar" />
                                       <ComparisonOperator>equals</ComparisonOperator>
-                                      <Value value="TfLunaHwas_ReadSM_StrengthLow" />
+                                      <Value value="TfLuna_ReadSM_StrengthLow" />
                                     </Condition>
                                   </Condition>
                                   <OnConditionTrue>
                                     <Assignment outputVariableRef="readStateVar">
-                                      <Value value="TfLunaHwas_ReadSM_StrengthHigh" />
+                                      <Value value="TfLuna_ReadSM_StrengthHigh" />
                                     </Assignment>
                                     <Call activity="IncreaseCheckSum">
                                       <ArgumentValue name="byte">
@@ -238,12 +238,12 @@
                                         <Condition>
                                           <FirstOperand variableRef="readStateVar" />
                                           <ComparisonOperator>equals</ComparisonOperator>
-                                          <Value value="TfLunaHwas_ReadSM_StrengthHigh" />
+                                          <Value value="TfLuna_ReadSM_StrengthHigh" />
                                         </Condition>
                                       </Condition>
                                       <OnConditionTrue>
                                         <Assignment outputVariableRef="readStateVar">
-                                          <Value value="TfLunaHwas_ReadSM_TemperatureLow" />
+                                          <Value value="TfLuna_ReadSM_TemperatureLow" />
                                         </Assignment>
                                         <Call activity="IncreaseCheckSum">
                                           <ArgumentValue name="byte">
@@ -265,12 +265,12 @@
                                             <Condition>
                                               <FirstOperand variableRef="readStateVar" />
                                               <ComparisonOperator>equals</ComparisonOperator>
-                                              <Value value="TfLunaHwas_ReadSM_TemperatureLow" />
+                                              <Value value="TfLuna_ReadSM_TemperatureLow" />
                                             </Condition>
                                           </Condition>
                                           <OnConditionTrue>
                                             <Assignment outputVariableRef="readStateVar">
-                                              <Value value="TfLunaHwas_ReadSM_TemperatureHigh" />
+                                              <Value value="TfLuna_ReadSM_TemperatureHigh" />
                                             </Assignment>
                                             <Call activity="IncreaseCheckSum">
                                               <ArgumentValue name="byte">
@@ -288,12 +288,12 @@
                                                 <Condition>
                                                   <FirstOperand variableRef="readStateVar" />
                                                   <ComparisonOperator>equals</ComparisonOperator>
-                                                  <Value value="TfLunaHwas_ReadSM_TemperatureHigh" />
+                                                  <Value value="TfLuna_ReadSM_TemperatureHigh" />
                                                 </Condition>
                                               </Condition>
                                               <OnConditionTrue>
                                                 <Assignment outputVariableRef="readStateVar">
-                                                  <Value value="TfLunaHwas_ReadSM_Checksum" />
+                                                  <Value value="TfLuna_ReadSM_Checksum" />
                                                 </Assignment>
                                                 <Call activity="IncreaseCheckSum">
                                                   <ArgumentValue name="byte">
@@ -315,7 +315,7 @@
                                                     <Condition>
                                                       <FirstOperand variableRef="readStateVar" />
                                                       <ComparisonOperator>equals</ComparisonOperator>
-                                                      <Value value="TfLunaHwas_ReadSM_Checksum" />
+                                                      <Value value="TfLuna_ReadSM_Checksum" />
                                                     </Condition>
                                                   </Condition>
                                                   <OnConditionTrue>
@@ -339,7 +339,7 @@
                                                         <Call activity="ResetStateMachine" />
                                                         <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
                                                           <ArgumentValue name="err">
-                                                            <Value value="TfLunaHwas_DataFrameErr_WrongCrc" />
+                                                            <Value value="TfLuna_DataFrameErr_WrongCrc" />
                                                           </ArgumentValue>
                                                         </SendCommandPrimitive>
                                                       </OnConditionFalse>
@@ -349,7 +349,7 @@
                                                     <Call activity="ResetStateMachine" />
                                                     <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
                                                       <ArgumentValue name="err">
-                                                        <Value value="TfLunaHwas_DataFrameErr_WrongState" />
+                                                        <Value value="TfLuna_DataFrameErr_WrongState" />
                                                       </ArgumentValue>
                                                     </SendCommandPrimitive>
                                                   </OnConditionFalse>
@@ -378,7 +378,7 @@
               <EntryState name="Off" />
               <State name="Idle" />
               <Transition fromState="Off" toState="Idle" name="Init">
-                <OnCommandPrimitive command="InitTfLunaCmd" interface="TfLunaHwas"></OnCommandPrimitive>
+                <OnCommandPrimitive command="InitTfLunaCmd" interface="TfLuna"></OnCommandPrimitive>
                 <Do activity="InitTfLuna"></Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="ReadByte">
@@ -398,6 +398,6 @@
     </ComponentSet>
   </Package>
   <xi:include href="UartHwas.xml" xpointer="element(/1/1)" />
-  <xi:include href="TfLunaHwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="TfLuna.xml" xpointer="element(/1/1)" />
   <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
 </DataSheet>
