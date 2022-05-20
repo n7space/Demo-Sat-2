@@ -42,7 +42,7 @@
                 </SendCommandPrimitive>
                 <Assignment outputVariableRef="readStateVar">
                   <LongDescription>Init state machine</LongDescription>
-                  <Value value="TfLunaHwas_ReadSM_NotFound" />
+                  <Value value="TfLunaHwas_ReadSM_Idle" />
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Start read UART2" interface="UartHwas" command="ReadByteAsyncCmd">
                   <ArgumentValue name="uart">
@@ -72,7 +72,7 @@
             <Activity name="ResetStateMachine">
               <Body>
                 <Assignment outputVariableRef="readStateVar">
-                  <Value value="TfLunaHwas_ReadSM_NotFound" />
+                  <Value value="TfLunaHwas_ReadSM_Idle" />
                 </Assignment>
                 <Assignment outputVariableRef="checksumVar">
                   <Value value="0" />
@@ -90,7 +90,7 @@
                     <Condition>
                       <FirstOperand variableRef="readStateVar" />
                       <ComparisonOperator>equals</ComparisonOperator>
-                      <Value value="TfLunaHwas_ReadSM_NotFound" />
+                      <Value value="TfLunaHwas_ReadSM_Idle" />
                     </Condition>
                   </Condition>
                   <OnConditionTrue>

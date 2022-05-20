@@ -6,7 +6,7 @@
         <LongDescription>Enum listing UART read data frame state machine states</LongDescription>
         <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
         <EnumerationList>
-          <Enumeration label="TfLunaHwas_ReadSM_NotFound" value="0" />
+          <Enumeration label="TfLunaHwas_ReadSM_Idle" value="0" />
           <Enumeration label="TfLunaHwas_ReadSM_Head" value="1"></Enumeration>
           <Enumeration label="TfLunaHwas_ReadSM_DisL" value="3" />
           <Enumeration label="TfLunaHwas_ReadSM_DisH" value="4" />
