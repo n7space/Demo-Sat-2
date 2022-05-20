@@ -12,7 +12,7 @@ do
     sleep 1
 done
 
-echo "PTYs created, let's rock"
+echo "PTYs created"
 echo ""
 
 ./LinuxPartition & pid2=$!
