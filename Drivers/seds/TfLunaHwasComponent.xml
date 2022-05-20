@@ -17,7 +17,7 @@
             <Variable name="uartVar" type="com/n7space/UartHwas/UartHwas"></Variable>
             <Variable name="uartConfigVar" type="com/n7space/UartHwas/UartHwasConfig" />
             <Variable name="dataVar" type="com/n7space/TfLunaHwas/TfLunaHwas_Data"></Variable>
-            <Variable name="readByteVar" type="com/n7space/Hwas/Word"></Variable>
+            <Variable name="readByteVar" type="com/n7space/Hwas/Byte"></Variable>
             <Variable name="checksumVar" type="com/n7space/Hwas/Word"></Variable>
             <Variable name="readStateVar" type="com/n7space/TfLunaHwas/TfLunaHwas_ReadSM"></Variable>
           </VariableSet>
@@ -44,15 +44,28 @@
                   <LongDescription>Init state machine</LongDescription>
                   <Value value="TfLunaHwas_ReadSM_NotFound" />
                 </Assignment>
+                <SendCommandPrimitive shortDescription="Start read UART2" interface="UartHwas" command="ReadByteAsyncCmd">
+                  <ArgumentValue name="uart">
+                    <VariableRef variableRef="uartVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
               </Body>
             </Activity>
             <Activity name="IncreaseCheckSum">
-              <Argument name="byte" type="com/n7space/Hwas/Word" />
+              <Argument name="byte" type="com/n7space/Hwas/Byte" />
               <Body>
                 <MathOperation outputVariableRef="checksumVar">
+                  <Operator operator="subtract" />
                   <Operator operator="add" />
                   <VariableRef variableRef="checksumVar" />
                   <VariableRef variableRef="byte" />
+                  <Operator operator="multiply" />
+                  <Operator operator="divide" />
+                  <Operator operator="add" />
+                  <VariableRef variableRef="byte" />
+                  <VariableRef variableRef="checksumVar" />
+                  <Value value="256" />
+                  <Value value="256" />
                 </MathOperation>
               </Body>
             </Activity>
@@ -67,7 +80,7 @@
               </Body>
             </Activity>
             <Activity name="ReadByteTfLuna">
-              <Argument name="readByte" type="com/n7space/Hwas/Word" />
+              <Argument name="readByte" type="com/n7space/Hwas/Byte" />
               <Body>
                 <Assignment outputVariableRef="readByteVar">
                   <Value value="readByte" />
