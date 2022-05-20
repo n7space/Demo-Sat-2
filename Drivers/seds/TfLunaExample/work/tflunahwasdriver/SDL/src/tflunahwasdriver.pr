@@ -27,7 +27,7 @@ process TfLunaHwasDriver;
             call UartHwas_InitUartCmd_Ri(Uartvar, Uartconfigvar);
             -- Init state machine
             /* CIF Task (0, 412), (100, 50) */
-            task Readstatevar := TfLunaHwas_ReadSM_NotFound;
+            task Readstatevar := TfLunaHwas_ReadSM_Idle;
             /* CIF Task (0, 487), (100, 50) */
             task Io_uarthwas_readbyteasynccmd_ri.Uart := Uartvar;
             -- Start read UART2
@@ -52,7 +52,7 @@ process TfLunaHwasDriver;
         /* CIF Start (0, 0), (200, 75) */
         START;
             /* CIF Task (0, 187), (100, 50) */
-            task Readstatevar := TfLunaHwas_ReadSM_NotFound;
+            task Readstatevar := TfLunaHwas_ReadSM_Idle;
             /* CIF Task (0, 262), (100, 50) */
             task Checksumvar := 0;
     return;
@@ -68,7 +68,7 @@ process TfLunaHwasDriver;
             /* CIF Task (0, 937), (100, 50) */
             task Readbytevar := readByte;
             /* CIF Decision (0, 937), (400, 50) */
-            decision Readstatevar = TfLunaHwas_ReadSM_NotFound;
+            decision Readstatevar = TfLunaHwas_ReadSM_Idle;
                 /* CIF Answer (0, 1012), (400, 50) */
                 (True):
                     /* CIF Decision (0, 1012), (400, 50) */
@@ -233,7 +233,7 @@ process TfLunaHwasDriver;
                                                                                             /* CIF ProcedureCall (7800, 1762), (100, 50) */
                                                                                             call ResetStateMachine;
                                                                                             /* CIF ProcedureCall (7800, 1837), (100, 50) */
-                                                                                            call TfLunaReturnHwas_ErrorReadDataCmdComplex_Ri(TfLunaHwas_DataFrameErr_WrongCrc, Datavar, Checksumvar, Readbytevar);
+                                                                                            call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLunaHwas_DataFrameErr_WrongCrc);
                                                                                             /* CIF Join (7800, 1912), (100, 50) */
                                                                                             join condition_12;
                                                                                     enddecision;
@@ -292,8 +292,6 @@ process TfLunaHwasDriver;
             enddecision;
             /* CIF Label (14400, 1087), (100, 50) */
             condition_1:
-            /* CIF ProcedureCall (14400, 1162), (100, 50) */
-            call TfLunaReturnHwas_EchoCmd_Ri(Readbyte);
     return;
     endprocedure;
     /* CIF Procedure (0, 1200), (800, 50) */
