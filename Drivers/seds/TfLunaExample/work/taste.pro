@@ -4,6 +4,6 @@ HEADERS += work/dataview/Ada/src/*.ads
 include(hwas/hwas.pro)
 include(manager/manager.pro)
 include(piohwasdriver/piohwasdriver.pro)
-include(tflunahwasdriver/tflunahwasdriver.pro)
+include(tflunadriver/tflunadriver.pro)
 include(uarthwasdriver/uarthwasdriver.pro)
 

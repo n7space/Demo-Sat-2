@@ -1,12 +1,12 @@
 /* CIF Process (0, 0), (800, 100) */
-process TfLunaHwasDriver;
+process TfLunaDriver;
     /* CIF Text (0, 150), (400, 500) */
     dcl Uartvar UartHwas;
     dcl Uartconfigvar UartHwasConfig;
-    dcl Datavar TfLunaHwas_Data;
+    dcl Datavar TfLuna_Data;
     dcl Readbytevar Byte;
     dcl Checksumvar Word;
-    dcl Readstatevar TfLunaHwas_ReadSM;
+    dcl Readstatevar TfLuna_ReadSM;
     dcl Io_uarthwas_readbyteasynccmd_pi ReadByteAsyncCmd_Type1;
     dcl Io_uarthwas_sendbyteasynccmd_pi SendByteAsyncCmd_Type1;
     dcl Io_uarthwas_readbyteasynccmd_ri ReadByteAsyncCmd_Type;
@@ -27,7 +27,7 @@ process TfLunaHwasDriver;
             call UartHwas_InitUartCmd_Ri(Uartvar, Uartconfigvar);
             -- Init state machine
             /* CIF Task (0, 412), (100, 50) */
-            task Readstatevar := TfLunaHwas_ReadSM_Idle;
+            task Readstatevar := TfLuna_ReadSM_Idle;
             /* CIF Task (0, 487), (100, 50) */
             task Io_uarthwas_readbyteasynccmd_ri.Uart := Uartvar;
             -- Start read UART2
@@ -52,7 +52,7 @@ process TfLunaHwasDriver;
         /* CIF Start (0, 0), (200, 75) */
         START;
             /* CIF Task (0, 187), (100, 50) */
-            task Readstatevar := TfLunaHwas_ReadSM_Idle;
+            task Readstatevar := TfLuna_ReadSM_Idle;
             /* CIF Task (0, 262), (100, 50) */
             task Checksumvar := 0;
     return;
@@ -68,7 +68,7 @@ process TfLunaHwasDriver;
             /* CIF Task (0, 937), (100, 50) */
             task Readbytevar := readByte;
             /* CIF Decision (0, 937), (400, 50) */
-            decision Readstatevar = TfLunaHwas_ReadSM_Idle;
+            decision Readstatevar = TfLuna_ReadSM_Idle;
                 /* CIF Answer (0, 1012), (400, 50) */
                 (True):
                     /* CIF Decision (0, 1012), (400, 50) */
@@ -76,7 +76,7 @@ process TfLunaHwasDriver;
                         /* CIF Answer (0, 1087), (400, 50) */
                         (True):
                             /* CIF Task (0, 1162), (100, 50) */
-                            task Readstatevar := TfLunaHwas_ReadSM_Head;
+                            task Readstatevar := TfLuna_ReadSM_Head;
                             /* CIF ProcedureCall (0, 1237), (100, 50) */
                             call IncreaseCheckSum(Readbytevar);
                             /* CIF Join (0, 1312), (100, 50) */
@@ -86,7 +86,7 @@ process TfLunaHwasDriver;
                             /* CIF ProcedureCall (600, 1162), (100, 50) */
                             call ResetStateMachine;
                             /* CIF ProcedureCall (600, 1237), (100, 50) */
-                            call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLunaHwas_DataFrameErr_NoHead1);
+                            call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_NoHead1);
                             /* CIF Join (600, 1312), (100, 50) */
                             join condition_2;
                     enddecision;
@@ -97,7 +97,7 @@ process TfLunaHwasDriver;
                 /* CIF Answer (1800, 1012), (400, 50) */
                 (False):
                     /* CIF Decision (1800, 1012), (400, 50) */
-                    decision Readstatevar = TfLunaHwas_ReadSM_Head;
+                    decision Readstatevar = TfLuna_ReadSM_Head;
                         /* CIF Answer (1800, 1087), (400, 50) */
                         (True):
                             /* CIF Decision (1800, 1087), (400, 50) */
@@ -105,7 +105,7 @@ process TfLunaHwasDriver;
                                 /* CIF Answer (1800, 1162), (400, 50) */
                                 (True):
                                     /* CIF Task (1800, 1237), (100, 50) */
-                                    task Readstatevar := TfLunaHwas_ReadSM_DistanceLow;
+                                    task Readstatevar := TfLuna_ReadSM_DistanceLow;
                                     /* CIF ProcedureCall (1800, 1312), (100, 50) */
                                     call IncreaseCheckSum(Readbytevar);
                                     /* CIF Join (1800, 1387), (100, 50) */
@@ -115,7 +115,7 @@ process TfLunaHwasDriver;
                                     /* CIF ProcedureCall (2400, 1237), (100, 50) */
                                     call ResetStateMachine;
                                     /* CIF ProcedureCall (2400, 1312), (100, 50) */
-                                    call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLunaHwas_DataFrameErr_NoHead2);
+                                    call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_NoHead2);
                                     /* CIF Join (2400, 1387), (100, 50) */
                                     join condition_4;
                             enddecision;
@@ -126,11 +126,11 @@ process TfLunaHwasDriver;
                         /* CIF Answer (3600, 1087), (400, 50) */
                         (False):
                             /* CIF Decision (3600, 1087), (400, 50) */
-                            decision Readstatevar = TfLunaHwas_ReadSM_DistanceLow;
+                            decision Readstatevar = TfLuna_ReadSM_DistanceLow;
                                 /* CIF Answer (3600, 1162), (400, 50) */
                                 (True):
                                     /* CIF Task (3600, 1237), (100, 50) */
-                                    task Readstatevar := TfLunaHwas_ReadSM_DistanceHigh;
+                                    task Readstatevar := TfLuna_ReadSM_DistanceHigh;
                                     /* CIF ProcedureCall (3600, 1312), (100, 50) */
                                     call IncreaseCheckSum(Readbytevar);
                                     /* CIF Task (3600, 1387), (100, 50) */
@@ -140,11 +140,11 @@ process TfLunaHwasDriver;
                                 /* CIF Answer (4200, 1162), (400, 50) */
                                 (False):
                                     /* CIF Decision (4200, 1162), (400, 50) */
-                                    decision Readstatevar = TfLunaHwas_ReadSM_DistanceHigh;
+                                    decision Readstatevar = TfLuna_ReadSM_DistanceHigh;
                                         /* CIF Answer (4200, 1237), (400, 50) */
                                         (True):
                                             /* CIF Task (4200, 1312), (100, 50) */
-                                            task Readstatevar := TfLunaHwas_ReadSM_StrengthLow;
+                                            task Readstatevar := TfLuna_ReadSM_StrengthLow;
                                             /* CIF ProcedureCall (4200, 1387), (100, 50) */
                                             call IncreaseCheckSum(Readbytevar);
                                             -- Add MSB 
@@ -155,11 +155,11 @@ process TfLunaHwasDriver;
                                         /* CIF Answer (4800, 1237), (400, 50) */
                                         (False):
                                             /* CIF Decision (4800, 1237), (400, 50) */
-                                            decision Readstatevar = TfLunaHwas_ReadSM_StrengthLow;
+                                            decision Readstatevar = TfLuna_ReadSM_StrengthLow;
                                                 /* CIF Answer (4800, 1312), (400, 50) */
                                                 (True):
                                                     /* CIF Task (4800, 1387), (100, 50) */
-                                                    task Readstatevar := TfLunaHwas_ReadSM_StrengthHigh;
+                                                    task Readstatevar := TfLuna_ReadSM_StrengthHigh;
                                                     /* CIF ProcedureCall (4800, 1462), (100, 50) */
                                                     call IncreaseCheckSum(Readbytevar);
                                                     -- Add LSB 
@@ -170,11 +170,11 @@ process TfLunaHwasDriver;
                                                 /* CIF Answer (5400, 1312), (400, 50) */
                                                 (False):
                                                     /* CIF Decision (5400, 1312), (400, 50) */
-                                                    decision Readstatevar = TfLunaHwas_ReadSM_StrengthHigh;
+                                                    decision Readstatevar = TfLuna_ReadSM_StrengthHigh;
                                                         /* CIF Answer (5400, 1387), (400, 50) */
                                                         (True):
                                                             /* CIF Task (5400, 1462), (100, 50) */
-                                                            task Readstatevar := TfLunaHwas_ReadSM_TemperatureLow;
+                                                            task Readstatevar := TfLuna_ReadSM_TemperatureLow;
                                                             /* CIF ProcedureCall (5400, 1537), (100, 50) */
                                                             call IncreaseCheckSum(Readbytevar);
                                                             -- Add MSB 
@@ -185,11 +185,11 @@ process TfLunaHwasDriver;
                                                         /* CIF Answer (6000, 1387), (400, 50) */
                                                         (False):
                                                             /* CIF Decision (6000, 1387), (400, 50) */
-                                                            decision Readstatevar = TfLunaHwas_ReadSM_TemperatureLow;
+                                                            decision Readstatevar = TfLuna_ReadSM_TemperatureLow;
                                                                 /* CIF Answer (6000, 1462), (400, 50) */
                                                                 (True):
                                                                     /* CIF Task (6000, 1537), (100, 50) */
-                                                                    task Readstatevar := TfLunaHwas_ReadSM_TemperatureHigh;
+                                                                    task Readstatevar := TfLuna_ReadSM_TemperatureHigh;
                                                                     /* CIF ProcedureCall (6000, 1612), (100, 50) */
                                                                     call IncreaseCheckSum(Readbytevar);
                                                                     -- Add LSB 
@@ -200,11 +200,11 @@ process TfLunaHwasDriver;
                                                                 /* CIF Answer (6600, 1462), (400, 50) */
                                                                 (False):
                                                                     /* CIF Decision (6600, 1462), (400, 50) */
-                                                                    decision Readstatevar = TfLunaHwas_ReadSM_TemperatureHigh;
+                                                                    decision Readstatevar = TfLuna_ReadSM_TemperatureHigh;
                                                                         /* CIF Answer (6600, 1537), (400, 50) */
                                                                         (True):
                                                                             /* CIF Task (6600, 1612), (100, 50) */
-                                                                            task Readstatevar := TfLunaHwas_ReadSM_Checksum;
+                                                                            task Readstatevar := TfLuna_ReadSM_Checksum;
                                                                             /* CIF ProcedureCall (6600, 1687), (100, 50) */
                                                                             call IncreaseCheckSum(Readbytevar);
                                                                             -- Add MSB 
@@ -215,7 +215,7 @@ process TfLunaHwasDriver;
                                                                         /* CIF Answer (7200, 1537), (400, 50) */
                                                                         (False):
                                                                             /* CIF Decision (7200, 1537), (400, 50) */
-                                                                            decision Readstatevar = TfLunaHwas_ReadSM_Checksum;
+                                                                            decision Readstatevar = TfLuna_ReadSM_Checksum;
                                                                                 /* CIF Answer (7200, 1612), (400, 50) */
                                                                                 (True):
                                                                                     /* CIF Decision (7200, 1612), (400, 50) */
@@ -233,7 +233,7 @@ process TfLunaHwasDriver;
                                                                                             /* CIF ProcedureCall (7800, 1762), (100, 50) */
                                                                                             call ResetStateMachine;
                                                                                             /* CIF ProcedureCall (7800, 1837), (100, 50) */
-                                                                                            call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLunaHwas_DataFrameErr_WrongCrc);
+                                                                                            call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_WrongCrc);
                                                                                             /* CIF Join (7800, 1912), (100, 50) */
                                                                                             join condition_12;
                                                                                     enddecision;
@@ -246,7 +246,7 @@ process TfLunaHwasDriver;
                                                                                     /* CIF ProcedureCall (9000, 1687), (100, 50) */
                                                                                     call ResetStateMachine;
                                                                                     /* CIF ProcedureCall (9000, 1762), (100, 50) */
-                                                                                    call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLunaHwas_DataFrameErr_WrongState);
+                                                                                    call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_WrongState);
                                                                                     /* CIF Join (9000, 1837), (100, 50) */
                                                                                     join condition_11;
                                                                             enddecision;
@@ -295,7 +295,7 @@ process TfLunaHwasDriver;
     return;
     endprocedure;
     /* CIF Procedure (0, 1200), (800, 50) */
-    procedure TfLunaHwas_InitTfLunaCmd_Pi;
+    procedure TfLuna_InitTfLunaCmd_Pi;
         /* CIF Start (0, 0), (200, 75) */
         START;
             /* CIF ProcedureCall (0, 187), (100, 50) */
@@ -320,8 +320,8 @@ process TfLunaHwasDriver;
     /* CIF State (600, 1537), (200, 50) */
     state Off;
         /* CIF Input (600, 1537), (200, 50) */
-        input TfLunaHwas_InitTfLunaCmd_Pi;
+        input TfLuna_InitTfLunaCmd_Pi;
             /* CIF NextState (600, 1612), (200, 50) */
             NEXTSTATE Idle;
     endstate;
-endprocess TfLunaHwasDriver;
+endprocess TfLunaDriver;

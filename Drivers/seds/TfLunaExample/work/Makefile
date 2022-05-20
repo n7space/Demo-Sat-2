@@ -3,7 +3,7 @@ MAKEFILE_PATH   := $(lastword $(MAKEFILE_LIST))
 TOOL_INST       := $(shell taste-config --prefix)
 OUTDIR          := $(dir $(MAKEFILE_PATH))
 TASTE_SHARED_TYPES?=${HOME}/.local/share/QtProject/QtCreator/shared_types
-ASN1_FILES      := ../COM-N7SPACE-HWAS.asn ../COM-N7SPACE-PIOHWAS.asn ../COM-N7SPACE-TFLUNAHWAS.asn ../COM-N7SPACE-UARTHWAS.asn ../TfLunaExample.asn ${TOOL_INST}/share/taste-types/taste-types.asn
+ASN1_FILES      := ../COM-N7SPACE-HWAS.asn ../COM-N7SPACE-PIOHWAS.asn ../COM-N7SPACE-TFLUNA.asn ../COM-N7SPACE-UARTHWAS.asn ../TfLunaExample.asn ${TOOL_INST}/share/taste-types/taste-types.asn
 CP_FILES        :=       # Context parameters
 DATAVIEW_PATH   := ${OUTDIR}/dataview
 DATAVIEW_UNIQ   := ${DATAVIEW_PATH}/dataview-uniq.asn
@@ -27,10 +27,10 @@ dataview:	dataview/C/built dataview/Ada/built
 	cp -u ${DATAVIEW_UNIQ} piohwasdriver/SDL/src
 	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
 	md5sum -c "piohwasdriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "piohwasdriver/SDL/src/dataview-uniq.asn" >  "piohwasdriver/SDL/src/dataview.md5"
-	# Copy the dataview to SDL function TfLunaHwasDriver (no context parameters)
-	cp -u ${DATAVIEW_UNIQ} tflunahwasdriver/SDL/src
+	# Copy the dataview to SDL function TfLunaDriver (no context parameters)
+	cp -u ${DATAVIEW_UNIQ} tflunadriver/SDL/src
 	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
-	md5sum -c "tflunahwasdriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "tflunahwasdriver/SDL/src/dataview-uniq.asn" >  "tflunahwasdriver/SDL/src/dataview.md5"
+	md5sum -c "tflunadriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "tflunadriver/SDL/src/dataview-uniq.asn" >  "tflunadriver/SDL/src/dataview.md5"
 	# Copy the dataview to SDL function UartHwasDriver (no context parameters)
 	cp -u ${DATAVIEW_UNIQ} uarthwasdriver/SDL/src
 	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
@@ -70,7 +70,7 @@ ${DATAVIEW_UNIQ}:	${ASN1_FILES}
 	sed -e '$$s/$$/\n/' -s $^ > $@
 
 # Create dataview-uniq.acn by concatenating all input files
-${DATAVIEW_ACN}:	../COM-N7SPACE-HWAS.acn ../COM-N7SPACE-PIOHWAS.acn ../COM-N7SPACE-TFLUNAHWAS.acn ../COM-N7SPACE-UARTHWAS.acn ../TfLunaExample.acn
+${DATAVIEW_ACN}:	../COM-N7SPACE-HWAS.acn ../COM-N7SPACE-PIOHWAS.acn ../COM-N7SPACE-TFLUNA.acn ../COM-N7SPACE-UARTHWAS.acn ../TfLunaExample.acn
 	mkdir -p ${DATAVIEW_PATH}
 	sed -e '$$s/$$/\n/' -s $^ > $@
 
@@ -79,7 +79,7 @@ build/system_config.h:	$(wildcard */*/wrappers/*_system_config.h)
 	cat $^ > $@
 
 #  Call DMT/aadl2glueC to generate glue code from the mini-cv.aadl files
-aadl2glueC:	hwas/C/wrappers/aadl2glueC_built manager/C/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built tflunahwasdriver/SDL/wrappers/aadl2glueC_built uarthwasdriver/SDL/wrappers/aadl2glueC_built
+aadl2glueC:	hwas/C/wrappers/aadl2glueC_built manager/C/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built tflunadriver/SDL/wrappers/aadl2glueC_built uarthwasdriver/SDL/wrappers/aadl2glueC_built
 
 # Build dataview.aadl in AADLv1 format, used by DMT to generate glue code
 ${DATAVIEW_AADLV1}: ${DATAVIEW_UNIQ}
@@ -101,7 +101,7 @@ piohwasdriver/SDL/wrappers/aadl2glueC_built: piohwasdriver/SDL/wrappers/piohwasd
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
 
-tflunahwasdriver/SDL/wrappers/aadl2glueC_built: tflunahwasdriver/SDL/wrappers/tflunahwasdriver_mini_cv.aadl ${DATAVIEW_AADLV1}
+tflunadriver/SDL/wrappers/aadl2glueC_built: tflunadriver/SDL/wrappers/tflunadriver_mini_cv.aadl ${DATAVIEW_AADLV1}
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
 

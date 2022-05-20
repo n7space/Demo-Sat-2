@@ -1,4 +1,4 @@
-SOURCES += work/tflunahwasdriver/SDL/src/tflunahwasdriver.pr
-SOURCES += work/tflunahwasdriver/SDL/code/tflunahwasdriver.adb
-SOURCES += work/tflunahwasdriver/SDL/code/tflunahwasdriver.ads
+SOURCES += work/tflunadriver/SDL/src/tflunadriver.pr
+SOURCES += work/tflunadriver/SDL/code/tflunadriver.adb
+SOURCES += work/tflunadriver/SDL/code/tflunadriver.ads
 

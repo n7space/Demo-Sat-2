@@ -1,11 +1,11 @@
-COM-N7SPACE-TFLUNAHWAS DEFINITIONS ::= BEGIN
-TfLunaHwas-ReadSM [size 8, encoding pos-int]
-TfLunaHwas-Data []
+COM-N7SPACE-TFLUNA DEFINITIONS ::= BEGIN
+TfLuna-ReadSM [size 8, encoding pos-int]
+TfLuna-Data []
 {
     mDistance [],
     mStrength [],
     mTemp []
 }
-TfLunaHwas-DataFrameErr [size 8, encoding pos-int]
+TfLuna-DataFrameErr [size 8, encoding pos-int]
 END
 
