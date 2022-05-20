@@ -1,3 +1,0 @@
-add_subdirectory(linux_ip_socket)
-add_subdirectory(linux_serial_ccsds)
-add_subdirectory(app)
