@@ -95,18 +95,5 @@
         </CommandSet>
       </Interface>
     </DeclaredInterfaceSet>
-    <ComponentSet>
-      <Component name="HWAS">
-        <LongDescription>Facade for the underlying microprocessor/microcontroller system.</LongDescription>
-        <ProvidedInterfaceSet>
-          <Interface name="InterruptSubscriptionManagement" type="InterruptSubscriptionManagementInterfaceType" />
-          <Interface name="InterruptManagement" type="InterruptManagementInterfaceType" />
-          <Interface name="RawMemoryAccess" type="RawMemoryAccessInterfaceType" />
-        </ProvidedInterfaceSet>
-        <RequiredInterfaceSet>
-          <Interface name="InterruptSubscription" type="InterruptSubscriptionInterfaceType" />
-        </RequiredInterfaceSet>
-      </Component>
-    </ComponentSet>
   </Package>
 </PackageFile>

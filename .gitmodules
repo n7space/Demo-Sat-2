@@ -1,9 +1,12 @@
-[submodule "TASTE-SAMV71-Runtime"]
-	path = TASTE-SAMV71-Runtime
-	url = git@github.com:n7space/TASTE-SAMV71-Runtime.git
-[submodule "cpputest"]
-	path = cpputest
-	url = git@github.com:cpputest/cpputest.git
 [submodule "cmake"]
 	path = cmake
 	url = git@github.com:n7space/cmake-tools.git
+[submodule "Drivers/c/cpputest"]
+	path = Drivers/c/cpputest
+	url = git@github.com:cpputest/cpputest.git
+[submodule "Drivers/c/TASTE-SAMV71-Runtime"]
+	path = Drivers/c/TASTE-SAMV71-Runtime
+	url = git@github.com:n7space/TASTE-SAMV71-Runtime.git
+[submodule "Drivers/seds/UartHwas/example/linuxPartition/TASTE-Linux-Drivers"]
+	path = Drivers/seds/UartHwas/example/linuxPartition/TASTE-Linux-Drivers
+	url = git@github.com:n7space/TASTE-Linux-Drivers.git

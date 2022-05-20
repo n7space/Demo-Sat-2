@@ -20,6 +20,14 @@ PioHwas-Direction ::= ENUMERATED
     pioHwas-Direction-Input(0),
     pioHwas-Direction-Output(1)
 }
+-- Possible I/O line assignment to peripherals.
+PioHwas-Control ::= ENUMERATED
+{
+    pioHwas-Control-PeripheralA(0),
+    pioHwas-Control-PeripheralB(1),
+    pioHwas-Control-PeripheralC(2),
+    pioHwas-Control-PeripheralD(3)
+}
 -- Pio descriptor
 PioHwas ::= SEQUENCE 
 { 
@@ -37,6 +45,8 @@ PioHwas ::= SEQUENCE
     mPortOwerAddress DestinationAddress(0 .. 4294967295), 
     mPortOwdrAddress DestinationAddress(0 .. 4294967295), 
     mPortIfscdrAddress DestinationAddress(0 .. 4294967295), 
+    mPortAbcdsr0Address DestinationAddress(0 .. 4294967295), 
+    mPortAbcdsr1Address DestinationAddress(0 .. 4294967295), 
     mPortPpddrAddress DestinationAddress(0 .. 4294967295), 
     mPortSchmittAddress DestinationAddress(0 .. 4294967295)
 } 
@@ -45,7 +55,8 @@ PioHwasPinConfig ::= SEQUENCE
 { 
     mPortConfig PioHwas-Port, 
     mPinConfig PinNumber(0 .. 15), 
-    mDirectionConfig PioHwas-Direction
+    mDirectionConfig PioHwas-Direction, 
+    mControlConfig PioHwas-Control
 } 
 -- Pmc descriptor
 PmcHwas ::= SEQUENCE 

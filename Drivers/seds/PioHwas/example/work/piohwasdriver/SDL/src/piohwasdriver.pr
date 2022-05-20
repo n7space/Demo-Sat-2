@@ -84,8 +84,16 @@ process PioHwasDriver;
             /* CIF Task (0, 2062), (100, 50) */
             task Piovar.Mportowdraddress := Piovar.Mportaddress + Piovar.Mportowdraddress;
             /* CIF Task (0, 2137), (100, 50) */
-            task Piovar.Mportschmittaddress := 256;
+            task Piovar.Mportabcdsr0address := 112;
             /* CIF Task (0, 2212), (100, 50) */
+            task Piovar.Mportabcdsr0address := Piovar.Mportaddress + Piovar.Mportabcdsr0address;
+            /* CIF Task (0, 2287), (100, 50) */
+            task Piovar.Mportabcdsr1address := 116;
+            /* CIF Task (0, 2362), (100, 50) */
+            task Piovar.Mportabcdsr1address := Piovar.Mportaddress + Piovar.Mportabcdsr1address;
+            /* CIF Task (0, 2437), (100, 50) */
+            task Piovar.Mportschmittaddress := 256;
+            /* CIF Task (0, 2512), (100, 50) */
             task Piovar.Mportschmittaddress := Piovar.Mportaddress + Piovar.Mportschmittaddress;
         return ;
     endprocedure;
@@ -384,19 +392,91 @@ process PioHwasDriver;
             -- Set no filter. Ifscdr register
             /* CIF ProcedureCall (14400, 2737), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+            -- Set control config
+            -- Is control peripheral equal to Peripheral A
+            /* CIF Decision (14400, 2737), (400, 50) */
+            decision Config.Mcontrolconfig = PioHwas_Control_PeripheralA;
+                /* CIF Answer (14400, 2812), (400, 50) */
+                (True):
+                    /* CIF Join (14400, 2887), (100, 50) */
+                    join condition_13;
+                /* CIF Answer (15000, 2812), (400, 50) */
+                (False):
+                    -- Is control peripheral equal to Peripheral B
+                    /* CIF Decision (15000, 2812), (400, 50) */
+                    decision Config.Mcontrolconfig = PioHwas_Control_PeripheralB;
+                        /* CIF Answer (15000, 2887), (400, 50) */
+                        (True):
+                            /* CIF Task (15000, 2962), (100, 50) */
+                            task Destinationaddressvar := Piovar.Mportabcdsr0address;
+                            -- Assign the I/O line to the Peripheral B
+                            /* CIF ProcedureCall (15000, 3037), (100, 50) */
+                            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+                            /* CIF Join (15000, 3112), (100, 50) */
+                            join condition_14;
+                        /* CIF Answer (15600, 2887), (400, 50) */
+                        (False):
+                            /* CIF Task (15600, 2962), (100, 50) */
+                            task Destinationaddressvar := Piovar.Mportabcdsr1address;
+                            -- Make is possible to assign the I/O line to the Peripheral C or D
+                            /* CIF ProcedureCall (15600, 3037), (100, 50) */
+                            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+                            -- Is control peripheral equal to Peripheral C
+                            /* CIF Decision (15600, 3037), (400, 50) */
+                            decision Config.Mcontrolconfig = PioHwas_Control_PeripheralC;
+                                /* CIF Answer (15600, 3112), (400, 50) */
+                                (True):
+                                    /* CIF Join (15600, 3187), (100, 50) */
+                                    join condition_15;
+                                /* CIF Answer (16200, 3112), (400, 50) */
+                                (False):
+                                    -- Is port equal to port D?
+                                    /* CIF Decision (16200, 3112), (400, 50) */
+                                    decision Config.Mcontrolconfig = PioHwas_Control_PeripheralD;
+                                        /* CIF Answer (16200, 3187), (400, 50) */
+                                        (True):
+                                            /* CIF Task (16200, 3262), (100, 50) */
+                                            task Destinationaddressvar := Piovar.Mportabcdsr0address;
+                                            -- Assign the I/O line to the Peripheral D
+                                            /* CIF ProcedureCall (16200, 3337), (100, 50) */
+                                            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
+                                            /* CIF Join (16200, 3412), (100, 50) */
+                                            join condition_16;
+                                        /* CIF Answer (16800, 3187), (400, 50) */
+                                        (False):
+                                            /* CIF Join (16800, 3262), (100, 50) */
+                                            join condition_16;
+                                    enddecision;
+                                    /* CIF Label (17400, 3262), (100, 50) */
+                                    condition_16:
+                                    /* CIF Join (17400, 3337), (100, 50) */
+                                    join condition_15;
+                            enddecision;
+                            /* CIF Label (18000, 3187), (100, 50) */
+                            condition_15:
+                            /* CIF Join (18000, 3262), (100, 50) */
+                            join condition_14;
+                    enddecision;
+                    /* CIF Label (18600, 2962), (100, 50) */
+                    condition_14:
+                    /* CIF Join (18600, 3037), (100, 50) */
+                    join condition_13;
+            enddecision;
+            /* CIF Label (19200, 2887), (100, 50) */
+            condition_13:
             -- Set destination register to SCHMITT
             -- Assign destination address for register write
-            /* CIF Task (14400, 2812), (100, 50) */
+            /* CIF Task (19200, 2962), (100, 50) */
             task Destinationaddressvar := Piovar.Mportschmittaddress;
             -- Set no schmitt trigger. Ifscdr register
-            /* CIF ProcedureCall (14400, 2887), (100, 50) */
+            /* CIF ProcedureCall (19200, 3037), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
             -- Set destination register to MDDR
             -- Assign destination address for register write
-            /* CIF Task (14400, 2962), (100, 50) */
+            /* CIF Task (19200, 3112), (100, 50) */
             task Destinationaddressvar := Piovar.Mportmddraddress;
             -- Set no opendrain. Ifscdr register
-            /* CIF ProcedureCall (14400, 3037), (100, 50) */
+            /* CIF ProcedureCall (19200, 3187), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
         return ;
     endprocedure;
