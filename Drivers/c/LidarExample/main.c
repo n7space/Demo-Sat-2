@@ -77,10 +77,14 @@ int main() {
   for (;;) {
   }
 }
+static void increaseChecksum(uint16_t * checksum, uint16_t rxByte)
+{
+  *checksum = (*checksum + rxByte) % 256;
+}
 
 static void parseTfLunaData() {
   uint8_t rxByte;
-  uint8_t checksum;
+  uint16_t checksum;
   uint16_t distance;
   uint16_t strength;
   int16_t temp;
@@ -94,30 +98,30 @@ static void parseTfLunaData() {
         // Read low 8 bits of distance
         ByteFifo_pull(&rxFifo, &rxByte);
         distance = rxByte;
-        checksum += rxByte;
+        increaseChecksum(&checksum,  rxByte);
         // Read high 8 bits of distance
         ByteFifo_pull(&rxFifo, &rxByte);
         distance += (rxByte << 8);
-        checksum += rxByte;
+        increaseChecksum(&checksum,  rxByte);
 
         // Read low 8 bits of strength
         ByteFifo_pull(&rxFifo, &rxByte);
-        checksum += rxByte;
+        increaseChecksum(&checksum,  rxByte);
         strength = rxByte;
 
         // Read high 8 bits of strength
         ByteFifo_pull(&rxFifo, &rxByte);
-        checksum += rxByte;
+        increaseChecksum(&checksum,  rxByte);
         strength += (rxByte << 8);
 
         // Read low 8 bits of temperature
         ByteFifo_pull(&rxFifo, &rxByte);
-        checksum += rxByte;
+        increaseChecksum(&checksum,  rxByte);
         temp = rxByte;
 
         // Read high 8 bits of temperature
         ByteFifo_pull(&rxFifo, &rxByte);
-        checksum += rxByte;
+        increaseChecksum(&checksum,  rxByte);
         temp += (rxByte << 8);
 
         // Read and check crc
