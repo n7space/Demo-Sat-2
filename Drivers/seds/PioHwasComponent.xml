@@ -102,13 +102,13 @@
                   <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
                   <VariableRef variableRef="pioVar.mPortCodrAddress" />
                 </MathOperation>
-                <Assignment outputVariableRef="pioVar.mPortOdsrAddress">
-                  <Value value="56" />
+                <Assignment outputVariableRef="pioVar.mPortPdsrAddress">
+                  <Value value="60" />
                 </Assignment>
-                <MathOperation outputVariableRef="pioVar.mPortOdsrAddress">
+                <MathOperation outputVariableRef="pioVar.mPortPdsrAddress">
                   <Operator operator="add" />
                   <VariableRef variableRef="pioVar.mPortAddress"></VariableRef>
-                  <VariableRef variableRef="pioVar.mPortOdsrAddress" />
+                  <VariableRef variableRef="pioVar.mPortPdsrAddress" />
                 </MathOperation>
                 <Assignment outputVariableRef="pioVar.mPortMddrAddress">
                   <Value value="84" />
@@ -786,7 +786,7 @@
               <Body>
                 <Assignment outputVariableRef="sourceAddressVar">
                   <LongDescription>Assign source address to variable</LongDescription>
-                  <VariableRef variableRef="pio.mPortOdsrAddress" />
+                  <VariableRef variableRef="pio.mPortPdsrAddress" />
                 </Assignment>
                 <Assignment outputVariableRef="pinMaskVar">
                   <LongDescription>Assign mask to variable</LongDescription>
