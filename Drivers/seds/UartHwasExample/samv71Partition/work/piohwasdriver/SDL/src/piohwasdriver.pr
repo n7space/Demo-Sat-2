@@ -60,9 +60,9 @@ process PioHwasDriver;
             /* CIF Task (0, 1162), (100, 50) */
             task Piovar.Mportcodraddress := Piovar.Mportaddress + Piovar.Mportcodraddress;
             /* CIF Task (0, 1237), (100, 50) */
-            task Piovar.Mportodsraddress := 56;
+            task Piovar.Mportpdsraddress := 60;
             /* CIF Task (0, 1312), (100, 50) */
-            task Piovar.Mportodsraddress := Piovar.Mportaddress + Piovar.Mportodsraddress;
+            task Piovar.Mportpdsraddress := Piovar.Mportaddress + Piovar.Mportpdsraddress;
             /* CIF Task (0, 1387), (100, 50) */
             task Piovar.Mportmddraddress := 84;
             /* CIF Task (0, 1462), (100, 50) */
@@ -563,7 +563,7 @@ process PioHwasDriver;
         START;
             -- Assign source address to variable
             /* CIF Task (0, 937), (100, 50) */
-            task Sourceaddressvar := Pio.Mportodsraddress;
+            task Sourceaddressvar := Pio.Mportpdsraddress;
             -- Assign mask to variable
             /* CIF Task (0, 1012), (100, 50) */
             task Pinmaskvar := Pio.Mpin;

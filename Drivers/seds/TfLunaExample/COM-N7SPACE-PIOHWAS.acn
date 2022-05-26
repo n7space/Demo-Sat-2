@@ -14,7 +14,7 @@ PioHwas []
     mPortIfdrAddress [],
     mPortSodrAddress [],
     mPortCodrAddress [],
-    mPortOdsrAddress [],
+    mPortPdsrAddress [],
     mPortMddrAddress [],
     mPortPuerAddress [],
     mPortPudrAddress [],
