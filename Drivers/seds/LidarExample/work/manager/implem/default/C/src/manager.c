@@ -8,18 +8,48 @@
  */
 
 #include "manager.h"
-//#include <stdio.h>
 
+#include <stdio.h>
+#include <string.h>
 
+#include <Hal.h>
+
+static bool initialized = false;
+static asn1SccLidar lidar;
+static asn1SccLidarConfig lidarConfig = {
+    .mMP6500Config = {
+        .mStepPioConfig = {.mPortConfig = asn1SccpioHwas_Port_D,
+                           .mPinConfig = 27,
+                           .mDirectionConfig = asn1SccpioHwas_Direction_Output,
+                           .mControlConfig = asn1SccpioHwas_Control_Pio},
+        .mDirPioConfig = {.mPortConfig = asn1SccpioHwas_Port_C,
+                          .mPinConfig = 19,
+                          .mDirectionConfig = asn1SccpioHwas_Direction_Output,
+                          .mControlConfig = asn1SccpioHwas_Control_Pio},
+    },
+            .mLeftEndSwitchConfig = {.mPortConfig = asn1SccpioHwas_Port_D,
+                                     .mPinConfig = 28,
+                                     .mDirectionConfig = asn1SccpioHwas_Direction_Input,
+                                     .mControlConfig = asn1SccpioHwas_Control_Pio},
+            .mRightEndSwitchConfig = {.mPortConfig = asn1SccpioHwas_Port_A,
+                                      .mPinConfig = 6,
+                                      .mDirectionConfig = asn1SccpioHwas_Direction_Input,
+                                      .mControlConfig = asn1SccpioHwas_Control_Pio}};
 void manager_startup(void)
 {
-   // Write your initialisation code, but DO NOT CALL REQUIRED INTERFACES
-   // puts ("[Manager] Startup");
+    Hal_console_usart_init();
 }
 
 void manager_PI_Initialize(void)
 {
-   // Write your code here
+    if (!initialized)
+    {
+        manager_RI_Lidar_InitLidarCmd_Pi(&lidar, &lidarConfig);
+        initialized = true;
+    }
+    else
+    {
+    }    
 }
 
 
@@ -27,7 +57,11 @@ void manager_PI_LidarTrigger_ReturnDataCmd_Ri
       (const asn1SccReturnDataCmd_Type *IN_inputparam)
 
 {
-   // Write your code here
+    asn1SccTfLuna_Data mTfLunaData;
+    asn1SccLidarData_mStep mStep;
+    static uint8_t buffer[40];
+    sprintf(buffer, "Step %lld D %lld S %lld T %lld\n", IN_inputparam->data.mStep, IN_inputparam->data.mTfLunaData.mDistance, IN_inputparam->data.mTfLunaData.mStrength, IN_inputparam->data.mTfLunaData.mTemp);
+    Hal_console_usart_write(buffer, strlen(buffer));
 }
 
 
@@ -35,7 +69,9 @@ void manager_PI_LidarTrigger_ReturnErrorCmd_Ri
       (const asn1SccReturnErrorCmd_Type *IN_inputparam)
 
 {
-   // Write your code here
+    static uint8_t buffer[20];
+    sprintf(buffer, "Error %i\n", IN_inputparam->err.mTfLunaError);
+    Hal_console_usart_write(buffer, strlen(buffer));
 }
 
 

@@ -11,9 +11,9 @@ WordMask ::= INTEGER(0 .. 4294967295)
 InterruptNumber ::= INTEGER(0 .. 255)
 -- Byte.
 Byte ::= INTEGER(0 .. 255)
-Interrupt-Type ::= SEQUENCE 
-{ 
+Interrupt-Type ::= SEQUENCE
+{
     interrupt InterruptNumber(0 .. 255)
-} 
+}
 END
 

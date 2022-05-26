@@ -1,0 +1,196 @@
+# Build using deployment view samv71.dv.xml Default_Deployment.aadl
+if [ samv71.dv.xml -nt samv71.aadl ]; then 	spacecreator.AppImage --dvconverter -o samv71.dv.xml -t  /home/taste/tool-inst/share/dv2aadl/deploymentview.tmplt -x samv71.aadl; fi;
+rsync --checksum samv71.aadl DeploymentView.aadl
+rm -rf work/glue_release
+rm -rf work/glue_coverage
+make -C work check_targets
+make[1]: Entering directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work'
+make -C build -f Makefile.taste check_targets
+make[2]: Entering directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build'
+check_deployment_target_cli.py samv71_freertos
+[-] Platform samv71_freertos is installed
+make[2]: Leaving directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build'
+make[1]: Leaving directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work'
+make -C work
+make[1]: Entering directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work'
+# Copy the dataview to SDL function LidarDriver (no context parameters)
+cp -u .//dataview/dataview-uniq.asn lidardriver/SDL/src
+# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
+md5sum -c "lidardriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "lidardriver/SDL/src/dataview-uniq.asn" >  "lidardriver/SDL/src/dataview.md5"
+# Copy the dataview to SDL function MP6500Driver (no context parameters)
+cp -u .//dataview/dataview-uniq.asn mp6500driver/SDL/src
+# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
+md5sum -c "mp6500driver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "mp6500driver/SDL/src/dataview-uniq.asn" >  "mp6500driver/SDL/src/dataview.md5"
+# Copy the dataview to SDL function PioHwasDriver (no context parameters)
+cp -u .//dataview/dataview-uniq.asn piohwasdriver/SDL/src
+# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
+md5sum -c "piohwasdriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "piohwasdriver/SDL/src/dataview-uniq.asn" >  "piohwasdriver/SDL/src/dataview.md5"
+# Copy the dataview to SDL function TfLunaDriver (no context parameters)
+cp -u .//dataview/dataview-uniq.asn tflunadriver/SDL/src
+# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
+md5sum -c "tflunadriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "tflunadriver/SDL/src/dataview-uniq.asn" >  "tflunadriver/SDL/src/dataview.md5"
+# Copy the dataview to SDL function UartHwasDriver (no context parameters)
+cp -u .//dataview/dataview-uniq.asn uarthwasdriver/SDL/src
+# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
+md5sum -c "uarthwasdriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "uarthwasdriver/SDL/src/dataview-uniq.asn" >  "uarthwasdriver/SDL/src/dataview.md5"
+touch dataview/built
+make -C build -f Makefile.taste ocarina
+make[2]: Entering directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build'
+make[2]: 'ocarina' is up to date.
+make[2]: Leaving directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build'
+make -j -C build -f Makefile.taste
+make[2]: Entering directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build'
+make -j -C node_1 -f Makefile.node_1
+make[3]: Entering directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build/node_1'
+sh ./runtime_partition_1.sh
+Copying TASTE common runtime
+Copying TASTE SAMV71 runtime
+Copying TASTE SAMV71 drivers
+Copying source code of device drivers
+gprbuild -R -p -P partition_1.gpr -XCFG="Debug" -cargs:C -DSTATIC=""
+Compile
+   [C]            main.c
+   [Ada]          taste_basictypes.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/taste_basictypes.adb
+sed -i 's/_ada_main/main/g' taste_basictypes.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections taste_basictypes.s
+Removing intermediate product taste_basictypes.s
+Removing intermediate product taste_basictypes.ali
+   [Ada]          mp6500driver_datamodel.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/mp6500driver_datamodel.adb
+sed -i 's/_ada_main/main/g' mp6500driver_datamodel.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections mp6500driver_datamodel.s
+Removing intermediate product mp6500driver_datamodel.s
+Removing intermediate product mp6500driver_datamodel.ali
+   [Ada]          piohwasdriver_datamodel.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/piohwasdriver_datamodel.adb
+sed -i 's/_ada_main/main/g' piohwasdriver_datamodel.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections piohwasdriver_datamodel.s
+Removing intermediate product piohwasdriver_datamodel.s
+Removing intermediate product piohwasdriver_datamodel.ali
+   [Ada]          tflunadriver_datamodel.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/tflunadriver_datamodel.adb
+sed -i 's/_ada_main/main/g' tflunadriver_datamodel.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections tflunadriver_datamodel.s
+Removing intermediate product tflunadriver_datamodel.s
+Removing intermediate product tflunadriver_datamodel.ali
+   [Ada]          lidardriver_datamodel.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/lidardriver_datamodel.adb
+sed -i 's/_ada_main/main/g' lidardriver_datamodel.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections lidardriver_datamodel.s
+Removing intermediate product lidardriver_datamodel.s
+Removing intermediate product lidardriver_datamodel.ali
+   [Ada]          com_n7space_hwas.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/com_n7space_hwas.adb
+sed -i 's/_ada_main/main/g' com_n7space_hwas.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections com_n7space_hwas.s
+Removing intermediate product com_n7space_hwas.s
+Removing intermediate product com_n7space_hwas.ali
+   [Ada]          com_n7space_piohwas.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/com_n7space_piohwas.adb
+sed -i 's/_ada_main/main/g' com_n7space_piohwas.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections com_n7space_piohwas.s
+Removing intermediate product com_n7space_piohwas.s
+Removing intermediate product com_n7space_piohwas.ali
+   [Ada]          uarthwasdriver_datamodel.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/uarthwasdriver_datamodel.adb
+sed -i 's/_ada_main/main/g' uarthwasdriver_datamodel.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections uarthwasdriver_datamodel.s
+Removing intermediate product uarthwasdriver_datamodel.s
+Removing intermediate product uarthwasdriver_datamodel.ali
+   [Ada]          lidarexample_dataview.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/lidarexample_dataview.adb
+sed -i 's/_ada_main/main/g' lidarexample_dataview.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections lidarexample_dataview.s
+Removing intermediate product lidarexample_dataview.s
+Removing intermediate product lidarexample_dataview.ali
+   [Ada]          com_n7space_uarthwas.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/com_n7space_uarthwas.adb
+sed -i 's/_ada_main/main/g' com_n7space_uarthwas.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections com_n7space_uarthwas.s
+Removing intermediate product com_n7space_uarthwas.s
+Removing intermediate product com_n7space_uarthwas.ali
+   [Ada]          com_n7space_mp6500.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/com_n7space_mp6500.adb
+sed -i 's/_ada_main/main/g' com_n7space_mp6500.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections com_n7space_mp6500.s
+Removing intermediate product com_n7space_mp6500.s
+Removing intermediate product com_n7space_mp6500.ali
+   [Ada]          com_n7space_tfluna.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/com_n7space_tfluna.adb
+sed -i 's/_ada_main/main/g' com_n7space_tfluna.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections com_n7space_tfluna.s
+Removing intermediate product com_n7space_tfluna.s
+Removing intermediate product com_n7space_tfluna.ali
+   [Ada]          com_n7space_lidar.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/src/com_n7space_lidar.adb
+sed -i 's/_ada_main/main/g' com_n7space_lidar.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections com_n7space_lidar.s
+Removing intermediate product com_n7space_lidar.s
+Removing intermediate product com_n7space_lidar.ali
+   [Ada]          adaasn1rtl.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/dataview/Ada/asn1rtl/adaasn1rtl.adb
+sed -i 's/_ada_main/main/g' adaasn1rtl.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections adaasn1rtl.s
+Removing intermediate product adaasn1rtl.s
+Removing intermediate product adaasn1rtl.ali
+   [Ada]          uarthwasdriver_ri.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/uarthwasdriver/SDL/wrappers/uarthwasdriver_ri.adb
+sed -i 's/_ada_main/main/g' uarthwasdriver_ri.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections uarthwasdriver_ri.s
+Removing intermediate product uarthwasdriver_ri.s
+Removing intermediate product uarthwasdriver_ri.ali
+   [Ada]          uarthwasdriver.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/uarthwasdriver/SDL/code/uarthwasdriver.adb
+sed -i 's/_ada_main/main/g' uarthwasdriver.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections uarthwasdriver.s
+Removing intermediate product uarthwasdriver.s
+Removing intermediate product uarthwasdriver.ali
+   [Ada]          tflunadriver_ri.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/tflunadriver/SDL/wrappers/tflunadriver_ri.adb
+sed -i 's/_ada_main/main/g' tflunadriver_ri.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections tflunadriver_ri.s
+Removing intermediate product tflunadriver_ri.s
+Removing intermediate product tflunadriver_ri.ali
+   [Ada]          tflunadriver.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/tflunadriver/SDL/code/tflunadriver.adb
+sed -i 's/_ada_main/main/g' tflunadriver.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections tflunadriver.s
+Removing intermediate product tflunadriver.s
+Removing intermediate product tflunadriver.ali
+   [Ada]          piohwasdriver_ri.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/piohwasdriver/SDL/wrappers/piohwasdriver_ri.adb
+sed -i 's/_ada_main/main/g' piohwasdriver_ri.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections piohwasdriver_ri.s
+Removing intermediate product piohwasdriver_ri.s
+Removing intermediate product piohwasdriver_ri.ali
+   [Ada]          piohwasdriver.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/piohwasdriver/SDL/code/piohwasdriver.adb
+sed -i 's/_ada_main/main/g' piohwasdriver.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections piohwasdriver.s
+Removing intermediate product piohwasdriver.s
+Removing intermediate product piohwasdriver.ali
+   [Ada]          mp6500driver_ri.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/mp6500driver/SDL/wrappers/mp6500driver_ri.adb
+sed -i 's/_ada_main/main/g' mp6500driver_ri.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections mp6500driver_ri.s
+Removing intermediate product mp6500driver_ri.s
+Removing intermediate product mp6500driver_ri.ali
+   [Ada]          mp6500driver.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/mp6500driver/SDL/code/mp6500driver.adb
+sed -i 's/_ada_main/main/g' mp6500driver.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections mp6500driver.s
+Removing intermediate product mp6500driver.s
+Removing intermediate product mp6500driver.ali
+   [Ada]          lidardriver_ri.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/lidardriver/SDL/wrappers/lidardriver_ri.adb
+sed -i 's/_ada_main/main/g' lidardriver_ri.s
+arm-none-eabi-gcc  -c -c -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections lidardriver_ri.s
+Removing intermediate product lidardriver_ri.s
+Removing intermediate product lidardriver_ri.ali
+   [Ada]          lidardriver.adb
+arm-eabi-gcc -gnatA -gnatd.E -gnateDWORD_SIZE=4 -I/opt/arm-elf-adac/include -I../../../dataview/Ada/asn1rtl -I../../../dataview/Ada/src -I../../../dataview/Ada/boards/stm32 -gnatec=/tmp/GNAT-TEMP-000005.TMP -gnatem=/tmp/GNAT-TEMP-000006.TMP -Wall -Wextra -I. -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mlittle-endian -mthumb -ffunction-sections -S /home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/lidardriver/SDL/code/lidardriver.adb
+sed -i 's/_ada_main/main/g' lidardriver.s
+make[3]: Leaving directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build/node_1'
+make[2]: Leaving directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work/build'
+make[1]: Leaving directory '/home/taste/Documents/git/Demo-Sat-2/Drivers/seds/LidarExample/work'

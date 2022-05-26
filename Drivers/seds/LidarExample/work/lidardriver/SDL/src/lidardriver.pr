@@ -1,7 +1,6 @@
 /* CIF Process (0, 0), (800, 100) */
 process LidarDriver;
     /* CIF Text (0, 150), (400, 500) */
-    Timer timer_Calibrate;
     dcl Lidarvar Lidar;
     dcl Configvar LidarConfig;
     dcl Datavar LidarData;
@@ -40,6 +39,14 @@ process LidarDriver;
             call MP6500_SetDirectionLeftCmd_Ri(Lidarvar.Mmp6500);
             /* CIF Task (0, 1387), (100, 50) */
             task Directionvar := LidarDirection_Left;
+            -- Set direction of rotation to left to perform calibration
+            /* CIF ProcedureCall (0, 1462), (100, 50) */
+            call MP6500_SetDirectionRightCmd_Ri(Lidarvar.Mmp6500);
+            /* CIF Task (0, 1537), (100, 50) */
+            task Directionvar := LidarDirection_Right;
+            -- Star UartRead
+            /* CIF ProcedureCall (0, 1612), (100, 50) */
+            call TfLuna_InitTfLunaCmd_Ri;
     return;
     endprocedure;
     /* CIF Procedure (0, 975), (800, 50) */
@@ -91,7 +98,7 @@ process LidarDriver;
             /* CIF ProcedureCall (0, 187), (100, 50) */
             call MP6500_SetDirectionRightCmd_Ri(Lidarvar.Mmp6500);
             /* CIF Task (0, 262), (100, 50) */
-            task Directionvar := LidarDirection_Right;
+            task Directionvar := LidarDirection_Left;
     return;
     endprocedure;
     /* CIF Procedure (0, 1125), (800, 50) */
@@ -164,10 +171,12 @@ process LidarDriver;
                                 (False):
                                     /* CIF Task (2400, 1537), (100, 50) */
                                     task Directionvar := LidarDirection_Right;
+                                    /* CIF Task (2400, 1612), (100, 50) */
+                                    task Stepvar := 0;
                                     -- Set direction of rotation to left to perform calibration
-                                    /* CIF ProcedureCall (2400, 1612), (100, 50) */
+                                    /* CIF ProcedureCall (2400, 1687), (100, 50) */
                                     call MP6500_SetDirectionRightCmd_Ri(Lidarvar.Mmp6500);
-                                    /* CIF Join (2400, 1687), (100, 50) */
+                                    /* CIF Join (2400, 1762), (100, 50) */
                                     join condition_4;
                             enddecision;
                             /* CIF Label (3000, 1537), (100, 50) */
@@ -254,36 +263,21 @@ process LidarDriver;
         /* CIF NextState (0, 1687), (200, 50) */
         NEXTSTATE Off;
     /* CIF State (0, 1762), (200, 50) */
-    state Calibrate;
+    state Idle;
         /* CIF Input (0, 1762), (200, 50) */
-        input timer_Calibrate;
-            /* CIF ProcedureCall (0, 1837), (100, 50) */
-            call CalibrateLidar;
-            /* CIF NextState (0, 1912), (200, 50) */
-            NEXTSTATE Calibrate;
+        input TfLunaReturn_ReadDataCmd_Pi;
+            /* CIF NextState (0, 1837), (200, 50) */
+            NEXTSTATE Idle;
         /* CIF Input (300, 1762), (200, 50) */
-        input Lidar_StartScanningCmd_Pi;
-            /* CIF ProcedureCall (300, 1837), (100, 50) */
-            call StartScanning;
-            /* CIF NextState (300, 1912), (200, 50) */
+        input TfLunaReturn_ErrorReadDataCmd_Pi;
+            /* CIF NextState (300, 1837), (200, 50) */
             NEXTSTATE Idle;
     endstate;
     /* CIF State (900, 1762), (200, 50) */
-    state Idle;
-        /* CIF Input (900, 1762), (200, 50) */
-        input TfLunaReturn_ReadDataCmd_Pi;
-            /* CIF NextState (900, 1837), (200, 50) */
-            NEXTSTATE Idle;
-        /* CIF Input (1200, 1762), (200, 50) */
-        input TfLunaReturn_ErrorReadDataCmd_Pi;
-            /* CIF NextState (1200, 1837), (200, 50) */
-            NEXTSTATE Idle;
-    endstate;
-    /* CIF State (1800, 1762), (200, 50) */
     state Off;
-        /* CIF Input (1800, 1762), (200, 50) */
+        /* CIF Input (900, 1762), (200, 50) */
         input Lidar_InitLidarCmd_Pi;
-            /* CIF NextState (1800, 1837), (200, 50) */
+            /* CIF NextState (900, 1837), (200, 50) */
             NEXTSTATE Idle;
     endstate;
 endprocess LidarDriver;

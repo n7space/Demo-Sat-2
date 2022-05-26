@@ -1,0 +1,18 @@
+<DeploymentView>
+    <Node name="SAM V71 FreeRTOS N7S_1" type="ocarina_processors_arm::samv71.freertos" node_label="Node_1" namespace="ocarina_processors_arm">
+        <Property name="Taste::coordinates" value="23400 32700 51900 50500"/>
+        <Partition name="Partition_1">
+            <Property name="Taste::coordinates" value="28600 37200 48900 50100"/>
+            <Function name="HWAS" path="HWAS"/>
+            <Function name="PioHwasDriver" path="PioHwasDriver"/>
+            <Function name="MP6500Driver" path="MP6500Driver"/>
+            <Function name="Manager" path="Manager"/>
+            <Function name="UartHwasDriver" path="UartHwasDriver"/>
+            <Function name="TfLunaDriver" path="TfLunaDriver"/>
+            <Function name="LidarDriver" path="LidarDriver"/>
+        </Partition>
+        <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-SAMV71-Drivers/configurations/samv71-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-SamV71-Conf-T" asn1module="SAMV71-SERIAL-CCSDS-DRIVER" bus_namespace="ocarina_buses" impl_extends="ocarina_drivers::serial_ccsds.samv71" namespace="ocarina_drivers" extends="ocarina_drivers::serial_ccsds">
+            <Property name="Taste::coordinates" value="23400 34400"/>
+        </Device>
+    </Node>
+</DeploymentView>
