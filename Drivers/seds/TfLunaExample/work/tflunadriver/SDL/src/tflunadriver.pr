@@ -86,7 +86,7 @@ process TfLunaDriver;
                             /* CIF ProcedureCall (600, 1162), (100, 50) */
                             call ResetStateMachine;
                             /* CIF ProcedureCall (600, 1237), (100, 50) */
-                            call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_NoHead1);
+                            call TfLunaReturn_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_NoHead1);
                             /* CIF Join (600, 1312), (100, 50) */
                             join condition_2;
                     enddecision;
@@ -115,7 +115,7 @@ process TfLunaDriver;
                                     /* CIF ProcedureCall (2400, 1237), (100, 50) */
                                     call ResetStateMachine;
                                     /* CIF ProcedureCall (2400, 1312), (100, 50) */
-                                    call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_NoHead2);
+                                    call TfLunaReturn_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_NoHead2);
                                     /* CIF Join (2400, 1387), (100, 50) */
                                     join condition_4;
                             enddecision;
@@ -225,7 +225,7 @@ process TfLunaDriver;
                                                                                             /* CIF ProcedureCall (7200, 1762), (100, 50) */
                                                                                             call ResetStateMachine;
                                                                                             /* CIF ProcedureCall (7200, 1837), (100, 50) */
-                                                                                            call TfLunaReturnHwas_ReadDataCmd_Ri(Datavar);
+                                                                                            call TfLunaReturn_ReadDataCmd_Ri(Datavar);
                                                                                             /* CIF Join (7200, 1912), (100, 50) */
                                                                                             join condition_12;
                                                                                         /* CIF Answer (7800, 1687), (400, 50) */
@@ -233,7 +233,7 @@ process TfLunaDriver;
                                                                                             /* CIF ProcedureCall (7800, 1762), (100, 50) */
                                                                                             call ResetStateMachine;
                                                                                             /* CIF ProcedureCall (7800, 1837), (100, 50) */
-                                                                                            call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_WrongCrc);
+                                                                                            call TfLunaReturn_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_WrongCrc);
                                                                                             /* CIF Join (7800, 1912), (100, 50) */
                                                                                             join condition_12;
                                                                                     enddecision;
@@ -246,7 +246,7 @@ process TfLunaDriver;
                                                                                     /* CIF ProcedureCall (9000, 1687), (100, 50) */
                                                                                     call ResetStateMachine;
                                                                                     /* CIF ProcedureCall (9000, 1762), (100, 50) */
-                                                                                    call TfLunaReturnHwas_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_WrongState);
+                                                                                    call TfLunaReturn_ErrorReadDataCmd_Ri(TfLuna_DataFrameErr_WrongState);
                                                                                     /* CIF Join (9000, 1837), (100, 50) */
                                                                                     join condition_11;
                                                                             enddecision;

@@ -43,7 +43,7 @@
           </Command>
         </CommandSet>
       </Interface>
-      <Interface level="functional" name="TfLunaReturnHwasInterfaceType">
+      <Interface level="functional" name="TfLunaReturnInterfaceType">
         <CommandSet>
           <Command name="ReadDataCmd" mode="sync">
             <LongDescription>Returns LIDAR data</LongDescription>
