@@ -1,0 +1,35 @@
+COM-N7SPACE-LIDAR DEFINITIONS ::= BEGIN
+LidarPosition [size 16, encoding twos-complement, endianness little]
+Lidar []
+{
+    mMP6500 [],
+    mLeftEndSwitch [],
+    mRightEndSwitch [],
+    mPosition []
+}
+LidarConfig []
+{
+    mMP6500Config [],
+    mLeftEndSwitchConfig [],
+    mRightEndSwitchConfig []
+}
+LidarData []
+{
+    mTfLunaData [],
+    mStep []
+}
+LidarError []
+{
+    mTfLunaError []
+}
+LidarDirection [size 8, encoding pos-int]
+ReturnDataCmd-Type []
+{
+    data []
+}
+ReturnErrorCmd-Type []
+{
+    err []
+}
+END
+
