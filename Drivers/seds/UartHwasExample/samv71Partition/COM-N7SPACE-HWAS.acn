@@ -5,5 +5,9 @@ Word [size 32, encoding pos-int, endianness little]
 WordMask [size 32, encoding pos-int, endianness little]
 InterruptNumber [size 8, encoding pos-int]
 Byte [size 8, encoding pos-int]
+Interrupt-Type []
+{
+    interrupt []
+}
 END
 

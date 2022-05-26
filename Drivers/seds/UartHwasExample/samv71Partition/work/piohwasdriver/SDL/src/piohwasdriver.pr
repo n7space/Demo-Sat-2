@@ -25,7 +25,7 @@ process PioHwasDriver;
             task Pmcvar.Pmc_pcxr0_pid16_piod_mask := 65536;
             /* CIF Task (0, 562), (100, 50) */
             task Pmcvar.Pmc_pcxr0_pid17_pioe_mask := 131072;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 975), (800, 50) */
     procedure InitPioContainer;
@@ -103,7 +103,7 @@ process PioHwasDriver;
             task Piovar.Mportschmittaddress := 256;
             /* CIF Task (0, 2812), (100, 50) */
             task Piovar.Mportschmittaddress := Piovar.Mportaddress + Piovar.Mportschmittaddress;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1050), (800, 50) */
     procedure InitializePin;
@@ -507,7 +507,7 @@ process PioHwasDriver;
             -- Set no opendrain. Ifscdr register
             /* CIF ProcedureCall (20400, 3037), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1125), (800, 50) */
     procedure SetPin;
@@ -529,7 +529,7 @@ process PioHwasDriver;
             -- Set pin
             /* CIF ProcedureCall (0, 1162), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1200), (800, 50) */
     procedure ResetPin;
@@ -551,7 +551,7 @@ process PioHwasDriver;
             -- Resets pin value
             /* CIF ProcedureCall (0, 1162), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Pinmaskvar, Pinvaluevar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1275), (800, 50) */
     procedure GetPinValue;
@@ -570,7 +570,7 @@ process PioHwasDriver;
             -- Gets pin value
             /* CIF ProcedureCall (0, 1087), (100, 50) */
             call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, Pinmaskvar, Pinvaluevar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1350), (800, 50) */
     procedure PioHwas_GetPin_Pi;
@@ -587,7 +587,7 @@ process PioHwasDriver;
             call GetPinValue(Piovar);
             /* CIF Task (0, 1087), (100, 50) */
             task Pinvalue := Pinvaluevar;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1425), (800, 50) */
     procedure PioHwas_InitPin_Pi;
@@ -604,7 +604,7 @@ process PioHwasDriver;
             call InitializePin(Configvar);
             /* CIF Task (0, 1087), (100, 50) */
             task Pio := Piovar;
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1500), (800, 50) */
     procedure PioHwas_ResetPin_Pi;
@@ -618,7 +618,7 @@ process PioHwasDriver;
             task Piovar := Pio;
             /* CIF ProcedureCall (0, 1012), (100, 50) */
             call ResetPin(Piovar);
-        return ;
+    return;
     endprocedure;
     /* CIF Procedure (0, 1575), (800, 50) */
     procedure PioHwas_SetPin_Pi;
@@ -632,7 +632,7 @@ process PioHwasDriver;
             task Piovar := Pio;
             /* CIF ProcedureCall (0, 1012), (100, 50) */
             call SetPin(Piovar);
-        return ;
+    return;
     endprocedure;
     /* CIF Start (0, 1650), (200, 75) */
     START;

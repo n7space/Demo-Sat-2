@@ -1,9 +1,9 @@
 COM-N7SPACE-UARTHWAS DEFINITIONS ::= BEGIN
 IMPORTS
+Byte FROM COM-N7SPACE-HWAS
 DestinationAddress FROM COM-N7SPACE-HWAS
 InterruptNumber FROM COM-N7SPACE-HWAS
 SourceAddress FROM COM-N7SPACE-HWAS
-Word FROM COM-N7SPACE-HWAS
 WordMask FROM COM-N7SPACE-HWAS
 ;
 -- Enum listing Uart instances
@@ -59,16 +59,16 @@ ReadByteAsyncCmd-Type ::= SEQUENCE
 } 
 ReadByteAsyncCmd-Type1 ::= SEQUENCE 
 { 
-    byteToRead Word(0 .. 4294967295)
+    byteToRead Byte(0 .. 255)
 } 
 SendByteAsyncCmd-Type ::= SEQUENCE 
 { 
     uart UartHwas, 
-    byteToSend Word(0 .. 4294967295)
+    byteToSend Byte(0 .. 255)
 } 
 SendByteAsyncCmd-Type1 ::= SEQUENCE 
 { 
-    byteSentFlag Word(0 .. 4294967295)
+    byteSentFlag Byte(0 .. 255)
 } 
 END
 
