@@ -39,13 +39,8 @@ process LidarDriver;
             call MP6500_SetDirectionLeftCmd_Ri(Lidarvar.Mmp6500);
             /* CIF Task (0, 1387), (100, 50) */
             task Directionvar := LidarDirection_Left;
-            -- Set direction of rotation to left to perform calibration
-            /* CIF ProcedureCall (0, 1462), (100, 50) */
-            call MP6500_SetDirectionRightCmd_Ri(Lidarvar.Mmp6500);
-            /* CIF Task (0, 1537), (100, 50) */
-            task Directionvar := LidarDirection_Right;
             -- Star UartRead
-            /* CIF ProcedureCall (0, 1612), (100, 50) */
+            /* CIF ProcedureCall (0, 1462), (100, 50) */
             call TfLuna_InitTfLunaCmd_Ri;
     return;
     endprocedure;
@@ -138,7 +133,7 @@ process LidarDriver;
                         (False):
                             /* CIF Task (600, 1462), (100, 50) */
                             task Directionvar := LidarDirection_Left;
-                            -- Set direction of rotation to left to perform calibration
+                            -- Set direction of rotation to left 
                             /* CIF ProcedureCall (600, 1537), (100, 50) */
                             call MP6500_SetDirectionLeftCmd_Ri(Lidarvar.Mmp6500);
                             /* CIF Join (600, 1612), (100, 50) */
@@ -173,7 +168,7 @@ process LidarDriver;
                                     task Directionvar := LidarDirection_Right;
                                     /* CIF Task (2400, 1612), (100, 50) */
                                     task Stepvar := 0;
-                                    -- Set direction of rotation to left to perform calibration
+                                    -- Set direction of rotation to right
                                     /* CIF ProcedureCall (2400, 1687), (100, 50) */
                                     call MP6500_SetDirectionRightCmd_Ri(Lidarvar.Mmp6500);
                                     /* CIF Join (2400, 1762), (100, 50) */
