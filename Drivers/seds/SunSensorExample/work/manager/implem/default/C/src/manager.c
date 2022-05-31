@@ -18,8 +18,6 @@ static bool initialized = false;
 
 void manager_startup(void)
 {
-   // Write your initialisation code, but DO NOT CALL REQUIRED INTERFACES
-   // puts ("[Manager] Startup");
     Hal_console_usart_init();
 }
 
