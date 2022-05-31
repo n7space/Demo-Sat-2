@@ -43,7 +43,7 @@
             </Activity>
             <Activity name="RequestData">
               <Body>
-                <SendCommandPrimitive command="GetValueCmd" interface="AfecDataHwas" shortDescription="Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3">
+                <SendCommandPrimitive command="GetValueCmd" interface="AfecHwas" shortDescription="Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3">
                   <ArgumentValue name="afec">
                     <VariableRef variableRef="afecVar" />
                   </ArgumentValue>
@@ -77,7 +77,7 @@
                 <Do activity="RequestData"></Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="ReadData">
-                <OnCommandPrimitive command="GetValueCmd" interface="AfecDataHwas">
+                <OnCommandPrimitive command="GetValueCmd" interface="AfecHwas">
                   <ArgumentValue name="chOutput" outputVariableRef="chOutputVar"></ArgumentValue>
                 </OnCommandPrimitive>
                 <Do activity="ReadData">
