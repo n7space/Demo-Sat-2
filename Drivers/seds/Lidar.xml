@@ -52,12 +52,6 @@
             <Argument name="lidar" type="Lidar" mode="out" />
             <Argument name="config" type="LidarConfig" mode="in" />
           </Command>
-          <Command name="CalibratedCmd" mode="async">
-            <LongDescription>Notifies that LIDAR was calibrated</LongDescription>
-          </Command>
-          <Command name="StartScanningCmd" mode="async">
-            <LongDescription>Triggers scanning procedure</LongDescription>
-          </Command>
         </CommandSet>
       </Interface>
       <Interface level="functional" name="LidarTriggerInterfaceType">
