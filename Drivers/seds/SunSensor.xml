@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
-  <Package name="com/n7space/SunSensorHwas">
+  <Package name="com/n7space/SunSensor">
     <DeclaredInterfaceSet>
-      <Interface level="functional" name="SunSensorHwasInterfaceType">
+      <Interface level="functional" name="SunSensorInterfaceType">
         <CommandSet>
           <Command name="InitSunSensorCmd" mode="sync">
             <LongDescription>Initializes afec for reading Sun sensor data</LongDescription>
@@ -14,7 +14,7 @@
           </Command>
         </CommandSet>
       </Interface>
-      <Interface level="functional" name="SunSensorHwasReturnInterfaceType">
+      <Interface level="functional" name="SunSensorReturnInterfaceType">
         <CommandSet>
           <Command name="ReturnDataCmd" mode="sync">
             <LongDescription>Reads Sun sensor data</LongDescription>
