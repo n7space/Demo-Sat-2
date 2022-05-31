@@ -26,7 +26,7 @@ void manager_PI_SunSensorReturnHwas_ReturnDataCmd_Ri( const asn1SccConversionDat
 {
     // Write your code here
     uint8_t buffer[30];
-    sprintf(buffer, "Vol %i Chn %i Ins %i\n", data->mValue, data->mChNumber, data->mInstance);
+    sprintf(buffer, "Vol %lld Chn %lld Ins %lld\n", data->mValue, data->mChNumber, data->mInstance);
     Hal_console_usart_write(buffer, strlen(buffer));
 }
 
