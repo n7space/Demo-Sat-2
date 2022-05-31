@@ -70,15 +70,18 @@
                     <VariableRef variableRef="lidarVar.mMP6500"></VariableRef>
                   </ArgumentValue>
                 </SendCommandPrimitive>
+                <Assignment outputVariableRef="directionVar">
+                  <Value value="LidarDirection_Left" />
+                </Assignment>
                 <SendCommandPrimitive command="InitLidarCmd" interface="Lidar">
                   <LongDescription>return initialized lidar</LongDescription>
                   <ArgumentValue name="lidar">
                     <VariableRef variableRef="lidarVar"></VariableRef>
                   </ArgumentValue>
                 </SendCommandPrimitive>
-                <Assignment outputVariableRef="directionVar">
-                  <Value value="LidarDirection_Left" />
-                </Assignment>
+                <SendCommandPrimitive command="InitTfLunaCmd" interface="TfLuna">
+                  <LongDescription>Star UartRead</LongDescription>
+                </SendCommandPrimitive>
               </Body>
             </Activity>
             <Activity name="CalibrateLidar">
@@ -138,7 +141,7 @@
                   </ArgumentValue>
                 </SendCommandPrimitive>
                 <Assignment outputVariableRef="directionVar">
-                  <Value value="LidarDirection_Right" />
+                  <Value value="LidarDirection_Left" />
                 </Assignment>
               </Body>
             </Activity>
@@ -199,7 +202,7 @@
                           <Value value="LidarDirection_Left" />
                         </Assignment>
                         <SendCommandPrimitive command="SetDirectionLeftCmd" interface="MP6500">
-                          <LongDescription>Set direction of rotation to left to perform calibration</LongDescription>
+                          <LongDescription>Set direction of rotation to left </LongDescription>
                           <ArgumentValue name="mp6500">
                             <VariableRef variableRef="lidarVar.mMP6500"></VariableRef>
                           </ArgumentValue>
@@ -250,8 +253,11 @@
                             <Assignment outputVariableRef="directionVar">
                               <Value value="LidarDirection_Right" />
                             </Assignment>
+                            <Assignment outputVariableRef="stepVar">
+                              <Value value="0" />
+                            </Assignment>
                             <SendCommandPrimitive command="SetDirectionRightCmd" interface="MP6500">
-                              <LongDescription>Set direction of rotation to left to perform calibration</LongDescription>
+                              <LongDescription>Set direction of rotation to right</LongDescription>
                               <ArgumentValue name="mp6500">
                                 <VariableRef variableRef="lidarVar.mMP6500"></VariableRef>
                               </ArgumentValue>
@@ -281,7 +287,6 @@
           <StateMachineSet>
             <StateMachine name="TfLunaDriver">
               <EntryState name="Off" />
-              <State name="Calibrate" />
               <State name="Idle" />
               <Transition fromState="Off" toState="Idle" name="InitLidar">
                 <OnCommandPrimitive command="InitLidarCmd" interface="Lidar">
@@ -292,14 +297,6 @@
                     <VariableRef variableRef="configVar" />
                   </ArgumentValue>
                 </Do>
-              </Transition>
-              <Transition fromState="Calibrate" toState="Calibrate" name="Calibration">
-                <OnTimer nanosecondsAfterEntry="1000000"></OnTimer>
-                <Do activity="CalibrateLidar"></Do>
-              </Transition>
-              <Transition fromState="Calibrate" toState="Idle" name="StartScanning">
-                <OnCommandPrimitive command="StartScanningCmd" interface="Lidar" />
-                <Do activity="StartScanning"></Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="ReadData">
                 <OnCommandPrimitive command="ReadDataCmd" interface="TfLunaReturn">
