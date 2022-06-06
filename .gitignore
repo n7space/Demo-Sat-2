@@ -37,6 +37,23 @@ Debug
 
 # Ignore CMake generated folders
 CMakeFiles
+binaries
+dataview
+glue_debug
+code
+wrappers
+dataview*
+doc
+sql_db
+.vscode
 
 # Ignore CMake cache files
 CMakeCache.txt
+
+# Ignore taste files
+*.aadl
+*.gpr
+*.pr.*
+skeletons_built
+
+.gdb_history

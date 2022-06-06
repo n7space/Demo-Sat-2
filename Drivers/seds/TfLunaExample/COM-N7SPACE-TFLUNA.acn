@@ -1,0 +1,11 @@
+COM-N7SPACE-TFLUNA DEFINITIONS ::= BEGIN
+TfLuna-ReadSM [size 8, encoding pos-int]
+TfLuna-Data []
+{
+    mDistance [],
+    mStrength [],
+    mTemp []
+}
+TfLuna-DataFrameErr [size 8, encoding pos-int]
+END
+

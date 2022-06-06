@@ -122,6 +122,15 @@ typedef enum {
   PioHwas_Filter_Debounce, ///< Debounce filter.
 } PioHwas_Filter;
 
+/// \brief Possible I/O line assignment to peripherals.
+typedef enum {
+  PioHwas_Control_Pio,         ///< General purpose I/O mode.
+  PioHwas_Control_PeripheralA, ///< Peripheral A mode.
+  PioHwas_Control_PeripheralB, ///< Peripheral B mode.
+  PioHwas_Control_PeripheralC, ///< Peripheral C mode.
+  PioHwas_Control_PeripheralD, ///< Peripheral D mode.
+} PioHwas_Control;
+
 /// \brief I/O line configuration structure.
 typedef struct {
   PioHwas_Port port;           ///< I/O line port
@@ -129,6 +138,7 @@ typedef struct {
   PioHwas_Direction direction; ///< I/O line flow direction.
   PioHwas_Pull pull;           ///< I/O line pull mode.
   PioHwas_Filter filter;       ///< I/O line filtering mode.
+  PioHwas_Control control;     ///< I/O control mode.
 } PioHwas_Pin_Config;
 
 /// \brief Pio descriptor.

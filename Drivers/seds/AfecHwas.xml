@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/AfecHwas">
+    <DataTypeSet>
+      <EnumeratedDataType name="AfecHwas_Instance">
+        <LongDescription>Definitions of PIO ports</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="32" />
+        <EnumerationList>
+          <Enumeration label="AfecHwas_Instance_Afec0" value="0"></Enumeration>
+          <Enumeration label="AfecHwas_Instance_Afec1" value="1" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <IntegerDataType name="AfecHwas_StartupTime">
+        <LongDescription>Value expressing possible Startup Times (0-15) refer to documentation</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <Range>
+          <MinMaxRange max="15" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <IntegerDataType name="AfecHwasChannel">
+        <LongDescription>Number of AFEC channel (0-11, each AFEC instance has 12 channels)</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <Range>
+          <MinMaxRange max="11" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <ContainerDataType name="AfecHwas" shortDescription="Afec descriptor">
+        <EntryList>
+          <Entry name="mInstanceAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceMrAddress" type="com/n7space/Hwas/DestinationAddress" />
+          <Entry name="mInstanceEmrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceChdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceCherAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceChsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceCrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceIerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceIsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceLcdrAddress" type="com/n7space/Hwas/SourceAddress"></Entry>
+          <Entry name="mIrqNumber" type="com/n7space/Hwas/InterruptNumber"></Entry>
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="AfecHwasConfig" shortDescription="Afec instance configuration container">
+        <EntryList>
+          <Entry name="mAfecInstance" type="AfecHwas_Instance" />
+          <Entry name="mStartupTime" type="AfecHwas_StartupTime" />
+          <Entry name="mPrescalerValue" type="com/n7space/Hwas/Word" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="PmcAfecHwas" shortDescription="Pmc descriptor">
+        <EntryList>
+          <Entry name="PMC_PCER0_OFFSET" type="com/n7space/Hwas/DestinationAddress" />
+          <Entry name="PMC_PCER1_OFFSET" type="com/n7space/Hwas/DestinationAddress" />
+          <Entry name="PMC_PCxR0_PID29_AFEC0_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR1_PID40_AFEC1_MASK" type="com/n7space/Hwas/WordMask" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="ConversionData" shortDescription="Contains ADC voltage value and ADC channel">
+        <EntryList>
+          <Entry name="mInstance" type="AfecHwas_Instance" />
+          <Entry name="mValue" type="com/n7space/Hwas/Word" />
+          <Entry name="mChNumber" type="AfecHwasChannel" />
+        </EntryList>
+      </ContainerDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="functional" name="AfecHwasInterfaceType">
+        <CommandSet>
+          <Command name="InitInstance" mode="sync">
+            <LongDescription>Initializes Afec Instance</LongDescription>
+            <Argument name="afec" type="AfecHwas" mode="out" />
+            <Argument name="config" type="AfecHwasConfig" mode="in" />
+          </Command>
+          <Command name="GetValueCmd" mode="async">
+            <LongDescription>Gets analog value of the given channel</LongDescription>
+            <Argument name="afec" type="AfecHwas" mode="in" />
+            <Argument name="analogChannel" type="AfecHwasChannel" mode="in" />
+            <Argument name="chOutput" type="ConversionData" mode="notify" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+</PackageFile>

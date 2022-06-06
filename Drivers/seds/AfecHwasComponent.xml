@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="AfecComponent" />
+  <Package name="com/n7space/AfecHwasComponent">
+    <ComponentSet>
+      <Component name="AfecHwasDriver">
+        <LongDescription>SEDS AfecHwas driver implementation</LongDescription>
+        <ProvidedInterfaceSet>
+          <Interface name="AfecHwas" type="com/n7space/AfecHwas/AfecHwasInterfaceType"></Interface>
+          <Interface name="InterruptSubscription" type="com/n7space/Hwas/InterruptSubscriptionInterfaceType" />
+        </ProvidedInterfaceSet>
+        <RequiredInterfaceSet>
+          <Interface name="RawMemoryAccess" type="com/n7space/Hwas/RawMemoryAccessInterfaceType" />
+          <Interface name="InterruptSubscriptionManagement" type="com/n7space/Hwas/InterruptSubscriptionManagementInterfaceType" />
+          <Interface name="InterruptManagement" type="com/n7space/Hwas/InterruptManagementInterfaceType" />
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable name="afecVar" type="com/n7space/AfecHwas/AfecHwas"></Variable>
+            <Variable name="configVar" type="com/n7space/AfecHwas/AfecHwasConfig" />
+            <Variable name="pmcVar" type="com/n7space/AfecHwas/PmcAfecHwas" />
+            <Variable name="channelVar" type="com/n7space/AfecHwas/AfecHwasChannel" />
+            <Variable name="bitsToSetVar" type="com/n7space/Hwas/Word" />
+            <Variable name="readBitsVar" type="com/n7space/Hwas/Word" />
+            <Variable name="channelMaskVar" type="com/n7space/Hwas/WordMask" />
+            <Variable name="destinationAddressVar" type="com/n7space/Hwas/DestinationAddress" />
+            <Variable name="sourceAddressVar" type="com/n7space/Hwas/SourceAddress"></Variable>
+            <Variable name="pinMaskVar" type="com/n7space/Hwas/WordMask" />
+            <Variable name="chOutputVar" type="com/n7space/AfecHwas/ConversionData" />
+            <Variable name="irqNumberVar" type="com/n7space/Hwas/InterruptNumber"></Variable>
+          </VariableSet>
+          <ActivitySet>
+            <Activity name="InitPmc">
+              <Body>
+                <Assignment outputVariableRef="pmcVar.PMC_PCER0_OFFSET">
+                  <LongDescription>Assign address of PCER0 register</LongDescription>
+                  <Value value="1074660880" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCER1_OFFSET">
+                  <LongDescription>Assign address of PCER1 register</LongDescription>
+                  <Value value="1074661120" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCxR0_PID29_AFEC0_MASK">
+                  <LongDescription>Assign mask of AFEC0</LongDescription>
+                  <Value value="536870912" />
+                </Assignment>
+                <Assignment outputVariableRef="pmcVar.PMC_PCxR1_PID40_AFEC1_MASK">
+                  <LongDescription>Assign mask of AFEC1</LongDescription>
+                  <Value value="256" />
+                </Assignment>
+              </Body>
+            </Activity>
+            <Activity name="InitAfecContainer">
+              <Body>
+                <Assignment outputVariableRef="afecVar.mInstanceMrAddress">
+                  <Value value="4" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceMrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceMrAddress"></VariableRef>
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceEmrAddress">
+                  <Value value="8" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceEmrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceEmrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCherAddress">
+                  <Value value="20" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCherAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCherAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceChdrAddress">
+                  <Value value="24" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceChdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceChdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceChsrAddress">
+                  <Value value="28" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceChsrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceChsrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCrAddress">
+                  <Value value="0" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceIerAddress">
+                  <Value value="36" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceIerAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceIerAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceIsrAddress">
+                  <Value value="48" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceIsrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceIsrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceLcdrAddress">
+                  <Value value="32" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceLcdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceLcdrAddress" />
+                </MathOperation>
+              </Body>
+            </Activity>
+            <Activity name="InitSync">
+              <Argument name="config" type="com/n7space/AfecHwas/AfecHwasConfig"></Argument>
+              <Body>
+                <Call activity="InitPmc">
+                  <LongDescription>Init PMC with definitions </LongDescription>
+                </Call>
+                <Conditional shortDescription="Set afec instance register address">
+                  <LongDescription>Is instance equal to 0?</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="config.mAfecInstance" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="AfecHwas_Instance_Afec0" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="afecVar.mInstanceAddress">
+                      <Value value="1073987584"></Value>
+                    </Assignment>
+                    <Assignment outputVariableRef="afecVar.mIrqNumber">
+                      <Value value="29" />
+                    </Assignment>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <LongDescription>Is instance equal to 1?</LongDescription>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="config.mAfecInstance" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="AfecHwas_Instance_Afec1" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="afecVar.mInstanceAddress">
+                          <Value value="1074151424" />
+                        </Assignment>
+                        <Assignment outputVariableRef="afecVar.mIrqNumber">
+                          <Value value="40" />
+                        </Assignment>
+                      </OnConditionTrue>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+                <Call activity="InitAfecContainer">
+                  <LongDescription>Set the rest of the afec register addresses</LongDescription>
+                </Call>
+                <Conditional shortDescription="Init Pmc">
+                  <LongDescription>Is instance equal to 0?</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="config.mAfecInstance" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="AfecHwas_Instance_Afec0" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="destinationAddressVar">
+                      <LongDescription>Assign destination register address</LongDescription>
+                      <VariableRef variableRef="pmcVar.PMC_PCER0_OFFSET"></VariableRef>
+                    </Assignment>
+                    <Assignment outputVariableRef="pinMaskVar">
+                      <LongDescription>Assign mask to variable</LongDescription>
+                      <VariableRef variableRef="pmcVar.PMC_PCxR0_PID29_AFEC0_MASK" />
+                    </Assignment>
+                    <Assignment outputVariableRef="bitsToSetVar">
+                      <LongDescription>Assign value to set to variable</LongDescription>
+                      <VariableRef variableRef="pmcVar.PMC_PCxR0_PID29_AFEC0_MASK"></VariableRef>
+                    </Assignment>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <LongDescription>Is instance equal to 1?</LongDescription>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="config.mAfecInstance" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="AfecHwas_Instance_Afec1" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="destinationAddressVar">
+                          <LongDescription>Assign destination register address</LongDescription>
+                          <VariableRef variableRef="pmcVar.PMC_PCER1_OFFSET"></VariableRef>
+                        </Assignment>
+                        <Assignment outputVariableRef="pinMaskVar">
+                          <LongDescription>Assign mask to variable</LongDescription>
+                          <VariableRef variableRef="pmcVar.PMC_PCxR1_PID40_AFEC1_MASK" />
+                        </Assignment>
+                        <Assignment outputVariableRef="bitsToSetVar">
+                          <LongDescription>Assign value to set to variable</LongDescription>
+                          <VariableRef variableRef="pmcVar.PMC_PCxR1_PID40_AFEC1_MASK"></VariableRef>
+                        </Assignment>
+                      </OnConditionTrue>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+                <SendCommandPrimitive shortDescription="Enable proper AFEC instance clock" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="pinMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="bitsToSetVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <MathOperation outputVariableRef="bitsToSetVar" shortDescription="Calculate bits to set in AFEC MR register">
+                  <Operator operator="add" />
+                  <Operator operator="add" />
+                  <Value value="8388608" />
+                  <Operator operator="multiply" />
+                  <VariableRef variableRef="config.mStartupTime" />
+                  <Value value="65536" />
+                  <Operator operator="multiply" />
+                  <VariableRef variableRef="config.mPrescalerValue" />
+                  <Value value="256" />
+                </MathOperation>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceMrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set mode register (startup time and prescaler value)" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="bitsToSetVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="bitsToSetVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceEmrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Set extended mode register (tag mode). Set tag mask value (0x0100 0000)" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="16777216" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <Value value="16777216" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive interface="AfecHwas" command="InitInstance">
+                  <ArgumentValue name="afec">
+                    <VariableRef variableRef="afecVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="GetValue">
+              <Argument name="afec" type="com/n7space/AfecHwas/AfecHwas" />
+              <Argument name="analogChannel" type="com/n7space/AfecHwas/AfecHwasChannel"></Argument>
+              <Body>
+                <Assignment outputVariableRef="irqNumberVar">
+                  <VariableRef variableRef="afecVar.mIrqNumber" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Enable Uart interrupt" interface="InterruptManagement" command="EnableInterrupt">
+                  <ArgumentValue name="interrupt">
+                    <VariableRef variableRef="irqNumberVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive shortDescription="Subscribe to Uart interrupt" interface="InterruptSubscriptionManagement" command="SubscribeToInterrupt">
+                  <ArgumentValue name="interrupt">
+                    <VariableRef variableRef="irqNumberVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <MathOperation shortDescription="Calculate analogChannel mask" outputVariableRef="channelMaskVar">
+                  <Operator operator="pow" />
+                  <Value value="2" />
+                  <VariableRef variableRef="analogChannel" />
+                </MathOperation>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceCherAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Enable chosen analogChannel" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="channelMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="channelMaskVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceIerAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Enable the interrupt for the given channel" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <VariableRef variableRef="channelMaskVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="channelMaskVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <MathOperation shortDescription="Negate analogChannel mask" outputVariableRef="bitsToSetVar">
+                  <Operator operator="subtract" />
+                  <Value value="4294967295" />
+                  <VariableRef variableRef="channelMaskVar" />
+                </MathOperation>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceChdrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Disable the rest of the channels" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="4095" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="bitsToSetVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceCrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Start The conversion" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="2" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <Value value="2" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="ReturnValAndDisableChannels">
+              <Body>
+                <Assignment outputVariableRef="sourceAddressVar">
+                  <LongDescription>Assign source register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceLcdrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Read the result (value and channel)" interface="RawMemoryAccess" command="ReadWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="sourceAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="251723775" />
+                  </ArgumentValue>
+                  <ArgumentValue name="outputValue">
+                    <VariableRef variableRef="readBitsVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <MathOperation outputVariableRef="chOutputVar.mChNumber">
+                  <LongDescription>Extract channel</LongDescription>
+                  <Operator operator="divide" />
+                  <VariableRef variableRef="readBitsVar" />
+                  <Value value="16777216" />
+                </MathOperation>
+                <MathOperation outputVariableRef="chOutputVar.mValue">
+                  <LongDescription>Extract Value</LongDescription>
+                  <Operator operator="subtract" />
+                  <VariableRef variableRef="readBitsVar" />
+                  <Operator operator="multiply" />
+                  <VariableRef variableRef="chOutputVar.mChNumber" />
+                  <Value value="16777216" />
+                </MathOperation>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign source register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceChdrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Disable all of the channels" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="4095" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <Value value="4095" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive shortDescription="Return the output" interface="AfecHwas" command="GetValueCmd">
+                  <ArgumentValue name="chOutput">
+                    <VariableRef variableRef="chOutputVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="IRQHandler">
+              <Argument name="irq" type="com/n7space/Hwas/InterruptNumber" />
+              <Body>
+                <Conditional>
+                  <LongDescription>Check if interrupt is comming from afec0</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="afecVar.mirqNumber" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="29" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Assignment outputVariableRef="chOutputVar.mInstance">
+                      <Value value="AfecHwas_Instance_Afec0" />
+                    </Assignment>
+                    <Call activity="ReturnValAndDisableChannels" />
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <LongDescription>Check if interrupt is comming from afec1</LongDescription>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="afecVar.mirqNumber" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="40" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Assignment outputVariableRef="chOutputVar.mInstance">
+                          <Value value="AfecHwas_Instance_Afec1" />
+                        </Assignment>
+                        <Call activity="ReturnValAndDisableChannels" />
+                      </OnConditionTrue>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+              </Body>
+            </Activity>
+          </ActivitySet>
+          <StateMachineSet>
+            <StateMachine name="AfecHwasDriver">
+              <EntryState name="Off" />
+              <State name="Idle" />
+              <Transition fromState="Off" toState="Idle" name="Init">
+                <OnCommandPrimitive command="InitInstance" interface="AfecHwas">
+                  <ArgumentValue name="config" outputVariableRef="configVar"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="InitSync">
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="configVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="Get">
+                <OnCommandPrimitive command="GetValueCmd" interface="AfecHwas">
+                  <ArgumentValue name="afec" outputVariableRef="afecVar" />
+                  <ArgumentValue name="analogChannel" outputVariableRef="channelVar" />
+                </OnCommandPrimitive>
+                <Do activity="GetValue">
+                  <ArgumentValue name="afec">
+                    <VariableRef variableRef="afecVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="analogChannel">
+                    <VariableRef variableRef="channelVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="IRQHandling">
+                <OnCommandPrimitive command="Interrupt" interface="InterruptSubscription">
+                  <ArgumentValue name="interrupt" outputVariableRef="irqNumberVar" />
+                </OnCommandPrimitive>
+                <Do activity="IRQHandler">
+                  <ArgumentValue name="irq">
+                    <VariableRef variableRef="irqNumberVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+            </StateMachine>
+          </StateMachineSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="AfecHwas.xml" xpointer="element(/1/1)" />
+</DataSheet>

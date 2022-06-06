@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/TfLuna">
+    <DataTypeSet>
+      <EnumeratedDataType name="TfLuna_ReadSM">
+        <LongDescription>Enum listing UART read data frame state machine states</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="TfLuna_ReadSM_Idle" value="0" />
+          <Enumeration label="TfLuna_ReadSM_Head" value="1"></Enumeration>
+          <Enumeration label="TfLuna_ReadSM_DistanceLow" value="3" />
+          <Enumeration label="TfLuna_ReadSM_DistanceHigh" value="4" />
+          <Enumeration label="TfLuna_ReadSM_StrengthLow" value="5" />
+          <Enumeration label="TfLuna_ReadSM_StrengthHigh" value="6" />
+          <Enumeration label="TfLuna_ReadSM_TemperatureLow" value="7" />
+          <Enumeration label="TfLuna_ReadSM_TemperatureHigh" value="8" />
+          <Enumeration label="TfLuna_ReadSM_Checksum" value="9" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <ContainerDataType name="TfLuna_Data" shortDescription="Lidar data container (Distance, signal strength and temperature)">
+        <EntryList>
+          <Entry name="mDistance" type="com/n7space/Hwas/Word" />
+          <Entry name="mStrength" type="com/n7space/Hwas/Word" />
+          <Entry name="mTemp" type="com/n7space/Hwas/Word" />
+        </EntryList>
+      </ContainerDataType>
+      <EnumeratedDataType name="TfLuna_DataFrameErr">
+        <LongDescription>Enum listing possible rx errors</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="TfLuna_DataFrameErr_NoHead1" value="0" />
+          <Enumeration label="TfLuna_DataFrameErr_NoHead2" value="1" />
+          <Enumeration label="TfLuna_DataFrameErr_WrongCrc" value="2" />
+          <Enumeration label="TfLuna_DataFrameErr_WrongState" value="3" />
+        </EnumerationList>
+      </EnumeratedDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="functional" name="TfLunaInterfaceType">
+        <CommandSet>
+          <Command name="InitTfLunaCmd" mode="sync">
+            <LongDescription>Initializes uart for communication with LIDAR</LongDescription>
+          </Command>
+        </CommandSet>
+      </Interface>
+      <Interface level="functional" name="TfLunaReturnHwasInterfaceType">
+        <CommandSet>
+          <Command name="ReadDataCmd" mode="sync">
+            <LongDescription>Returns LIDAR data</LongDescription>
+            <Argument name="lidarTfLunaData" type="TfLuna_Data" mode="in" />
+          </Command>
+          <Command name="ErrorReadDataCmd" mode="sync">
+            <LongDescription>Reports error</LongDescription>
+            <Argument name="err" type="TfLuna_DataFrameErr" mode="in" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+</PackageFile>

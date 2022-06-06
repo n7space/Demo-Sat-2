@@ -24,7 +24,9 @@
 #include <UartHwas/UartHwas.h>
 #include <UartHwas/UartHwasRegisters.h>
 
+#include <PioHwas/PioHwas.h>
 #include <PmcHwas/PmcHwasRegisters.h>
+
 #include <RegisterHwas/RegisterHwas.h>
 
 static inline asn1SccSourceAddress
@@ -95,6 +97,96 @@ UartHwas_init_brgr_init(const UartHwas *const uart,
                       UART_HWAS_BRGR_CD_115200_VALUE);
     break;
   }
+}
+
+inline static void
+UartHwas_init_uart0_pio(PioHwas_Pin_Config *const pioConfigTx,
+                        PioHwas_Pin_Config *const pioConfigRx) {
+  pioConfigRx->pin = PIO_HWAS_PIN_9;
+  pioConfigRx->control = PioHwas_Control_PeripheralA;
+
+  pioConfigTx->pin = PIO_HWAS_PIN_10;
+  pioConfigTx->control = PioHwas_Control_PeripheralA;
+}
+
+inline static void
+UartHwas_init_uart1_pio(PioHwas_Pin_Config *const pioConfigTx,
+                        PioHwas_Pin_Config *const pioConfigRx) {
+  pioConfigRx->pin = PIO_HWAS_PIN_5;
+  pioConfigRx->control = PioHwas_Control_PeripheralC;
+  pioConfigRx->port = PioHwas_Port_A;
+
+  pioConfigTx->pin = PIO_HWAS_PIN_6;
+  pioConfigTx->control = PioHwas_Control_PeripheralC;
+  pioConfigTx->port = PioHwas_Port_A;
+}
+
+inline static void
+UartHwas_init_uart2_pio(PioHwas_Pin_Config *const pioConfigTx,
+                        PioHwas_Pin_Config *const pioConfigRx) {
+  pioConfigRx->pin = PIO_HWAS_PIN_25;
+  pioConfigRx->control = PioHwas_Control_PeripheralC;
+  pioConfigRx->port = PioHwas_Port_D;
+
+  pioConfigTx->pin = PIO_HWAS_PIN_26;
+  pioConfigTx->control = PioHwas_Control_PeripheralC;
+  pioConfigTx->port = PioHwas_Port_D;
+}
+
+inline static void
+UartHwas_init_uart3_pio(PioHwas_Pin_Config *const pioConfigTx,
+                        PioHwas_Pin_Config *const pioConfigRx) {
+  pioConfigRx->pin = PIO_HWAS_PIN_28;
+  pioConfigRx->control = PioHwas_Control_PeripheralA;
+  pioConfigRx->port = PioHwas_Port_D;
+
+  pioConfigTx->pin = PIO_HWAS_PIN_30;
+  pioConfigTx->control = PioHwas_Control_PeripheralA;
+  pioConfigTx->port = PioHwas_Port_D;
+}
+
+inline static void
+UartHwas_init_uart4_pio(PioHwas_Pin_Config *const pioConfigTx,
+                        PioHwas_Pin_Config *const pioConfigRx) {
+  pioConfigRx->pin = PIO_HWAS_PIN_18;
+  pioConfigRx->control = PioHwas_Control_PeripheralC;
+  pioConfigRx->port = PioHwas_Port_D;
+
+  pioConfigTx->pin = PIO_HWAS_PIN_19;
+  pioConfigTx->control = PioHwas_Control_PeripheralC;
+  pioConfigTx->port = PioHwas_Port_D;
+}
+
+static inline void UartHwas_init_pio_init(UartHwas_Id id) {
+  PioHwas_Pin_Config pioConfigTx = {
+      .pull = PioHwas_Pull_Up,
+      .filter = PioHwas_Filter_None,
+      .direction = PioHwas_Direction_Output,
+  };
+
+  PioHwas_Pin_Config pioConfigRx = pioConfigTx;
+  pioConfigRx.direction = PioHwas_Direction_Input;
+
+  switch (id) {
+  case UartHwas_Id_0:
+    UartHwas_init_uart0_pio(&pioConfigTx, &pioConfigRx);
+    break;
+  case UartHwas_Id_1:
+    UartHwas_init_uart1_pio(&pioConfigTx, &pioConfigRx);
+    break;
+  case UartHwas_Id_2:
+    UartHwas_init_uart2_pio(&pioConfigTx, &pioConfigRx);
+    break;
+  case UartHwas_Id_3:
+    UartHwas_init_uart3_pio(&pioConfigTx, &pioConfigRx);
+    break;
+  case UartHwas_Id_4:
+    UartHwas_init_uart4_pio(&pioConfigTx, &pioConfigRx);
+    break;
+  }
+  PioHwas pio;
+  PioHwas_init_pin(&pio, &pioConfigTx);
+  PioHwas_init_pin(&pio, &pioConfigRx);
 }
 
 void UartHwas_init_irq(UartHwas *const uart, UartHwas_Id id) {
