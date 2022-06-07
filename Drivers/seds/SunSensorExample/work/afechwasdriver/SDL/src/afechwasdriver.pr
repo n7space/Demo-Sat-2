@@ -13,9 +13,9 @@ process AfecHwasDriver;
     dcl Pinmaskvar WordMask;
     dcl Choutputvar ConversionData;
     dcl Irqnumbervar InterruptNumber;
-    dcl Io_afecdatahwas_getvaluecmd_pi GetValueCmd_Type;
-    dcl Io_interruptsubscription_interrupt_pi Interrupt_Type;
-    dcl Io_afecdatahwas_getvaluecmd_ri GetValueCmd_Type1;
+    dcl Io_afechwas_getvaluecmd_pi AfecHwasInterfaceType_GetValueCmd_Type;
+    dcl Io_interruptsubscription_interrupt_pi InterruptSubscriptionInterfaceType_Interrupt_Type;
+    dcl Io_afechwas_getvaluecmd_ri AfecHwasInterfaceType_GetValueCmd_TypeNotify;
     /* CIF ENDTEXT */
     /* CIF Procedure (0, 900), (800, 50) */
     procedure InitPmc;
@@ -267,10 +267,10 @@ process AfecHwasDriver;
             /* CIF ProcedureCall (0, 562), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 4095, 4095);
             /* CIF Task (0, 637), (100, 50) */
-            task Io_afecdatahwas_getvaluecmd_ri.Choutput := Choutputvar;
+            task Io_afechwas_getvaluecmd_ri.Choutput := Choutputvar;
             -- Return the output
             /* CIF Output (0, 712), (200, 50) */
-            output AfecDataHwas_GetValueCmd_Ri(Io_afecdatahwas_getvaluecmd_ri);
+            output AfecHwas_GetValueCmd_Ri(Io_afechwas_getvaluecmd_ri);
     return;
     endprocedure;
     /* CIF Procedure (0, 1275), (800, 50) */
@@ -343,11 +343,11 @@ process AfecHwasDriver;
     /* CIF State (0, 1687), (200, 50) */
     state Idle;
         /* CIF Input (0, 1687), (200, 50) */
-        input AfecDataHwas_GetValueCmd_Pi(Io_afecdatahwas_getvaluecmd_pi);
+        input AfecHwas_GetValueCmd_Pi(Io_afechwas_getvaluecmd_pi);
             /* CIF Task (0, 1762), (100, 50) */
-            task Afecvar := Io_afecdatahwas_getvaluecmd_pi.Afec;
+            task Afecvar := Io_afechwas_getvaluecmd_pi.Afec;
             /* CIF Task (0, 1837), (100, 50) */
-            task Channelvar := Io_afecdatahwas_getvaluecmd_pi.Analogchannel;
+            task Channelvar := Io_afechwas_getvaluecmd_pi.Analogchannel;
             /* CIF ProcedureCall (0, 1912), (100, 50) */
             call GetValue(Afecvar, Channelvar);
             /* CIF NextState (0, 1987), (200, 50) */

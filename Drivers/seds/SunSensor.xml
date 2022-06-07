@@ -10,7 +10,6 @@
           </Command>
           <Command name="RequestDataCmd" mode="sync">
             <LongDescription>Reads Sun sensor data</LongDescription>
-            <Argument name="dummy" type="com/n7space/Hwas/Word" mode="in" />
           </Command>
         </CommandSet>
       </Interface>

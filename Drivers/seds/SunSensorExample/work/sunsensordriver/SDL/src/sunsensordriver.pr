@@ -4,8 +4,8 @@ process SunSensorDriver;
     dcl Afecvar AfecHwas;
     dcl Afecconfigvar AfecHwasConfig;
     dcl Choutputvar ConversionData;
-    dcl Io_afecdatahwas_getvaluecmd_pi GetValueCmd_Type1;
-    dcl Io_afecdatahwas_getvaluecmd_ri GetValueCmd_Type;
+    dcl Io_afechwas_getvaluecmd_pi AfecHwasInterfaceType_GetValueCmd_TypeNotify;
+    dcl Io_afechwas_getvaluecmd_ri AfecHwasInterfaceType_GetValueCmd_Type;
     /* CIF ENDTEXT */
     /* CIF Procedure (0, 900), (800, 50) */
     procedure InitSunSensor;
@@ -28,12 +28,12 @@ process SunSensorDriver;
         /* CIF Start (0, 0), (200, 75) */
         START;
             /* CIF Task (0, 187), (100, 50) */
-            task Io_afecdatahwas_getvaluecmd_ri.Afec := Afecvar;
+            task Io_afechwas_getvaluecmd_ri.Afec := Afecvar;
             /* CIF Task (0, 262), (100, 50) */
-            task Io_afecdatahwas_getvaluecmd_ri.Analogchannel := 8;
+            task Io_afechwas_getvaluecmd_ri.Analogchannel := 8;
             -- Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3
             /* CIF Output (0, 337), (200, 50) */
-            output AfecDataHwas_GetValueCmd_Ri(Io_afecdatahwas_getvaluecmd_ri);
+            output AfecHwas_GetValueCmd_Ri(Io_afechwas_getvaluecmd_ri);
     return;
     endprocedure;
     /* CIF Procedure (0, 1050), (800, 50) */
@@ -46,7 +46,7 @@ process SunSensorDriver;
         START;
             -- Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3
             /* CIF ProcedureCall (0, 937), (100, 50) */
-            call SunSensorReturnHwas_ReturnDataCmd_Ri(Choutputvar);
+            call SunSensorReturn_ReturnDataCmd_Ri(Choutputvar);
     return;
     endprocedure;
     /* CIF Procedure (0, 1125), (800, 50) */
@@ -63,13 +63,9 @@ process SunSensorDriver;
     endprocedure;
     /* CIF Procedure (0, 1200), (800, 50) */
     procedure SunSensor_RequestDataCmd_Pi;
-        /* CIF Text (0, 0), (400, 500) */
-        fpar
-            in Dummy Word;
-        /* CIF ENDTEXT */
-        /* CIF Start (0, 750), (200, 75) */
+        /* CIF Start (0, 0), (200, 75) */
         START;
-            /* CIF ProcedureCall (0, 937), (100, 50) */
+            /* CIF ProcedureCall (0, 187), (100, 50) */
             call RequestData;
     return;
     endprocedure;
@@ -84,9 +80,9 @@ process SunSensorDriver;
             /* CIF NextState (0, 1612), (200, 50) */
             NEXTSTATE Idle;
         /* CIF Input (300, 1537), (200, 50) */
-        input AfecDataHwas_GetValueCmd_Pi(Io_afecdatahwas_getvaluecmd_pi);
+        input AfecHwas_GetValueCmd_Pi(Io_afechwas_getvaluecmd_pi);
             /* CIF Task (300, 1612), (100, 50) */
-            task Choutputvar := Io_afecdatahwas_getvaluecmd_pi.Choutput;
+            task Choutputvar := Io_afechwas_getvaluecmd_pi.Choutput;
             /* CIF ProcedureCall (300, 1687), (100, 50) */
             call ReadData(Choutputvar);
             /* CIF NextState (300, 1762), (200, 50) */

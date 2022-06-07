@@ -35,12 +35,12 @@ ConversionData []
     mValue [],
     mChNumber []
 }
-GetValueCmd-Type []
+AfecHwasInterfaceType-GetValueCmd-Type []
 {
     afec [],
     analogChannel []
 }
-GetValueCmd-Type1 []
+AfecHwasInterfaceType-GetValueCmd-TypeNotify []
 {
     chOutput []
 }
