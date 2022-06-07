@@ -1,0 +1,13 @@
+COM-N7SPACE-SUNSENSOR DEFINITIONS ::= BEGIN
+SunSensor []
+{
+    mAfec [],
+    mChannel []
+}
+SunSensorConfig []
+{
+    mAfecConfig [],
+    mChannel []
+}
+END
+
