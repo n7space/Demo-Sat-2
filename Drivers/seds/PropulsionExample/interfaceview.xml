@@ -1,0 +1,199 @@
+<InterfaceView asn1file="COM-N7SPACE-PROPULSIONCOMPONENT.acn">
+<Function name="PropulsionDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="54400 47800 98100 64800"/>
+    <ContextParameter name="timer_Idle" type="Timer" value=""/>
+<Provided_Interface name="Propulsion_InitPropulsionCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="propulsion" type="Propulsion" encoding="NATIVE"/>
+    <Input_Parameter name="propulsionConfig" type="PropulsionConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="87100 47800"/>
+</Provided_Interface>
+
+<Provided_Interface name="Propulsion_ChangeStateCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="index" type="Propulsion-ThrusterIndex" encoding="NATIVE"/>
+    <Input_Parameter name="thrusterState" type="Propulsion-ThrusterState" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="63500 47800"/>
+</Provided_Interface>
+
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="54400 57800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="54400 54600"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="54400 51800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="54400 61300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function name="HWAS" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="-3300 27900 30400 35900"/>
+<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-700 35900"/>
+</Provided_Interface>
+
+<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="24900 35900"/>
+</Provided_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function name="Manager" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="57200 21500 99000 31500"/>
+<Provided_Interface name="Init" kind="Cyclic" layer="default" period="1000" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+    <Property name="Taste::coordinates" value="99000 26000"/>
+</Provided_Interface>
+
+<Required_Interface name="Propulsion_ChangeStateCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="index" type="Propulsion-ThrusterIndex" encoding="NATIVE"/>
+    <Input_Parameter name="thrusterState" type="Propulsion-ThrusterState" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="63700 31500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="Propulsion_InitPropulsionCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="propulsion" type="Propulsion" encoding="NATIVE"/>
+    <Input_Parameter name="propulsionConfig" type="PropulsionConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="87500 31500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function name="PioHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="-3900 49400 26600 64300"/>
+<Provided_Interface name="PioHwas_InitPin_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="26600 57800"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_SetPin_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="26600 54900"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_ResetPin_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="26600 51900"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_GetPin_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="26600 61000"/>
+</Provided_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-700 49400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="25000 49400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Connection >
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="53800 54600 26900 54900"/>
+</Connection>
+
+<Connection >
+    <Source func_name="Manager" ri_name="Propulsion_ChangeStateCmd_Pi"/>
+    <Target func_name="PropulsionDriver" pi_name="Propulsion_ChangeStateCmd_Pi"/>
+    <Property name="Taste::coordinates" value="63700 32100 63500 47500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
+    <Property name="Taste::coordinates" value="25000 48800 24900 36200"/>
+</Connection>
+
+<Connection >
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="53800 61300 26900 61000"/>
+</Connection>
+
+<Connection >
+    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
+    <Property name="Taste::coordinates" value="-700 48800 -700 36200"/>
+</Connection>
+
+<Connection >
+    <Source func_name="Manager" ri_name="Propulsion_InitPropulsionCmd_Pi"/>
+    <Target func_name="PropulsionDriver" pi_name="Propulsion_InitPropulsionCmd_Pi"/>
+    <Property name="Taste::coordinates" value="87500 32100 87100 47500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_InitPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
+    <Property name="Taste::coordinates" value="53800 57800 26900 57800"/>
+</Connection>
+
+<Connection >
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_ResetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
+    <Property name="Taste::coordinates" value="53800 51800 26900 51900"/>
+</Connection>
+
+<Comment name="Welcome to TASTE!\n============\n\nRight click to add a function, and use Ctrl-Click to connect functions together.\n\nYou can split the screen in multiple windows using Ctrl-E-3">
+    <Property name="Taste::coordinates" value="4800 5100 46100 20700"/>
+</Comment>
+
+</InterfaceView>

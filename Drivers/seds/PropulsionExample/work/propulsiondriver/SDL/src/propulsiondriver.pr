@@ -1,0 +1,341 @@
+/* CIF Process (0, 0), (800, 100) */
+process PropulsionDriver;
+    /* CIF Text (0, 150), (400, 500) */
+    Timer timer_Idle;
+    dcl Propulsionvar Propulsion;
+    dcl Configvar PropulsionConfig;
+    dcl Statevar Propulsion_ThrusterState;
+    dcl Indexvar Propulsion_ThrusterIndex;
+    dcl Piostatevar Word;
+    dcl Thrustervar Propulsion_Thruster;
+    dcl Conditionvar Byte;
+    dcl Piovar PioHwas;
+    /* CIF ENDTEXT */
+    /* CIF Procedure (0, 900), (800, 50) */
+    procedure ExecuteState;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Thruster Propulsion_Thruster;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Thrustervar := thruster;
+            -- Get thruster state
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call PioHwas_GetPin_Ri(Thrustervar.Mpio, Piostatevar);
+            /* CIF Decision (0, 1012), (400, 50) */
+            decision Thrustervar.Mstate = Propulsion_ThrusterState_BlinkHigh;
+                /* CIF Answer (0, 1087), (400, 50) */
+                (True):
+                    /* CIF Decision (0, 1087), (400, 50) */
+                    decision Piostatevar > 0;
+                        /* CIF Answer (0, 1162), (400, 50) */
+                        (True):
+                            -- Get thruster state
+                            /* CIF ProcedureCall (0, 1237), (100, 50) */
+                            call PioHwas_ResetPin_Ri(Thrustervar.Mpio);
+                            /* CIF Join (0, 1312), (100, 50) */
+                            join condition_2;
+                        /* CIF Answer (600, 1162), (400, 50) */
+                        (False):
+                            -- Get thruster state
+                            /* CIF ProcedureCall (600, 1237), (100, 50) */
+                            call PioHwas_SetPin_Ri(Thrustervar.Mpio);
+                            /* CIF Join (600, 1312), (100, 50) */
+                            join condition_2;
+                    enddecision;
+                    /* CIF Label (1200, 1237), (100, 50) */
+                    condition_2:
+                    /* CIF Join (1200, 1312), (100, 50) */
+                    join condition_1;
+                /* CIF Answer (1800, 1087), (400, 50) */
+                (False):
+                    /* CIF Decision (1800, 1087), (400, 50) */
+                    decision Thrustervar.Mstate = Propulsion_ThrusterState_BlinkLow;
+                        /* CIF Answer (1800, 1162), (400, 50) */
+                        (True):
+                            /* CIF Decision (1800, 1162), (400, 50) */
+                            decision Thrustervar.Mcnt = 1;
+                                /* CIF Answer (1800, 1237), (400, 50) */
+                                (True):
+                                    /* CIF Decision (1800, 1237), (400, 50) */
+                                    decision Piostatevar > 0;
+                                        /* CIF Answer (1800, 1312), (400, 50) */
+                                        (True):
+                                            -- Get thruster state
+                                            /* CIF ProcedureCall (1800, 1387), (100, 50) */
+                                            call PioHwas_ResetPin_Ri(Thrustervar.Mpio);
+                                            /* CIF Join (1800, 1462), (100, 50) */
+                                            join condition_5;
+                                        /* CIF Answer (2400, 1312), (400, 50) */
+                                        (False):
+                                            -- Get thruster state
+                                            /* CIF ProcedureCall (2400, 1387), (100, 50) */
+                                            call PioHwas_SetPin_Ri(Thrustervar.Mpio);
+                                            /* CIF Join (2400, 1462), (100, 50) */
+                                            join condition_5;
+                                    enddecision;
+                                    /* CIF Label (3000, 1387), (100, 50) */
+                                    condition_5:
+                                    /* CIF Join (3000, 1462), (100, 50) */
+                                    join condition_4;
+                                /* CIF Answer (3600, 1237), (400, 50) */
+                                (False):
+                                    /* CIF Join (3600, 1312), (100, 50) */
+                                    join condition_4;
+                            enddecision;
+                            /* CIF Label (4200, 1312), (100, 50) */
+                            condition_4:
+                            /* CIF Join (4200, 1387), (100, 50) */
+                            join condition_3;
+                        /* CIF Answer (4800, 1162), (400, 50) */
+                        (False):
+                            /* CIF Join (4800, 1237), (100, 50) */
+                            join condition_3;
+                    enddecision;
+                    /* CIF Label (5400, 1237), (100, 50) */
+                    condition_3:
+                    /* CIF Join (5400, 1312), (100, 50) */
+                    join condition_1;
+            enddecision;
+            /* CIF Label (6000, 1162), (100, 50) */
+            condition_1:
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 975), (800, 50) */
+    procedure InitPropulsion;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Config PropulsionConfig;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Configvar := Config;
+            -- Init thruster 0
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call PioHwas_InitPin_Ri(Propulsionvar.Mthruster0.Mpio, Configvar.Mthruster0config);
+            -- Init thruster 1
+            /* CIF ProcedureCall (0, 1087), (100, 50) */
+            call PioHwas_InitPin_Ri(Propulsionvar.Mthruster1.Mpio, Configvar.Mthruster1config);
+            -- Init thruster 2
+            /* CIF ProcedureCall (0, 1162), (100, 50) */
+            call PioHwas_InitPin_Ri(Propulsionvar.Mthruster2.Mpio, Configvar.Mthruster2config);
+            -- Init thruster 3
+            /* CIF ProcedureCall (0, 1237), (100, 50) */
+            call PioHwas_InitPin_Ri(Propulsionvar.Mthruster3.Mpio, Configvar.Mthruster3config);
+            -- Reset thruster 0
+            /* CIF ProcedureCall (0, 1312), (100, 50) */
+            call PioHwas_ResetPin_Ri(Propulsionvar.Mthruster0.Mpio);
+            -- Reset thruster 1
+            /* CIF ProcedureCall (0, 1387), (100, 50) */
+            call PioHwas_ResetPin_Ri(Propulsionvar.Mthruster1.Mpio);
+            -- Reset thruster 2
+            /* CIF ProcedureCall (0, 1462), (100, 50) */
+            call PioHwas_ResetPin_Ri(Propulsionvar.Mthruster2.Mpio);
+            -- Reset thruster 3
+            /* CIF ProcedureCall (0, 1537), (100, 50) */
+            call PioHwas_ResetPin_Ri(Propulsionvar.Mthruster3.Mpio);
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1050), (800, 50) */
+    procedure Blink;
+        /* CIF Start (0, 0), (200, 75) */
+        START;
+            /* CIF Task (0, 187), (100, 50) */
+            task Propulsionvar.Mthruster0.Mcnt := (Propulsionvar.Mthruster0.Mcnt + 1) - (((Propulsionvar.Mthruster0.Mcnt + 1) / 2) * 2);
+            /* CIF ProcedureCall (0, 262), (100, 50) */
+            call ExecuteState(Propulsionvar.Mthruster0);
+            /* CIF Task (0, 337), (100, 50) */
+            task Propulsionvar.Mthruster1.Mcnt := (Propulsionvar.Mthruster1.Mcnt + 1) - (((Propulsionvar.Mthruster1.Mcnt + 1) / 2) * 2);
+            /* CIF ProcedureCall (0, 412), (100, 50) */
+            call ExecuteState(Propulsionvar.Mthruster1);
+            /* CIF Task (0, 487), (100, 50) */
+            task Propulsionvar.Mthruster2.Mcnt := (Propulsionvar.Mthruster2.Mcnt + 1) - (((Propulsionvar.Mthruster2.Mcnt + 1) / 2) * 2);
+            /* CIF ProcedureCall (0, 562), (100, 50) */
+            call ExecuteState(Propulsionvar.Mthruster2);
+            /* CIF Task (0, 637), (100, 50) */
+            task Propulsionvar.Mthruster3.Mcnt := (Propulsionvar.Mthruster3.Mcnt + 1) - (((Propulsionvar.Mthruster3.Mcnt + 1) / 2) * 2);
+            /* CIF ProcedureCall (0, 712), (100, 50) */
+            call ExecuteState(Propulsionvar.Mthruster3);
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1125), (800, 50) */
+    procedure ChangeState;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Index Propulsion_ThrusterIndex,
+            in Thrusterstate Propulsion_ThrusterState;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Indexvar := index;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Statevar := thrusterState;
+            /* CIF Decision (0, 1012), (400, 50) */
+            decision Index = Propulsion_ThrusterIndex_0;
+                /* CIF Answer (0, 1087), (400, 50) */
+                (True):
+                    /* CIF Task (0, 1162), (100, 50) */
+                    task Propulsionvar.Mthruster0.Mstate := thrusterState;
+                    /* CIF Task (0, 1237), (100, 50) */
+                    task Piovar := propulsionVar.mThruster0.mPio;
+                    /* CIF Join (0, 1312), (100, 50) */
+                    join condition_1;
+                /* CIF Answer (600, 1087), (400, 50) */
+                (False):
+                    /* CIF Decision (600, 1087), (400, 50) */
+                    decision Index = Propulsion_ThrusterIndex_1;
+                        /* CIF Answer (600, 1162), (400, 50) */
+                        (True):
+                            /* CIF Task (600, 1237), (100, 50) */
+                            task Propulsionvar.Mthruster1.Mstate := thrusterState;
+                            /* CIF Task (600, 1312), (100, 50) */
+                            task Piovar := propulsionVar.mThruster1.mPio;
+                            /* CIF Join (600, 1387), (100, 50) */
+                            join condition_2;
+                        /* CIF Answer (1200, 1162), (400, 50) */
+                        (False):
+                            /* CIF Decision (1200, 1162), (400, 50) */
+                            decision Index = Propulsion_ThrusterIndex_2;
+                                /* CIF Answer (1200, 1237), (400, 50) */
+                                (True):
+                                    /* CIF Task (1200, 1312), (100, 50) */
+                                    task Propulsionvar.Mthruster2.Mstate := thrusterState;
+                                    /* CIF Task (1200, 1387), (100, 50) */
+                                    task Piovar := propulsionVar.mThruster2.mPio;
+                                    /* CIF Join (1200, 1462), (100, 50) */
+                                    join condition_3;
+                                /* CIF Answer (1800, 1237), (400, 50) */
+                                (False):
+                                    /* CIF Decision (1800, 1237), (400, 50) */
+                                    decision Index = Propulsion_ThrusterIndex_3;
+                                        /* CIF Answer (1800, 1312), (400, 50) */
+                                        (True):
+                                            /* CIF Task (1800, 1387), (100, 50) */
+                                            task Propulsionvar.Mthruster3.Mstate := thrusterState;
+                                            /* CIF Task (1800, 1462), (100, 50) */
+                                            task Piovar := propulsionVar.mThruster3.mPio;
+                                            /* CIF Join (1800, 1537), (100, 50) */
+                                            join condition_4;
+                                        /* CIF Answer (2400, 1312), (400, 50) */
+                                        (False):
+                                            /* CIF Join (2400, 1387), (100, 50) */
+                                            join condition_4;
+                                    enddecision;
+                                    /* CIF Label (3000, 1387), (100, 50) */
+                                    condition_4:
+                                    /* CIF Join (3000, 1462), (100, 50) */
+                                    join condition_3;
+                            enddecision;
+                            /* CIF Label (3600, 1312), (100, 50) */
+                            condition_3:
+                            /* CIF Join (3600, 1387), (100, 50) */
+                            join condition_2;
+                    enddecision;
+                    /* CIF Label (4200, 1237), (100, 50) */
+                    condition_2:
+                    /* CIF Join (4200, 1312), (100, 50) */
+                    join condition_1;
+            enddecision;
+            /* CIF Label (4800, 1162), (100, 50) */
+            condition_1:
+            /* CIF Decision (4800, 1162), (400, 50) */
+            decision Statevar = Propulsion_ThrusterState_Off;
+                /* CIF Answer (4800, 1237), (400, 50) */
+                (True):
+                    /* CIF ProcedureCall (4800, 1312), (100, 50) */
+                    call PioHwas_ResetPin_Ri(Piovar);
+                    /* CIF Join (4800, 1387), (100, 50) */
+                    join condition_5;
+                /* CIF Answer (5400, 1237), (400, 50) */
+                (False):
+                    /* CIF Decision (5400, 1237), (400, 50) */
+                    decision Statevar = Propulsion_ThrusterState_On;
+                        /* CIF Answer (5400, 1312), (400, 50) */
+                        (True):
+                            /* CIF ProcedureCall (5400, 1387), (100, 50) */
+                            call PioHwas_SetPin_Ri(Piovar);
+                            /* CIF Join (5400, 1462), (100, 50) */
+                            join condition_6;
+                        /* CIF Answer (6000, 1312), (400, 50) */
+                        (False):
+                            /* CIF Join (6000, 1387), (100, 50) */
+                            join condition_6;
+                    enddecision;
+                    /* CIF Label (6600, 1387), (100, 50) */
+                    condition_6:
+                    /* CIF Join (6600, 1462), (100, 50) */
+                    join condition_5;
+            enddecision;
+            /* CIF Label (7200, 1312), (100, 50) */
+            condition_5:
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1200), (800, 50) */
+    procedure Propulsion_ChangeStateCmd_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Index Propulsion_ThrusterIndex,
+            in Thrusterstate Propulsion_ThrusterState;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Statevar := Thrusterstate;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Indexvar := Index;
+            /* CIF ProcedureCall (0, 1087), (100, 50) */
+            call ChangeState(Indexvar, Statevar);
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1275), (800, 50) */
+    procedure Propulsion_InitPropulsionCmd_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in/out Propulsion Propulsion,
+            in Propulsionconfig PropulsionConfig;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Configvar := Propulsionconfig;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call InitPropulsion(Configvar);
+            /* CIF Task (0, 1087), (100, 50) */
+            task Propulsion := Propulsionvar;
+    return;
+    endprocedure;
+    /* CIF Start (0, 1350), (200, 75) */
+    START;
+        /* CIF NextState (0, 1537), (200, 50) */
+        NEXTSTATE Off;
+    /* CIF State (0, 1612), (200, 50) */
+    state Idle;
+        /* CIF Input (0, 1612), (200, 50) */
+        input timer_Idle;
+            /* CIF ProcedureCall (0, 1687), (100, 50) */
+            call Blink;
+            /* CIF ProcedureCall (0, 1762), (100, 50) */
+            call set_timer(200, timer_Idle);
+            /* CIF NextState (0, 1837), (200, 50) */
+            NEXTSTATE Idle;
+        /* CIF Input (300, 1612), (200, 50) */
+        input Propulsion_ChangeStateCmd_Pi;
+            /* CIF ProcedureCall (300, 1687), (100, 50) */
+            call set_timer(200, timer_Idle);
+            /* CIF NextState (300, 1762), (200, 50) */
+            NEXTSTATE Idle;
+    endstate;
+    /* CIF State (900, 1612), (200, 50) */
+    state Off;
+        /* CIF Input (900, 1612), (200, 50) */
+        input Propulsion_InitPropulsionCmd_Pi;
+            /* CIF ProcedureCall (900, 1687), (100, 50) */
+            call set_timer(200, timer_Idle);
+            /* CIF NextState (900, 1762), (200, 50) */
+            NEXTSTATE Idle;
+    endstate;
+endprocess PropulsionDriver;
