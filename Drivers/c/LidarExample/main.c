@@ -27,25 +27,11 @@ __attribute__((
 #define TF_LUNA_DATA_FRAME_HEADER2 0x59
 #define TF_LUNA_DATA_FRAME_LENGTHT 9
 
-size_t txIndex = 0;
-size_t txLength = 0;
-uint8_t txBuffer[20];
-
 static void prvTask(void *pvParameters);
 
 void lidarRxCallback(uint8_t readByte) {
   if (!ByteFifo_push(&rxFifo, readByte)) {
     Hal_console_usart_write("Fifo Full\n", 10);
-  }
-}
-
-void lidarTxCallback(void) {
-  ++txIndex;
-  if (txIndex < txLength) {
-    UartHwas_sendByteAsync(&uart, lidarTxCallback, txBuffer[txIndex]);
-  } else {
-    Register_set_bits(uart.uartAddress + UART_HWAS_IDR_OFFSET,
-                      UART_HWAS_IxR_TXRDY_MASK | UART_HWAS_IxR_TXEMPTY_MASK);
   }
 }
 
@@ -70,15 +56,15 @@ int main() {
   Hal_console_usart_init();
 
   hwas_startup();
-  xTaskCreateStatic(prvTask, "Task1", 400, NULL, 1, prvTaskStackBuffer,
-                    &prvTaskBuffer);
+  xTaskCreateStatic(prvTask, "Task1", PRV_INTERRUPT_STACK_SIZE, NULL, 1,
+                    prvTaskStackBuffer, &prvTaskBuffer);
 
   vTaskStartScheduler();
   for (;;) {
   }
 }
-static void increaseChecksum(uint16_t * checksum, uint16_t rxByte)
-{
+
+static void increaseChecksum(uint16_t *checksum, uint16_t rxByte) {
   *checksum = (*checksum + rxByte) % 256;
 }
 
@@ -98,30 +84,28 @@ static void parseTfLunaData() {
         // Read low 8 bits of distance
         ByteFifo_pull(&rxFifo, &rxByte);
         distance = rxByte;
-        increaseChecksum(&checksum,  rxByte);
+        increaseChecksum(&checksum, rxByte);
         // Read high 8 bits of distance
         ByteFifo_pull(&rxFifo, &rxByte);
         distance += (rxByte << 8);
-        increaseChecksum(&checksum,  rxByte);
+        increaseChecksum(&checksum, rxByte);
 
         // Read low 8 bits of strength
         ByteFifo_pull(&rxFifo, &rxByte);
-        increaseChecksum(&checksum,  rxByte);
+        increaseChecksum(&checksum, rxByte);
         strength = rxByte;
-
         // Read high 8 bits of strength
         ByteFifo_pull(&rxFifo, &rxByte);
-        increaseChecksum(&checksum,  rxByte);
+        increaseChecksum(&checksum, rxByte);
         strength += (rxByte << 8);
 
         // Read low 8 bits of temperature
         ByteFifo_pull(&rxFifo, &rxByte);
-        increaseChecksum(&checksum,  rxByte);
+        increaseChecksum(&checksum, rxByte);
         temp = rxByte;
-
         // Read high 8 bits of temperature
         ByteFifo_pull(&rxFifo, &rxByte);
-        increaseChecksum(&checksum,  rxByte);
+        increaseChecksum(&checksum, rxByte);
         temp += (rxByte << 8);
 
         // Read and check crc
@@ -148,9 +132,6 @@ static void prvTask(void *pvParameters) {
                             .id = UartHwas_Id_2,
                             .irqNumber = Nvic_Irq_Uart2};
   (void)pvParameters;
-
-  /* Block for 500ms. */
-  const TickType_t xDelay = 500 / portTICK_PERIOD_MS;
 
   ByteFifo_init(&rxFifo, lidarRxBuffer, LIDAR_RX_BUFFER_LEN);
   UartHwas_init(&uart, &config);

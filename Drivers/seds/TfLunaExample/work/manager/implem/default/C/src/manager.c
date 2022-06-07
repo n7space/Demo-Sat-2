@@ -34,30 +34,15 @@ void manager_PI_Init( void )
     }    
 }
 
-
-void manager_PI_TfLunaReturn_EchoCmd_Ri( const asn1SccByte * byte)
-{
-//    Hal_console_usart_write(byte, 1);
-}
-
 void manager_PI_TfLunaReturn_ErrorReadDataCmd_Ri
       (const asn1SccTfLuna_DataFrameErr *IN_err)
 
 {
     uint8_t buffer[15];
-    sprintf(buffer, "Error %i \n", *IN_err);
+    sprintf(buffer, "Error %i\n", *IN_err);
     Hal_console_usart_write(buffer, strlen(buffer));
     while(*IN_err == 2){};
 }
-
-void manager_PI_TfLunaReturn_ErrorReadDataCmdComplex_Ri( const asn1SccTfLuna_DataFrameErr * IN_err, const asn1SccTfLuna_Data *IN_lidartflunadata, const asn1SccWord * ch1, const asn1SccByte *ch2 )
-{
-    uint8_t buffer[60];
-    sprintf(buffer, "Error %i Dist %i Strength %i Temp %i ch1 %i ch2 %i\n", *IN_err,  IN_lidartflunadata->mDistance, IN_lidartflunadata->mStrength, IN_lidartflunadata->mTemp, *ch1, *ch2);
-    Hal_console_usart_write(buffer, strlen(buffer));
-
-}
-
 
 void manager_PI_TfLunaReturn_ReadDataCmd_Ri
       (const asn1SccTfLuna_Data *IN_lidartflunadata)

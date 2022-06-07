@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="SunSensorComponent" />
+  <Package name="com/n7space/SunSensorComponent">
+    <ComponentSet>
+      <Component name="SunSensorDriver">
+        <LongDescription>SEDS SunSensor driver implementation</LongDescription>
+        <ProvidedInterfaceSet>
+          <Interface name="SunSensor" type="com/n7space/SunSensor/SunSensorInterfaceType"></Interface>
+        </ProvidedInterfaceSet>
+        <RequiredInterfaceSet>
+          <Interface name="AfecHwas" type="com/n7space/AfecHwas/AfecHwasInterfaceType" />
+          <Interface name="SunSensorReturn" type="com/n7space/SunSensor/SunSensorReturnInterfaceType" />
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable name="sunSensorVar" type="com/n7space/SunSensor/SunSensor"></Variable>
+            <Variable name="sunSensorConfigVar" type="com/n7space/SunSensor/SunSensorConfig" />
+            <Variable name="chOutputVar" type="com/n7space/AfecHwas/ConversionData"></Variable>
+          </VariableSet>
+          <ActivitySet>
+            <Activity name="InitSunSensor">
+              <Argument name="config" type="com/n7space/SunSensor/SunSensorConfig" />
+              <Body>
+                <Assignment outputVariableRef="sunSensorConfigVar">
+                  <Value value="config" />
+                </Assignment>
+                <Assignment outputVariableRef="sunSensorVar.mChannel">
+                  <VariableRef variableRef="sunSensorConfigVar.mChannel" />
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Configure Afec" interface="AfecHwas" command="InitInstance">
+                  <ArgumentValue name="afec">
+                    <VariableRef variableRef="sunSensorVar.mAfec" />
+                  </ArgumentValue>
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="sunSensorConfigVar.mAfecConfig" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive shortDescription="Return sun sensor descriptor" interface="SunSensor" command="InitSunSensorCmd">
+                  <ArgumentValue name="sunSensor">
+                    <VariableRef variableRef="sunSensorVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="RequestData">
+              <Argument name="sunSensor" type="com/n7space/SunSensor/SunSensor" />
+              <Body>
+                <Assignment outputVariableRef="sunSensorVar">
+                  <VariableRef variableRef="sunSensor" />
+                </Assignment>
+                <SendCommandPrimitive command="GetValueCmd" interface="AfecHwas" shortDescription="Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3">
+                  <ArgumentValue name="afec">
+                    <VariableRef variableRef="sunSensorVar.mAfec" />
+                  </ArgumentValue>
+                  <ArgumentValue name="analogChannel">
+                    <VariableRef variableRef="sunSensorVar.mChannel" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="ReadData">
+              <Argument name="chOutput" type="com/n7space/AfecHwas/ConversionData"></Argument>
+              <Body>
+                <MathOperation outputVariableRef="chOutputVar.mValue">
+                  <Operator operator="divide" />
+                  <Operator operator="multiply" />
+                  <VariableRef variableRef="chOutputVar.mValue" />
+                  <Value value="100" />
+                  <Value value="4096" />
+                </MathOperation>
+                <SendCommandPrimitive command="ReturnDataCmd" interface="SunSensorReturn" shortDescription="Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3">
+                  <ArgumentValue name="chOutput">
+                    <VariableRef variableRef="chOutputVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+          </ActivitySet>
+          <StateMachineSet>
+            <StateMachine name="SunSensorDriver">
+              <EntryState name="Off" />
+              <State name="Idle" />
+              <Transition fromState="Off" toState="Idle" name="Init">
+                <OnCommandPrimitive command="InitSunSensorCmd" interface="SunSensor">
+                  <ArgumentValue name="sunSensorConfig" outputVariableRef="sunSensorConfigVar" />
+                </OnCommandPrimitive>
+                <Do activity="InitSunSensor">
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="sunSensorConfigVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="RequestData">
+                <OnCommandPrimitive command="RequestDataCmd" interface="SunSensor">
+                  <ArgumentValue name="sunSensor" outputVariableRef="sunSensorVar" />
+                </OnCommandPrimitive>
+                <Do activity="RequestData">
+                  <ArgumentValue name="sunSensor">
+                    <VariableRef variableRef="sunSensorVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="ReadData">
+                <OnCommandPrimitive command="GetValueCmd" interface="AfecHwas">
+                  <ArgumentValue name="chOutput" outputVariableRef="chOutputVar"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="ReadData">
+                  <ArgumentValue name="chOutput">
+                    <VariableRef variableRef="chOutputVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+            </StateMachine>
+          </StateMachineSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+  </Package>
+  <xi:include href="SunSensor.xml" xpointer="element(/1/1)" />
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="AfecHwas.xml" xpointer="element(/1/1)" />
+</DataSheet>
