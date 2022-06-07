@@ -13,9 +13,9 @@ process AfecHwasDriver;
     dcl Pinmaskvar WordMask;
     dcl Choutputvar ConversionData;
     dcl Irqnumbervar InterruptNumber;
-    dcl Io_afechwas_getvaluecmd_pi GetValueCmd_Type;
-    dcl Io_interruptsubscription_interrupt_pi Interrupt_Type;
-    dcl Io_afechwas_getvaluecmd_ri GetValueCmd_Type1;
+    dcl Io_afechwas_getvaluecmd_pi AfecHwasInterfaceType_GetValueCmd_Type;
+    dcl Io_interruptsubscription_interrupt_pi InterruptSubscriptionInterfaceType_Interrupt_Type;
+    dcl Io_afechwas_getvaluecmd_ri AfecHwasInterfaceType_GetValueCmd_TypeNotify;
     /* CIF ENDTEXT */
     /* CIF Procedure (0, 900), (800, 50) */
     procedure InitPmc;
