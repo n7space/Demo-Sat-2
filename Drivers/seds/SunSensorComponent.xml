@@ -14,41 +14,47 @@
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
-            <Variable name="afecVar" type="com/n7space/AfecHwas/AfecHwas"></Variable>
-            <Variable name="afecConfigVar" type="com/n7space/AfecHwas/AfecHwasConfig" />
+            <Variable name="sunSensorVar" type="com/n7space/SunSensor/SunSensor"></Variable>
+            <Variable name="sunSensorConfigVar" type="com/n7space/SunSensor/SunSensorConfig" />
             <Variable name="chOutputVar" type="com/n7space/AfecHwas/ConversionData"></Variable>
           </VariableSet>
           <ActivitySet>
             <Activity name="InitSunSensor">
+              <Argument name="config" type="com/n7space/SunSensor/SunSensorConfig" />
               <Body>
-                <Assignment outputVariableRef="afecConfigVar.mAfecInstance">
-                  <LongDescription>Set Afec instance to instance 0</LongDescription>
-                  <Value value="AfecHwas_Instance_Afec0" />
+                <Assignment outputVariableRef="sunSensorConfigVar">
+                  <Value value="config" />
                 </Assignment>
-                <Assignment outputVariableRef="afecConfigVar.mStartupTime">
-                  <Value value="3" />
-                </Assignment>
-                <Assignment outputVariableRef="afecConfigVar.mPrescalerValue">
-                  <Value value="2" />
+                <Assignment outputVariableRef="sunSensorVar.mChannel">
+                  <VariableRef variableRef="sunSensorConfigVar.mChannel" />
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Configure Afec" interface="AfecHwas" command="InitInstance">
                   <ArgumentValue name="afec">
-                    <VariableRef variableRef="afecVar" />
+                    <VariableRef variableRef="sunSensorVar.mAfec" />
                   </ArgumentValue>
                   <ArgumentValue name="config">
-                    <VariableRef variableRef="afecConfigVar" />
+                    <VariableRef variableRef="sunSensorConfigVar.mAfecConfig" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive shortDescription="Return sun sensor descriptor" interface="SunSensor" command="InitSunSensorCmd">
+                  <ArgumentValue name="sunSensor">
+                    <VariableRef variableRef="sunSensorVar" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
               </Body>
             </Activity>
             <Activity name="RequestData">
+              <Argument name="sunSensor" type="com/n7space/SunSensor/SunSensor" />
               <Body>
+                <Assignment outputVariableRef="sunSensorVar">
+                  <VariableRef variableRef="sunSensor" />
+                </Assignment>
                 <SendCommandPrimitive command="GetValueCmd" interface="AfecHwas" shortDescription="Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3">
                   <ArgumentValue name="afec">
-                    <VariableRef variableRef="afecVar" />
+                    <VariableRef variableRef="sunSensorVar.mAfec" />
                   </ArgumentValue>
                   <ArgumentValue name="analogChannel">
-                    <Value value="8" />
+                    <VariableRef variableRef="sunSensorVar.mChannel" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
               </Body>
@@ -56,6 +62,13 @@
             <Activity name="ReadData">
               <Argument name="chOutput" type="com/n7space/AfecHwas/ConversionData"></Argument>
               <Body>
+                <MathOperation outputVariableRef="chOutputVar.mValue">
+                  <Operator operator="divide" />
+                  <Operator operator="multiply" />
+                  <VariableRef variableRef="chOutputVar.mValue" />
+                  <Value value="100" />
+                  <Value value="4096" />
+                </MathOperation>
                 <SendCommandPrimitive command="ReturnDataCmd" interface="SunSensorReturn" shortDescription="Sun sensor is connected to PA19. It is AFE0_AD8. On Xplained Ultra board it is port J502 pin 3">
                   <ArgumentValue name="chOutput">
                     <VariableRef variableRef="chOutputVar" />
@@ -69,12 +82,24 @@
               <EntryState name="Off" />
               <State name="Idle" />
               <Transition fromState="Off" toState="Idle" name="Init">
-                <OnCommandPrimitive command="InitSunSensorCmd" interface="SunSensor"></OnCommandPrimitive>
-                <Do activity="InitSunSensor"></Do>
+                <OnCommandPrimitive command="InitSunSensorCmd" interface="SunSensor">
+                  <ArgumentValue name="sunSensorConfig" outputVariableRef="sunSensorConfigVar" />
+                </OnCommandPrimitive>
+                <Do activity="InitSunSensor">
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="sunSensorConfigVar" />
+                  </ArgumentValue>
+                </Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="RequestData">
-                <OnCommandPrimitive command="RequestDataCmd" interface="SunSensor"></OnCommandPrimitive>
-                <Do activity="RequestData"></Do>
+                <OnCommandPrimitive command="RequestDataCmd" interface="SunSensor">
+                  <ArgumentValue name="sunSensor" outputVariableRef="sunSensorVar" />
+                </OnCommandPrimitive>
+                <Do activity="RequestData">
+                  <ArgumentValue name="sunSensor">
+                    <VariableRef variableRef="sunSensorVar" />
+                  </ArgumentValue>
+                </Do>
               </Transition>
               <Transition fromState="Idle" toState="Idle" name="ReadData">
                 <OnCommandPrimitive command="GetValueCmd" interface="AfecHwas">

@@ -1,3 +1,18 @@
 COM-N7SPACE-SUNSENSOR DEFINITIONS ::= BEGIN
+IMPORTS
+AfecHwas FROM COM-N7SPACE-AFECHWAS
+AfecHwasChannel FROM COM-N7SPACE-AFECHWAS
+AfecHwasConfig FROM COM-N7SPACE-AFECHWAS
+;
+SunSensor ::= SEQUENCE 
+{ 
+    mAfec AfecHwas, 
+    mChannel AfecHwasChannel(0 .. 11)
+} 
+SunSensorConfig ::= SEQUENCE 
+{ 
+    mAfecConfig AfecHwasConfig, 
+    mChannel AfecHwasChannel(0 .. 11)
+} 
 END
 

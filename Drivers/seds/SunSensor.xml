@@ -1,15 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
   <Package name="com/n7space/SunSensor">
+    <DataTypeSet>
+      <ContainerDataType name="SunSensor">
+        <EntryList>
+          <Entry name="mAfec" type="com/n7space/AfecHwas/AfecHwas" />
+          <Entry name="mChannel" type="com/n7space/AfecHwas/AfecHwasChannel" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="SunSensorConfig">
+        <EntryList>
+          <Entry name="mAfecConfig" type="com/n7space/AfecHwas/AfecHwasConfig" />
+          <Entry name="mChannel" type="com/n7space/AfecHwas/AfecHwasChannel" />
+        </EntryList>
+      </ContainerDataType>
+    </DataTypeSet>
     <DeclaredInterfaceSet>
       <Interface level="functional" name="SunSensorInterfaceType">
         <CommandSet>
           <Command name="InitSunSensorCmd" mode="sync">
             <LongDescription>Initializes afec for reading Sun sensor data</LongDescription>
-            <Argument name="afecConfig" type="com/n7space/AfecHwas/AfecHwasConfig" mode="in" />
+            <Argument name="sunSensorConfig" type="SunSensorConfig" mode="in" />
+            <Argument name="sunSensor" type="SunSensor" mode="out" />
           </Command>
           <Command name="RequestDataCmd" mode="sync">
             <LongDescription>Reads Sun sensor data</LongDescription>
+            <Argument name="sunSensor" type="SunSensor" mode="in" />
           </Command>
         </CommandSet>
       </Interface>

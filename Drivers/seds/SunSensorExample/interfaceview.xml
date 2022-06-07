@@ -1,7 +1,7 @@
 <InterfaceView asn1file="SunSensorExample.acn">
 <Function name="Manager" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
     <Property name="Taste::coordinates" value="73500 71500 124900 83900"/>
-<Provided_Interface name="GetLuminosity" kind="Cyclic" layer="default" dispatch_offset="0" priority="1" stack_size="8192" period="200" wcet="0">
+<Provided_Interface name="GetLuminosity" kind="Cyclic" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1" period="200">
     <Property name="Taste::coordinates" value="105400 81000"/>
 </Provided_Interface>
 
@@ -10,14 +10,16 @@
     <Property name="Taste::coordinates" value="98100 71500"/>
 </Provided_Interface>
 
-<Required_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Input_Parameter name="afecConfig" type="AfecHwasConfig" encoding="NATIVE"/>
+<Required_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="sunSensorConfig" type="SunSensorConfig" encoding="ACN"/>
+    <Output_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
     <Property name="Taste::coordinates" value="76000 71500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="true"/>
 </Required_Interface>
 
-<Required_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+<Required_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
     <Property name="Taste::coordinates" value="123200 71500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="true"/>
@@ -28,75 +30,71 @@
     </Implementations>
 </Function>
 
-<Function name="HWAS" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="-18700 15500 1300 38600"/>
-<Provided_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="1300 25700"/>
+<Function name="SunSensorDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="73400 52400 127000 60400"/>
+<Provided_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="sunSensorConfig" type="SunSensorConfig" encoding="ACN"/>
+    <Output_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="75800 60400"/>
 </Provided_Interface>
 
-<Provided_Interface name="InterruptManagement_EnableInterrupt_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="1300 33500"/>
+<Provided_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="123300 60400"/>
 </Provided_Interface>
 
-<Provided_Interface name="InterruptManagement_DisableInterrupt_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="1300 30200"/>
+<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="92600 52400"/>
 </Provided_Interface>
 
-<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="1300 17600"/>
-</Provided_Interface>
+<Required_Interface name="AfecHwas_InitInstance_Ri" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Output_Parameter name="afec" type="AfecHwas" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="AfecHwasConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="75400 52400"/>
+</Required_Interface>
 
-<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="1300 21300"/>
-</Provided_Interface>
+<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="111000 52400"/>
+</Required_Interface>
 
-<Required_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" layer="default" dispatch_offset="0" priority="1" miat="0" stack_size="8192" queue_size="1" wcet="0">
-    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="1300 37000"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
+<Required_Interface name="SunSensorReturn_ReturnDataCmd_Ri" kind="Protected" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="chOutput" type="ConversionData" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="97900 60400"/>
 </Required_Interface>
 
     <Implementations>
-        <Implementation name="default" language="C"/>
+        <Implementation name="default" language="SDL"/>
     </Implementations>
 </Function>
 
 <Function name="AfecHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="73600 15600 121400 43200"/>
-<Provided_Interface name="AfecHwas_InitInstance_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+    <Property name="Taste::coordinates" value="73600 15600 124600 43200"/>
+<Provided_Interface name="AfecHwas_InitInstance_Pi" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
     <Output_Parameter name="afec" type="AfecHwas" encoding="NATIVE"/>
     <Input_Parameter name="config" type="AfecHwasConfig" encoding="NATIVE"/>
     <Property name="Taste::coordinates" value="75500 43200"/>
 </Provided_Interface>
 
-<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" layer="default" dispatch_offset="0" priority="1" miat="0" stack_size="8192" queue_size="1" wcet="0">
+<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" layer="default" wcet="0" miat="0" stack_size="8192" dispatch_offset="0" queue_size="1" priority="1">
     <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-Type" encoding="NATIVE"/>
     <Property name="Taste::coordinates" value="110900 43200"/>
 </Provided_Interface>
 
-<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" layer="default" dispatch_offset="0" priority="1" miat="0" stack_size="8192" queue_size="1" wcet="0">
+<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" layer="default" wcet="0" miat="0" stack_size="8192" dispatch_offset="0" queue_size="1" priority="1">
     <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="NATIVE"/>
     <Property name="Taste::coordinates" value="73600 36700"/>
 </Provided_Interface>
 
-<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" layer="default" dispatch_offset="0" priority="1" miat="0" stack_size="8192" queue_size="1" wcet="0">
-    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-TypeNotify" encoding="NATIVE"/>
+<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" layer="default" wcet="0" stack_size="1024" dispatch_offset="0" priority="1">
+    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-TypeNotify" encoding="ACN"/>
     <Property name="Taste::coordinates" value="92500 43200"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
     <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
     <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
     <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
@@ -105,7 +103,7 @@
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
     <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
     <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
     <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
@@ -114,21 +112,21 @@
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
     <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
     <Property name="Taste::coordinates" value="73600 25700"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
     <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
     <Property name="Taste::coordinates" value="73600 33500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
+<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
     <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
     <Property name="Taste::coordinates" value="73600 30100"/>
     <Property name="Taste::InheritPI" value="true"/>
@@ -140,65 +138,101 @@
     </Implementations>
 </Function>
 
-<Function name="SunSensorDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="73900 56100 124700 64100"/>
-<Provided_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Input_Parameter name="afecConfig" type="AfecHwasConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="76100 64100"/>
+<Function name="HWAS" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="-18700 15500 1300 38600"/>
+<Provided_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="1300 25700"/>
 </Provided_Interface>
 
-<Provided_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Property name="Taste::coordinates" value="123300 64100"/>
+<Provided_Interface name="InterruptManagement_EnableInterrupt_Pi" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="1300 33500"/>
 </Provided_Interface>
 
-<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" layer="default" dispatch_offset="0" priority="1" miat="0" stack_size="8192" queue_size="1" wcet="0">
-    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-TypeNotify" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="92600 56100"/>
+<Provided_Interface name="InterruptManagement_DisableInterrupt_Pi" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="1300 30200"/>
 </Provided_Interface>
 
-<Required_Interface name="AfecHwas_InitInstance_Ri" kind="Protected" layer="default" dispatch_offset="0" priority="1" stack_size="8192" wcet="0">
-    <Output_Parameter name="afec" type="AfecHwas" encoding="NATIVE"/>
-    <Input_Parameter name="config" type="AfecHwasConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="75600 56100"/>
+<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
+    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="1300 17600"/>
+</Provided_Interface>
+
+<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" layer="default" wcet="0" stack_size="8192" dispatch_offset="0" priority="1">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="1300 21300"/>
+</Provided_Interface>
+
+<Required_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" layer="default" wcet="0" miat="0" stack_size="8192" dispatch_offset="0" queue_size="1" priority="1">
+    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="1300 37000"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" layer="default" dispatch_offset="0" priority="1" miat="0" stack_size="8192" queue_size="1" wcet="0">
-    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="110900 56100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="SunSensorReturn_ReturnDataCmd_Ri" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="chOutput" type="ConversionData" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="98000 64100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
 </Required_Interface>
 
     <Implementations>
-        <Implementation name="default" language="SDL"/>
+        <Implementation name="default" language="C"/>
     </Implementations>
 </Function>
 
 <Connection >
-    <Source func_name="AfecHwasDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
-    <Target func_name="SunSensorDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
-    <Property name="Taste::coordinates" value="92500 43800 92500 49800 92600 55800"/>
+    <Source func_name="AfecHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
+    <Property name="Taste::coordinates" value="73000 21300 1600 21300"/>
 </Connection>
 
 <Connection >
-    <Source func_name="Manager" ri_name="SunSensor_InitSunSensorCmd_Pi"/>
-    <Target func_name="SunSensorDriver" pi_name="SunSensor_InitSunSensorCmd_Pi"/>
-    <Property name="Taste::coordinates" value="76000 70900 76000 67700 76100 64400"/>
+    <Source func_name="Manager" ri_name="SunSensor_RequestDataCmd_Pi"/>
+    <Target func_name="SunSensorDriver" pi_name="SunSensor_RequestDataCmd_Pi"/>
+    <Property name="Taste::coordinates" value="123200 70900 123200 65800 123300 60700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="HWAS" ri_name="InterruptSubscription_Interrupt_Ri"/>
+    <Target func_name="AfecHwasDriver" pi_name="InterruptSubscription_Interrupt_Pi"/>
+    <Property name="Taste::coordinates" value="1900 37000 73300 36700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="SunSensorDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
+    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
+    <Property name="Taste::coordinates" value="111000 51800 111000 47700 110900 43500"/>
 </Connection>
 
 <Connection >
     <Source func_name="SunSensorDriver" ri_name="AfecHwas_InitInstance_Ri"/>
     <Target func_name="AfecHwasDriver" pi_name="AfecHwas_InitInstance_Pi"/>
-    <Property name="Taste::coordinates" value="75600 55500 75600 49500 75500 43500"/>
+    <Property name="Taste::coordinates" value="75400 51800 75400 47700 75500 43500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="AfecHwasDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
+    <Target func_name="SunSensorDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
+    <Property name="Taste::coordinates" value="92500 43800 92500 47900 92600 52100"/>
+</Connection>
+
+<Connection >
+    <Source func_name="AfecHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="73000 25700 1600 25700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_EnableInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptManagement_EnableInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="73000 33500 1600 33500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="73000 30100 1600 30200"/>
 </Connection>
 
 <Connection >
@@ -210,49 +244,13 @@
 <Connection >
     <Source func_name="SunSensorDriver" ri_name="SunSensorReturn_ReturnDataCmd_Ri"/>
     <Target func_name="Manager" pi_name="SunSensorReturn_ReturnDataCmd_Ri"/>
-    <Property name="Taste::coordinates" value="98000 64700 98000 67900 98100 71200"/>
+    <Property name="Taste::coordinates" value="97900 61000 97900 66100 98100 71200"/>
 </Connection>
 
 <Connection >
-    <Source func_name="HWAS" ri_name="InterruptSubscription_Interrupt_Ri"/>
-    <Target func_name="AfecHwasDriver" pi_name="InterruptSubscription_Interrupt_Pi"/>
-    <Property name="Taste::coordinates" value="1900 37000 37600 37000 73300 36700"/>
-</Connection>
-
-<Connection >
-    <Source func_name="SunSensorDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
-    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
-    <Property name="Taste::coordinates" value="110900 55500 110900 49500 110900 43500"/>
-</Connection>
-
-<Connection >
-    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_EnableInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptManagement_EnableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="73000 33500 1600 33500"/>
-</Connection>
-
-<Connection >
-    <Source func_name="AfecHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
-    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
-    <Property name="Taste::coordinates" value="73000 21300 1600 21300"/>
-</Connection>
-
-<Connection >
-    <Source func_name="Manager" ri_name="SunSensor_RequestDataCmd_Pi"/>
-    <Target func_name="SunSensorDriver" pi_name="SunSensor_RequestDataCmd_Pi"/>
-    <Property name="Taste::coordinates" value="123200 70900 123200 67700 123300 64400"/>
-</Connection>
-
-<Connection >
-    <Source func_name="AfecHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="73000 25700 1600 25700"/>
-</Connection>
-
-<Connection >
-    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="73000 30100 1600 30200"/>
+    <Source func_name="Manager" ri_name="SunSensor_InitSunSensorCmd_Pi"/>
+    <Target func_name="SunSensorDriver" pi_name="SunSensor_InitSunSensorCmd_Pi"/>
+    <Property name="Taste::coordinates" value="76000 70900 76000 65800 75800 60700"/>
 </Connection>
 
 </InterfaceView>

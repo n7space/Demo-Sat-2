@@ -16,6 +16,8 @@
 
 static bool initialized = false;
 
+static asn1SccSunSensor afec;
+
 void manager_startup(void)
 {
     Hal_console_usart_init();
@@ -24,9 +26,8 @@ void manager_startup(void)
 
 void manager_PI_SunSensorReturn_ReturnDataCmd_Ri( const asn1SccConversionData * data)
 {
-    // Write your code here
-    uint8_t buffer[80];
-    sprintf(buffer, "Vol %lld Chn %lld Ins %lld\n", data->mValue, data->mChNumber, data->mInstance);
+    uint8_t buffer[30];
+    sprintf(buffer, "Vol %lld Chn %lld Ins %hd\n", data->mValue, data->mChNumber, data->mInstance);
     Hal_console_usart_write(buffer, strlen(buffer));
 }
 
@@ -34,15 +35,18 @@ void manager_PI_GetLuminosity( void )
 {
     if (!initialized)
     {
-        asn1SccAfecHwasConfig config = {    .mAfecInstance = asn1SccafecHwas_Instance_Afec0,
-                                            .mStartupTime = 3,
-                                            .mPrescalerValue = 2};
-        manager_RI_SunSensor_InitSunSensorCmd_Pi(&config);
+        asn1SccSunSensorConfig config = {   .mAfecConfig ={
+                                                  .mAfecInstance = asn1SccafecHwas_Instance_Afec0,
+                                                  .mStartupTime = 15,
+                                                  .mPrescalerValue = 255,},
+                                            .mChannel = 8,
+                                        };
+        manager_RI_SunSensor_InitSunSensorCmd_Pi(&config, &afec);
 
         initialized = true;
     }
     else
     {
-        manager_RI_SunSensor_RequestDataCmd_Pi();
+        manager_RI_SunSensor_RequestDataCmd_Pi(&afec);
     }
 }
