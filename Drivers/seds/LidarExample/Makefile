@@ -45,7 +45,7 @@ edit_cv:
 	$(MAKE) -C work run_cv
 
 # Simulation target (experimental - for systems made of SDL functions only)
-simu:	
+simu:
 	$(MAKE) interfaceview work/glue_simu
 	$(MAKE) -C work
 	$(MAKE) -C work/simulation -f Makefile.Simulation simu

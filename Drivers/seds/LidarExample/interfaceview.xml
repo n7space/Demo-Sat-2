@@ -1,384 +1,204 @@
 <InterfaceView asn1file="COM-N7SPACE-UARTHWASCOMPONENT.acn">
+<Function name="Manager" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="-43400 -21300 -23400 1400"/>
+<Provided_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="1024" wcet="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnErrorCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-23400 -13700"/>
+</Provided_Interface>
+
+<Provided_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="1024" wcet="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnDataCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-23400 -9900"/>
+</Provided_Interface>
+
+<Provided_Interface name="Init" kind="Cyclic" layer="default" stack_size="1024" wcet="0" dispatch_offset="0" period="1000" priority="1">
+    <Property name="Taste::coordinates" value="-31200 -21300"/>
+</Provided_Interface>
+
+<Required_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Output_Parameter name="lidar" type="Lidar" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="LidarConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-23400 -16700"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="Lidar_EnableCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Property name="Taste::coordinates" value="-23400 -6900"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="Lidar_DisableCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Property name="Taste::coordinates" value="-23400 -3500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
 <Function name="UartHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="141200 4200 161200 98200"/>
-<Provided_Interface name="UartHwas_InitUartCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+    <Property name="Taste::coordinates" value="166800 4700 186800 79700"/>
+<Provided_Interface name="UartHwas_InitUartCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Output_Parameter name="uart" type="UartHwas" encoding="NATIVE"/>
     <Input_Parameter name="config" type="UartHwasConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 9300"/>
+    <Property name="Taste::coordinates" value="166800 8600"/>
 </Provided_Interface>
 
-<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReadByteAsyncCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 14300"/>
+<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="166800 18500"/>
 </Provided_Interface>
 
-<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" layer="default" dispatch_offset="0" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="SendByteAsyncCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 19800"/>
+<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="166800 14300"/>
 </Provided_Interface>
 
-<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" layer="default" dispatch_offset="0" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="Interrupt-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 91000"/>
+<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="166800 73300"/>
 </Provided_Interface>
 
-<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReadByteAsyncCmd-Type1" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 11700"/>
+<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="166800 21700"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" layer="default" dispatch_offset="0" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="SendByteAsyncCmd-Type1" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 17300"/>
+<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="166800 11700"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
     <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 57200"/>
+    <Property name="Taste::coordinates" value="166800 33500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" layer="default" wcet="0">
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 60300"/>
+    <Property name="Taste::coordinates" value="166800 42500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" layer="default" wcet="0">
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 64000"/>
+    <Property name="Taste::coordinates" value="166800 36500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" layer="default" wcet="0">
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
     <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 67700"/>
+    <Property name="Taste::coordinates" value="166800 39600"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 94100"/>
+    <Property name="Taste::coordinates" value="166800 64700"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 85300"/>
+    <Property name="Taste::coordinates" value="166800 67700"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 88200"/>
+    <Property name="Taste::coordinates" value="166800 70800"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Unprotected" layer="default" wcet="0">
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
     <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
     <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 79500"/>
+    <Property name="Taste::coordinates" value="166800 59600"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Unprotected" layer="default" wcet="0">
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
     <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
     <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="141200 82500"/>
+    <Property name="Taste::coordinates" value="166800 56400"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
     <Implementations>
         <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function name="HWAS" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="-3900 77000 16100 95800"/>
-<Provided_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="16100 93700"/>
-</Provided_Interface>
-
-<Provided_Interface name="InterruptManagement_EnableInterrupt_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="16100 85100"/>
-</Provided_Interface>
-
-<Provided_Interface name="InterruptManagement_DisableInterrupt_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="16100 88100"/>
-</Provided_Interface>
-
-<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Unprotected" layer="default" wcet="0">
-    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="16100 79400"/>
-</Provided_Interface>
-
-<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Unprotected" layer="default" wcet="0">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="16100 82700"/>
-</Provided_Interface>
-
-<Required_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" layer="default" dispatch_offset="0" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="Interrupt-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="16100 90500"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="C"/>
-    </Implementations>
-</Function>
-
-<Function name="PioHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="45800 69400 90900 77400"/>
-<Provided_Interface name="PioHwas_InitPin_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="47500 69400"/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_SetPin_Pi" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="60400 69400"/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_ResetPin_Pi" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="73500 69400"/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_GetPin_Pi" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="88000 69400"/>
-</Provided_Interface>
-
-<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Unprotected" layer="default" wcet="0">
-    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="45800 71300"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Unprotected" layer="default" wcet="0">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="45800 74500"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function name="LidarDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="4300 7800 24300 53700"/>
-<Provided_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Output_Parameter name="lidar" type="Lidar" encoding="NATIVE"/>
-    <Input_Parameter name="config" type="LidarConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="4300 9500"/>
-</Provided_Interface>
-
-<Provided_Interface name="TfLunaReturn_ReadDataCmd_Pi" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="lidarTfLunaData" type="TfLuna-Data" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 16000"/>
-</Provided_Interface>
-
-<Provided_Interface name="TfLunaReturn_ErrorReadDataCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Input_Parameter name="err" type="TfLuna-DataFrameErr" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 12600"/>
-</Provided_Interface>
-
-<Required_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReturnDataCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="4300 20400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-</Required_Interface>
-
-<Required_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReturnErrorCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="4300 17600"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 38500"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 42900"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 45700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 49000"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="TfLuna_InitTfLunaCmd_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Property name="Taste::coordinates" value="24300 9700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_InitMP6500Cmd_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Output_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
-    <Input_Parameter name="mp6500Config" type="MP6500Config" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 27700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_SetDirectionRightCmd_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 33200"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_StepCmd_Ri" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 36100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_SetDirectionLeftCmd_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="24300 30400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function name="Manager" is_type="NO" language="C" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="-57400 3800 -37400 52400"/>
-<Provided_Interface name="Initialize" kind="Cyclic" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0" period="1000">
-    <Property name="Taste::coordinates" value="-49600 3800"/>
-</Provided_Interface>
-
-<Provided_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReturnErrorCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="-37400 17600"/>
-</Provided_Interface>
-
-<Provided_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReturnDataCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="-37400 20400"/>
-</Provided_Interface>
-
-<Required_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Output_Parameter name="lidar" type="Lidar" encoding="NATIVE"/>
-    <Input_Parameter name="config" type="LidarConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="-37400 9400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="C"/>
     </Implementations>
 </Function>
 
 <Function name="TfLunaDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="76400 7700 96400 21600"/>
-<Provided_Interface name="TfLuna_InitTfLunaCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Property name="Taste::coordinates" value="76400 9400"/>
+    <Property name="Taste::coordinates" value="93100 -20600 114300 -5400"/>
+<Provided_Interface name="TfLuna_InitTfLunaCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Property name="Taste::coordinates" value="93100 -18500"/>
 </Provided_Interface>
 
-<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReadByteAsyncCmd-Type1" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="96400 11900"/>
+<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="114300 -7500"/>
 </Provided_Interface>
 
-<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" layer="default" dispatch_offset="0" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="SendByteAsyncCmd-Type1" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="96400 17100"/>
+<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="114300 -15200"/>
 </Provided_Interface>
 
-<Required_Interface name="UartHwas_InitUartCmd_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Required_Interface name="UartHwas_InitUartCmd_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Output_Parameter name="uart" type="UartHwas" encoding="NATIVE"/>
     <Input_Parameter name="config" type="UartHwasConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="96400 9300"/>
+    <Property name="Taste::coordinates" value="114300 -18000"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" layer="default" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="ReadByteAsyncCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="96400 14400"/>
+<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="114300 -9800"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" layer="default" dispatch_offset="0" stack_size="8192" priority="1" queue_size="1" wcet="0" miat="0">
-    <Input_Parameter name="InputParam" type="SendByteAsyncCmd-Type" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="96400 19800"/>
+<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="114300 -12500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="TfLunaReturn_ReadDataCmd_Ri" kind="Protected" layer="default" wcet="0">
-    <Input_Parameter name="lidarTfLunaData" type="TfLuna-Data" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="76400 15800"/>
+<Required_Interface name="TfLunaReturn_ReadDataCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ReadDataCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="93100 -14500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="TfLunaReturn_ErrorReadDataCmd_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
-    <Input_Parameter name="err" type="TfLuna-DataFrameErr" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="76400 12500"/>
+<Required_Interface name="TfLunaReturn_ErrorReadDataCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ErrorReadDataCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="93100 -11600"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
@@ -389,54 +209,254 @@
 </Function>
 
 <Function name="MP6500Driver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="91700 25400 111700 51000"/>
-<Provided_Interface name="MP6500_InitMP6500Cmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+    <Property name="Taste::coordinates" value="110200 -1200 130200 28300"/>
+<Provided_Interface name="MP6500_InitMP6500Cmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Output_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
     <Input_Parameter name="mp6500Config" type="MP6500Config" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 27700"/>
+    <Property name="Taste::coordinates" value="110200 500"/>
 </Provided_Interface>
 
-<Provided_Interface name="MP6500_SetDirectionLeftCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Provided_Interface name="MP6500_SetDirectionLeftCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 30400"/>
+    <Property name="Taste::coordinates" value="110200 3800"/>
 </Provided_Interface>
 
-<Provided_Interface name="MP6500_SetDirectionRightCmd_Pi" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Provided_Interface name="MP6500_SetDirectionRightCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 33100"/>
+    <Property name="Taste::coordinates" value="110200 6800"/>
 </Provided_Interface>
 
-<Provided_Interface name="MP6500_StepCmd_Pi" kind="Protected" layer="default" wcet="0">
+<Provided_Interface name="MP6500_StepCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 35700"/>
+    <Property name="Taste::coordinates" value="110200 9700"/>
 </Provided_Interface>
 
-<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" layer="default" dispatch_offset="0" stack_size="8192" priority="1" wcet="0">
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
     <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 39200"/>
+    <Property name="Taste::coordinates" value="110200 18100"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" layer="default" wcet="0">
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 42600"/>
+    <Property name="Taste::coordinates" value="110200 26600"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" layer="default" wcet="0">
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 45600"/>
+    <Property name="Taste::coordinates" value="110200 20800"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" layer="default" wcet="0">
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
     <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
     <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
-    <Property name="Taste::coordinates" value="91700 49100"/>
+    <Property name="Taste::coordinates" value="110200 23900"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function name="LidarDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="20600 -22200 40600 34700"/>
+<Provided_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Output_Parameter name="lidar" type="Lidar" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="LidarConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="20600 -16700"/>
+</Provided_Interface>
+
+<Provided_Interface name="Lidar_EnableCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Property name="Taste::coordinates" value="20600 -6900"/>
+</Provided_Interface>
+
+<Provided_Interface name="Lidar_DisableCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Property name="Taste::coordinates" value="20600 -3300"/>
+</Provided_Interface>
+
+<Provided_Interface name="TfLunaReturn_ReadDataCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ReadDataCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 -14300"/>
+</Provided_Interface>
+
+<Provided_Interface name="TfLunaReturn_ErrorReadDataCmd_Pi" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ErrorReadDataCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 -11200"/>
+</Provided_Interface>
+
+<Required_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="1024" wcet="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnDataCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="20600 -10000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="1024" wcet="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnErrorCmd-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="20600 -13800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 18400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 26800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 21000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 24100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="TfLuna_InitTfLunaCmd_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Property name="Taste::coordinates" value="40600 -18500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_InitMP6500Cmd_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Output_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
+    <Input_Parameter name="mp6500Config" type="MP6500Config" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 900"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_SetDirectionLeftCmd_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 4100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_SetDirectionRightCmd_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 6900"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_StepCmd_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="mp6500" type="MP6500" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="40600 9600"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function name="PioHwasDriver" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="55700 44800 101000 52800"/>
+<Provided_Interface name="PioHwas_InitPin_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Output_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="56900 44800"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_SetPin_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="98100 44800"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_ResetPin_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="69800 44800"/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_GetPin_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="pio" type="PioHwas" encoding="NATIVE"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="85500 44800"/>
+</Provided_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="55700 51300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="55700 47500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function name="HWAS" is_type="NO" language="SDL" default_implementation="default" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="-7700 53600 12300 73800"/>
+<Provided_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="12300 64000"/>
+</Provided_Interface>
+
+<Provided_Interface name="InterruptManagement_EnableInterrupt_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="12300 67000"/>
+</Provided_Interface>
+
+<Provided_Interface name="InterruptManagement_DisableInterrupt_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="12300 70100"/>
+</Provided_Interface>
+
+<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="address" type="SourceAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="12300 58900"/>
+</Provided_Interface>
+
+<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" layer="default" stack_size="8192" wcet="0" dispatch_offset="0" priority="1">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="NATIVE"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="NATIVE"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="12300 55900"/>
+</Provided_Interface>
+
+<Required_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" layer="default" queue_size="1" stack_size="8192" wcet="0" dispatch_offset="0" miat="0" priority="1">
+    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="12300 72500"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="false"/>
 </Required_Interface>
@@ -447,213 +467,225 @@
 </Function>
 
 <Connection >
-    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ErrorReadDataCmd_Ri"/>
-    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ErrorReadDataCmd_Pi"/>
-    <Property name="Taste::coordinates" value="75800 12500 24600 12600"/>
-</Connection>
-
-<Connection >
-    <Source func_name="TfLunaDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
-    <Target func_name="UartHwasDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="97000 19800 140900 19800"/>
-</Connection>
-
-<Connection >
-    <Source func_name="HWAS" ri_name="InterruptSubscription_Interrupt_Ri"/>
-    <Target func_name="UartHwasDriver" pi_name="InterruptSubscription_Interrupt_Pi"/>
-    <Property name="Taste::coordinates" value="16700 90500 140900 91000"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="TfLuna_InitTfLunaCmd_Ri"/>
-    <Target func_name="TfLunaDriver" pi_name="TfLuna_InitTfLunaCmd_Pi"/>
-    <Property name="Taste::coordinates" value="24900 9700 76100 9400"/>
-</Connection>
-
-<Connection >
-    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ReadDataCmd_Ri"/>
-    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ReadDataCmd_Pi"/>
-    <Property name="Taste::coordinates" value="75800 15800 24600 16000"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="MP6500_StepCmd_Ri"/>
-    <Target func_name="MP6500Driver" pi_name="MP6500_StepCmd_Pi"/>
-    <Property name="Taste::coordinates" value="24900 36100 58100 36100 91400 35700"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
-    <Target func_name="TfLunaDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="140600 11700 96700 11900"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="PioHwas_ResetPin_Ri"/>
+    <Source func_name="LidarDriver" ri_name="PioHwas_ResetPin_Ri"/>
     <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
-    <Property name="Taste::coordinates" value="140600 64000 73500 64000 73500 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="MP6500_SetDirectionLeftCmd_Ri"/>
-    <Target func_name="MP6500Driver" pi_name="MP6500_SetDirectionLeftCmd_Pi"/>
-    <Property name="Taste::coordinates" value="24900 30400 91400 30400"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="MP6500_InitMP6500Cmd_Ri"/>
-    <Target func_name="MP6500Driver" pi_name="MP6500_InitMP6500Cmd_Pi"/>
-    <Property name="Taste::coordinates" value="24900 27700 91400 27700"/>
-</Connection>
-
-<Connection >
-    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
-    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
-    <Property name="Taste::coordinates" value="45200 71300 23900 71300 23900 79400 16400 79400"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="PioHwas_InitPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
-    <Property name="Taste::coordinates" value="140600 57200 47500 57200 47500 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="MP6500Driver" ri_name="PioHwas_ResetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
-    <Property name="Taste::coordinates" value="91100 45600 73500 45600 73500 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="PioHwas_InitPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
-    <Property name="Taste::coordinates" value="24900 38500 47500 38500 47500 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnDataCmd_Ri"/>
-    <Target func_name="Manager" pi_name="LidarTrigger_ReturnDataCmd_Ri"/>
-    <Property name="Taste::coordinates" value="3700 20400 -37100 20400"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="140600 88200 16400 88100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="Manager" ri_name="Lidar_InitLidarCmd_Pi"/>
-    <Target func_name="LidarDriver" pi_name="Lidar_InitLidarCmd_Pi"/>
-    <Property name="Taste::coordinates" value="-36800 9400 4000 9500"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="PioHwas_SetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="24900 42900 60400 42900 60400 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="140600 94100 16400 93700"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
-    <Target func_name="TfLunaDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="140600 17300 96700 17100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
-    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
-    <Property name="Taste::coordinates" value="140600 82500 16400 82700"/>
-</Connection>
-
-<Connection >
-    <Source func_name="TfLunaDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
-    <Target func_name="UartHwasDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="97000 14400 140900 14300"/>
+    <Property name="Taste::coordinates" value="41200 21000 69800 21000 69800 44500"/>
 </Connection>
 
 <Connection >
     <Source func_name="UartHwasDriver" ri_name="InterruptManagement_EnableInterrupt_Ri"/>
     <Target func_name="HWAS" pi_name="InterruptManagement_EnableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="140600 85300 16400 85100"/>
+    <Property name="Taste::coordinates" value="166200 67700 12600 67000"/>
 </Connection>
 
 <Connection >
-    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnErrorCmd_Ri"/>
-    <Target func_name="Manager" pi_name="LidarTrigger_ReturnErrorCmd_Ri"/>
-    <Property name="Taste::coordinates" value="3700 17600 -37100 17600"/>
+    <Source func_name="Manager" ri_name="Lidar_DisableCmd_Pi"/>
+    <Target func_name="LidarDriver" pi_name="Lidar_DisableCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-22800 -3500 20300 -3300"/>
 </Connection>
 
 <Connection >
-    <Source func_name="LidarDriver" ri_name="PioHwas_GetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
-    <Property name="Taste::coordinates" value="24900 49000 88000 49000 88000 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="PioHwas_SetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="140600 60300 60400 60300 60400 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="MP6500Driver" ri_name="PioHwas_SetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="91100 42600 60400 42600 60400 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="MP6500Driver" ri_name="PioHwas_GetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
-    <Property name="Taste::coordinates" value="91100 49100 88000 49100 88000 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="UartHwasDriver" ri_name="PioHwas_GetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
-    <Property name="Taste::coordinates" value="140600 67700 88000 67700 88000 69100"/>
-</Connection>
-
-<Connection >
-    <Source func_name="LidarDriver" ri_name="MP6500_SetDirectionRightCmd_Ri"/>
-    <Target func_name="MP6500Driver" pi_name="MP6500_SetDirectionRightCmd_Pi"/>
-    <Property name="Taste::coordinates" value="24900 33200 91400 33100"/>
+    <Source func_name="LidarDriver" ri_name="PioHwas_InitPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
+    <Property name="Taste::coordinates" value="41200 18400 56900 18400 56900 44500"/>
 </Connection>
 
 <Connection >
     <Source func_name="MP6500Driver" ri_name="PioHwas_InitPin_Ri"/>
     <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
-    <Property name="Taste::coordinates" value="91100 39200 47500 39200 47500 69100"/>
+    <Property name="Taste::coordinates" value="109600 18100 56900 18100 56900 44500"/>
 </Connection>
 
 <Connection >
-    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
+    <Source func_name="UartHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
     <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
-    <Property name="Taste::coordinates" value="45200 74500 30900 74500 30900 82700 16400 82700"/>
+    <Property name="Taste::coordinates" value="166200 56400 12600 55900"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="166200 64700 12600 64000"/>
+</Connection>
+
+<Connection >
+    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
+    <Property name="Taste::coordinates" value="55100 51300 43900 51300 43900 58900 12600 58900"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="PioHwas_InitPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
+    <Property name="Taste::coordinates" value="166200 33500 56900 33500 56900 44500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="41200 26800 98100 26800 98100 44500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="TfLunaDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
+    <Target func_name="UartHwasDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="114900 -12500 140700 -12500 140700 14300 166500 14300"/>
+</Connection>
+
+<Connection >
+    <Source func_name="MP6500Driver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="109600 23900 85500 23900 85500 44500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
+    <Target func_name="TfLunaDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="166200 21700 131200 21700 131200 -7500 114600 -7500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="41200 24100 85500 24100 85500 44500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="166200 70800 12600 70100"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="MP6500_StepCmd_Ri"/>
+    <Target func_name="MP6500Driver" pi_name="MP6500_StepCmd_Pi"/>
+    <Property name="Taste::coordinates" value="41200 9600 109900 9700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="PioHwas_ResetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
+    <Property name="Taste::coordinates" value="166200 36500 69800 36500 69800 44500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="MP6500_SetDirectionLeftCmd_Ri"/>
+    <Target func_name="MP6500Driver" pi_name="MP6500_SetDirectionLeftCmd_Pi"/>
+    <Property name="Taste::coordinates" value="41200 4100 109900 3800"/>
+</Connection>
+
+<Connection >
+    <Source func_name="MP6500Driver" ri_name="PioHwas_ResetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
+    <Property name="Taste::coordinates" value="109600 20800 69800 20800 69800 44500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="166200 42500 98100 42500 98100 44500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="MP6500_SetDirectionRightCmd_Pi"/>
+    <Target func_name="MP6500Driver" pi_name="MP6500_SetDirectionRightCmd_Pi"/>
+    <Property name="Taste::coordinates" value="41200 6900 109900 6800"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="MP6500_InitMP6500Cmd_Ri"/>
+    <Target func_name="MP6500Driver" pi_name="MP6500_InitMP6500Cmd_Pi"/>
+    <Property name="Taste::coordinates" value="41200 900 109900 500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ErrorReadDataCmd_Ri"/>
+    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ErrorReadDataCmd_Pi"/>
+    <Property name="Taste::coordinates" value="92500 -11600 40900 -11200"/>
+</Connection>
+
+<Connection >
+    <Source func_name="HWAS" ri_name="InterruptSubscription_Interrupt_Ri"/>
+    <Target func_name="UartHwasDriver" pi_name="InterruptSubscription_Interrupt_Pi"/>
+    <Property name="Taste::coordinates" value="12900 72500 166500 73300"/>
+</Connection>
+
+<Connection >
+    <Source func_name="TfLunaDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
+    <Target func_name="UartHwasDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="114900 -9800 135400 -9800 135400 18500 166500 18500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ReadDataCmd_Ri"/>
+    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ReadDataCmd_Pi"/>
+    <Property name="Taste::coordinates" value="92500 -14500 40900 -14300"/>
+</Connection>
+
+<Connection >
+    <Source func_name="MP6500Driver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="109600 26600 98100 26600 98100 44500"/>
 </Connection>
 
 <Connection >
     <Source func_name="TfLunaDriver" ri_name="UartHwas_InitUartCmd_Ri"/>
     <Target func_name="UartHwasDriver" pi_name="UartHwas_InitUartCmd_Pi"/>
-    <Property name="Taste::coordinates" value="97000 9300 140900 9300"/>
+    <Property name="Taste::coordinates" value="114900 -18000 148900 -18000 148900 8600 166500 8600"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
+    <Target func_name="TfLunaDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="166200 11700 146100 11700 146100 -15200 114600 -15200"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnDataCmd_Ri"/>
+    <Target func_name="Manager" pi_name="LidarTrigger_ReturnDataCmd_Ri"/>
+    <Property name="Taste::coordinates" value="20000 -10000 -23100 -9900"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnErrorCmd_Ri"/>
+    <Target func_name="Manager" pi_name="LidarTrigger_ReturnErrorCmd_Ri"/>
+    <Property name="Taste::coordinates" value="20000 -13800 -23100 -13700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="LidarDriver" ri_name="TfLuna_InitTfLunaCmd_Ri"/>
+    <Target func_name="TfLunaDriver" pi_name="TfLuna_InitTfLunaCmd_Pi"/>
+    <Property name="Taste::coordinates" value="41200 -18500 92800 -18500"/>
+</Connection>
+
+<Connection >
+    <Source func_name="UartHwasDriver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="166200 39600 85500 39600 85500 44500"/>
 </Connection>
 
 <Connection >
     <Source func_name="UartHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
     <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
-    <Property name="Taste::coordinates" value="140600 79500 16400 79400"/>
+    <Property name="Taste::coordinates" value="166200 59600 12600 58900"/>
 </Connection>
 
 <Connection >
-    <Source func_name="LidarDriver" ri_name="PioHwas_ResetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
-    <Property name="Taste::coordinates" value="24900 45700 73500 45700 73500 69100"/>
+    <Source func_name="Manager" ri_name="Lidar_InitLidarCmd_Pi"/>
+    <Target func_name="LidarDriver" pi_name="Lidar_InitLidarCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-22800 -16700 20300 -16700"/>
+</Connection>
+
+<Connection >
+    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
+    <Property name="Taste::coordinates" value="55100 47500 33900 47500 33900 55900 12600 55900"/>
+</Connection>
+
+<Connection >
+    <Source func_name="Manager" ri_name="Lidar_EnableCmd_Pi"/>
+    <Target func_name="LidarDriver" pi_name="Lidar_EnableCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-22800 -6900 20300 -6900"/>
 </Connection>
 
 </InterfaceView>

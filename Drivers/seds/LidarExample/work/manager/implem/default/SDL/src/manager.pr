@@ -1,4 +1,4 @@
-process Mp6500driver;
+process Manager;
 
 
    /* CIF START (320, 10), (70, 35) */
