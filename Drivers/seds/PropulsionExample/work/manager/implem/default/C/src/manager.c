@@ -63,33 +63,6 @@ void manager_PI_Init(void)
          manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state2);
          initialized = true;
      }
-
-
-//     if(toggle)
-//     {
-//         toggle = false;
-
-//         asn1SccPropulsion_ThrusterState state = asn1Sccpropulsion_ThrusterState_On;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//         index = asn1Sccpropulsion_ThrusterIndex_1;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//         index = asn1Sccpropulsion_ThrusterIndex_2;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//         index = asn1Sccpropulsion_ThrusterIndex_3;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//     }else
-//     {
-//         toggle = true;
-
-//         asn1SccPropulsion_ThrusterState state = asn1Sccpropulsion_ThrusterState_Off;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//         index = asn1Sccpropulsion_ThrusterIndex_1;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//         index = asn1Sccpropulsion_ThrusterIndex_2;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//         index = asn1Sccpropulsion_ThrusterIndex_3;
-//         manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state);
-//     }
 }
 
 
