@@ -15,6 +15,8 @@
 #include <Hal.h>
 
 static bool initialized = false;
+static bool stopped = false;
+
 static asn1SccLidar lidar;
 static asn1SccLidarConfig lidarConfig = {
     .mMP6500Config = {
@@ -74,4 +76,17 @@ void manager_PI_LidarTrigger_ReturnErrorCmd_Ri
     Hal_console_usart_write(buffer, strlen(buffer));
 }
 
+
+void manager_PI_StartStop(  )
+{
+    if(stopped)
+    {
+        stopped = false;
+        manager_RI_Lidar_EnableCmd_Pi();
+
+    }else {
+        stopped = true;
+        manager_RI_Lidar_DisableCmd_Pi();
+    }
+}
 
