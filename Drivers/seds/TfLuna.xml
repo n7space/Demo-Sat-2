@@ -45,11 +45,11 @@
       </Interface>
       <Interface level="functional" name="TfLunaReturnInterfaceType">
         <CommandSet>
-          <Command name="ReadDataCmd" mode="sync">
+          <Command name="ReadDataCmd" mode="async">
             <LongDescription>Returns LIDAR data</LongDescription>
             <Argument name="lidarTfLunaData" type="TfLuna_Data" mode="in" />
           </Command>
-          <Command name="ErrorReadDataCmd" mode="sync">
+          <Command name="ErrorReadDataCmd" mode="async">
             <LongDescription>Reports error</LongDescription>
             <Argument name="err" type="TfLuna_DataFrameErr" mode="in" />
           </Command>

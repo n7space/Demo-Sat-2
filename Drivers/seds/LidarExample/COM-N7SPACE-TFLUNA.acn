@@ -7,5 +7,13 @@ TfLuna-Data []
     mTemp []
 }
 TfLuna-DataFrameErr [size 8, encoding pos-int]
+TfLunaReturnInterfaceType-ReadDataCmd-Type []
+{
+    lidarTfLunaData []
+}
+TfLunaReturnInterfaceType-ErrorReadDataCmd-Type []
+{
+    err []
+}
 END
 

@@ -30,5 +30,13 @@ TfLuna-DataFrameErr ::= ENUMERATED
     tfLuna-DataFrameErr-WrongCrc(2),
     tfLuna-DataFrameErr-WrongState(3)
 }
+TfLunaReturnInterfaceType-ReadDataCmd-Type ::= SEQUENCE 
+{ 
+    lidarTfLunaData TfLuna-Data
+} 
+TfLunaReturnInterfaceType-ErrorReadDataCmd-Type ::= SEQUENCE 
+{ 
+    err TfLuna-DataFrameErr
+} 
 END
 
