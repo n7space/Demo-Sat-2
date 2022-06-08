@@ -23,11 +23,11 @@ LidarError []
     mTfLunaError []
 }
 LidarDirection [size 8, encoding pos-int]
-ReturnDataCmd-Type []
+LidarTriggerInterfaceType-ReturnDataCmd-Type []
 {
     data []
 }
-ReturnErrorCmd-Type []
+LidarTriggerInterfaceType-ReturnErrorCmd-Type []
 {
     err []
 }

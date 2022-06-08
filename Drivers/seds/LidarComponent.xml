@@ -23,7 +23,6 @@
             <Variable name="tfLunaDataVar" type="com/n7space/TfLuna/TfLuna_Data" />
             <Variable name="tfLunaErrorVar" type="com/n7space/TfLuna/TfLuna_DataFrameErr" />
             <Variable name="errorVar" type="com/n7space/Lidar/LidarError" />
-            <Variable name="calibratedVar" type="com/n7space/Hwas/Byte" />
             <Variable name="endSwitchStateVar" type="com/n7space/Hwas/Word" />
             <Variable name="stepVar" type="com/n7space/Lidar/LidarPosition" />
             <Variable name="directionVar" type="com/n7space/Lidar/LidarDirection" />
@@ -32,9 +31,6 @@
             <Activity name="InitLidar">
               <Argument name="config" type="com/n7space/Lidar/LidarConfig"></Argument>
               <Body>
-                <Assignment outputVariableRef="calibratedVar">
-                  <Value value="0" />
-                </Assignment>
                 <Assignment outputVariableRef="configVar">
                   <VariableRef variableRef="config" />
                 </Assignment>
@@ -82,67 +78,6 @@
                 <SendCommandPrimitive command="InitTfLunaCmd" interface="TfLuna">
                   <LongDescription>Star UartRead</LongDescription>
                 </SendCommandPrimitive>
-              </Body>
-            </Activity>
-            <Activity name="CalibrateLidar">
-              <Body>
-                <Conditional>
-                  <Condition>
-                    <Condition>
-                      <FirstOperand variableRef="calibratedVar"></FirstOperand>
-                      <ComparisonOperator>equals</ComparisonOperator>
-                      <Value value="0" />
-                    </Condition>
-                  </Condition>
-                  <OnConditionTrue>
-                    <SendCommandPrimitive command="GetPin" interface="PioHwas">
-                      <ArgumentValue name="pio">
-                        <VariableRef variableRef="lidarVar.mLeftEndSwitch"></VariableRef>
-                      </ArgumentValue>
-                      <ArgumentValue name="pinValue">
-                        <VariableRef variableRef="endSwitchStateVar"></VariableRef>
-                      </ArgumentValue>
-                    </SendCommandPrimitive>
-                    <Conditional>
-                      <Condition>
-                        <Condition>
-                          <FirstOperand variableRef="endSwitchStateVar"></FirstOperand>
-                          <ComparisonOperator>greaterThan</ComparisonOperator>
-                          <Value value="0" />
-                        </Condition>
-                      </Condition>
-                      <OnConditionTrue>
-                        <SendCommandPrimitive command="StepCmd" interface="MP6500">
-                          <LongDescription>Make one step left</LongDescription>
-                          <ArgumentValue name="mp6500">
-                            <VariableRef variableRef="lidarVar.mMP6500"></VariableRef>
-                          </ArgumentValue>
-                        </SendCommandPrimitive>
-                      </OnConditionTrue>
-                      <OnConditionFalse>
-                        <Assignment outputVariableRef="calibratedVar">
-                          <Value value="1" />
-                        </Assignment>
-                        <Assignment outputVariableRef="stepVar">
-                          <Value value="0" />
-                        </Assignment>
-                      </OnConditionFalse>
-                    </Conditional>
-                  </OnConditionTrue>
-                </Conditional>
-              </Body>
-            </Activity>
-            <Activity name="StartScanning">
-              <Body>
-                <SendCommandPrimitive command="SetDirectionRightCmd" interface="MP6500">
-                  <LongDescription>Set direction of rotation to left to perform calibration</LongDescription>
-                  <ArgumentValue name="mp6500">
-                    <VariableRef variableRef="lidarVar.mMP6500"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <Assignment outputVariableRef="directionVar">
-                  <Value value="LidarDirection_Left" />
-                </Assignment>
               </Body>
             </Activity>
             <Activity name="ReadData">
@@ -287,8 +222,9 @@
           <StateMachineSet>
             <StateMachine name="TfLunaDriver">
               <EntryState name="Off" />
-              <State name="Idle" />
-              <Transition fromState="Off" toState="Idle" name="InitLidar">
+              <State name="Enable" />
+              <State name="Disable" />
+              <Transition fromState="Off" toState="Enable" name="InitLidar">
                 <OnCommandPrimitive command="InitLidarCmd" interface="Lidar">
                   <ArgumentValue name="config" outputVariableRef="configVar" />
                 </OnCommandPrimitive>
@@ -298,7 +234,7 @@
                   </ArgumentValue>
                 </Do>
               </Transition>
-              <Transition fromState="Idle" toState="Idle" name="ReadData">
+              <Transition fromState="Enable" toState="Enable" name="ReadData">
                 <OnCommandPrimitive command="ReadDataCmd" interface="TfLunaReturn">
                   <ArgumentValue name="lidarTfLunaData" outputVariableRef="tfLunaDataVar" />
                 </OnCommandPrimitive>
@@ -308,7 +244,7 @@
                   </ArgumentValue>
                 </Do>
               </Transition>
-              <Transition fromState="Idle" toState="Idle" name="ErrorReadData">
+              <Transition fromState="Enable" toState="Enable" name="ErrorReadData">
                 <OnCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturn">
                   <ArgumentValue name="err" outputVariableRef="tfLunaErrorVar" />
                 </OnCommandPrimitive>
@@ -317,6 +253,12 @@
                     <VariableRef variableRef="tfLunaErrorVar" />
                   </ArgumentValue>
                 </Do>
+              </Transition>
+              <Transition fromState="Enable" toState="Disable" name="DisableLidar">
+                <OnCommandPrimitive command="DisableCmd" interface="Lidar"></OnCommandPrimitive>
+              </Transition>
+              <Transition fromState="Disable" toState="Enable" name="EnableLidar">
+                <OnCommandPrimitive command="EnableCmd" interface="Lidar"></OnCommandPrimitive>
               </Transition>
             </StateMachine>
           </StateMachineSet>

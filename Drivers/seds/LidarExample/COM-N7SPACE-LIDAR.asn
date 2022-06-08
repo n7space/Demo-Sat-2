@@ -41,11 +41,11 @@ LidarDirection ::= ENUMERATED
     lidarDirection-Left(0),
     lidarDirection-Right(1)
 }
-ReturnDataCmd-Type ::= SEQUENCE 
+LidarTriggerInterfaceType-ReturnDataCmd-Type ::= SEQUENCE 
 { 
     data LidarData
 } 
-ReturnErrorCmd-Type ::= SEQUENCE 
+LidarTriggerInterfaceType-ReturnErrorCmd-Type ::= SEQUENCE 
 { 
     err LidarError
 } 

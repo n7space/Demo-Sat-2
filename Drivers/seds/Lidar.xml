@@ -52,6 +52,12 @@
             <Argument name="lidar" type="Lidar" mode="out" />
             <Argument name="config" type="LidarConfig" mode="in" />
           </Command>
+          <Command name="EnableCmd" mode="async">
+            <LongDescription>Enable LIDAR operation</LongDescription>
+          </Command>
+          <Command name="DisableCmd" mode="async">
+            <LongDescription>Disable LIDAR operation</LongDescription>
+          </Command>
         </CommandSet>
       </Interface>
       <Interface level="functional" name="LidarTriggerInterfaceType">
