@@ -1,4 +1,5 @@
 #include "hwas.h"
+#include "Hal/Hal.h"
 
 #include <Nvic/Nvic.h>
 
@@ -9,13 +10,12 @@
 #include <queue.h>
 #include <task.h>
 
-
 static volatile bool interruptSubscribe[Nvic_InterruptCount] = { 0 };
 
 #define HWAS_INTERRUPT_QUEUE_SIZE 100
 #define HWAS_INTERRUPT_QUEUE_ITEM_SIZE (sizeof(asn1SccInterrupt_Type))
 #define HWAS_INTERRUPT_STACK_SIZE 100
-#define HWAS_INTERRUPT_PRIORITY 3
+#define HWAS_INTERRUPT_PRIORITY 1
 
 #define PERIPH_INTERRUPT_PRIORITY 1
 
@@ -170,12 +170,43 @@ MCAN1_Handler(void)
 }
 
 void
-UART4_Handler(void)
+HwasUART0_Handler(void* args)
 {
-    if(interruptSubscribe[Nvic_Irq_Uart4]) {
-        asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Uart4 };
-        HwasHandleInterrupt(&irq);
-    }
+    (void)args;
+    asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Uart0 };
+    HwasHandleInterrupt(&irq);
+}
+
+void
+HwasUART1_Handler(void* args)
+{
+    (void)args;
+    asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Uart1 };
+    HwasHandleInterrupt(&irq);
+}
+
+void
+HwasUART2_Handler(void* args)
+{
+    (void)args;
+    asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Uart2 };
+    HwasHandleInterrupt(&irq);
+}
+
+void
+HwasUART3_Handler(void* args)
+{
+    (void)args;
+    asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Uart3 };
+    HwasHandleInterrupt(&irq);
+}
+
+void
+HwasUART4_Handler(void* args)
+{
+    (void)args;
+    asn1SccInterrupt_Type irq = { .interrupt = Nvic_Irq_Uart4 };
+    HwasHandleInterrupt(&irq);
 }
 
 void
@@ -244,6 +275,23 @@ void
 hwas_PI_InterruptSubscriptionManagement_SubscribeToInterrupt_Pi(const asn1SccInterruptNumber* IN_interrupt)
 {
     interruptSubscribe[*IN_interrupt] = true;
+    switch((Nvic_Irq)*IN_interrupt) {
+        case Nvic_Irq_Uart0:
+            Hal_subscribe_to_interrupt(Nvic_Irq_Uart0, HwasUART0_Handler);
+            break;
+        case Nvic_Irq_Uart1:
+            Hal_subscribe_to_interrupt(Nvic_Irq_Uart1, HwasUART1_Handler);
+            break;
+        case Nvic_Irq_Uart2:
+            Hal_subscribe_to_interrupt(Nvic_Irq_Uart2, HwasUART2_Handler);
+            break;
+        case Nvic_Irq_Uart3:
+            Hal_subscribe_to_interrupt(Nvic_Irq_Uart3, HwasUART3_Handler);
+            break;
+        case Nvic_Irq_Uart4:
+            Hal_subscribe_to_interrupt(Nvic_Irq_Uart4, HwasUART4_Handler);
+            break;
+    }
 }
 
 void
