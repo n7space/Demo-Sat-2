@@ -1182,11 +1182,6 @@
                 <Assignment outputVariableRef="irqNumberVar">
                   <VariableRef variableRef="uartVar.mIrqNumber" />
                 </Assignment>
-                <SendCommandPrimitive shortDescription="Subscribe to uartVar interrupt" interface="InterruptSubscriptionManagement" command="SubscribeToInterrupt">
-                  <ArgumentValue name="interrupt">
-                    <VariableRef variableRef="irqNumberVar" />
-                  </ArgumentValue>
-                </SendCommandPrimitive>
                 <SendCommandPrimitive shortDescription="Enable uartVar interrupt" interface="InterruptManagement" command="EnableInterrupt">
                   <ArgumentValue name="interrupt">
                     <VariableRef variableRef="irqNumberVar" />
