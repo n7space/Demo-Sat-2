@@ -49,7 +49,7 @@
           <Entry name="mPortIfdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortSodrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortCodrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
-          <Entry name="mPortOdsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPdsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortMddrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortPuerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mPortPudrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>

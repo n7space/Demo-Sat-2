@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/Lidar">
+    <DataTypeSet>
+      <IntegerDataType name="LidarPosition">
+        <LongDescription>Lidar position in number of steps (depending on the configuration this might be full, half, quater or eighth steps)</LongDescription>
+        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="16" encoding="twosComplement" />
+        <Range>
+          <MinMaxRange min="-32768" max="32767" rangeType="exclusiveMinInclusiveMax"></MinMaxRange>
+        </Range>
+      </IntegerDataType>
+      <ContainerDataType name="Lidar" shortDescription="Lidar descriptor">
+        <EntryList>
+          <Entry name="mMP6500" type="com/n7space/MP6500/MP6500" />
+          <Entry name="mLeftEndSwitch" type="com/n7space/PioHwas/PioHwas" />
+          <Entry name="mRightEndSwitch" type="com/n7space/PioHwas/PioHwas" />
+          <Entry name="mPosition" type="LidarPosition" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="LidarConfig" shortDescription="Lidar configuration container">
+        <EntryList>
+          <Entry name="mMP6500Config" type="com/n7space/MP6500/MP6500Config" />
+          <Entry name="mLeftEndSwitchConfig" type="com/n7space/PioHwas/PioHwasPinConfig" />
+          <Entry name="mRightEndSwitchConfig" type="com/n7space/PioHwas/PioHwasPinConfig" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="LidarData" shortDescription="Lidar data container">
+        <EntryList>
+          <Entry name="mTfLunaData" type="com/n7space/TfLuna/TfLuna_Data" />
+          <Entry name="mStep" type="LidarPosition" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="LidarError" shortDescription="Lidar error container">
+        <EntryList>
+          <Entry name="mTfLunaError" type="com/n7space/TfLuna/TfLuna_DataFrameErr" />
+        </EntryList>
+      </ContainerDataType>
+      <EnumeratedDataType name="LidarDirection">
+        <LongDescription>Possible lidar directions</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="LidarDirection_Left" value="0"></Enumeration>
+          <Enumeration label="LidarDirection_Right" value="1"></Enumeration>
+        </EnumerationList>
+      </EnumeratedDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="functional" name="LidarInterfaceType">
+        <CommandSet>
+          <Command name="InitLidarCmd" mode="sync">
+            <LongDescription>Initializes UART for communication with LIDAR, PIOs of MP6500 and for end switches</LongDescription>
+            <Argument name="lidar" type="Lidar" mode="out" />
+            <Argument name="config" type="LidarConfig" mode="in" />
+          </Command>
+          <Command name="EnableCmd" mode="async">
+            <LongDescription>Enable LIDAR operation</LongDescription>
+          </Command>
+          <Command name="DisableCmd" mode="async">
+            <LongDescription>Disable LIDAR operation</LongDescription>
+          </Command>
+        </CommandSet>
+      </Interface>
+      <Interface level="functional" name="LidarTriggerInterfaceType">
+        <CommandSet>
+          <Command name="ReturnDataCmd" mode="async">
+            <LongDescription>Returns LIDAR data</LongDescription>
+            <Argument name="data" type="LidarData" mode="in" />
+          </Command>
+          <Command name="ReturnErrorCmd" mode="async">
+            <LongDescription>Returns LIDAR data</LongDescription>
+            <Argument name="err" type="LidarError" mode="in" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="PioHwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="MP6500.xml" xpointer="element(/1/1)" />
+  <xi:include href="TfLuna.xml" xpointer="element(/1/1)" />
+</PackageFile>

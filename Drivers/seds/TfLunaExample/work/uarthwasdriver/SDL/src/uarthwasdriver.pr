@@ -916,7 +916,7 @@ process UartHwasDriver;
             /* CIF Task (2400, 1162), (100, 50) */
             task Irqnumbervar := Uartvar.Mirqnumber;
             -- Enable uartVar interrupt
-            /* CIF ProcedureCall (2400, 1312), (100, 50) */
+            /* CIF ProcedureCall (2400, 1237), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
     return;
     endprocedure;

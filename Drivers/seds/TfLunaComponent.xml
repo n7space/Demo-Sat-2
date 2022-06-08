@@ -10,7 +10,7 @@
         </ProvidedInterfaceSet>
         <RequiredInterfaceSet>
           <Interface name="UartHwas" type="com/n7space/UartHwas/UartHwasInterfaceType" />
-          <Interface name="TfLunaReturnHwas" type="com/n7space/TfLuna/TfLunaReturnHwasInterfaceType" />
+          <Interface name="TfLunaReturn" type="com/n7space/TfLuna/TfLunaReturnInterfaceType" />
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
@@ -114,7 +114,7 @@
                       </OnConditionTrue>
                       <OnConditionFalse>
                         <Call activity="ResetStateMachine" />
-                        <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                        <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturn">
                           <ArgumentValue name="err">
                             <Value value="TfLuna_DataFrameErr_NoHead1" />
                           </ArgumentValue>
@@ -152,7 +152,7 @@
                           </OnConditionTrue>
                           <OnConditionFalse>
                             <Call activity="ResetStateMachine" />
-                            <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                            <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturn">
                               <ArgumentValue name="err">
                                 <Value value="TfLuna_DataFrameErr_NoHead2" />
                               </ArgumentValue>
@@ -329,7 +329,7 @@
                                                       </Condition>
                                                       <OnConditionTrue>
                                                         <Call activity="ResetStateMachine" />
-                                                        <SendCommandPrimitive command="ReadDataCmd" interface="TfLunaReturnHwas">
+                                                        <SendCommandPrimitive command="ReadDataCmd" interface="TfLunaReturn">
                                                           <ArgumentValue name="lidarTfLunaData">
                                                             <VariableRef variableRef="dataVar" />
                                                           </ArgumentValue>
@@ -337,7 +337,7 @@
                                                       </OnConditionTrue>
                                                       <OnConditionFalse>
                                                         <Call activity="ResetStateMachine" />
-                                                        <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                                                        <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturn">
                                                           <ArgumentValue name="err">
                                                             <Value value="TfLuna_DataFrameErr_WrongCrc" />
                                                           </ArgumentValue>
@@ -347,7 +347,7 @@
                                                   </OnConditionTrue>
                                                   <OnConditionFalse>
                                                     <Call activity="ResetStateMachine" />
-                                                    <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturnHwas">
+                                                    <SendCommandPrimitive command="ErrorReadDataCmd" interface="TfLunaReturn">
                                                       <ArgumentValue name="err">
                                                         <Value value="TfLuna_DataFrameErr_WrongState" />
                                                       </ArgumentValue>

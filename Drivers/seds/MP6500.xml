@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/MP6500">
+    <DataTypeSet>
+      <ContainerDataType name="MP6500" shortDescription="MP6500 descriptor">
+        <EntryList>
+          <Entry name="mStepPio" type="com/n7space/PioHwas/PioHwas" />
+          <Entry name="mDirPio" type="com/n7space/PioHwas/PioHwas" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="MP6500Config" shortDescription="MP6500 configuration container">
+        <EntryList>
+          <Entry name="mStepPioConfig" type="com/n7space/PioHwas/PioHwasPinConfig" />
+          <Entry name="mDirPioConfig" type="com/n7space/PioHwas/PioHwasPinConfig" />
+        </EntryList>
+      </ContainerDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="functional" name="MP6500InterfaceType">
+        <CommandSet>
+          <Command name="InitMP6500Cmd" mode="sync">
+            <LongDescription>Initializes MP6500 STEP and DIR PIOs</LongDescription>
+            <Argument name="mp6500" type="MP6500" mode="out" />
+            <Argument name="mp6500Config" type="MP6500Config" mode="in" />
+          </Command>
+          <Command name="SetDirectionLeftCmd" mode="sync">
+            <LongDescription>Changes the stepper motor direction of rotation</LongDescription>
+            <Argument name="mp6500" type="MP6500" mode="in" />
+          </Command>
+          <Command name="SetDirectionRightCmd" mode="sync">
+            <LongDescription>Changes the stepper motor direction of rotation</LongDescription>
+            <Argument name="mp6500" type="MP6500" mode="in" />
+          </Command>
+          <Command name="StepCmd" mode="sync">
+            <LongDescription>Makes one motor step</LongDescription>
+            <Argument name="mp6500" type="MP6500" mode="in" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="PioHwas.xml" xpointer="element(/1/1)" />
+</PackageFile>

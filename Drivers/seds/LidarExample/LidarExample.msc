@@ -1,0 +1,12 @@
+mscdocument LidarExample /* MSC AND */;
+    language ASN.1;
+    data LidarExample.asn;
+
+/* CIF MSCDOCUMENT (0, 0) (4200, 2300) */
+
+mscdocument Nominal /* MSC LEAF */;
+
+msc LidarExample;
+endmsc;
+endmscdocument;
+endmscdocument;

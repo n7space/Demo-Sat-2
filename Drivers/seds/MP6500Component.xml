@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="MP6500Component" />
+  <Package name="com/n7space/MP6500Component">
+    <ComponentSet>
+      <Component name="MP6500Driver">
+        <LongDescription>SEDS MP6500 driver implementation</LongDescription>
+        <ProvidedInterfaceSet>
+          <Interface name="MP6500" type="com/n7space/MP6500/MP6500InterfaceType"></Interface>
+        </ProvidedInterfaceSet>
+        <RequiredInterfaceSet>
+          <Interface name="PioHwas" type="com/n7space/PioHwas/PioHwasInterfaceType" />
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable name="mp6500Var" type="com/n7space/MP6500/MP6500"></Variable>
+            <Variable name="configVar" type="com/n7space/MP6500/MP6500Config" />
+          </VariableSet>
+          <ActivitySet>
+            <Activity name="InitMP6500">
+              <Argument name="config" type="com/n7space/MP6500/MP6500Config"></Argument>
+              <Body>
+                <Assignment outputVariableRef="configVar">
+                  <VariableRef variableRef="config" />
+                </Assignment>
+                <SendCommandPrimitive command="InitPin" interface="PioHwas">
+                  <LongDescription>Init step pin</LongDescription>
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="mp6500Var.mStepPio"></VariableRef>
+                  </ArgumentValue>
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="configVar.mStepPioConfig"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive command="InitPin" interface="PioHwas">
+                  <LongDescription>Init dir pin</LongDescription>
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="mp6500Var.mDirPio"></VariableRef>
+                  </ArgumentValue>
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="configVar.mDirPioConfig"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive command="InitMP6500Cmd" interface="MP6500">
+                  <LongDescription>return initialized mp6500</LongDescription>
+                  <ArgumentValue name="mp6500">
+                    <VariableRef variableRef="mp6500Var"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="SetDirectionLeft">
+              <Argument name="mp6500" type="com/n7space/MP6500/MP6500"></Argument>
+              <Body>
+                <SendCommandPrimitive command="ResetPin" interface="PioHwas">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="mp6500Var.mDirPio"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="SetDirectionRight">
+              <Argument name="mp6500" type="com/n7space/MP6500/MP6500"></Argument>
+              <Body>
+                <SendCommandPrimitive command="SetPin" interface="PioHwas">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="mp6500Var.mDirPio"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="Step">
+              <Argument name="mp6500" type="com/n7space/MP6500/MP6500"></Argument>
+              <Body>
+                <SendCommandPrimitive command="SetPin" interface="PioHwas">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="mp6500Var.mStepPio"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <SendCommandPrimitive command="ResetPin" interface="PioHwas">
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="mp6500Var.mStepPio"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+          </ActivitySet>
+          <StateMachineSet>
+            <StateMachine name="MP6500Driver">
+              <EntryState name="Off" />
+              <State name="Idle" />
+              <Transition fromState="Off" toState="Idle" name="Init">
+                <OnCommandPrimitive command="InitMP6500Cmd" interface="MP6500">
+                  <ArgumentValue name="mp6500Config" outputVariableRef="configVar"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="InitMP6500">
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="configVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="SetDirectionLeft">
+                <OnCommandPrimitive command="SetDirectionLeftCmd" interface="MP6500">
+                  <ArgumentValue name="mp6500" outputVariableRef="mp6500Var"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="SetDirectionLeft">
+                  <ArgumentValue name="mp6500">
+                    <VariableRef variableRef="mp6500Var" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="SetDirectionRight">
+                <OnCommandPrimitive command="SetDirectionRightCmd" interface="MP6500">
+                  <ArgumentValue name="mp6500" outputVariableRef="mp6500Var"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="SetDirectionRight">
+                  <ArgumentValue name="mp6500">
+                    <VariableRef variableRef="mp6500Var" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="Step">
+                <OnCommandPrimitive command="StepCmd" interface="MP6500">
+                  <ArgumentValue name="mp6500" outputVariableRef="mp6500Var"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="Step">
+                  <ArgumentValue name="mp6500">
+                    <VariableRef variableRef="mp6500Var" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+            </StateMachine>
+          </StateMachineSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="PioHwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="MP6500.xml" xpointer="element(/1/1)" />
+</DataSheet>

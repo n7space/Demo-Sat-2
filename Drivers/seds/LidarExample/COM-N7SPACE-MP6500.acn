@@ -1,0 +1,13 @@
+COM-N7SPACE-MP6500 DEFINITIONS ::= BEGIN
+MP6500 []
+{
+    mStepPio [],
+    mDirPio []
+}
+MP6500Config []
+{
+    mStepPioConfig [],
+    mDirPioConfig []
+}
+END
+

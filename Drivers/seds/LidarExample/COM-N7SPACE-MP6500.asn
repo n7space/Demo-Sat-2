@@ -1,0 +1,19 @@
+COM-N7SPACE-MP6500 DEFINITIONS ::= BEGIN
+IMPORTS
+PioHwas FROM COM-N7SPACE-PIOHWAS
+PioHwasPinConfig FROM COM-N7SPACE-PIOHWAS
+;
+-- MP6500 descriptor
+MP6500 ::= SEQUENCE 
+{ 
+    mStepPio PioHwas, 
+    mDirPio PioHwas
+} 
+-- MP6500 configuration container
+MP6500Config ::= SEQUENCE 
+{ 
+    mStepPioConfig PioHwasPinConfig, 
+    mDirPioConfig PioHwasPinConfig
+} 
+END
+
