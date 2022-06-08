@@ -17,11 +17,11 @@ process UartHwasDriver;
     dcl Irqnumbervar InterruptNumber;
     dcl Pioconfigvar PioHwasPinConfig;
     dcl Piovar PioHwas;
-    dcl Io_uarthwas_readbyteasynccmd_pi ReadByteAsyncCmd_Type;
-    dcl Io_uarthwas_sendbyteasynccmd_pi SendByteAsyncCmd_Type;
-    dcl Io_interruptsubscription_interrupt_pi Interrupt_Type;
-    dcl Io_uarthwas_readbyteasynccmd_ri ReadByteAsyncCmd_Type1;
-    dcl Io_uarthwas_sendbyteasynccmd_ri SendByteAsyncCmd_Type1;
+    dcl Io_uarthwas_readbyteasynccmd_pi UartHwasInterfaceType_ReadByteAsyncCmd_Type;
+    dcl Io_uarthwas_sendbyteasynccmd_pi UartHwasInterfaceType_SendByteAsyncCmd_Type;
+    dcl Io_interruptsubscription_interrupt_pi InterruptSubscriptionInterfaceType_Interrupt_Type;
+    dcl Io_uarthwas_readbyteasynccmd_ri UartHwasInterfaceType_ReadByteAsyncCmd_TypeNotify;
+    dcl Io_uarthwas_sendbyteasynccmd_ri UartHwasInterfaceType_SendByteAsyncCmd_TypeNotify;
     /* CIF ENDTEXT */
     /* CIF Procedure (0, 900), (800, 50) */
     procedure UpdateLocalUart;

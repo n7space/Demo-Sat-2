@@ -30,20 +30,20 @@ PmcHwasUart []
     pMC-PCxR1-PID45-UART3-MASK [],
     pMC-PCxR1-PID46-UART4-MASK []
 }
-ReadByteAsyncCmd-Type []
+UartHwasInterfaceType-ReadByteAsyncCmd-Type []
 {
     uart []
 }
-ReadByteAsyncCmd-Type1 []
+UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify []
 {
     byteToRead []
 }
-SendByteAsyncCmd-Type []
+UartHwasInterfaceType-SendByteAsyncCmd-Type []
 {
     uart [],
     byteToSend []
 }
-SendByteAsyncCmd-Type1 []
+UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify []
 {
     byteSentFlag []
 }

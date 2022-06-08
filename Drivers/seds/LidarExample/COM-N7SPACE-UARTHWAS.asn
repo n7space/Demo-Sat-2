@@ -53,20 +53,20 @@ PmcHwasUart ::= SEQUENCE
     pMC-PCxR1-PID45-UART3-MASK WordMask(0 .. 4294967295), 
     pMC-PCxR1-PID46-UART4-MASK WordMask(0 .. 4294967295)
 } 
-ReadByteAsyncCmd-Type ::= SEQUENCE 
+UartHwasInterfaceType-ReadByteAsyncCmd-Type ::= SEQUENCE 
 { 
     uart UartHwas
 } 
-ReadByteAsyncCmd-Type1 ::= SEQUENCE 
+UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify ::= SEQUENCE 
 { 
     byteToRead Byte(0 .. 255)
 } 
-SendByteAsyncCmd-Type ::= SEQUENCE 
+UartHwasInterfaceType-SendByteAsyncCmd-Type ::= SEQUENCE 
 { 
     uart UartHwas, 
     byteToSend Byte(0 .. 255)
 } 
-SendByteAsyncCmd-Type1 ::= SEQUENCE 
+UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify ::= SEQUENCE 
 { 
     byteSentFlag Byte(0 .. 255)
 } 
