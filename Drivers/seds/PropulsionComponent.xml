@@ -16,7 +16,7 @@
             <Variable name="propulsionVar" type="com/n7space/Propulsion/Propulsion"></Variable>
             <Variable name="configVar" type="com/n7space/Propulsion/PropulsionConfig" />
             <Variable name="stateVar" type="com/n7space/Propulsion/Propulsion_ThrusterState" />
-            <Variable name="indexVar" type="com/n7space/Propulsion/Propulsion_ThrusterIndex" />
+            <Variable name="indexVar" type="com/n7space/Propulsion/PropulsionThrusterIndex" />
             <Variable name="pioStateVar" type="com/n7space/Hwas/Word" />
             <Variable name="thrusterVar" type="com/n7space/Propulsion/Propulsion_Thruster" />
             <Variable name="conditionVar" type="com/n7space/Hwas/Byte" />
@@ -131,66 +131,34 @@
                 <Assignment outputVariableRef="configVar">
                   <VariableRef variableRef="config" />
                 </Assignment>
-                <SendCommandPrimitive command="InitPin" interface="PioHwas">
-                  <LongDescription>Init thruster 0</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster0.mPio"></VariableRef>
-                  </ArgumentValue>
-                  <ArgumentValue name="config">
-                    <VariableRef variableRef="configVar.mThruster0Config"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <SendCommandPrimitive command="InitPin" interface="PioHwas">
-                  <LongDescription>Init thruster 1</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster1.mPio"></VariableRef>
-                  </ArgumentValue>
-                  <ArgumentValue name="config">
-                    <VariableRef variableRef="configVar.mThruster1Config"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <SendCommandPrimitive command="InitPin" interface="PioHwas">
-                  <LongDescription>Init thruster 2</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster2.mPio"></VariableRef>
-                  </ArgumentValue>
-                  <ArgumentValue name="config">
-                    <VariableRef variableRef="configVar.mThruster2Config"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <SendCommandPrimitive command="InitPin" interface="PioHwas">
-                  <LongDescription>Init thruster 3</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster3.mPio"></VariableRef>
-                  </ArgumentValue>
-                  <ArgumentValue name="config">
-                    <VariableRef variableRef="configVar.mThruster3Config"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <SendCommandPrimitive command="ResetPin" interface="PioHwas">
-                  <LongDescription>Reset thruster 0</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster0.mPio"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <SendCommandPrimitive command="ResetPin" interface="PioHwas">
-                  <LongDescription>Reset thruster 1</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster1.mPio"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <SendCommandPrimitive command="ResetPin" interface="PioHwas">
-                  <LongDescription>Reset thruster 2</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster2.mPio"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
-                <SendCommandPrimitive command="ResetPin" interface="PioHwas">
-                  <LongDescription>Reset thruster 3</LongDescription>
-                  <ArgumentValue name="pio">
-                    <VariableRef variableRef="propulsionVar.mThruster3.mPio"></VariableRef>
-                  </ArgumentValue>
-                </SendCommandPrimitive>
+                <Assignment outputVariableRef="indexVar">
+                  <Value value="0" />
+                </Assignment>
+                <Iteration iteratorVariableRef="indexVar">
+                  <StartAt>
+                    <Value value="0" />
+                  </StartAt>
+                  <EndAt>
+                    <Value value="3" />
+                  </EndAt>
+                  <Do>
+                    <SendCommandPrimitive command="InitPin" interface="PioHwas">
+                      <LongDescription>Init thruster 0</LongDescription>
+                      <ArgumentValue name="pio">
+                        <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
+                      </ArgumentValue>
+                      <ArgumentValue name="config">
+                        <VariableRef variableRef="configVar[indexVar]"></VariableRef>
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                    <SendCommandPrimitive command="ResetPin" interface="PioHwas">
+                      <LongDescription>Reset thruster 1</LongDescription>
+                      <ArgumentValue name="pio">
+                        <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                  </Do>
+                </Iteration>
                 <SendCommandPrimitive command="InitPropulsionCmd" interface="Propulsion">
                   <LongDescription>return initialized Propulsion</LongDescription>
                   <ArgumentValue name="Propulsion">
@@ -201,82 +169,41 @@
             </Activity>
             <Activity name="Blink">
               <Body>
-                <MathOperation outputVariableRef="propulsionVar.mThruster0.mCnt">
-                  <Operator operator="subtract" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster0.mCnt" />
-                  <Value value="1" />
-                  <Operator operator="multiply" />
-                  <Operator operator="divide" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster0.mCnt" />
-                  <Value value="1" />
-                  <Value value="2" />
-                  <Value value="2" />
-                </MathOperation>
-                <Call activity="ExecuteState">
-                  <ArgumentValue name="thruster">
-                    <VariableRef variableRef="propulsionVar.mThruster0" />
-                  </ArgumentValue>
-                </Call>
-                <MathOperation outputVariableRef="propulsionVar.mThruster1.mCnt">
-                  <Operator operator="subtract" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster1.mCnt" />
-                  <Value value="1" />
-                  <Operator operator="multiply" />
-                  <Operator operator="divide" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster1.mCnt" />
-                  <Value value="1" />
-                  <Value value="2" />
-                  <Value value="2" />
-                </MathOperation>
-                <Call activity="ExecuteState">
-                  <ArgumentValue name="thruster">
-                    <VariableRef variableRef="propulsionVar.mThruster1" />
-                  </ArgumentValue>
-                </Call>
-                <MathOperation outputVariableRef="propulsionVar.mThruster2.mCnt">
-                  <Operator operator="subtract" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster2.mCnt" />
-                  <Value value="1" />
-                  <Operator operator="multiply" />
-                  <Operator operator="divide" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster2.mCnt" />
-                  <Value value="1" />
-                  <Value value="2" />
-                  <Value value="2" />
-                </MathOperation>
-                <Call activity="ExecuteState">
-                  <ArgumentValue name="thruster">
-                    <VariableRef variableRef="propulsionVar.mThruster2" />
-                  </ArgumentValue>
-                </Call>
-                <MathOperation outputVariableRef="propulsionVar.mThruster3.mCnt">
-                  <Operator operator="subtract" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster3.mCnt" />
-                  <Value value="1" />
-                  <Operator operator="multiply" />
-                  <Operator operator="divide" />
-                  <Operator operator="add" />
-                  <VariableRef variableRef="propulsionVar.mThruster3.mCnt" />
-                  <Value value="1" />
-                  <Value value="2" />
-                  <Value value="2" />
-                </MathOperation>
-                <Call activity="ExecuteState">
-                  <ArgumentValue name="thruster">
-                    <VariableRef variableRef="propulsionVar.mThruster3" />
-                  </ArgumentValue>
-                </Call>
+                <Assignment outputVariableRef="indexVar">
+                  <Value value="0" />
+                </Assignment>
+                <Iteration iteratorVariableRef="indexVar">
+                  <StartAt>
+                    <Value value="0" />
+                  </StartAt>
+                  <EndAt>
+                    <Value value="3" />
+                  </EndAt>
+                  <Do>
+                    <MathOperation outputVariableRef="propulsionVar[indexVar].mCnt">
+                      <Operator operator="subtract" />
+                      <Operator operator="add" />
+                      <VariableRef variableRef="propulsionVar[indexVar].mCnt" />
+                      <Value value="1" />
+                      <Operator operator="multiply" />
+                      <Operator operator="divide" />
+                      <Operator operator="add" />
+                      <VariableRef variableRef="propulsionVar[indexVar].mCnt" />
+                      <Value value="1" />
+                      <Value value="2" />
+                      <Value value="2" />
+                    </MathOperation>
+                    <Call activity="ExecuteState">
+                      <ArgumentValue name="thruster">
+                        <VariableRef variableRef="propulsionVar[indexVar]" />
+                      </ArgumentValue>
+                    </Call>
+                  </Do>
+                </Iteration>
               </Body>
             </Activity>
             <Activity name="ChangeState">
-              <Argument name="index" type="com/n7space/Propulsion/Propulsion_ThrusterIndex"></Argument>
+              <Argument name="index" type="com/n7space/Propulsion/PropulsionThrusterIndex"></Argument>
               <Argument name="thrusterState" type="com/n7space/Propulsion/Propulsion_ThrusterState"></Argument>
               <Body>
                 <Assignment outputVariableRef="indexVar">
@@ -288,80 +215,6 @@
                 <Conditional>
                   <Condition>
                     <Condition>
-                      <FirstOperand variableRef="index"></FirstOperand>
-                      <ComparisonOperator>equals</ComparisonOperator>
-                      <Value value="Propulsion_ThrusterIndex_0" />
-                    </Condition>
-                  </Condition>
-                  <OnConditionTrue>
-                    <Assignment outputVariableRef="propulsionVar.mThruster0.mState">
-                      <Value value="thrusterState" />
-                    </Assignment>
-                    <Assignment outputVariableRef="pioVar">
-                      <Value value="propulsionVar.mThruster0.mPio" />
-                    </Assignment>
-                  </OnConditionTrue>
-                  <OnConditionFalse>
-                    <Conditional>
-                      <Condition>
-                        <Condition>
-                          <FirstOperand variableRef="index"></FirstOperand>
-                          <ComparisonOperator>equals</ComparisonOperator>
-                          <Value value="Propulsion_ThrusterIndex_1" />
-                        </Condition>
-                      </Condition>
-                      <OnConditionTrue>
-                        <Assignment outputVariableRef="propulsionVar.mThruster1.mState">
-                          <Value value="thrusterState" />
-                        </Assignment>
-                        <Assignment outputVariableRef="pioVar">
-                          <Value value="propulsionVar.mThruster1.mPio" />
-                        </Assignment>
-                      </OnConditionTrue>
-                      <OnConditionFalse>
-                        <Conditional>
-                          <Condition>
-                            <Condition>
-                              <FirstOperand variableRef="index"></FirstOperand>
-                              <ComparisonOperator>equals</ComparisonOperator>
-                              <Value value="Propulsion_ThrusterIndex_2" />
-                            </Condition>
-                          </Condition>
-                          <OnConditionTrue>
-                            <Assignment outputVariableRef="propulsionVar.mThruster2.mState">
-                              <Value value="thrusterState" />
-                            </Assignment>
-                            <Assignment outputVariableRef="pioVar">
-                              <Value value="propulsionVar.mThruster2.mPio" />
-                            </Assignment>
-                          </OnConditionTrue>
-                          <OnConditionFalse>
-                            <Conditional>
-                              <Condition>
-                                <Condition>
-                                  <FirstOperand variableRef="index"></FirstOperand>
-                                  <ComparisonOperator>equals</ComparisonOperator>
-                                  <Value value="Propulsion_ThrusterIndex_3" />
-                                </Condition>
-                              </Condition>
-                              <OnConditionTrue>
-                                <Assignment outputVariableRef="propulsionVar.mThruster3.mState">
-                                  <Value value="thrusterState" />
-                                </Assignment>
-                                <Assignment outputVariableRef="pioVar">
-                                  <Value value="propulsionVar.mThruster3.mPio" />
-                                </Assignment>
-                              </OnConditionTrue>
-                            </Conditional>
-                          </OnConditionFalse>
-                        </Conditional>
-                      </OnConditionFalse>
-                    </Conditional>
-                  </OnConditionFalse>
-                </Conditional>
-                <Conditional>
-                  <Condition>
-                    <Condition>
                       <FirstOperand variableRef="stateVar"></FirstOperand>
                       <ComparisonOperator>equals</ComparisonOperator>
                       <Value value="Propulsion_ThrusterState_Off"></Value>
@@ -370,7 +223,7 @@
                   <OnConditionTrue>
                     <SendCommandPrimitive command="ResetPin" interface="PioHwas">
                       <ArgumentValue name="pio">
-                        <VariableRef variableRef="pioVar"></VariableRef>
+                        <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
                       </ArgumentValue>
                     </SendCommandPrimitive>
                   </OnConditionTrue>
@@ -386,7 +239,7 @@
                       <OnConditionTrue>
                         <SendCommandPrimitive command="SetPin" interface="PioHwas">
                           <ArgumentValue name="pio">
-                            <VariableRef variableRef="pioVar"></VariableRef>
+                            <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
                           </ArgumentValue>
                         </SendCommandPrimitive>
                       </OnConditionTrue>

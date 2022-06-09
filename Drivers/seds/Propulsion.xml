@@ -12,16 +12,6 @@
           <Enumeration label="Propulsion_ThrusterState_On" value="3" />
         </EnumerationList>
       </EnumeratedDataType>
-      <EnumeratedDataType name="Propulsion_ThrusterIndex">
-        <LongDescription>Definitions of thrusters indexes</LongDescription>
-        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
-        <EnumerationList>
-          <Enumeration label="Propulsion_ThrusterIndex_0" value="0"></Enumeration>
-          <Enumeration label="Propulsion_ThrusterIndex_1" value="1" />
-          <Enumeration label="Propulsion_ThrusterIndex_2" value="2" />
-          <Enumeration label="Propulsion_ThrusterIndex_3" value="3" />
-        </EnumerationList>
-      </EnumeratedDataType>
       <ContainerDataType name="Propulsion_Thruster" shortDescription="Single thruster descriptor">
         <EntryList>
           <Entry name="mPio" type="com/n7space/PioHwas/PioHwas" />
@@ -29,22 +19,22 @@
           <Entry name="mCnt" type="com/n7space/Hwas/Byte" />
         </EntryList>
       </ContainerDataType>
-      <ContainerDataType name="Propulsion" shortDescription="Propulsion descriptor">
-        <EntryList>
-          <Entry name="mThruster0" type="Propulsion_Thruster" />
-          <Entry name="mThruster1" type="Propulsion_Thruster" />
-          <Entry name="mThruster2" type="Propulsion_Thruster" />
-          <Entry name="mThruster3" type="Propulsion_Thruster" />
-        </EntryList>
-      </ContainerDataType>
-      <ContainerDataType name="PropulsionConfig" shortDescription="Propulsion descriptor">
-        <EntryList>
-          <Entry name="mThruster0Config" type="com/n7space/PioHwas/PioHwasPinConfig" />
-          <Entry name="mThruster1Config" type="com/n7space/PioHwas/PioHwasPinConfig" />
-          <Entry name="mThruster2Config" type="com/n7space/PioHwas/PioHwasPinConfig" />
-          <Entry name="mThruster3Config" type="com/n7space/PioHwas/PioHwasPinConfig" />
-        </EntryList>
-      </ContainerDataType>
+      <ArrayDataType name="Propulsion" dataTypeRef="Propulsion_Thruster" shortDescription="Propulsion descriptor">
+        <DimensionList>
+          <Dimension size="4" />
+        </DimensionList>
+      </ArrayDataType>
+      <ArrayDataType name="PropulsionConfig" dataTypeRef="com/n7space/PioHwas/PioHwasPinConfig" shortDescription="Propulsion config descriptor">
+        <DimensionList>
+          <Dimension size="4" />
+        </DimensionList>
+      </ArrayDataType>
+      <IntegerDataType name="PropulsionThrusterIndex">
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <Range>
+          <MinMaxRange max="3" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
     </DataTypeSet>
     <DeclaredInterfaceSet>
       <Interface level="functional" name="PropulsionInterfaceType">
@@ -56,7 +46,7 @@
           </Command>
           <Command name="ChangeStateCmd" mode="sync">
             <LongDescription>Changes the state of the LED controller</LongDescription>
-            <Argument name="index" type="Propulsion_ThrusterIndex" mode="in" />
+            <Argument name="index" type="PropulsionThrusterIndex" mode="in" />
             <Argument name="thrusterState" type="Propulsion_ThrusterState" mode="in" />
           </Command>
         </CommandSet>

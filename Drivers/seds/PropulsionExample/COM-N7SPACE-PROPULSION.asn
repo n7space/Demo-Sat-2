@@ -12,14 +12,6 @@ Propulsion-ThrusterState ::= ENUMERATED
     propulsion-ThrusterState-BlinkHigh(2),
     propulsion-ThrusterState-On(3)
 }
--- Definitions of thrusters indexes
-Propulsion-ThrusterIndex ::= ENUMERATED
-{
-    propulsion-ThrusterIndex-0(0),
-    propulsion-ThrusterIndex-1(1),
-    propulsion-ThrusterIndex-2(2),
-    propulsion-ThrusterIndex-3(3)
-}
 -- Single thruster descriptor
 Propulsion-Thruster ::= SEQUENCE 
 { 
@@ -28,20 +20,9 @@ Propulsion-Thruster ::= SEQUENCE
     mCnt Byte(0 .. 255)
 } 
 -- Propulsion descriptor
-Propulsion ::= SEQUENCE 
-{ 
-    mThruster0 Propulsion-Thruster, 
-    mThruster1 Propulsion-Thruster, 
-    mThruster2 Propulsion-Thruster, 
-    mThruster3 Propulsion-Thruster
-} 
--- Propulsion descriptor
-PropulsionConfig ::= SEQUENCE 
-{ 
-    mThruster0Config PioHwasPinConfig, 
-    mThruster1Config PioHwasPinConfig, 
-    mThruster2Config PioHwasPinConfig, 
-    mThruster3Config PioHwasPinConfig
-} 
+Propulsion ::= SEQUENCE (SIZE(4)) OF Propulsion-Thruster
+-- Propulsion config descriptor
+PropulsionConfig ::= SEQUENCE (SIZE(4)) OF PioHwasPinConfig
+PropulsionThrusterIndex ::= INTEGER(0 .. 3)
 END
 

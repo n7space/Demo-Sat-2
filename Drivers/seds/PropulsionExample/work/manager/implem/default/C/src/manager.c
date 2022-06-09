@@ -13,32 +13,34 @@
 bool initialized = false;
 bool toggle =false;
 asn1SccPropulsion propulsion;
-const asn1SccPropulsionConfig config = {
-     .mThruster0Config = {    
-                              .mPortConfig = asn1SccpioHwas_Port_B,
-                              .mPinConfig =3,
-                              .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-                              .mControlConfig = asn1SccpioHwas_Control_Pio,
-                         },
-     .mThruster1Config = {    
-                              .mPortConfig = asn1SccpioHwas_Port_B,
-                              .mPinConfig =2,
-                              .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-                              .mControlConfig = asn1SccpioHwas_Control_Pio,
-                         },
-     .mThruster2Config = {    
-                              .mPortConfig = asn1SccpioHwas_Port_B,
-                              .mPinConfig =13,
-                              .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-                              .mControlConfig = asn1SccpioHwas_Control_Pio,
-                         },
-     .mThruster3Config = {    
-                              .mPortConfig = asn1SccpioHwas_Port_D,
-                              .mPinConfig =24,
-                              .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-                              .mControlConfig = asn1SccpioHwas_Control_Pio ,
-                         }, 
-     };
+const asn1SccPropulsionConfig config = {.arr =
+    {
+        {
+            .mPortConfig = asn1SccpioHwas_Port_B,
+            .mPinConfig =3,
+            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
+            .mControlConfig = asn1SccpioHwas_Control_Pio,
+        },
+        {
+            .mPortConfig = asn1SccpioHwas_Port_B,
+            .mPinConfig =2,
+            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
+            .mControlConfig = asn1SccpioHwas_Control_Pio,
+        },
+        {
+            .mPortConfig = asn1SccpioHwas_Port_B,
+            .mPinConfig =13,
+            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
+            .mControlConfig = asn1SccpioHwas_Control_Pio,
+        },
+        {
+            .mPortConfig = asn1SccpioHwas_Port_D,
+            .mPinConfig =24,
+            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
+            .mControlConfig = asn1SccpioHwas_Control_Pio ,
+        },
+     }
+   };
 
 
 
@@ -48,18 +50,18 @@ void manager_startup(void)
 
 void manager_PI_Init(void)
 {
-    asn1SccPropulsion_ThrusterIndex index = asn1Sccpropulsion_ThrusterIndex_0;
+    asn1SccPropulsionThrusterIndex index = 0;
      if(!initialized)
      {
-         manager_RI_Propulsion_InitPropulsionCmd_Pi( &propulsion,&config );
+         manager_RI_Propulsion_InitPropulsionCmd_Pi(&propulsion, &config);
          asn1SccPropulsion_ThrusterState state1 = asn1Sccpropulsion_ThrusterState_BlinkHigh;
          asn1SccPropulsion_ThrusterState state2 = asn1Sccpropulsion_ThrusterState_BlinkLow;
          manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state1);
-         index = asn1Sccpropulsion_ThrusterIndex_1;
+         index = 1;
          manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state2);
-         index = asn1Sccpropulsion_ThrusterIndex_2;
+         index = 2;
          manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state1);
-         index = asn1Sccpropulsion_ThrusterIndex_3;
+         index = 3;
          manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state2);
          initialized = true;
      }
