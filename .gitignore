@@ -46,6 +46,7 @@ dataview*
 doc
 sql_db
 .vscode
+*timer_manager
 
 # Ignore CMake cache files
 CMakeCache.txt

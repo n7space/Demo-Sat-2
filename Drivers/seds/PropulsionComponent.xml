@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataSheet xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Device name="PropulsionComponent" />
+  <Package name="com/n7space/PropulsionComponent">
+    <ComponentSet>
+      <Component name="PropulsionDriver">
+        <LongDescription>SEDS Propulsion driver implementation</LongDescription>
+        <ProvidedInterfaceSet>
+          <Interface name="Propulsion" type="com/n7space/Propulsion/PropulsionInterfaceType"></Interface>
+        </ProvidedInterfaceSet>
+        <RequiredInterfaceSet>
+          <Interface name="PioHwas" type="com/n7space/PioHwas/PioHwasInterfaceType" />
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable name="propulsionVar" type="com/n7space/Propulsion/Propulsion"></Variable>
+            <Variable name="configVar" type="com/n7space/Propulsion/PropulsionConfig" />
+            <Variable name="stateVar" type="com/n7space/Propulsion/Propulsion_ThrusterState" />
+            <Variable name="indexVar" type="com/n7space/Propulsion/PropulsionThrusterIndex" />
+            <Variable name="pioStateVar" type="com/n7space/Hwas/Word" />
+            <Variable name="thrusterVar" type="com/n7space/Propulsion/Propulsion_Thruster" />
+          </VariableSet>
+          <ActivitySet>
+            <Activity name="ExecuteState">
+              <Argument name="thruster" type="com/n7space/Propulsion/Propulsion_Thruster"></Argument>
+              <Body>
+                <Assignment outputVariableRef="thrusterVar">
+                  <Value value="thruster" />
+                </Assignment>
+                <SendCommandPrimitive command="GetPin" interface="PioHwas">
+                  <LongDescription>Get thruster state</LongDescription>
+                  <ArgumentValue name="pio">
+                    <VariableRef variableRef="thrusterVar.mPio"></VariableRef>
+                  </ArgumentValue>
+                  <ArgumentValue name="pinValue">
+                    <VariableRef variableRef="pioStateVar"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Conditional>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="thrusterVar.mState" />
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="Propulsion_ThrusterState_BlinkHigh" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <Conditional>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="pioStateVar" />
+                          <ComparisonOperator>greaterThan</ComparisonOperator>
+                          <Value value="0" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <SendCommandPrimitive command="ResetPin" interface="PioHwas">
+                          <LongDescription>Get thruster state</LongDescription>
+                          <ArgumentValue name="pio">
+                            <VariableRef variableRef="thrusterVar.mPio"></VariableRef>
+                          </ArgumentValue>
+                        </SendCommandPrimitive>
+                      </OnConditionTrue>
+                      <OnConditionFalse>
+                        <SendCommandPrimitive command="SetPin" interface="PioHwas">
+                          <LongDescription>Get thruster state</LongDescription>
+                          <ArgumentValue name="pio">
+                            <VariableRef variableRef="thrusterVar.mPio"></VariableRef>
+                          </ArgumentValue>
+                        </SendCommandPrimitive>
+                      </OnConditionFalse>
+                    </Conditional>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="thrusterVar.mState" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="Propulsion_ThrusterState_BlinkLow" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <Conditional>
+                          <Condition>
+                            <Condition>
+                              <FirstOperand variableRef="thrusterVar.mCnt" />
+                              <ComparisonOperator>equals</ComparisonOperator>
+                              <Value value="1" />
+                            </Condition>
+                          </Condition>
+                          <OnConditionTrue>
+                            <Conditional>
+                              <Condition>
+                                <Condition>
+                                  <FirstOperand variableRef="pioStateVar" />
+                                  <ComparisonOperator>greaterThan</ComparisonOperator>
+                                  <Value value="0" />
+                                </Condition>
+                              </Condition>
+                              <OnConditionTrue>
+                                <SendCommandPrimitive command="ResetPin" interface="PioHwas">
+                                  <LongDescription>Get thruster state</LongDescription>
+                                  <ArgumentValue name="pio">
+                                    <VariableRef variableRef="thrusterVar.mPio"></VariableRef>
+                                  </ArgumentValue>
+                                </SendCommandPrimitive>
+                              </OnConditionTrue>
+                              <OnConditionFalse>
+                                <SendCommandPrimitive command="SetPin" interface="PioHwas">
+                                  <LongDescription>Get thruster state</LongDescription>
+                                  <ArgumentValue name="pio">
+                                    <VariableRef variableRef="thrusterVar.mPio"></VariableRef>
+                                  </ArgumentValue>
+                                </SendCommandPrimitive>
+                              </OnConditionFalse>
+                            </Conditional>
+                          </OnConditionTrue>
+                        </Conditional>
+                      </OnConditionTrue>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+              </Body>
+            </Activity>
+            <Activity name="InitPropulsion">
+              <Argument name="config" type="com/n7space/Propulsion/PropulsionConfig"></Argument>
+              <Body>
+                <Assignment outputVariableRef="configVar">
+                  <VariableRef variableRef="config" />
+                </Assignment>
+                <Iteration iteratorVariableRef="indexVar">
+                  <StartAt>
+                    <Value value="0" />
+                  </StartAt>
+                  <EndAt>
+                    <Value value="3" />
+                  </EndAt>
+                  <Do>
+                    <SendCommandPrimitive command="InitPin" interface="PioHwas">
+                      <LongDescription>Init thruster 0</LongDescription>
+                      <ArgumentValue name="pio">
+                        <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
+                      </ArgumentValue>
+                      <ArgumentValue name="config">
+                        <VariableRef variableRef="configVar[indexVar]"></VariableRef>
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                    <SendCommandPrimitive command="ResetPin" interface="PioHwas">
+                      <LongDescription>Reset thruster 1</LongDescription>
+                      <ArgumentValue name="pio">
+                        <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                  </Do>
+                </Iteration>
+                <SendCommandPrimitive command="InitPropulsionCmd" interface="Propulsion">
+                  <LongDescription>return initialized Propulsion</LongDescription>
+                  <ArgumentValue name="Propulsion">
+                    <VariableRef variableRef="PropulsionVar"></VariableRef>
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+              </Body>
+            </Activity>
+            <Activity name="Blink">
+              <Body>
+                <Iteration iteratorVariableRef="indexVar">
+                  <StartAt>
+                    <Value value="0" />
+                  </StartAt>
+                  <EndAt>
+                    <Value value="3" />
+                  </EndAt>
+                  <Do>
+                    <MathOperation outputVariableRef="propulsionVar[indexVar].mCnt">
+                      <Operator operator="subtract" />
+                      <Operator operator="add" />
+                      <VariableRef variableRef="propulsionVar[indexVar].mCnt" />
+                      <Value value="1" />
+                      <Operator operator="multiply" />
+                      <Operator operator="divide" />
+                      <Operator operator="add" />
+                      <VariableRef variableRef="propulsionVar[indexVar].mCnt" />
+                      <Value value="1" />
+                      <Value value="2" />
+                      <Value value="2" />
+                    </MathOperation>
+                    <Call activity="ExecuteState">
+                      <ArgumentValue name="thruster">
+                        <VariableRef variableRef="propulsionVar[indexVar]" />
+                      </ArgumentValue>
+                    </Call>
+                  </Do>
+                </Iteration>
+              </Body>
+            </Activity>
+            <Activity name="ChangeState">
+              <Argument name="index" type="com/n7space/Propulsion/PropulsionThrusterIndex"></Argument>
+              <Argument name="thrusterState" type="com/n7space/Propulsion/Propulsion_ThrusterState"></Argument>
+              <Body>
+                <Assignment outputVariableRef="indexVar">
+                  <Value value="index" />
+                </Assignment>
+                <Assignment outputVariableRef="stateVar">
+                  <Value value="thrusterState" />
+                </Assignment>
+                <Assignment outputVariableRef="propulsionVar[indexVar].mState">
+                  <VariableRef variableRef="stateVar" />
+                </Assignment>
+                <Conditional>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="stateVar"></FirstOperand>
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="Propulsion_ThrusterState_Off"></Value>
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <SendCommandPrimitive command="ResetPin" interface="PioHwas">
+                      <ArgumentValue name="pio">
+                        <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
+                      </ArgumentValue>
+                    </SendCommandPrimitive>
+                  </OnConditionTrue>
+                  <OnConditionFalse>
+                    <Conditional>
+                      <Condition>
+                        <Condition>
+                          <FirstOperand variableRef="stateVar" />
+                          <ComparisonOperator>equals</ComparisonOperator>
+                          <Value value="Propulsion_ThrusterState_On" />
+                        </Condition>
+                      </Condition>
+                      <OnConditionTrue>
+                        <SendCommandPrimitive command="SetPin" interface="PioHwas">
+                          <ArgumentValue name="pio">
+                            <VariableRef variableRef="propulsionVar[indexVar].mPio"></VariableRef>
+                          </ArgumentValue>
+                        </SendCommandPrimitive>
+                      </OnConditionTrue>
+                    </Conditional>
+                  </OnConditionFalse>
+                </Conditional>
+              </Body>
+            </Activity>
+          </ActivitySet>
+          <StateMachineSet>
+            <StateMachine name="PropulsionDriver">
+              <EntryState name="Off" />
+              <State name="Idle" />
+              <Transition fromState="Off" toState="Idle" name="Init">
+                <OnCommandPrimitive command="InitPropulsionCmd" interface="Propulsion">
+                  <ArgumentValue name="PropulsionConfig" outputVariableRef="configVar"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="InitPropulsion">
+                  <ArgumentValue name="config">
+                    <VariableRef variableRef="configVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="Blink">
+                <OnTimer nanosecondsAfterEntry="200000"></OnTimer>
+                <Do activity="Blink"></Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="ChangeState">
+                <OnCommandPrimitive command="ChangeStateCmd" interface="Propulsion">
+                  <ArgumentValue name="thrusterState" outputVariableRef="stateVar"></ArgumentValue>
+                  <ArgumentValue name="index" outputVariableRef="indexVar"></ArgumentValue>
+                </OnCommandPrimitive>
+                <Do activity="ChangeState">
+                  <ArgumentValue name="index">
+                    <VariableRef variableRef="indexVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="thrusterState">
+                    <VariableRef variableRef="stateVar" />
+                  </ArgumentValue>
+                </Do>
+              </Transition>
+            </StateMachine>
+          </StateMachineSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="PioHwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="Propulsion.xml" xpointer="element(/1/1)" />
+</DataSheet>

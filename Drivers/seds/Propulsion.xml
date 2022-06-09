@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/Propulsion">
+    <DataTypeSet>
+      <EnumeratedDataType name="Propulsion_ThrusterState">
+        <LongDescription>Definitions of thruster states</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="Propulsion_ThrusterState_Off" value="0"></Enumeration>
+          <Enumeration label="Propulsion_ThrusterState_BlinkLow" value="1" />
+          <Enumeration label="Propulsion_ThrusterState_BlinkHigh" value="2" />
+          <Enumeration label="Propulsion_ThrusterState_On" value="3" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <ContainerDataType name="Propulsion_Thruster" shortDescription="Single thruster descriptor">
+        <EntryList>
+          <Entry name="mPio" type="com/n7space/PioHwas/PioHwas" />
+          <Entry name="mState" type="Propulsion_ThrusterState" />
+          <Entry name="mCnt" type="com/n7space/Hwas/Byte" />
+        </EntryList>
+      </ContainerDataType>
+      <ArrayDataType name="Propulsion" dataTypeRef="Propulsion_Thruster" shortDescription="Propulsion descriptor">
+        <DimensionList>
+          <Dimension size="4" />
+        </DimensionList>
+      </ArrayDataType>
+      <ArrayDataType name="PropulsionConfig" dataTypeRef="com/n7space/PioHwas/PioHwasPinConfig" shortDescription="Propulsion config descriptor">
+        <DimensionList>
+          <Dimension size="4" />
+        </DimensionList>
+      </ArrayDataType>
+      <IntegerDataType name="PropulsionThrusterIndex">
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <Range>
+          <MinMaxRange max="4" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="functional" name="PropulsionInterfaceType">
+        <CommandSet>
+          <Command name="InitPropulsionCmd" mode="sync">
+            <LongDescription>Initializes the Propulsion pio</LongDescription>
+            <Argument name="propulsion" type="Propulsion" mode="out" />
+            <Argument name="propulsionConfig" type="PropulsionConfig" mode="in" />
+          </Command>
+          <Command name="ChangeStateCmd" mode="sync">
+            <LongDescription>Changes the state of the LED controller</LongDescription>
+            <Argument name="index" type="PropulsionThrusterIndex" mode="in" />
+            <Argument name="thrusterState" type="Propulsion_ThrusterState" mode="in" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+  <xi:include href="PioHwas.xml" xpointer="element(/1/1)" />
+</PackageFile>
