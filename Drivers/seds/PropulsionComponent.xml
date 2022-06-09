@@ -19,8 +19,6 @@
             <Variable name="indexVar" type="com/n7space/Propulsion/PropulsionThrusterIndex" />
             <Variable name="pioStateVar" type="com/n7space/Hwas/Word" />
             <Variable name="thrusterVar" type="com/n7space/Propulsion/Propulsion_Thruster" />
-            <Variable name="conditionVar" type="com/n7space/Hwas/Byte" />
-            <Variable name="pioVar" type="com/n7space/PioHwas/PioHwas" />
           </VariableSet>
           <ActivitySet>
             <Activity name="ExecuteState">

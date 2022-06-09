@@ -8,8 +8,6 @@ process PropulsionDriver;
     dcl Indexvar PropulsionThrusterIndex;
     dcl Piostatevar Word;
     dcl Thrustervar Propulsion_Thruster;
-    dcl Conditionvar Byte;
-    dcl Piovar PioHwas;
     /* CIF ENDTEXT */
     /* CIF Procedure (0, 900), (800, 50) */
     procedure ExecuteState;
