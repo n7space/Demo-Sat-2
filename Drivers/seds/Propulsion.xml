@@ -32,7 +32,7 @@
       <IntegerDataType name="PropulsionThrusterIndex">
         <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
         <Range>
-          <MinMaxRange max="3" min="0" rangeType="inclusiveMinInclusiveMax" />
+          <MinMaxRange max="4" min="0" rangeType="inclusiveMinInclusiveMax" />
         </Range>
       </IntegerDataType>
     </DataTypeSet>

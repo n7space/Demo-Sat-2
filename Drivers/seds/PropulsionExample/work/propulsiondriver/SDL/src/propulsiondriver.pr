@@ -115,30 +115,28 @@ process PropulsionDriver;
             task Configvar := Config;
             /* CIF Task (0, 1012), (100, 50) */
             task Indexvar := 0;
-            /* CIF Task (0, 1087), (100, 50) */
-            task Indexvar := 0;
-            /* CIF Label (0, 1162), (100, 50) */
+            /* CIF Label (0, 1087), (100, 50) */
             loop_start_1:
-            /* CIF Decision (0, 1162), (400, 50) */
+            /* CIF Decision (0, 1087), (400, 50) */
             decision Indexvar <= 3;
-                /* CIF Answer (0, 1237), (400, 50) */
+                /* CIF Answer (0, 1162), (400, 50) */
                 (False):
-                    /* CIF Join (0, 1312), (100, 50) */
+                    /* CIF Join (0, 1237), (100, 50) */
                     join loop_end_2;
-                /* CIF Answer (600, 1237), (400, 50) */
+                /* CIF Answer (600, 1162), (400, 50) */
                 (True):
                     -- Init thruster 0
-                    /* CIF ProcedureCall (600, 1312), (100, 50) */
+                    /* CIF ProcedureCall (600, 1237), (100, 50) */
                     call PioHwas_InitPin_Ri(Propulsionvar(Indexvar).Mpio, Configvar(Indexvar));
                     -- Reset thruster 1
-                    /* CIF ProcedureCall (600, 1387), (100, 50) */
+                    /* CIF ProcedureCall (600, 1312), (100, 50) */
                     call PioHwas_ResetPin_Ri(Propulsionvar(Indexvar).Mpio);
-                    /* CIF Task (600, 1462), (100, 50) */
+                    /* CIF Task (600, 1387), (100, 50) */
                     task Indexvar := Indexvar + 1;
-                    /* CIF Join (600, 1537), (100, 50) */
+                    /* CIF Join (600, 1462), (100, 50) */
                     join loop_start_1;
             enddecision;
-            /* CIF Label (1200, 1312), (100, 50) */
+            /* CIF Label (1200, 1237), (100, 50) */
             loop_end_2:
     return;
     endprocedure;
@@ -148,28 +146,26 @@ process PropulsionDriver;
         START;
             /* CIF Task (0, 187), (100, 50) */
             task Indexvar := 0;
-            /* CIF Task (0, 262), (100, 50) */
-            task Indexvar := 0;
-            /* CIF Label (0, 337), (100, 50) */
+            /* CIF Label (0, 262), (100, 50) */
             loop_start_1:
-            /* CIF Decision (0, 337), (400, 50) */
+            /* CIF Decision (0, 262), (400, 50) */
             decision Indexvar <= 3;
-                /* CIF Answer (0, 412), (400, 50) */
+                /* CIF Answer (0, 337), (400, 50) */
                 (False):
-                    /* CIF Join (0, 487), (100, 50) */
+                    /* CIF Join (0, 412), (100, 50) */
                     join loop_end_2;
-                /* CIF Answer (600, 412), (400, 50) */
+                /* CIF Answer (600, 337), (400, 50) */
                 (True):
-                    /* CIF Task (600, 487), (100, 50) */
+                    /* CIF Task (600, 412), (100, 50) */
                     task Propulsionvar(Indexvar).Mcnt := (Propulsionvar(Indexvar).Mcnt + 1) - (((Propulsionvar(Indexvar).Mcnt + 1) / 2) * 2);
-                    /* CIF ProcedureCall (600, 562), (100, 50) */
+                    /* CIF ProcedureCall (600, 487), (100, 50) */
                     call ExecuteState(Propulsionvar(Indexvar));
-                    /* CIF Task (600, 637), (100, 50) */
+                    /* CIF Task (600, 562), (100, 50) */
                     task Indexvar := Indexvar + 1;
-                    /* CIF Join (600, 712), (100, 50) */
+                    /* CIF Join (600, 637), (100, 50) */
                     join loop_start_1;
             enddecision;
-            /* CIF Label (1200, 487), (100, 50) */
+            /* CIF Label (1200, 412), (100, 50) */
             loop_end_2:
     return;
     endprocedure;
@@ -186,35 +182,37 @@ process PropulsionDriver;
             task Indexvar := index;
             /* CIF Task (0, 1012), (100, 50) */
             task Statevar := thrusterState;
-            /* CIF Decision (0, 1012), (400, 50) */
+            /* CIF Task (0, 1087), (100, 50) */
+            task Propulsionvar(Indexvar).Mstate := Statevar;
+            /* CIF Decision (0, 1087), (400, 50) */
             decision Statevar = Propulsion_ThrusterState_Off;
-                /* CIF Answer (0, 1087), (400, 50) */
+                /* CIF Answer (0, 1162), (400, 50) */
                 (True):
-                    /* CIF ProcedureCall (0, 1162), (100, 50) */
+                    /* CIF ProcedureCall (0, 1237), (100, 50) */
                     call PioHwas_ResetPin_Ri(Propulsionvar(Indexvar).Mpio);
-                    /* CIF Join (0, 1237), (100, 50) */
+                    /* CIF Join (0, 1312), (100, 50) */
                     join condition_1;
-                /* CIF Answer (600, 1087), (400, 50) */
+                /* CIF Answer (600, 1162), (400, 50) */
                 (False):
-                    /* CIF Decision (600, 1087), (400, 50) */
+                    /* CIF Decision (600, 1162), (400, 50) */
                     decision Statevar = Propulsion_ThrusterState_On;
-                        /* CIF Answer (600, 1162), (400, 50) */
+                        /* CIF Answer (600, 1237), (400, 50) */
                         (True):
-                            /* CIF ProcedureCall (600, 1237), (100, 50) */
+                            /* CIF ProcedureCall (600, 1312), (100, 50) */
                             call PioHwas_SetPin_Ri(Propulsionvar(Indexvar).Mpio);
-                            /* CIF Join (600, 1312), (100, 50) */
+                            /* CIF Join (600, 1387), (100, 50) */
                             join condition_2;
-                        /* CIF Answer (1200, 1162), (400, 50) */
+                        /* CIF Answer (1200, 1237), (400, 50) */
                         (False):
-                            /* CIF Join (1200, 1237), (100, 50) */
+                            /* CIF Join (1200, 1312), (100, 50) */
                             join condition_2;
                     enddecision;
-                    /* CIF Label (1800, 1237), (100, 50) */
+                    /* CIF Label (1800, 1312), (100, 50) */
                     condition_2:
-                    /* CIF Join (1800, 1312), (100, 50) */
+                    /* CIF Join (1800, 1387), (100, 50) */
                     join condition_1;
             enddecision;
-            /* CIF Label (2400, 1162), (100, 50) */
+            /* CIF Label (2400, 1237), (100, 50) */
             condition_1:
     return;
     endprocedure;

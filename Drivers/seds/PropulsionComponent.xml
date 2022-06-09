@@ -131,9 +131,6 @@
                 <Assignment outputVariableRef="configVar">
                   <VariableRef variableRef="config" />
                 </Assignment>
-                <Assignment outputVariableRef="indexVar">
-                  <Value value="0" />
-                </Assignment>
                 <Iteration iteratorVariableRef="indexVar">
                   <StartAt>
                     <Value value="0" />
@@ -169,9 +166,6 @@
             </Activity>
             <Activity name="Blink">
               <Body>
-                <Assignment outputVariableRef="indexVar">
-                  <Value value="0" />
-                </Assignment>
                 <Iteration iteratorVariableRef="indexVar">
                   <StartAt>
                     <Value value="0" />
@@ -211,6 +205,9 @@
                 </Assignment>
                 <Assignment outputVariableRef="stateVar">
                   <Value value="thrusterState" />
+                </Assignment>
+                <Assignment outputVariableRef="propulsionVar[indexVar].mState">
+                  <VariableRef variableRef="stateVar" />
                 </Assignment>
                 <Conditional>
                   <Condition>

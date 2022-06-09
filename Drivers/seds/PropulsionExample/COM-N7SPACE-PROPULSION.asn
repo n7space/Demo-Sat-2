@@ -23,6 +23,6 @@ Propulsion-Thruster ::= SEQUENCE
 Propulsion ::= SEQUENCE (SIZE(4)) OF Propulsion-Thruster
 -- Propulsion config descriptor
 PropulsionConfig ::= SEQUENCE (SIZE(4)) OF PioHwasPinConfig
-PropulsionThrusterIndex ::= INTEGER(0 .. 3)
+PropulsionThrusterIndex ::= INTEGER(0 .. 4)
 END
 
