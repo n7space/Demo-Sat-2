@@ -13,7 +13,7 @@ SPACECREATOR?=spacecreator.AppImage
 # $ space-creator reset
 
 # Get the list of ASN.1 files from Space Creator project file:
-DISTFILES=$(shell qmake samv71Afec.pro -o /tmp/null 2>&1)
+DISTFILES=$(shell qmake AfecHwasExample.pro -o /tmp/null 2>&1)
 ASN1_FILES=$(shell find ${DISTFILES} 2>/dev/null | egrep '\.asn$$|\.asn1$$')
 
 all:	release
@@ -45,7 +45,7 @@ edit_cv:
 	$(MAKE) -C work run_cv
 
 # Simulation target (experimental - for systems made of SDL functions only)
-simu:	
+simu:
 	$(MAKE) interfaceview work/glue_simu
 	$(MAKE) -C work
 	$(MAKE) -C work/simulation -f Makefile.Simulation simu

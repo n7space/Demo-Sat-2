@@ -34,8 +34,13 @@
           <Entry name="mInstanceChsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceCrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceIerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mInstanceImrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceIsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
           <Entry name="mInstanceLcdrAddress" type="com/n7space/Hwas/SourceAddress"></Entry>
+          <Entry name="mInstanceCselrAddress" type="com/n7space/Hwas/SourceAddress"></Entry>
+          <Entry name="mInstanceCdrAddress" type="com/n7space/Hwas/SourceAddress"></Entry>
+          <Entry name="mInstanceCocrAddress" type="com/n7space/Hwas/SourceAddress"></Entry>
+          <Entry name="mInstanceAcrAddress" type="com/n7space/Hwas/SourceAddress"></Entry>
           <Entry name="mIrqNumber" type="com/n7space/Hwas/InterruptNumber"></Entry>
         </EntryList>
       </ContainerDataType>

@@ -108,6 +108,14 @@
                   <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
                   <VariableRef variableRef="afecVar.mInstanceIerAddress" />
                 </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceImrAddress">
+                  <Value value="44" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceImrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceImrAddress" />
+                </MathOperation>
                 <Assignment outputVariableRef="afecVar.mInstanceIsrAddress">
                   <Value value="48" />
                 </Assignment>
@@ -123,6 +131,38 @@
                   <Operator operator="add" />
                   <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
                   <VariableRef variableRef="afecVar.mInstanceLcdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCselrAddress">
+                  <Value value="100" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCselrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCselrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCdrAddress">
+                  <Value value="104" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCocrAddress">
+                  <Value value="108" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCocrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCocrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceAcrAddress">
+                  <Value value="148" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceAcrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceAcrAddress" />
                 </MathOperation>
               </Body>
             </Activity>
@@ -254,7 +294,7 @@
                     <VariableRef variableRef="destinationAddressVar" />
                   </ArgumentValue>
                   <ArgumentValue name="mask">
-                    <VariableRef variableRef="bitsToSetVar" />
+                    <Value value="814743535" />
                   </ArgumentValue>
                   <ArgumentValue name="inputValue">
                     <VariableRef variableRef="bitsToSetVar" />
@@ -264,15 +304,30 @@
                   <LongDescription>Assign destination register address</LongDescription>
                   <VariableRef variableRef="afecVar.mInstanceEmrAddress"></VariableRef>
                 </Assignment>
-                <SendCommandPrimitive shortDescription="Set extended mode register (tag mode). Set tag mask value (0x0100 0000)" interface="RawMemoryAccess" command="WriteWord">
+                <SendCommandPrimitive shortDescription="Set extended mode register (tag and stm mode). Set tag mask value (0x0300 0000)" interface="RawMemoryAccess" command="WriteWord">
                   <ArgumentValue name="address">
                     <VariableRef variableRef="destinationAddressVar" />
                   </ArgumentValue>
                   <ArgumentValue name="mask">
-                    <Value value="16777216" />
+                    <Value value="50331648" />
                   </ArgumentValue>
                   <ArgumentValue name="inputValue">
-                    <Value value="16777216" />
+                    <Value value="50331648" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceAcrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Enable gain amplifiers" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="12" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <Value value="12" />
                   </ArgumentValue>
                 </SendCommandPrimitive>
                 <SendCommandPrimitive interface="AfecHwas" command="InitInstance">
@@ -289,7 +344,7 @@
                 <Assignment outputVariableRef="irqNumberVar">
                   <VariableRef variableRef="afecVar.mIrqNumber" />
                 </Assignment>
-                <SendCommandPrimitive shortDescription="Enable Uart interrupt" interface="InterruptManagement" command="EnableInterrupt">
+                <SendCommandPrimitive shortDescription="Enable Afec interrupt" interface="InterruptManagement" command="EnableInterrupt">
                   <ArgumentValue name="interrupt">
                     <VariableRef variableRef="irqNumberVar" />
                   </ArgumentValue>
@@ -356,6 +411,36 @@
                 </SendCommandPrimitive>
                 <Assignment outputVariableRef="destinationAddressVar">
                   <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceCselrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="255" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <Value value="analogChannel" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceCocrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="1023" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <Value value="512" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign destination register address</LongDescription>
                   <VariableRef variableRef="afecVar.mInstanceCrAddress"></VariableRef>
                 </Assignment>
                 <SendCommandPrimitive shortDescription="Start The conversion" interface="RawMemoryAccess" command="WriteWord">
@@ -402,6 +487,36 @@
                   <VariableRef variableRef="chOutputVar.mChNumber" />
                   <Value value="16777216" />
                 </MathOperation>
+                <Assignment outputVariableRef="destinationAddressVar">
+                  <LongDescription>Assign source register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceCselrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Write the CSELR to select channel to read" interface="RawMemoryAccess" command="WriteWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="destinationAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="255" />
+                  </ArgumentValue>
+                  <ArgumentValue name="inputValue">
+                    <VariableRef variableRef="chOutputVar.mChNumber" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Assignment outputVariableRef="sourceAddressVar">
+                  <LongDescription>Assign source register address</LongDescription>
+                  <VariableRef variableRef="afecVar.mInstanceCdrAddress"></VariableRef>
+                </Assignment>
+                <SendCommandPrimitive shortDescription="Read the CDR (to zero EoX flag)" interface="RawMemoryAccess" command="ReadWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="sourceAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="4095" />
+                  </ArgumentValue>
+                  <ArgumentValue name="outputValue">
+                    <VariableRef variableRef="readBitsVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
                 <Assignment outputVariableRef="destinationAddressVar">
                   <LongDescription>Assign source register address</LongDescription>
                   <VariableRef variableRef="afecVar.mInstanceChdrAddress"></VariableRef>
