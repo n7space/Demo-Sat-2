@@ -108,6 +108,14 @@
                   <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
                   <VariableRef variableRef="afecVar.mInstanceIerAddress" />
                 </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceImrAddress">
+                  <Value value="44" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceImrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceImrAddress" />
+                </MathOperation>
                 <Assignment outputVariableRef="afecVar.mInstanceIsrAddress">
                   <Value value="48" />
                 </Assignment>
@@ -123,6 +131,38 @@
                   <Operator operator="add" />
                   <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
                   <VariableRef variableRef="afecVar.mInstanceLcdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCselrAddress">
+                  <Value value="100" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCselrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCselrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCdrAddress">
+                  <Value value="104" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCdrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCdrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceCocrAddress">
+                  <Value value="108" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceCocrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceCocrAddress" />
+                </MathOperation>
+                <Assignment outputVariableRef="afecVar.mInstanceAcrAddress">
+                  <Value value="148" />
+                </Assignment>
+                <MathOperation outputVariableRef="afecVar.mInstanceAcrAddress">
+                  <Operator operator="add" />
+                  <VariableRef variableRef="afecVar.mInstanceAddress"></VariableRef>
+                  <VariableRef variableRef="afecVar.mInstanceAcrAddress" />
                 </MathOperation>
               </Body>
             </Activity>
