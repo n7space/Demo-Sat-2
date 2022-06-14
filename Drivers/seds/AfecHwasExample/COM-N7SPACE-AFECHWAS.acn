@@ -12,8 +12,13 @@ AfecHwas []
     mInstanceChsrAddress [],
     mInstanceCrAddress [],
     mInstanceIerAddress [],
+    mInstanceImrAddress [],
     mInstanceIsrAddress [],
     mInstanceLcdrAddress [],
+    mInstanceCselrAddress [],
+    mInstanceCdrAddress [],
+    mInstanceCocrAddress [],
+    mInstanceAcrAddress [],
     mIrqNumber []
 }
 AfecHwasConfig []

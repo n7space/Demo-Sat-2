@@ -68,13 +68,33 @@ process AfecHwasDriver;
             /* CIF Task (0, 1162), (100, 50) */
             task Afecvar.Minstanceieraddress := Afecvar.Minstanceaddress + Afecvar.Minstanceieraddress;
             /* CIF Task (0, 1237), (100, 50) */
-            task Afecvar.Minstanceisraddress := 48;
+            task Afecvar.Minstanceimraddress := 44;
             /* CIF Task (0, 1312), (100, 50) */
-            task Afecvar.Minstanceisraddress := Afecvar.Minstanceaddress + Afecvar.Minstanceisraddress;
+            task Afecvar.Minstanceimraddress := Afecvar.Minstanceaddress + Afecvar.Minstanceimraddress;
             /* CIF Task (0, 1387), (100, 50) */
-            task Afecvar.Minstancelcdraddress := 32;
+            task Afecvar.Minstanceisraddress := 48;
             /* CIF Task (0, 1462), (100, 50) */
+            task Afecvar.Minstanceisraddress := Afecvar.Minstanceaddress + Afecvar.Minstanceisraddress;
+            /* CIF Task (0, 1537), (100, 50) */
+            task Afecvar.Minstancelcdraddress := 32;
+            /* CIF Task (0, 1612), (100, 50) */
             task Afecvar.Minstancelcdraddress := Afecvar.Minstanceaddress + Afecvar.Minstancelcdraddress;
+            /* CIF Task (0, 1687), (100, 50) */
+            task Afecvar.Minstancecselraddress := 100;
+            /* CIF Task (0, 1762), (100, 50) */
+            task Afecvar.Minstancecselraddress := Afecvar.Minstanceaddress + Afecvar.Minstancecselraddress;
+            /* CIF Task (0, 1837), (100, 50) */
+            task Afecvar.Minstancecdraddress := 104;
+            /* CIF Task (0, 1912), (100, 50) */
+            task Afecvar.Minstancecdraddress := Afecvar.Minstanceaddress + Afecvar.Minstancecdraddress;
+            /* CIF Task (0, 1987), (100, 50) */
+            task Afecvar.Minstancecocraddress := 108;
+            /* CIF Task (0, 2062), (100, 50) */
+            task Afecvar.Minstancecocraddress := Afecvar.Minstanceaddress + Afecvar.Minstancecocraddress;
+            /* CIF Task (0, 2137), (100, 50) */
+            task Afecvar.Minstanceacraddress := 148;
+            /* CIF Task (0, 2212), (100, 50) */
+            task Afecvar.Minstanceacraddress := Afecvar.Minstanceaddress + Afecvar.Minstanceacraddress;
     return;
     endprocedure;
     /* CIF Procedure (0, 1050), (800, 50) */
@@ -186,13 +206,19 @@ process AfecHwasDriver;
             task Destinationaddressvar := Afecvar.Minstancemraddress;
             -- Set mode register (startup time and prescaler value)
             /* CIF ProcedureCall (4800, 1612), (100, 50) */
-            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, Bitstosetvar, Bitstosetvar);
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 814743535, Bitstosetvar);
             -- Assign destination register address
             /* CIF Task (4800, 1687), (100, 50) */
             task Destinationaddressvar := Afecvar.Minstanceemraddress;
-            -- Set extended mode register (tag mode). Set tag mask value (0x0100 0000)
+            -- Set extended mode register (tag and stm mode). Set tag mask value (0x0300 0000)
             /* CIF ProcedureCall (4800, 1762), (100, 50) */
-            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 16777216, 16777216);
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 50331648, 50331648);
+            -- Assign destination register address
+            /* CIF Task (4800, 1837), (100, 50) */
+            task Destinationaddressvar := Afecvar.Minstanceacraddress;
+            -- Enable gain amplifiers
+            /* CIF ProcedureCall (4800, 1912), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 12, 12);
     return;
     endprocedure;
     /* CIF Procedure (0, 1125), (800, 50) */
@@ -206,7 +232,7 @@ process AfecHwasDriver;
         START;
             /* CIF Task (0, 937), (100, 50) */
             task Irqnumbervar := Afecvar.Mirqnumber;
-            -- Enable Uart interrupt
+            -- Enable Afec interrupt
             /* CIF ProcedureCall (0, 1012), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
             -- Subscribe to Uart interrupt
@@ -238,9 +264,19 @@ process AfecHwasDriver;
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 4095, Bitstosetvar);
             -- Assign destination register address
             /* CIF Task (0, 1762), (100, 50) */
+            task Destinationaddressvar := Afecvar.Minstancecselraddress;
+            /* CIF ProcedureCall (0, 1837), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 255, analogChannel);
+            -- Assign destination register address
+            /* CIF Task (0, 1912), (100, 50) */
+            task Destinationaddressvar := Afecvar.Minstancecocraddress;
+            /* CIF ProcedureCall (0, 1987), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 1023, 512);
+            -- Assign destination register address
+            /* CIF Task (0, 2062), (100, 50) */
             task Destinationaddressvar := Afecvar.Minstancecraddress;
             -- Start The conversion
-            /* CIF ProcedureCall (0, 1837), (100, 50) */
+            /* CIF ProcedureCall (0, 2137), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 2, 2);
     return;
     endprocedure;
@@ -262,14 +298,26 @@ process AfecHwasDriver;
             task Choutputvar.Mvalue := Readbitsvar - (Choutputvar.Mchnumber * 16777216);
             -- Assign source register address
             /* CIF Task (0, 487), (100, 50) */
+            task Destinationaddressvar := Afecvar.Minstancecselraddress;
+            -- Write the CSELR to select channel to read
+            /* CIF ProcedureCall (0, 562), (100, 50) */
+            call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 255, Choutputvar.Mchnumber);
+            -- Assign source register address
+            /* CIF Task (0, 637), (100, 50) */
+            task Sourceaddressvar := Afecvar.Minstancecdraddress;
+            -- Read the CDR (to zero EoX flag)
+            /* CIF ProcedureCall (0, 712), (100, 50) */
+            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 4095, Readbitsvar);
+            -- Assign source register address
+            /* CIF Task (0, 787), (100, 50) */
             task Destinationaddressvar := Afecvar.Minstancechdraddress;
             -- Disable all of the channels
-            /* CIF ProcedureCall (0, 562), (100, 50) */
+            /* CIF ProcedureCall (0, 862), (100, 50) */
             call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 4095, 4095);
-            /* CIF Task (0, 637), (100, 50) */
+            /* CIF Task (0, 937), (100, 50) */
             task Io_afechwas_getvaluecmd_ri.Choutput := Choutputvar;
             -- Return the output
-            /* CIF Output (0, 712), (200, 50) */
+            /* CIF Output (0, 1012), (200, 50) */
             output AfecHwas_GetValueCmd_Ri(Io_afechwas_getvaluecmd_ri);
     return;
     endprocedure;
@@ -281,41 +329,63 @@ process AfecHwasDriver;
         /* CIF ENDTEXT */
         /* CIF Start (0, 750), (200, 75) */
         START;
-            -- Check if interrupt is comming from afec0
-            /* CIF Decision (0, 862), (400, 50) */
-            decision Afecvar.Mirqnumber = 29;
-                /* CIF Answer (0, 937), (400, 50) */
+            -- Assign source register address
+            /* CIF Task (0, 937), (100, 50) */
+            task Sourceaddressvar := Afecvar.Minstanceisraddress;
+            -- Read the result (value and channel)
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 16777216, Readbitsvar);
+            /* CIF Decision (0, 1012), (400, 50) */
+            decision Readbitsvar = 16777216;
+                /* CIF Answer (0, 1087), (400, 50) */
                 (True):
-                    /* CIF Task (0, 1012), (100, 50) */
-                    task Choutputvar.Minstance := AfecHwas_Instance_Afec0;
-                    /* CIF ProcedureCall (0, 1087), (100, 50) */
-                    call ReturnValAndDisableChannels;
-                    /* CIF Join (0, 1162), (100, 50) */
-                    join condition_1;
-                /* CIF Answer (600, 937), (400, 50) */
-                (False):
-                    -- Check if interrupt is comming from afec1
-                    /* CIF Decision (600, 937), (400, 50) */
-                    decision Afecvar.Mirqnumber = 40;
-                        /* CIF Answer (600, 1012), (400, 50) */
+                    -- Check if interrupt is comming from afec0
+                    /* CIF Decision (0, 1087), (400, 50) */
+                    decision Afecvar.Mirqnumber = 29;
+                        /* CIF Answer (0, 1162), (400, 50) */
                         (True):
-                            /* CIF Task (600, 1087), (100, 50) */
-                            task Choutputvar.Minstance := AfecHwas_Instance_Afec1;
-                            /* CIF ProcedureCall (600, 1162), (100, 50) */
+                            /* CIF Task (0, 1237), (100, 50) */
+                            task Choutputvar.Minstance := AfecHwas_Instance_Afec0;
+                            /* CIF ProcedureCall (0, 1312), (100, 50) */
                             call ReturnValAndDisableChannels;
-                            /* CIF Join (600, 1237), (100, 50) */
+                            /* CIF Join (0, 1387), (100, 50) */
                             join condition_2;
-                        /* CIF Answer (1200, 1012), (400, 50) */
+                        /* CIF Answer (600, 1162), (400, 50) */
                         (False):
-                            /* CIF Join (1200, 1087), (100, 50) */
+                            -- Check if interrupt is comming from afec1
+                            /* CIF Decision (600, 1162), (400, 50) */
+                            decision Afecvar.Mirqnumber = 40;
+                                /* CIF Answer (600, 1237), (400, 50) */
+                                (True):
+                                    /* CIF Task (600, 1312), (100, 50) */
+                                    task Choutputvar.Minstance := AfecHwas_Instance_Afec1;
+                                    /* CIF ProcedureCall (600, 1387), (100, 50) */
+                                    call ReturnValAndDisableChannels;
+                                    /* CIF Join (600, 1462), (100, 50) */
+                                    join condition_3;
+                                /* CIF Answer (1200, 1237), (400, 50) */
+                                (False):
+                                    /* CIF Join (1200, 1312), (100, 50) */
+                                    join condition_3;
+                            enddecision;
+                            /* CIF Label (1800, 1312), (100, 50) */
+                            condition_3:
+                            /* CIF Join (1800, 1387), (100, 50) */
                             join condition_2;
                     enddecision;
-                    /* CIF Label (1800, 1087), (100, 50) */
+                    /* CIF Label (2400, 1237), (100, 50) */
                     condition_2:
-                    /* CIF Join (1800, 1162), (100, 50) */
+                    /* CIF Join (2400, 1312), (100, 50) */
+                    join condition_1;
+                /* CIF Answer (3000, 1087), (400, 50) */
+                (False):
+                    -- Enable Afec interrupt
+                    /* CIF ProcedureCall (3000, 1162), (100, 50) */
+                    call InterruptManagement_EnableInterrupt_Ri(Afecvar.Mirqnumber);
+                    /* CIF Join (3000, 1237), (100, 50) */
                     join condition_1;
             enddecision;
-            /* CIF Label (2400, 1012), (100, 50) */
+            /* CIF Label (3600, 1162), (100, 50) */
             condition_1:
     return;
     endprocedure;

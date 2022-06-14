@@ -1,13 +1,14 @@
 <DeploymentView>
-    <Node name="SAM_V71_FreeRTOS_N7S_1" type="ocarina_processors_arm::samv71.freertos" node_label="Node_1" namespace="ocarina_processors_arm">
-        <Property name="Taste::coordinates" value="25900 30300 41900 46300"/>
+    <Node name="SAM V71 FreeRTOS N7S_1" type="ocarina_processors_arm::samv71.freertos" node_label="Node_1" namespace="ocarina_processors_arm">
+        <Property name="Taste::coordinates" value="27400 25500 57000 42100"/>
         <Partition name="Partition_1">
-            <Property name="Taste::coordinates" value="30300 34700 43600 44700"/>
-            <Function name="Manager" path="Manager"/>
-            <Function name="AfecHwasDriver" path="AfecHwasDriver"/>
+            <Property name="Taste::coordinates" value="31800 29900 54800 39900"/>
             <Function name="HWAS" path="HWAS"/>
+            <Function name="AfecHwasDriver" path="AfecHwasDriver"/>
+            <Function name="Manager" path="Manager"/>
         </Partition>
-        <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-SAMV71-Drivers/configurations/samv71-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-SamV71-Conf-T" asn1module="SAMV71-SERIAL-CCSDS-DRIVER" namespace="ocarina_drivers" impl_extends="ocarina_drivers::serial_ccsds.samv71" extends="ocarina_drivers::serial_ccsds" bus_namespace="ocarina_buses">
+        <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-SAMV71-Drivers/configurations/samv71-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-SamV71-Conf-T" asn1module="SAMV71-SERIAL-CCSDS-DRIVER" impl_extends="ocarina_drivers::serial_ccsds.samv71" namespace="ocarina_drivers" bus_namespace="ocarina_buses" extends="ocarina_drivers::serial_ccsds">
+            <Property name="Taste::coordinates" value="27400 27200"/>
         </Device>
     </Node>
 </DeploymentView>
