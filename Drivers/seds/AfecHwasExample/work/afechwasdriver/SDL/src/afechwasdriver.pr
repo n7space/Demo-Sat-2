@@ -329,63 +329,41 @@ process AfecHwasDriver;
         /* CIF ENDTEXT */
         /* CIF Start (0, 750), (200, 75) */
         START;
-            -- Assign source register address
-            /* CIF Task (0, 937), (100, 50) */
-            task Sourceaddressvar := Afecvar.Minstanceisraddress;
-            -- Read the result (value and channel)
-            /* CIF ProcedureCall (0, 1012), (100, 50) */
-            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 16777216, Readbitsvar);
-            /* CIF Decision (0, 1012), (400, 50) */
-            decision Readbitsvar = 16777216;
-                /* CIF Answer (0, 1087), (400, 50) */
+            -- Check if interrupt is comming from afec0
+            /* CIF Decision (0, 862), (400, 50) */
+            decision Afecvar.Mirqnumber = 29;
+                /* CIF Answer (0, 937), (400, 50) */
                 (True):
-                    -- Check if interrupt is comming from afec0
-                    /* CIF Decision (0, 1087), (400, 50) */
-                    decision Afecvar.Mirqnumber = 29;
-                        /* CIF Answer (0, 1162), (400, 50) */
+                    /* CIF Task (0, 1012), (100, 50) */
+                    task Choutputvar.Minstance := AfecHwas_Instance_Afec0;
+                    /* CIF ProcedureCall (0, 1087), (100, 50) */
+                    call ReturnValAndDisableChannels;
+                    /* CIF Join (0, 1162), (100, 50) */
+                    join condition_1;
+                /* CIF Answer (600, 937), (400, 50) */
+                (False):
+                    -- Check if interrupt is comming from afec1
+                    /* CIF Decision (600, 937), (400, 50) */
+                    decision Afecvar.Mirqnumber = 40;
+                        /* CIF Answer (600, 1012), (400, 50) */
                         (True):
-                            /* CIF Task (0, 1237), (100, 50) */
-                            task Choutputvar.Minstance := AfecHwas_Instance_Afec0;
-                            /* CIF ProcedureCall (0, 1312), (100, 50) */
+                            /* CIF Task (600, 1087), (100, 50) */
+                            task Choutputvar.Minstance := AfecHwas_Instance_Afec1;
+                            /* CIF ProcedureCall (600, 1162), (100, 50) */
                             call ReturnValAndDisableChannels;
-                            /* CIF Join (0, 1387), (100, 50) */
+                            /* CIF Join (600, 1237), (100, 50) */
                             join condition_2;
-                        /* CIF Answer (600, 1162), (400, 50) */
+                        /* CIF Answer (1200, 1012), (400, 50) */
                         (False):
-                            -- Check if interrupt is comming from afec1
-                            /* CIF Decision (600, 1162), (400, 50) */
-                            decision Afecvar.Mirqnumber = 40;
-                                /* CIF Answer (600, 1237), (400, 50) */
-                                (True):
-                                    /* CIF Task (600, 1312), (100, 50) */
-                                    task Choutputvar.Minstance := AfecHwas_Instance_Afec1;
-                                    /* CIF ProcedureCall (600, 1387), (100, 50) */
-                                    call ReturnValAndDisableChannels;
-                                    /* CIF Join (600, 1462), (100, 50) */
-                                    join condition_3;
-                                /* CIF Answer (1200, 1237), (400, 50) */
-                                (False):
-                                    /* CIF Join (1200, 1312), (100, 50) */
-                                    join condition_3;
-                            enddecision;
-                            /* CIF Label (1800, 1312), (100, 50) */
-                            condition_3:
-                            /* CIF Join (1800, 1387), (100, 50) */
+                            /* CIF Join (1200, 1087), (100, 50) */
                             join condition_2;
                     enddecision;
-                    /* CIF Label (2400, 1237), (100, 50) */
+                    /* CIF Label (1800, 1087), (100, 50) */
                     condition_2:
-                    /* CIF Join (2400, 1312), (100, 50) */
-                    join condition_1;
-                /* CIF Answer (3000, 1087), (400, 50) */
-                (False):
-                    -- Enable Afec interrupt
-                    /* CIF ProcedureCall (3000, 1162), (100, 50) */
-                    call InterruptManagement_EnableInterrupt_Ri(Afecvar.Mirqnumber);
-                    /* CIF Join (3000, 1237), (100, 50) */
+                    /* CIF Join (1800, 1162), (100, 50) */
                     join condition_1;
             enddecision;
-            /* CIF Label (3600, 1162), (100, 50) */
+            /* CIF Label (2400, 1012), (100, 50) */
             condition_1:
     return;
     endprocedure;

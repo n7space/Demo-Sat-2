@@ -542,71 +542,38 @@
             <Activity name="IRQHandler">
               <Argument name="irq" type="com/n7space/Hwas/InterruptNumber" />
               <Body>
-                <Assignment outputVariableRef="sourceAddressVar">
-                  <LongDescription>Assign source register address</LongDescription>
-                  <VariableRef variableRef="afecVar.mInstanceIsrAddress"></VariableRef>
-                </Assignment>
-                <SendCommandPrimitive shortDescription="Read the result (value and channel)" interface="RawMemoryAccess" command="ReadWord">
-                  <ArgumentValue name="address">
-                    <VariableRef variableRef="sourceAddressVar" />
-                  </ArgumentValue>
-                  <ArgumentValue name="mask">
-                    <Value value="16777216" />
-                  </ArgumentValue>
-                  <ArgumentValue name="outputValue">
-                    <VariableRef variableRef="readBitsVar" />
-                  </ArgumentValue>
-                </SendCommandPrimitive>
                 <Conditional>
+                  <LongDescription>Check if interrupt is comming from afec0</LongDescription>
                   <Condition>
                     <Condition>
-                      <FirstOperand variableRef="readBitsVar" />
+                      <FirstOperand variableRef="afecVar.mirqNumber" />
                       <ComparisonOperator>equals</ComparisonOperator>
-                      <Value value="16777216"></Value>
+                      <Value value="29" />
                     </Condition>
                   </Condition>
                   <OnConditionTrue>
+                    <Assignment outputVariableRef="chOutputVar.mInstance">
+                      <Value value="AfecHwas_Instance_Afec0" />
+                    </Assignment>
+                    <Call activity="ReturnValAndDisableChannels" />
+                  </OnConditionTrue>
+                  <OnConditionFalse>
                     <Conditional>
-                      <LongDescription>Check if interrupt is comming from afec0</LongDescription>
+                      <LongDescription>Check if interrupt is comming from afec1</LongDescription>
                       <Condition>
                         <Condition>
                           <FirstOperand variableRef="afecVar.mirqNumber" />
                           <ComparisonOperator>equals</ComparisonOperator>
-                          <Value value="29" />
+                          <Value value="40" />
                         </Condition>
                       </Condition>
                       <OnConditionTrue>
                         <Assignment outputVariableRef="chOutputVar.mInstance">
-                          <Value value="AfecHwas_Instance_Afec0" />
+                          <Value value="AfecHwas_Instance_Afec1" />
                         </Assignment>
                         <Call activity="ReturnValAndDisableChannels" />
                       </OnConditionTrue>
-                      <OnConditionFalse>
-                        <Conditional>
-                          <LongDescription>Check if interrupt is comming from afec1</LongDescription>
-                          <Condition>
-                            <Condition>
-                              <FirstOperand variableRef="afecVar.mirqNumber" />
-                              <ComparisonOperator>equals</ComparisonOperator>
-                              <Value value="40" />
-                            </Condition>
-                          </Condition>
-                          <OnConditionTrue>
-                            <Assignment outputVariableRef="chOutputVar.mInstance">
-                              <Value value="AfecHwas_Instance_Afec1" />
-                            </Assignment>
-                            <Call activity="ReturnValAndDisableChannels" />
-                          </OnConditionTrue>
-                        </Conditional>
-                      </OnConditionFalse>
                     </Conditional>
-                  </OnConditionTrue>
-                  <OnConditionFalse>
-                    <SendCommandPrimitive shortDescription="Enable Afec interrupt" interface="InterruptManagement" command="EnableInterrupt">
-                      <ArgumentValue name="interrupt">
-                        <VariableRef variableRef="afecVar.mirqNumber" />
-                      </ArgumentValue>
-                    </SendCommandPrimitive>
                   </OnConditionFalse>
                 </Conditional>
               </Body>
