@@ -20,23 +20,23 @@ static bool stopped = false;
 static asn1SccLidar lidar;
 static asn1SccLidarConfig lidarConfig = {
     .mMP6500Config = {
-        .mStepPioConfig = {.mPortConfig = asn1SccpioHwas_Port_D,
+        .mStepPioConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_D,
                            .mPinConfig = 27,
-                           .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-                           .mControlConfig = asn1SccpioHwas_Control_Pio},
-        .mDirPioConfig = {.mPortConfig = asn1SccpioHwas_Port_C,
+                           .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+                           .mControlConfig = PioHwas_Control_pioHwas_Control_Pio},
+        .mDirPioConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_C,
                           .mPinConfig = 19,
-                          .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-                          .mControlConfig = asn1SccpioHwas_Control_Pio},
+                          .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+                          .mControlConfig = PioHwas_Control_pioHwas_Control_Pio},
     },
-            .mLeftEndSwitchConfig = {.mPortConfig = asn1SccpioHwas_Port_D,
+            .mLeftEndSwitchConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_D,
                                      .mPinConfig = 28,
-                                     .mDirectionConfig = asn1SccpioHwas_Direction_Input,
-                                     .mControlConfig = asn1SccpioHwas_Control_Pio},
-            .mRightEndSwitchConfig = {.mPortConfig = asn1SccpioHwas_Port_A,
+                                     .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Input,
+                                     .mControlConfig = PioHwas_Control_pioHwas_Control_Pio},
+            .mRightEndSwitchConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_A,
                                       .mPinConfig = 6,
-                                      .mDirectionConfig = asn1SccpioHwas_Direction_Input,
-                                      .mControlConfig = asn1SccpioHwas_Control_Pio}};
+                                      .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Input,
+                                      .mControlConfig = PioHwas_Control_pioHwas_Control_Pio}};
 void manager_startup(void)
 {
     Hal_console_usart_init();
