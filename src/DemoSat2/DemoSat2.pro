@@ -3,12 +3,6 @@ CONFIG -= qt
 CONFIG += generateC
 
 DISTFILES +=  $(HOME)/tool-inst/share/taste-types/taste-types.asn \
-    ../../../SpaceCreator/spacecreatorenv6/spacecreator.AppDir/bin/COM-N7SPACE-HWAS.acn \
-    ../../../SpaceCreator/spacecreatorenv6/spacecreator.AppDir/bin/COM-N7SPACE-HWAS.asn \
-    ../../../SpaceCreator/spacecreatorenv6/spacecreator.AppDir/bin/COM-N7SPACE-HWASCOMPONENT-HWAS.acn \
-    ../../../SpaceCreator/spacecreatorenv6/spacecreator.AppDir/bin/COM-N7SPACE-HWASCOMPONENT-HWAS.asn \
-    ../../../SpaceCreator/spacecreatorenv6/spacecreator.AppDir/bin/COM-N7SPACE-HWASCOMPONENT.acn \
-    ../../../SpaceCreator/spacecreatorenv6/spacecreator.AppDir/bin/COM-N7SPACE-HWASCOMPONENT.asn \
     COM-N7SPACE-AFECHWAS.acn \
     COM-N7SPACE-AFECHWAS.asn \
     COM-N7SPACE-AFECHWASCOMPONENT-AFECHWASDRIVER.acn \

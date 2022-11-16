@@ -1,9 +1,27 @@
--- Dummy dataview to make the PID type visible at system level
---  DO NOT EDIT - this file will be overwritten during the build
+-- Dataview generated on-the-fly providing information on the system
+-- and made available to the user code.
 System-Dataview DEFINITIONS ::=
 BEGIN
 
-   PID-Range ::= INTEGER (0..1)
-   PID ::= ENUMERATED { env }
-END
+   -- Range of PID - type can be used to size arrays of PID type
+   PID-Range ::= INTEGER(0..12)
 
+   -- List of functions (instances) present in the system
+   PID ::= ENUMERATED {
+       afechwasdriver,
+       hwas,
+       interruptproxy,
+       lidardriver,
+       mp6500driver,
+       manager,
+       objectdetector,
+       piohwasdriver,
+       propulsiondriver,
+       sunsensordriver,
+       tflunadriver,
+       uarthwasdriver,
+       
+       env
+   }
+
+END
