@@ -1,0 +1,216 @@
+/* CIF Process (0, 0), (800, 100) */
+process LidarDriver;
+    /* CIF Text (0, 150), (400, 500) */
+    dcl Lidarvar Lidar;
+    dcl Configvar LidarConfig;
+    dcl Datavar LidarData;
+    dcl Tflunadatavar TfLuna_Data;
+    dcl Tflunaerrorvar TfLuna_DataFrameErr;
+    dcl Errorvar LidarError;
+    dcl Endswitchstatevar Word;
+    dcl Stepvar LidarPosition;
+    dcl Directionvar LidarDirection;
+    dcl Io_tflunareturn_readdatacmd_pi TfLunaReturnInterfaceType_ReadDataCmd_Type;
+    dcl Io_tflunareturn_errorreaddatacmd_pi TfLunaReturnInterfaceType_ErrorReadDataCmd_Type;
+    dcl Io_lidartrigger_returndatacmd_ri LidarTriggerInterfaceType_ReturnDataCmd_Type;
+    dcl Io_lidartrigger_returnerrorcmd_ri LidarTriggerInterfaceType_ReturnErrorCmd_Type;
+    /* CIF ENDTEXT */
+    /* CIF Procedure (0, 900), (800, 50) */
+    procedure InitLidar;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Config LidarConfig;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Configvar := Config;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call MP6500_InitMP6500Cmd_Ri(Lidarvar.Mmp6500, Configvar.Mmp6500config);
+            -- Init left end switch pin
+            /* CIF ProcedureCall (0, 1087), (100, 50) */
+            call PioHwas_InitPin_Ri(Lidarvar.Mleftendswitch, Configvar.Mleftendswitchconfig);
+            -- Init right end switch pin
+            /* CIF ProcedureCall (0, 1162), (100, 50) */
+            call PioHwas_InitPin_Ri(Lidarvar.Mrightendswitch, Configvar.Mrightendswitchconfig);
+            -- Set direction of rotation to left to perform calibration
+            /* CIF ProcedureCall (0, 1237), (100, 50) */
+            call MP6500_SetDirectionLeftCmd_Ri(Lidarvar.Mmp6500);
+            /* CIF Task (0, 1312), (100, 50) */
+            task Directionvar := LidarDirection_Left;
+            -- Star UartRead
+            /* CIF ProcedureCall (0, 1387), (100, 50) */
+            call TfLuna_InitTfLunaCmd_Ri;
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 975), (800, 50) */
+    procedure ReadData;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Data TfLuna_Data;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Datavar.Mtflunadata := Data;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Datavar.Mstep := Stepvar;
+            /* CIF Task (0, 1087), (100, 50) */
+            task Io_lidartrigger_returndatacmd_ri.Data := Datavar;
+            /* CIF Output (0, 1162), (200, 50) */
+            output LidarTrigger_ReturnDataCmd_Ri(Io_lidartrigger_returndatacmd_ri);
+            /* CIF Decision (0, 1162), (400, 50) */
+            decision Directionvar = LidarDirection_Right;
+                /* CIF Answer (0, 1237), (400, 50) */
+                (True):
+                    /* CIF ProcedureCall (0, 1312), (100, 50) */
+                    call PioHwas_GetPin_Ri(Lidarvar.Mrightendswitch, Endswitchstatevar);
+                    /* CIF Decision (0, 1312), (400, 50) */
+                    decision Endswitchstatevar > 0;
+                        /* CIF Answer (0, 1387), (400, 50) */
+                        (True):
+                            -- Make one step left
+                            /* CIF ProcedureCall (0, 1462), (100, 50) */
+                            call MP6500_StepCmd_Ri(Lidarvar.Mmp6500);
+                            /* CIF Task (0, 1537), (100, 50) */
+                            task Stepvar := Stepvar + 1;
+                            /* CIF Join (0, 1612), (100, 50) */
+                            join condition_2;
+                        /* CIF Answer (600, 1387), (400, 50) */
+                        (False):
+                            /* CIF Task (600, 1462), (100, 50) */
+                            task Directionvar := LidarDirection_Left;
+                            -- Set direction of rotation to left 
+                            /* CIF ProcedureCall (600, 1537), (100, 50) */
+                            call MP6500_SetDirectionLeftCmd_Ri(Lidarvar.Mmp6500);
+                            /* CIF Join (600, 1612), (100, 50) */
+                            join condition_2;
+                    enddecision;
+                    /* CIF Label (1200, 1462), (100, 50) */
+                    condition_2:
+                    /* CIF Join (1200, 1537), (100, 50) */
+                    join condition_1;
+                /* CIF Answer (1800, 1237), (400, 50) */
+                (False):
+                    /* CIF Decision (1800, 1237), (400, 50) */
+                    decision Directionvar = LidarDirection_Left;
+                        /* CIF Answer (1800, 1312), (400, 50) */
+                        (True):
+                            /* CIF ProcedureCall (1800, 1387), (100, 50) */
+                            call PioHwas_GetPin_Ri(Lidarvar.Mleftendswitch, Endswitchstatevar);
+                            /* CIF Decision (1800, 1387), (400, 50) */
+                            decision Endswitchstatevar > 0;
+                                /* CIF Answer (1800, 1462), (400, 50) */
+                                (True):
+                                    -- Make one step left
+                                    /* CIF ProcedureCall (1800, 1537), (100, 50) */
+                                    call MP6500_StepCmd_Ri(Lidarvar.Mmp6500);
+                                    /* CIF Task (1800, 1612), (100, 50) */
+                                    task Stepvar := Stepvar - 1;
+                                    /* CIF Join (1800, 1687), (100, 50) */
+                                    join condition_4;
+                                /* CIF Answer (2400, 1462), (400, 50) */
+                                (False):
+                                    /* CIF Task (2400, 1537), (100, 50) */
+                                    task Directionvar := LidarDirection_Right;
+                                    /* CIF Task (2400, 1612), (100, 50) */
+                                    task Stepvar := 0;
+                                    -- Set direction of rotation to right
+                                    /* CIF ProcedureCall (2400, 1687), (100, 50) */
+                                    call MP6500_SetDirectionRightCmd_Ri(Lidarvar.Mmp6500);
+                                    /* CIF Join (2400, 1762), (100, 50) */
+                                    join condition_4;
+                            enddecision;
+                            /* CIF Label (3000, 1537), (100, 50) */
+                            condition_4:
+                            /* CIF Join (3000, 1612), (100, 50) */
+                            join condition_3;
+                        /* CIF Answer (3600, 1312), (400, 50) */
+                        (False):
+                            /* CIF Join (3600, 1387), (100, 50) */
+                            join condition_3;
+                    enddecision;
+                    /* CIF Label (4200, 1387), (100, 50) */
+                    condition_3:
+                    /* CIF Join (4200, 1462), (100, 50) */
+                    join condition_1;
+            enddecision;
+            /* CIF Label (4800, 1312), (100, 50) */
+            condition_1:
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1050), (800, 50) */
+    procedure ErrorReadData;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Err TfLuna_DataFrameErr;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Errorvar.Mtflunaerror := Tflunaerrorvar;
+            /* CIF Task (0, 1012), (100, 50) */
+            task Io_lidartrigger_returnerrorcmd_ri.Err := Errorvar;
+            /* CIF Output (0, 1087), (200, 50) */
+            output LidarTrigger_ReturnErrorCmd_Ri(Io_lidartrigger_returnerrorcmd_ri);
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1125), (800, 50) */
+    procedure Lidar_InitLidarCmd_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in/out Lidar Lidar,
+            in Config LidarConfig;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Configvar := Config;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call InitLidar(Configvar);
+            /* CIF Task (0, 1087), (100, 50) */
+            task Lidar := Lidarvar;
+    return;
+    endprocedure;
+    /* CIF Start (0, 1200), (200, 75) */
+    START;
+        /* CIF NextState (0, 1387), (200, 50) */
+        NEXTSTATE Off;
+    /* CIF State (0, 1462), (200, 50) */
+    state Disable;
+        /* CIF Input (0, 1462), (200, 50) */
+        input Lidar_EnableCmd_Pi;
+            /* CIF NextState (0, 1537), (200, 50) */
+            NEXTSTATE Enable;
+    endstate;
+    /* CIF State (600, 1462), (200, 50) */
+    state Enable;
+        /* CIF Input (600, 1462), (200, 50) */
+        input Lidar_DisableCmd_Pi;
+            /* CIF NextState (600, 1537), (200, 50) */
+            NEXTSTATE Disable;
+        /* CIF Input (900, 1462), (200, 50) */
+        input TfLunaReturn_ReadDataCmd_Pi(Io_tflunareturn_readdatacmd_pi);
+            /* CIF Task (900, 1537), (100, 50) */
+            task Tflunadatavar := Io_tflunareturn_readdatacmd_pi.Lidartflunadata;
+            /* CIF ProcedureCall (900, 1612), (100, 50) */
+            call ReadData(Tflunadatavar);
+            /* CIF NextState (900, 1687), (200, 50) */
+            NEXTSTATE Enable;
+        /* CIF Input (1200, 1462), (200, 50) */
+        input TfLunaReturn_ErrorReadDataCmd_Pi(Io_tflunareturn_errorreaddatacmd_pi);
+            /* CIF Task (1200, 1537), (100, 50) */
+            task Tflunaerrorvar := Io_tflunareturn_errorreaddatacmd_pi.Err;
+            /* CIF ProcedureCall (1200, 1612), (100, 50) */
+            call ErrorReadData(Tflunaerrorvar);
+            /* CIF NextState (1200, 1687), (200, 50) */
+            NEXTSTATE Enable;
+    endstate;
+    /* CIF State (1800, 1462), (200, 50) */
+    state Off;
+        /* CIF Input (1800, 1462), (200, 50) */
+        input Lidar_InitLidarCmd_Pi;
+            /* CIF NextState (1800, 1537), (200, 50) */
+            NEXTSTATE Enable;
+    endstate;
+endprocess LidarDriver;

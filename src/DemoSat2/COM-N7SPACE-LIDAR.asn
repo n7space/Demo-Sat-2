@@ -1,0 +1,53 @@
+COM-N7SPACE-LIDAR DEFINITIONS ::= BEGIN
+IMPORTS
+MP6500 FROM COM-N7SPACE-MP6500
+MP6500Config FROM COM-N7SPACE-MP6500
+PioHwas FROM COM-N7SPACE-PIOHWAS
+PioHwasPinConfig FROM COM-N7SPACE-PIOHWAS
+TfLuna-Data FROM COM-N7SPACE-TFLUNA
+TfLuna-DataFrameErr FROM COM-N7SPACE-TFLUNA
+;
+-- Lidar position in number of steps (depending on the configuration this might be full, half, quater or eighth steps)
+LidarPosition ::= INTEGER(-32767 .. 32767)
+-- Lidar descriptor
+Lidar ::= SEQUENCE 
+{ 
+    mMP6500 MP6500, 
+    mLeftEndSwitch PioHwas, 
+    mRightEndSwitch PioHwas, 
+    mPosition LidarPosition(-32767 .. 32767)
+} 
+-- Lidar configuration container
+LidarConfig ::= SEQUENCE 
+{ 
+    mMP6500Config MP6500Config, 
+    mLeftEndSwitchConfig PioHwasPinConfig, 
+    mRightEndSwitchConfig PioHwasPinConfig
+} 
+-- Lidar data container
+LidarData ::= SEQUENCE 
+{ 
+    mTfLunaData TfLuna-Data, 
+    mStep LidarPosition(-32767 .. 32767)
+} 
+-- Lidar error container
+LidarError ::= SEQUENCE 
+{ 
+    mTfLunaError TfLuna-DataFrameErr
+} 
+-- Possible lidar directions
+LidarDirection ::= ENUMERATED
+{
+    lidarDirection-Left(0),
+    lidarDirection-Right(1)
+}
+LidarTriggerInterfaceType-ReturnDataCmd-Type ::= SEQUENCE 
+{ 
+    data LidarData
+} 
+LidarTriggerInterfaceType-ReturnErrorCmd-Type ::= SEQUENCE 
+{ 
+    err LidarError
+} 
+END
+

@@ -1,0 +1,28 @@
+COM-N7SPACE-PROPULSION DEFINITIONS ::= BEGIN
+IMPORTS
+Byte FROM COM-N7SPACE-HWAS
+PioHwas FROM COM-N7SPACE-PIOHWAS
+PioHwasPinConfig FROM COM-N7SPACE-PIOHWAS
+;
+-- Definitions of thruster states
+Propulsion-ThrusterState ::= ENUMERATED
+{
+    propulsion-ThrusterState-Off(0),
+    propulsion-ThrusterState-BlinkLow(1),
+    propulsion-ThrusterState-BlinkHigh(2),
+    propulsion-ThrusterState-On(3)
+}
+-- Single thruster descriptor
+Propulsion-Thruster ::= SEQUENCE 
+{ 
+    mPio PioHwas, 
+    mState Propulsion-ThrusterState, 
+    mCnt Byte(0 .. 255)
+} 
+-- Propulsion descriptor
+Propulsion ::= SEQUENCE (SIZE(4)) OF Propulsion-Thruster
+-- Propulsion config descriptor
+PropulsionConfig ::= SEQUENCE (SIZE(4)) OF PioHwasPinConfig
+PropulsionThrusterIndex ::= INTEGER(0 .. 4)
+END
+

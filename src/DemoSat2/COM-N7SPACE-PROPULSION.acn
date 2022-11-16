@@ -1,0 +1,13 @@
+COM-N7SPACE-PROPULSION DEFINITIONS ::= BEGIN
+Propulsion-ThrusterState [size 8, encoding pos-int]
+Propulsion-Thruster []
+{
+    mPio [],
+    mState [],
+    mCnt []
+}
+Propulsion []
+PropulsionConfig []
+PropulsionThrusterIndex [size 8, encoding pos-int]
+END
+
