@@ -9,8 +9,15 @@
 */
 #include "objectdetector.h"
 
+#define OBJECT_DETECTOR_INVALID_STEP  -10000
+#define OBJECT_DETECTOR_MAX_DATA_SIZE   1000
+
 static bool objectdetector_isEnabled = false;
 static bool objectdetector_isInitialized = false;
+static int objectdetector_anchorStep = OBJECT_DETECTOR_INVALID_STEP;
+static int objectdetector_minStep = 1000000;
+static int objectdetector_maxStep = -1000000;
+static int objectdetector_stepData[OBJECT_DETECTOR_MAX_DATA_SIZE];
 
 static asn1SccLidar objectdetector_lidar;
 static asn1SccLidarConfig objectdetector_lidarConfig = {
@@ -34,6 +41,13 @@ static asn1SccLidarConfig objectdetector_lidarConfig = {
                                       .mControlConfig = PioHwas_Control_pioHwas_Control_Pio}};
 
 
+static inline int max(const int a, const int b) {
+   return a > b ? a : b;
+}
+
+static inline int min(const int a, const int b) {
+   return a < b ? a : b;
+}
 
 void objectdetector_startup(void)
 {
@@ -47,24 +61,60 @@ void objectdetector_PI_ObjectDetection_SetEnabled( const asn1SccTEnabled * isEna
       objectdetector_RI_Lidar_InitLidarCmd_Pi(&objectdetector_lidar, &objectdetector_lidarConfig);
       objectdetector_isInitialized = true;
    }
-   if (isEnabled == objectdetector_isEnabled) {
+   if (*isEnabled == objectdetector_isEnabled) {
       // Avoid unnecessary actions on the fragile LIDAR driver
       return;
    }
+   objectdetector_anchorStep = OBJECT_DETECTOR_INVALID_STEP;
 
-   if (isEnabled){
+   if (*isEnabled){
       objectdetector_RI_Lidar_EnableCmd_Pi();
    }
    else {
       objectdetector_RI_Lidar_DisableCmd_Pi();
    }
-   objectdetector_isEnabled = isEnabled;
+   objectdetector_isEnabled = *isEnabled;
+}
+
+static inline void objectdetector_gatherData() {
+   int minIndex = objectdetector_minStep;
+   int minValue = INT32_MAX;
+   for (int i = objectdetector_minStep; i <= objectdetector_maxStep; i++) {
+      if (objectdetector_stepData[i] < minValue) {
+         minIndex = i;
+         minValue = objectdetector_stepData[i];
+      }
+   }
+   asn1SccTObjectDetectionReport report = {
+      .position =
+         -1.0f + 2.0f *((minIndex - objectdetector_minStep)
+         /(float)(objectdetector_maxStep - objectdetector_minStep)),
+      .distance = minValue,
+      .status = TValidityStatus_vs_ok
+   };
+   objectdetector_RI_ObjectDetection_Report(&report);
 }
 
 void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
       (const asn1SccLidarTriggerInterfaceType_ReturnDataCmd_Type *IN_inputparam)
 
 {
+   if (!objectdetector_isEnabled) {
+      return;
+   }
+   int step = IN_inputparam->data.mStep;
+   step = min(step, OBJECT_DETECTOR_MAX_DATA_SIZE);
+   step = max(step, 0);
+   objectdetector_stepData[step] = IN_inputparam->data.mTfLunaData.mDistance;
+
+   objectdetector_maxStep = max(objectdetector_maxStep, IN_inputparam->data.mStep);
+   objectdetector_minStep = min(objectdetector_minStep, IN_inputparam->data.mStep);
+   if (objectdetector_anchorStep = OBJECT_DETECTOR_INVALID_STEP) {
+      objectdetector_anchorStep = IN_inputparam->data.mStep;
+   }
+   else if (objectdetector_anchorStep == IN_inputparam->data.mStep) {
+      objectdetector_gatherData();
+   }
 
 }
 
