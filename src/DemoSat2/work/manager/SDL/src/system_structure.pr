@@ -64,7 +64,7 @@ system Manager;
    
    
    /* CIF Keep Specific Geode PARAMNAMES report */
-   signal report (THouseKeepingReport);
+   signal hk (THouseKeepingReport);
    
    
    /* CIF Keep Specific Geode PARAMNAMES report */
@@ -77,14 +77,14 @@ system Manager;
 
    channel c
       from env to Manager with ObjectDetection_Report, pps, tc;
-      from Manager to env with report, tm;
+      from Manager to env with hk, tm;
    endchannel;
 
    block Manager;
 
       signalroute r
       from env to Manager with ObjectDetection_Report, pps, tc;
-      from Manager to env with report, tm;
+      from Manager to env with hk, tm;
       connect c and r;
 
       process Manager referenced;

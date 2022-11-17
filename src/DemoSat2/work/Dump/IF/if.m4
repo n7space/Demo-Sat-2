@@ -61,8 +61,8 @@ define(`m4_manager_sunsensor_initsunsensorcmd_pi',`sunsensordriver_sunsensor_ini
 define(`m4_manager_SunSensor_InitSunSensorCmd_Pi_provider',`sunsensordriver')dnl
 define(`m4_manager_sunsensor_requestdatacmd_pi',`sunsensordriver_sunsensor_requestdatacmd_pi')dnl
 define(`m4_manager_SunSensor_RequestDataCmd_Pi_provider',`sunsensordriver')dnl
-define(`m4_manager_report',`egse_report')dnl
-define(`m4_manager_report_provider',`egse')dnl
+define(`m4_manager_hk',`egse_hk')dnl
+define(`m4_manager_hk_provider',`egse')dnl
 define(`m4_manager_tm',`egse_tm')dnl
 define(`m4_manager_tm_provider',`egse')dnl
 define(`m4_mp6500driver_piohwas_getpin_ri',`piohwasdriver_piohwas_getpin_pi')dnl
@@ -99,9 +99,9 @@ define(`m4_sunsensordriver_afechwas_initinstance_ri',`afechwasdriver_afechwas_in
 define(`m4_sunsensordriver_AfecHwas_InitInstance_Ri_provider',`afechwasdriver')dnl
 define(`m4_sunsensordriver_sunsensorreturn_returndatacmd_ri',`manager_sunsensorreturn_returndatacmd_ri')dnl
 define(`m4_sunsensordriver_SunSensorReturn_ReturnDataCmd_Ri_provider',`manager')dnl
-define(`m4_tflunadriver_tflunareturn_errorreaddatacmd_ri',`lidardriver_tflunareturn_readdatacmd_pi')dnl
+define(`m4_tflunadriver_tflunareturn_errorreaddatacmd_ri',`lidardriver_tflunareturn_errorreaddatacmd_pi')dnl
 define(`m4_tflunadriver_TfLunaReturn_ErrorReadDataCmd_Ri_provider',`lidardriver')dnl
-define(`m4_tflunadriver_tflunareturn_readdatacmd_ri',`lidardriver_tflunareturn_errorreaddatacmd_pi')dnl
+define(`m4_tflunadriver_tflunareturn_readdatacmd_ri',`lidardriver_tflunareturn_readdatacmd_pi')dnl
 define(`m4_tflunadriver_TfLunaReturn_ReadDataCmd_Ri_provider',`lidardriver')dnl
 define(`m4_tflunadriver_uarthwas_inituartcmd_ri',`uarthwasdriver_uarthwas_inituartcmd_pi')dnl
 define(`m4_tflunadriver_UartHwas_InitUartCmd_Ri_provider',`uarthwasdriver')dnl
@@ -192,7 +192,7 @@ include(afechwasdriver.if)
 
 m4_sporadic_itf_gui_handler(
     egse,
-    report,
+    hk,
     `THouseKeepingReport',
 )
 

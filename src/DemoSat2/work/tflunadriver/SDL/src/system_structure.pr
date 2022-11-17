@@ -20,11 +20,11 @@ system Tflunadriver;
    signal UartHwas_SendByteAsyncCmd_Pi (UartHwasInterfaceType_SendByteAsyncCmd_TypeNotify);
 
    /* CIF Keep Specific Geode PARAMNAMES InputParam */
-   signal TfLunaReturn_ErrorReadDataCmd_Ri (TfLunaReturnInterfaceType_ReadDataCmd_Type);
+   signal TfLunaReturn_ErrorReadDataCmd_Ri (TfLunaReturnInterfaceType_ErrorReadDataCmd_Type);
    
    
    /* CIF Keep Specific Geode PARAMNAMES InputParam */
-   signal TfLunaReturn_ReadDataCmd_Ri (TfLunaReturnInterfaceType_ErrorReadDataCmd_Type);
+   signal TfLunaReturn_ReadDataCmd_Ri (TfLunaReturnInterfaceType_ReadDataCmd_Type);
    
    
    procedure UartHwas_InitUartCmd_Ri;

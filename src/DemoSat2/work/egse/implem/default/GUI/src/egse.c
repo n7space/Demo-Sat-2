@@ -12,7 +12,7 @@
 typedef struct _PI_Messages {
    T_egse_PI_list msg_id;
    union {
-      asn1SccTHouseKeepingReport report_param;
+      asn1SccTHouseKeepingReport hk_param;
       asn1SccTTM tm_param;
    } msg_data;
 } PI_Messages;
@@ -119,7 +119,7 @@ void egse_PI_Poll(void)
    return;
 }
 
-void egse_PI_report
+void egse_PI_hk
       (const asn1SccTHouseKeepingReport *IN_report)
 
 {
@@ -127,13 +127,13 @@ void egse_PI_report
       (egse_PI_queue_id,
        sizeof(asn1SccTHouseKeepingReport),
        (void*)IN_report,
-       i_report);
+       i_hk);
 
    write_message_to_queue
       (egse_PI_Python_queue_id,
        sizeof(asn1SccTHouseKeepingReport),
        (void*)IN_report,
-       i_report);
+       i_hk);
 }
 
 

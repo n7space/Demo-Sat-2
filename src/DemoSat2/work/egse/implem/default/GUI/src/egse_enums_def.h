@@ -4,9 +4,9 @@
 */
 #pragma once
 
-// 2 report, tm
+// 3 poll, hk, tm
 typedef enum {
-   i_report,
+   i_hk,
    i_tm
 } T_egse_PI_list;
 

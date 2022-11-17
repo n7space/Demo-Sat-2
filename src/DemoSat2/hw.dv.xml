@@ -1,5 +1,5 @@
 <DeploymentView>
-    <Node name="x86 Linux CPP_1" type="ocarina_processors_x86::x86.generic_linux" node_label="Node_1" namespace="ocarina_processors_x86">
+    <Node name="x86_Linux_CPP_1" type="ocarina_processors_x86::x86.generic_linux" node_label="Node_1" namespace="ocarina_processors_x86">
         <Property name="Taste::coordinates" value="47600 100000 63600 116000"/>
         <Partition name="cnc">
             <Property name="Taste::coordinates" value="52000 104400 60000 112400"/>
@@ -42,10 +42,10 @@
             <Property name="Taste::coordinates" value="83000 102200"/>
         </Device>
     </Node>
-    <Connection name="Connection_1" from_node="x86 Linux CPP_1" from_port="uart0" to_bus="ocarina_buses::serial.ccsds" to_node="SAM_V71_FreeRTOS_N7S_1" to_port="uart0">
+    <Connection name="Connection_1" from_node="x86_Linux_CPP_1" from_port="uart0" to_bus="ocarina_buses::serial.ccsds" to_node="SAM_V71_FreeRTOS_N7S_1" to_port="uart0">
             <Property name="Taste::coordinates" value="64600 101700 82000 102200"/>
             <Message name="Message_1" from_function="EGSE" from_interface="tc" to_function="Manager" to_interface="tc"/>
             <Message name="Message_2" from_function="Manager" from_interface="tm" to_function="EGSE" to_interface="tm"/>
-            <Message name="Message_3" from_function="Manager" from_interface="report" to_function="EGSE" to_interface="report"/>
+            <Message name="Message_3" from_function="Manager" from_interface="hk" to_function="EGSE" to_interface="hk"/>
     </Connection>
 </DeploymentView>

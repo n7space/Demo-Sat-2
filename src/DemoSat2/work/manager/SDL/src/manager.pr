@@ -1,13 +1,21 @@
+/* CIF PROCESS (250, 150), (150, 75) */
 process Manager;
-
-
-   /* CIF START (320, 10), (70, 35) */
-   start;
-     nextstate Wait;
-
-   /* CIF STATE (450, 10), (70, 35) */
-   state Wait;
-   endstate;
-
-endprocess;
-
+    /* CIF procedure (958, 66), (321, 35) */
+    procedure SunSensorReturn_ReturnDataCmd_Ri;
+        /* CIF TEXT (447, 79), (170, 140) */
+        fpar
+            in     Choutput ConversionData;
+        /* CIF ENDTEXT */
+        /* CIF START (251, 149), (70, 35) */
+        START;
+            /* CIF return (268, 204), (35, 35) */
+            return ;
+    endprocedure;
+    /* CIF START (320, 10), (70, 35) */
+    START;
+        /* CIF NEXTSTATE (320, 60), (70, 35) */
+        NEXTSTATE Wait;
+    /* CIF state (450, 10), (70, 35) */
+    state Wait;
+    endstate;
+endprocess Manager;

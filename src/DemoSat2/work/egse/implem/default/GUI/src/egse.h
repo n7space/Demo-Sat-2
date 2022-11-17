@@ -11,11 +11,16 @@
 extern "C" {
 #endif
 
+#include <stdlib.h>
+#include <stdio.h>
 
 void egse_startup(void);
 
 /* Provided interfaces */
-void egse_PI_report( const asn1SccTHouseKeepingReport * );
+void egse_PI_Poll( void );
+
+
+void egse_PI_hk( const asn1SccTHouseKeepingReport * );
 
 
 void egse_PI_tm( const asn1SccTTM * );
