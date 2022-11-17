@@ -17,9 +17,6 @@ extern "C" {
 void egse_startup(void);
 
 /* Provided interfaces */
-void egse_PI_Poll( void );
-
-
 void egse_PI_hk( const asn1SccTHouseKeepingReport * );
 
 

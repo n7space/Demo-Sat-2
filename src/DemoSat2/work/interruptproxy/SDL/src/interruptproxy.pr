@@ -1,13 +1,21 @@
+/* CIF PROCESS (250, 150), (150, 75) */
 process Interruptproxy;
-
-
-   /* CIF START (320, 10), (70, 35) */
-   start;
-     nextstate Wait;
-
-   /* CIF STATE (450, 10), (70, 35) */
-   state Wait;
-   endstate;
-
-endprocess;
-
+    /* CIF TEXT (765, 68), (384, 140) */
+    DCL info InterruptSubscriptionInterfaceType_Interrupt_Type;
+    /* CIF ENDTEXT */
+    /* CIF START (789, 222), (70, 35) */
+    START;
+        /* CIF NEXTSTATE (789, 272), (70, 35) */
+        NEXTSTATE Wait;
+    /* CIF state (1051, 219), (70, 35) */
+    state Wait;
+        /* CIF input (957, 274), (259, 35) */
+        input interruptSubscription_Interrupt_Ri(info);
+            /* CIF output (941, 329), (291, 35) */
+            output interruptSubscription_Interrupt_Pi_Uart(info);
+            /* CIF output (940, 384), (292, 35) */
+            output interruptSubscription_Interrupt_Pi_Afec(info);
+            /* CIF NEXTSTATE (1051, 439), (70, 35) */
+            NEXTSTATE Wait;
+    endstate;
+endprocess Interruptproxy;

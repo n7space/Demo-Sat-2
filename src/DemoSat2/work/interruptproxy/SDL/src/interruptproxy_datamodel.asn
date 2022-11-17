@@ -1,0 +1,29 @@
+Interruptproxy-Datamodel DEFINITIONS ::=
+BEGIN
+--  This file was generated automatically by OpenGEODE
+IMPORTS
+   AfecHwas-Instance, AfecHwas-StartupTime, AfecHwasChannel, AfecHwas, AfecHwasConfig, PmcAfecHwas, ConversionData, AfecHwasInterfaceType-GetValueCmd-Type, AfecHwasInterfaceType-GetValueCmd-TypeNotify FROM COM-N7SPACE-AFECHWAS
+   DestinationAddress, SourceAddress, Word, WordMask, InterruptNumber, Byte, InterruptSubscriptionInterfaceType-Interrupt-Type FROM COM-N7SPACE-HWAS
+   LidarPosition, Lidar, LidarConfig, LidarData, LidarError, LidarDirection, LidarTriggerInterfaceType-ReturnDataCmd-Type, LidarTriggerInterfaceType-ReturnErrorCmd-Type FROM COM-N7SPACE-LIDAR
+   MP6500, MP6500Config FROM COM-N7SPACE-MP6500
+   PinNumber, PioHwas-Port, PioHwas-Direction, PioHwas-Control, PioHwas, PioHwasPinConfig, PmcHwas FROM COM-N7SPACE-PIOHWAS
+   Propulsion-ThrusterState, Propulsion-Thruster, Propulsion, PropulsionConfig, PropulsionThrusterIndex FROM COM-N7SPACE-PROPULSION
+   SunSensor, SunSensorConfig FROM COM-N7SPACE-SUNSENSOR
+   TfLuna-ReadSM, TfLuna-Data, TfLuna-DataFrameErr, TfLunaReturnInterfaceType-ReadDataCmd-Type, TfLunaReturnInterfaceType-ErrorReadDataCmd-Type FROM COM-N7SPACE-TFLUNA
+   UartHwas-Instance, UartHwas-Baudrate, UartHwas, UartHwasConfig, PmcHwasUart, UartHwasInterfaceType-ReadByteAsyncCmd-Type, UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify, UartHwasInterfaceType-SendByteAsyncCmd-Type, UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify FROM COM-N7SPACE-UARTHWAS
+   TAngularPosition, TDistance, TLuminance, TEnabled, TPower, TMode, TValidityStatus, TObjectDetectionReport, TSunMonitoringReport, THouseKeepingReport, TCID, TTCGoToIdle, TTCGoToPassive, TTCGoToActive, TTC, TTMExecuted, TFailureReason, TTMFailed, TTMModeChanged, TTM FROM DEMOSAT2-DATAVIEW
+   T-Int32, T-UInt32, T-Int8, T-UInt8, T-Boolean, T-Null-Record FROM TASTE-BasicTypes
+   PID-Range, PID FROM System-Dataview;
+
+Interruptproxy-States ::= ENUMERATED {wait}
+
+Interruptproxy-Context ::= SEQUENCE {
+   state Interruptproxy-States,
+   init-done BOOLEAN,
+   sender PID,
+   info InterruptSubscriptionInterfaceType-Interrupt-Type
+}
+
+Interruptproxy-Ttc-Selection  ::= ENUMERATED {tc-goToIdle-present(1), tc-goToPassive-present(2), tc-goToActive-present(3)}
+Interruptproxy-Ttm-Selection  ::= ENUMERATED {tm-executed-present(1), tm-failed-present(2), tm-modeChanged-present(3)}
+END
