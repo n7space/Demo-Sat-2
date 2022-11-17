@@ -56,7 +56,8 @@ DISTFILES +=  $(HOME)/tool-inst/share/taste-types/taste-types.asn \
     COM-N7SPACE-UARTHWASCOMPONENT-UARTHWASDRIVER.acn \
     COM-N7SPACE-UARTHWASCOMPONENT-UARTHWASDRIVER.asn \
     COM-N7SPACE-UARTHWASCOMPONENT.acn \
-    COM-N7SPACE-UARTHWASCOMPONENT.asn
+    COM-N7SPACE-UARTHWASCOMPONENT.asn \
+    hw.dv.xml
 DISTFILES += DemoSat2.msc
 DISTFILES += interfaceview.xml
 DISTFILES += work/binaries/*.msc
