@@ -21,6 +21,8 @@ define(`m4_afechwasdriver_rawmemoryaccess_readword_ri',`hwas_rawmemoryaccess_rea
 define(`m4_afechwasdriver_RawMemoryAccess_ReadWord_Ri_provider',`hwas')dnl
 define(`m4_afechwasdriver_rawmemoryaccess_writeword_ri',`hwas_rawmemoryaccess_writeword_pi')dnl
 define(`m4_afechwasdriver_RawMemoryAccess_WriteWord_Ri_provider',`hwas')dnl
+define(`m4_egse_tc',`manager_tc')dnl
+define(`m4_egse_tc_provider',`manager')dnl
 define(`m4_hwas_interruptsubscription_interrupt_ri',`interruptproxy_interruptsubscription_interrupt_ri')dnl
 define(`m4_hwas_InterruptSubscription_Interrupt_Ri_provider',`interruptproxy')dnl
 define(`m4_interruptproxy_interruptsubscription_interrupt_pi_afec',`afechwasdriver_interruptsubscription_interrupt_pi')dnl
@@ -49,6 +51,8 @@ define(`m4_lidardriver_piohwas_setpin_ri',`piohwasdriver_piohwas_setpin_pi')dnl
 define(`m4_lidardriver_PioHwas_SetPin_Ri_provider',`piohwasdriver')dnl
 define(`m4_lidardriver_tfluna_inittflunacmd_ri',`tflunadriver_tfluna_inittflunacmd_pi')dnl
 define(`m4_lidardriver_TfLuna_InitTfLunaCmd_Ri_provider',`tflunadriver')dnl
+define(`m4_manager_objectdetection_setenabled',`objectdetector_objectdetection_setenabled')dnl
+define(`m4_manager_ObjectDetection_SetEnabled_provider',`objectdetector')dnl
 define(`m4_manager_propulsion_changestatecmd_pi',`propulsiondriver_propulsion_changestatecmd_pi')dnl
 define(`m4_manager_Propulsion_ChangeStateCmd_Pi_provider',`propulsiondriver')dnl
 define(`m4_manager_propulsion_initpropulsioncmd_pi',`propulsiondriver_propulsion_initpropulsioncmd_pi')dnl
@@ -57,6 +61,10 @@ define(`m4_manager_sunsensor_initsunsensorcmd_pi',`sunsensordriver_sunsensor_ini
 define(`m4_manager_SunSensor_InitSunSensorCmd_Pi_provider',`sunsensordriver')dnl
 define(`m4_manager_sunsensor_requestdatacmd_pi',`sunsensordriver_sunsensor_requestdatacmd_pi')dnl
 define(`m4_manager_SunSensor_RequestDataCmd_Pi_provider',`sunsensordriver')dnl
+define(`m4_manager_report',`egse_report')dnl
+define(`m4_manager_report_provider',`egse')dnl
+define(`m4_manager_tm',`egse_tm')dnl
+define(`m4_manager_tm_provider',`egse')dnl
 define(`m4_mp6500driver_piohwas_getpin_ri',`piohwasdriver_piohwas_getpin_pi')dnl
 define(`m4_mp6500driver_PioHwas_GetPin_Ri_provider',`piohwasdriver')dnl
 define(`m4_mp6500driver_piohwas_initpin_ri',`piohwasdriver_piohwas_initpin_pi')dnl
@@ -71,6 +79,8 @@ define(`m4_objectdetector_lidar_enablecmd_pi',`lidardriver_lidar_enablecmd_pi')d
 define(`m4_objectdetector_Lidar_EnableCmd_Pi_provider',`lidardriver')dnl
 define(`m4_objectdetector_lidar_initlidarcmd_pi',`lidardriver_lidar_initlidarcmd_pi')dnl
 define(`m4_objectdetector_Lidar_InitLidarCmd_Pi_provider',`lidardriver')dnl
+define(`m4_objectdetector_objectdetection_report',`manager_objectdetection_report')dnl
+define(`m4_objectdetector_ObjectDetection_Report_provider',`manager')dnl
 define(`m4_piohwasdriver_rawmemoryaccess_readword_ri',`hwas_rawmemoryaccess_readword_pi')dnl
 define(`m4_piohwasdriver_RawMemoryAccess_ReadWord_Ri_provider',`hwas')dnl
 define(`m4_piohwasdriver_rawmemoryaccess_writeword_ri',`hwas_rawmemoryaccess_writeword_pi')dnl
@@ -121,6 +131,8 @@ define(`m4_uarthwasdriver_uarthwas_readbyteasynccmd_ri',`tflunadriver_uarthwas_r
 define(`m4_uarthwasdriver_UartHwas_ReadByteAsyncCmd_Ri_provider',`tflunadriver')dnl
 define(`m4_uarthwasdriver_uarthwas_sendbyteasynccmd_ri',`tflunadriver_uarthwas_sendbyteasynccmd_pi')dnl
 define(`m4_uarthwasdriver_UartHwas_SendByteAsyncCmd_Ri_provider',`tflunadriver')dnl
+define(`m4_env_pps',`manager_pps')dnl
+define(`m4_env_pps_provider',`manager')dnl
 divert(1)dnl
 system taste;
 /*
@@ -178,20 +190,43 @@ m4_sporadic_itf_handler(
 
 include(afechwasdriver.if)
 
-// ERROR: Interface "InterruptManagement_DisableInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+m4_sporadic_itf_gui_handler(
+    egse,
+    report,
+    `THouseKeepingReport',
+)
 
-// ERROR: Interface "InterruptManagement_EnableInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
-
-// ERROR: Interface "InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
-
-// ERROR: Interface "RawMemoryAccess_ReadWord_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
-
-// ERROR: Interface "RawMemoryAccess_WriteWord_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+m4_sporadic_itf_gui_handler(
+    egse,
+    tm,
+    `TTM',
+)
 
 
+m4_sporadic_itf_gui_provider(
+    egse,
+    tc,
+    `TTC',
+    `Egse_tc_request',
+)
+divert(5)
+    TTC cast_Egse_tc_request_to_TTC(Egse_tc_request);
+divert(10)
 
 
-include(hwas.if)
+m4_gui_handler(egse)
+
+m4_c_function(hwas,(InterruptManagement_DisableInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
+
+(InterruptManagement_EnableInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
+
+(InterruptSubscriptionManagement_SubscribeToInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
+
+(RawMemoryAccess_ReadWord_Pi,(address, mask, outputValue),(SourceAddress, WordMask, Word),(PARAM_IN, PARAM_IN, PARAM_OUT), 0),
+
+(RawMemoryAccess_WriteWord_Pi,(address, mask, inputValue),(DestinationAddress, WordMask, Word),(PARAM_IN, PARAM_IN, PARAM_IN), 0),
+
+)
 
 m4_sporadic_itf_handler(
     interruptproxy,
@@ -267,7 +302,30 @@ include(lidardriver.if)
 
 include(mp6500driver.if)
 
+m4_sporadic_itf_handler(
+    manager,
+    objectdetection_report,
+    TObjectDetectionReport,
+     0,
+     1)
+
 // ERROR: Interface "SunSensorReturn_ReturnDataCmd_Ri" in function "Manager" has unsupported kind: "PROTECTED_OPERATION"
+
+m4_cyclic_itf_handler(
+    manager,
+    pps,
+     1000,
+     1)
+
+m4_sporadic_itf_handler(
+    manager,
+    tc,
+    TTC,
+     0,
+     1)
+
+
+
 
 
 
@@ -280,6 +338,8 @@ include(manager.if)
 m4_c_function(objectdetector,// ERROR: Interface "LidarTrigger_ReturnDataCmd_Ri" in function "ObjectDetector" has unsupported kind: "SPORADIC_OPERATION"
 
 // ERROR: Interface "LidarTrigger_ReturnErrorCmd_Ri" in function "ObjectDetector" has unsupported kind: "SPORADIC_OPERATION"
+
+(ObjectDetection_SetEnabled,(isEnabled),(TEnabled),(PARAM_IN), 0),
 
 )
 

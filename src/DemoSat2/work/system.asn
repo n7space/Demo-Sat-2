@@ -4,11 +4,12 @@ System-Dataview DEFINITIONS ::=
 BEGIN
 
    -- Range of PID - type can be used to size arrays of PID type
-   PID-Range ::= INTEGER(0..12)
+   PID-Range ::= INTEGER(0..13)
 
    -- List of functions (instances) present in the system
    PID ::= ENUMERATED {
        afechwasdriver,
+       egse,
        hwas,
        interruptproxy,
        lidardriver,

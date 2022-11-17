@@ -72,6 +72,28 @@ if_integer_type if_trunc_function(if_real_type p) {
 
 
 
+#ifdef __assign__
+
+if_TTC_type if_cast_Egse_tc_request_to_TTC_function(if_Egse_tc_request_type p) {
+    if_TTC_type r;
+    memcpy(&r, &p, sizeof(p));
+    return r;
+}
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,33 +1,547 @@
-<InterfaceView asn1file="COM-N7SPACE-UARTHWASCOMPONENT.acn">
-<Function Comment="" name="MP6500Driver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
+<InterfaceView asn1file="DemoSat2.acn">
+<Function Comment="" name="AfecHwasDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="152300 110700 172300 134800"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+<Provided_Interface name="AfecHwas_InitInstance_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="afec" type="AfecHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="AfecHwasConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="152300 112400"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="152300 115700"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="172300 131200"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="152300 119900"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="172300 117100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="172300 112600"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="172300 120100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="172300 123100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="172300 127500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function Comment="" name="TfLunaDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="44400 -8300 64400 12100"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+<Provided_Interface name="TfLuna_InitTfLunaCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Property name="Taste::coordinates" value="44400 -4400"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="64400 8400"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="64400 5500"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Required_Interface name="UartHwas_InitUartCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="uart" type="UartHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="UartHwasConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="64400 -4700"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="64400 -1400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="64400 2200"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="TfLunaReturn_ReadDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ErrorReadDataCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="44400 5400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="TfLunaReturn_ErrorReadDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ReadDataCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="44400 200"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function Comment="" name="HWAS" url="" is_type="NO" instance_of="" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="232100 36900 252100 67800"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+<Provided_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="232100 47900"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="InterruptManagement_EnableInterrupt_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="232100 54200"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="InterruptManagement_DisableInterrupt_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="232100 58700"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="232100 44000"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="232100 39300"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Required_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="232100 63500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function Comment="" name="UartHwasDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="111000 -10500 131000 27700"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+<Provided_Interface name="UartHwas_InitUartCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="uart" type="UartHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="UartHwasConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="111000 -6800"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="111000 -2500"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="111000 2300"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 13400"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="111000 10900"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="111000 7200"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 17300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 23800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 20600"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 26000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 600"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 5400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 9700"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 -3700"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="131000 -7300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function name="Manager" is_type="NO" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="-119400 28700 -99400 126900"/>
+<Provided_Interface name="SunSensorReturn_ReturnDataCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" wcet="0">
+    <Input_Parameter name="chOutput" type="ConversionData" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-99400 121600"/>
+</Provided_Interface>
+
+<Provided_Interface name="ObjectDetection_Report" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" wcet="0">
+    <Input_Parameter name="report" type="TObjectDetectionReport" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-99400 49400"/>
+</Provided_Interface>
+
+<Provided_Interface name="tc" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="request" type="TTC" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-119400 41900"/>
+</Provided_Interface>
+
+<Provided_Interface name="pps" kind="Cyclic" enable_multicast="true" layer="default" required_system_element="NO" priority="1" stack_size="1024" wcet="0">
+    <Property name="Taste::coordinates" value="-109600 28700"/>
+</Provided_Interface>
+
+<Required_Interface name="Propulsion_InitPropulsionCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="propulsion" type="Propulsion" encoding="ACN"/>
+    <Input_Parameter name="propulsionConfig" type="PropulsionConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-99400 87300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="Propulsion_ChangeStateCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="index" type="PropulsionThrusterIndex" encoding="ACN"/>
+    <Input_Parameter name="thrusterState" type="Propulsion_ThrusterState" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-99400 92300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="sunSensorConfig" type="SunSensorConfig" encoding="ACN"/>
+    <Output_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-99400 115000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-99400 118000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="ObjectDetection_SetEnabled" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" wcet="0">
+    <Input_Parameter name="isEnabled" type="TEnabled" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-99400 40100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="report" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="report" type="THouseKeepingReport" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-119400 121600"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="tm" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="report" type="TTM" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-119400 33400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function Comment="" name="PropulsionDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="6100 85200 26100 101400"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+    <ContextParameter name="timer_Idle" type="Timer" value=""/>
+<Provided_Interface name="Propulsion_InitPropulsionCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="propulsion" type="Propulsion" encoding="ACN"/>
+    <Input_Parameter name="propulsionConfig" type="PropulsionConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="6100 88500"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="Propulsion_ChangeStateCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="index" type="PropulsionThrusterIndex" encoding="ACN"/>
+    <Input_Parameter name="thrusterState" type="Propulsion_ThrusterState" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="6100 93400"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="26100 89100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="26100 92300"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="26100 95400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="26100 98400"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function Comment="" name="PioHwasDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="151800 37500 171800 53700"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+<Provided_Interface name="PioHwas_InitPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="151800 39200"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_SetPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="151800 42500"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_ResetPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="151800 46800"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Provided_Interface name="PioHwas_GetPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="151800 51600"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Provided_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="171800 45100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="171800 40900"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+<Function Comment="" name="MP6500Driver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
     <Property name="Taste::coordinates" value="109400 56200 129400 73400"/>
     <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="MP6500_InitMP6500Cmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Provided_Interface name="MP6500_InitMP6500Cmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Output_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
     <Input_Parameter name="mp6500Config" type="MP6500Config" encoding="ACN"/>
     <Property name="Taste::coordinates" value="109400 59100"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="MP6500_SetDirectionLeftCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Provided_Interface name="MP6500_SetDirectionLeftCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
     <Property name="Taste::coordinates" value="109400 66200"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="MP6500_SetDirectionRightCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Provided_Interface name="MP6500_SetDirectionRightCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
     <Property name="Taste::coordinates" value="109400 62300"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="MP6500_StepCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Provided_Interface name="MP6500_StepCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
     <Property name="Taste::coordinates" value="109400 70300"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
     <Property name="Taste::coordinates" value="129400 59900"/>
@@ -36,7 +550,7 @@
     <Property name="Taste::InnerCoordinates" value=""/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Property name="Taste::coordinates" value="129400 63100"/>
     <Property name="Taste::InheritPI" value="true"/>
@@ -44,7 +558,7 @@
     <Property name="Taste::InnerCoordinates" value=""/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Property name="Taste::coordinates" value="129400 66100"/>
     <Property name="Taste::InheritPI" value="true"/>
@@ -52,7 +566,7 @@
     <Property name="Taste::InnerCoordinates" value=""/>
 </Required_Interface>
 
-<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
     <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
     <Property name="Taste::coordinates" value="129400 69800"/>
@@ -66,144 +580,154 @@
     </Implementations>
 </Function>
 
-<Function Comment="" name="TfLunaDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="44400 -8300 64400 12100"/>
+<Function Comment="" name="LidarDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="4500 28100 24500 77600"/>
     <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="TfLuna_InitTfLunaCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Property name="Taste::coordinates" value="44400 -4400"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="64400 8400"/>
+<Provided_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="lidar" type="Lidar" encoding="ACN"/>
+    <Input_Parameter name="config" type="LidarConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="4500 32900"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="64400 5500"/>
+<Provided_Interface name="Lidar_EnableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Property name="Taste::coordinates" value="4500 41700"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Required_Interface name="UartHwas_InitUartCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="uart" type="UartHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="UartHwasConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="64400 -4700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
+<Provided_Interface name="Lidar_DisableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Property name="Taste::coordinates" value="4500 46100"/>
     <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
+</Provided_Interface>
 
-<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="64400 -1400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="64400 2200"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="TfLunaReturn_ReadDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ErrorReadDataCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="44400 5400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="TfLunaReturn_ErrorReadDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
+<Provided_Interface name="TfLunaReturn_ReadDataCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
     <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ReadDataCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="44400 200"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function Comment="" name="HWAS" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="232100 36900 252100 67800"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="232100 47900"/>
+    <Property name="Taste::coordinates" value="24500 32700"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="InterruptManagement_EnableInterrupt_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="232100 54200"/>
+<Provided_Interface name="TfLunaReturn_ErrorReadDataCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ErrorReadDataCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 35700"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="InterruptManagement_DisableInterrupt_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="232100 58700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="RawMemoryAccess_ReadWord_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="232100 44000"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="RawMemoryAccess_WriteWord_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="232100 39300"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Required_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="232100 63500"/>
+<Required_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnDataCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="4500 52700"/>
     <Property name="Taste::InheritPI" value="true"/>
     <Property name="Taste::Autonamed" value="true"/>
 </Required_Interface>
 
+<Required_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnErrorCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="4500 57200"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 45100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 48800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 53100"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 56000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="TfLuna_InitTfLunaCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Property name="Taste::coordinates" value="24500 29700"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_InitMP6500Cmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
+    <Input_Parameter name="mp6500Config" type="MP6500Config" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 60500"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_SetDirectionLeftCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 66800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_SetDirectionRightCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 63700"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="MP6500_StepCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="24500 70700"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
     <Implementations>
         <Implementation name="default" language="SDL"/>
     </Implementations>
 </Function>
 
-<Function Comment="" name="SunSensorDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
+<Function Comment="" name="SunSensorDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
     <Property name="Taste::coordinates" value="7700 113200 27700 125400"/>
     <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Provided_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="sunSensorConfig" type="SunSensorConfig" encoding="ACN"/>
     <Output_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
     <Property name="Taste::coordinates" value="7700 114900"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Provided_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Input_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
     <Property name="Taste::coordinates" value="7700 118200"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
+<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
     <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-TypeNotify" encoding="ACN"/>
     <Property name="Taste::coordinates" value="27700 121200"/>
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Required_Interface name="AfecHwas_InitInstance_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
+<Required_Interface name="AfecHwas_InitInstance_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
     <Output_Parameter name="afec" type="AfecHwas" encoding="ACN"/>
     <Input_Parameter name="config" type="AfecHwasConfig" encoding="ACN"/>
     <Property name="Taste::coordinates" value="27700 115400"/>
@@ -212,7 +736,7 @@
     <Property name="Taste::InnerCoordinates" value=""/>
 </Required_Interface>
 
-<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
+<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
     <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-Type" encoding="ACN"/>
     <Property name="Taste::coordinates" value="27700 118600"/>
     <Property name="Taste::InheritPI" value="true"/>
@@ -232,71 +756,90 @@
     </Implementations>
 </Function>
 
-<Function Comment="" name="PropulsionDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="6100 85200 26100 101400"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-    <ContextParameter name="timer_Idle" type="Timer" value=""/>
-<Provided_Interface name="Propulsion_InitPropulsionCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="propulsion" type="Propulsion" encoding="ACN"/>
-    <Input_Parameter name="propulsionConfig" type="PropulsionConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="6100 88500"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
+<Function name="EGSE" is_type="NO" language="GUI" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
+    <Property name="Taste::coordinates" value="-158800 29400 -133500 127300"/>
+<Provided_Interface name="report" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="report" type="THouseKeepingReport" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-133500 121700"/>
 </Provided_Interface>
 
-<Provided_Interface name="Propulsion_ChangeStateCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="index" type="PropulsionThrusterIndex" encoding="ACN"/>
-    <Input_Parameter name="thrusterState" type="Propulsion_ThrusterState" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="6100 93400"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
+<Provided_Interface name="tm" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="report" type="TTM" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-133500 33600"/>
 </Provided_Interface>
 
-<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="26100 89100"/>
+<Required_Interface name="tc" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="request" type="TTC" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-133500 42200"/>
     <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="26100 92300"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="26100 95400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="26100 98400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
+    <Property name="Taste::Autonamed" value="true"/>
 </Required_Interface>
 
     <Implementations>
-        <Implementation name="default" language="SDL"/>
+        <Implementation name="default" language="GUI"/>
     </Implementations>
 </Function>
 
-<Function name="InterruptProxy" is_type="NO" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
+<Function name="ObjectDetector" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
+    <Property name="Taste::coordinates" value="-59900 29000 -39900 62200"/>
+<Provided_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnDataCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-39900 53600"/>
+</Provided_Interface>
+
+<Provided_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnErrorCmd-Type" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-39900 57400"/>
+</Provided_Interface>
+
+<Provided_Interface name="ObjectDetection_SetEnabled" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" wcet="0">
+    <Input_Parameter name="isEnabled" type="TEnabled" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-59900 40400"/>
+</Provided_Interface>
+
+<Required_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" stack_size="1024" wcet="0">
+    <Output_Parameter name="lidar" type="Lidar" encoding="ACN"/>
+    <Input_Parameter name="config" type="LidarConfig" encoding="ACN"/>
+    <Property name="Taste::coordinates" value="-39900 34000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="Lidar_EnableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Property name="Taste::coordinates" value="-39900 42000"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="Lidar_DisableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
+    <Property name="Taste::coordinates" value="-39900 46200"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Required_Interface>
+
+<Required_Interface name="ObjectDetection_Report" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" wcet="0">
+    <Input_Parameter name="report" type="TObjectDetectionReport" encoding="NATIVE"/>
+    <Property name="Taste::coordinates" value="-59900 49800"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function name="InterruptProxy" is_type="NO" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" FPGA_Configurations="" startup_priority="1">
     <Property name="Taste::coordinates" value="208000 79700 228000 87700"/>
-<Provided_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
+<Provided_Interface name="InterruptSubscription_Interrupt_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
     <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
     <Property name="Taste::coordinates" value="228000 82500"/>
 </Provided_Interface>
 
-<Required_Interface name="InterruptSubscription_Interrupt_Pi_Uart" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
+<Required_Interface name="InterruptSubscription_Interrupt_Pi_Uart" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
     <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
     <Property name="Taste::coordinates" value="208000 81900"/>
     <Property name="Taste::InheritPI" value="true"/>
@@ -304,7 +847,7 @@
     <Property name="Taste::InnerCoordinates" value=""/>
 </Required_Interface>
 
-<Required_Interface name="InterruptSubscription_Interrupt_Pi_Afec" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
+<Required_Interface name="InterruptSubscription_Interrupt_Pi_Afec" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" miat="0" priority="1" stack_size="1024" queue_size="1" wcet="0">
     <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
     <Property name="Taste::coordinates" value="208000 85900"/>
     <Property name="Taste::InheritPI" value="true"/>
@@ -317,501 +860,16 @@
     </Implementations>
 </Function>
 
-<Function Comment="" name="AfecHwasDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="152300 110700 172300 134800"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="AfecHwas_InitInstance_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="afec" type="AfecHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="AfecHwasConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="152300 112400"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="AfecHwas_GetValueCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="152300 115700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="172300 131200"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Required_Interface name="AfecHwas_GetValueCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="AfecHwasInterfaceType-GetValueCmd-TypeNotify" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="152300 119900"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="172300 117100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="172300 112600"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="172300 120100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="172300 123100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="172300 127500"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function Comment="" name="UartHwasDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="111000 -10500 131000 27700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="UartHwas_InitUartCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="uart" type="UartHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="UartHwasConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="111000 -6800"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="111000 -2500"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="111000 2300"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="InterruptSubscriptionInterfaceType-Interrupt-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 13400"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="111000 10900"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="111000 7200"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 17300"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 23800"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 20600"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 26000"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 600"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 5400"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 9700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 -3700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="131000 -7300"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function Comment="" name="LidarDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="4500 28100 24500 77600"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="lidar" type="Lidar" encoding="ACN"/>
-    <Input_Parameter name="config" type="LidarConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="4500 32900"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="Lidar_EnableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Property name="Taste::coordinates" value="4500 41700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="Lidar_DisableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Property name="Taste::coordinates" value="4500 46100"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="TfLunaReturn_ReadDataCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ReadDataCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 32700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="TfLunaReturn_ErrorReadDataCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="TfLunaReturnInterfaceType-ErrorReadDataCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 35700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Required_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnDataCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="4500 52700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-</Required_Interface>
-
-<Required_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnErrorCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="4500 57200"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_InitPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 45100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_SetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 48800"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_ResetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 53100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="PioHwas_GetPin_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 56000"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="TfLuna_InitTfLunaCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Property name="Taste::coordinates" value="24500 29700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_InitMP6500Cmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
-    <Input_Parameter name="mp6500Config" type="MP6500Config" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 60500"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_SetDirectionLeftCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 66800"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_SetDirectionRightCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 63700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="MP6500_StepCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="mp6500" type="MP6500" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="24500 70700"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function name="ObjectDetector" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="-59900 29000 -39900 62200"/>
-<Provided_Interface name="LidarTrigger_ReturnDataCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnDataCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-39900 53600"/>
-</Provided_Interface>
-
-<Provided_Interface name="LidarTrigger_ReturnErrorCmd_Ri" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Input_Parameter name="InputParam" type="LidarTriggerInterfaceType-ReturnErrorCmd-Type" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-39900 57400"/>
-</Provided_Interface>
-
-<Required_Interface name="Lidar_InitLidarCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="lidar" type="Lidar" encoding="ACN"/>
-    <Input_Parameter name="config" type="LidarConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-39900 34000"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="Lidar_EnableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Property name="Taste::coordinates" value="-39900 42000"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="Lidar_DisableCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024" miat="0" queue_size="1">
-    <Property name="Taste::coordinates" value="-39900 46200"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="C"/>
-    </Implementations>
-</Function>
-
-<Function Comment="" name="PioHwasDriver" url="" is_type="NO" instance_of="" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="151800 37500 171800 53700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-<Provided_Interface name="PioHwas_InitPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="151800 39200"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_SetPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="151800 42500"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_ResetPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="151800 46800"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Provided_Interface name="PioHwas_GetPin_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
-    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="151800 51600"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Provided_Interface>
-
-<Required_Interface name="RawMemoryAccess_ReadWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="171800 45100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="RawMemoryAccess_WriteWord_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
-    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
-    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="171800 40900"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
-<Function name="Manager" is_type="NO" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" startup_priority="1" FPGA_Configurations="">
-    <Property name="Taste::coordinates" value="-88800 29500 -68800 127700"/>
-<Provided_Interface name="SunSensorReturn_ReturnDataCmd_Ri" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" wcet="0">
-    <Input_Parameter name="chOutput" type="ConversionData" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-68800 121100"/>
-</Provided_Interface>
-
-<Required_Interface name="Propulsion_InitPropulsionCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Output_Parameter name="propulsion" type="Propulsion" encoding="ACN"/>
-    <Input_Parameter name="propulsionConfig" type="PropulsionConfig" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-68800 88100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="Propulsion_ChangeStateCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="index" type="PropulsionThrusterIndex" encoding="ACN"/>
-    <Input_Parameter name="thrusterState" type="Propulsion_ThrusterState" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-68800 93100"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="SunSensor_InitSunSensorCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="sunSensorConfig" type="SunSensorConfig" encoding="ACN"/>
-    <Output_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-68800 112200"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-<Required_Interface name="SunSensor_RequestDataCmd_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" dispatch_offset="0" priority="1" wcet="0" stack_size="1024">
-    <Input_Parameter name="sunSensor" type="SunSensor" encoding="ACN"/>
-    <Property name="Taste::coordinates" value="-68800 118500"/>
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="true"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Required_Interface>
-
-    <Implementations>
-        <Implementation name="default" language="SDL"/>
-    </Implementations>
-</Function>
-
 <Connection  required_system_element="NO">
-    <Source func_name="SunSensorDriver" ri_name="SunSensorReturn_ReturnDataCmd_Ri"/>
-    <Target func_name="Manager" pi_name="SunSensorReturn_ReturnDataCmd_Ri"/>
-    <Property name="Taste::coordinates" value="7100 121900 -30700 121900 -68500 121100"/>
+    <Source func_name="UartHwasDriver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="131600 23800 141500 23800 141500 42500 151500 42500"/>
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="SunSensorDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
-    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
-    <Property name="Taste::coordinates" value="28300 118600 90100 118600 90100 115700 152000 115700"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="MP6500_StepCmd_Ri"/>
-    <Target func_name="MP6500Driver" pi_name="MP6500_StepCmd_Pi"/>
-    <Property name="Taste::coordinates" value="25100 70700 66900 70700 109200 70300"/>
-</Connection>
-
-<Connection  name="UartHwasDriver.InterruptSubscriptionManagement_SubscribeToInterrupt_Ri -&gt; HWAS.InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="131600 600 181700 600 181700 47900 231800 47900"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
+    <Source func_name="LidarDriver" ri_name="PioHwas_InitPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
+    <Property name="Taste::coordinates" value="25100 45100 88300 45100 88300 39200 151500 39200"/>
 </Connection>
 
 <Connection  required_system_element="NO">
@@ -821,27 +879,9 @@
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="ObjectDetector" ri_name="Lidar_DisableCmd_Pi"/>
-    <Target func_name="LidarDriver" pi_name="Lidar_DisableCmd_Pi"/>
-    <Property name="Taste::coordinates" value="-39300 46200 4200 46100"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="MP6500Driver" ri_name="PioHwas_ResetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
-    <Property name="Taste::coordinates" value="130000 66100 140800 66100 140800 46800 151500 46800"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="Manager" ri_name="Propulsion_ChangeStateCmd_Pi"/>
-    <Target func_name="PropulsionDriver" pi_name="Propulsion_ChangeStateCmd_Pi"/>
-    <Property name="Taste::coordinates" value="-68200 93100 -31200 93100 5800 93400"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="Manager" ri_name="SunSensor_InitSunSensorCmd_Pi"/>
-    <Target func_name="SunSensorDriver" pi_name="SunSensor_InitSunSensorCmd_Pi"/>
-    <Property name="Taste::coordinates" value="-68200 112200 -30400 112200 -30400 114900 7400 114900"/>
+    <Source func_name="LidarDriver" ri_name="MP6500_SetDirectionLeftCmd_Ri"/>
+    <Target func_name="MP6500Driver" pi_name="MP6500_SetDirectionLeftCmd_Pi"/>
+    <Property name="Taste::coordinates" value="25100 66800 66900 66800 109200 66200"/>
 </Connection>
 
 <Connection  required_system_element="NO">
@@ -851,57 +891,40 @@
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
-    <Target func_name="TfLunaDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="110400 7200 87600 7200 87600 5500 64700 5500"/>
+    <Source func_name="LidarDriver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="25100 56000 88300 56000 88300 51600 151500 51600"/>
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="PropulsionDriver" ri_name="PioHwas_ResetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
-    <Property name="Taste::coordinates" value="26700 95400 92800 95400 92800 46800 151500 46800"/>
+    <Source func_name="Manager" ri_name="ObjectDetection_SetEnabled"/>
+    <Target func_name="ObjectDetector" pi_name="ObjectDetection_SetEnabled"/>
+    <Property name="Taste::coordinates" value="-98800 40100 -60200 40400"/>
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="PioHwas_ResetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
-    <Property name="Taste::coordinates" value="25100 53100 88300 53100 88300 46800 151500 46800"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="PioHwas_SetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="131600 23800 141500 23800 141500 42500 151500 42500"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="MP6500_InitMP6500Cmd_Ri"/>
-    <Target func_name="MP6500Driver" pi_name="MP6500_InitMP6500Cmd_Pi"/>
-    <Property name="Taste::coordinates" value="25100 60500 66900 60500 66900 59100 109200 59100"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="MP6500_SetDirectionLeftCmd_Ri"/>
-    <Target func_name="MP6500Driver" pi_name="MP6500_SetDirectionLeftCmd_Pi"/>
-    <Property name="Taste::coordinates" value="25100 66800 66900 66800 109200 66200"/>
+    <Source func_name="SunSensorDriver" ri_name="SunSensorReturn_ReturnDataCmd_Ri"/>
+    <Target func_name="Manager" pi_name="SunSensorReturn_ReturnDataCmd_Ri"/>
+    <Property name="Taste::coordinates" value="7100 121900 -46000 121900 -99100 121600"/>
 </Connection>
 
 <Connection  required_system_element="NO">
     <Source func_name="Manager" ri_name="SunSensor_RequestDataCmd_Pi"/>
     <Target func_name="SunSensorDriver" pi_name="SunSensor_RequestDataCmd_Pi"/>
-    <Property name="Taste::coordinates" value="-68200 118500 -30400 118500 7400 118200"/>
+    <Property name="Taste::coordinates" value="-98800 118000 -45700 118000 7400 118200"/>
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="PropulsionDriver" ri_name="PioHwas_SetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="26700 92300 69600 92300 69600 42500 151500 42500"/>
+    <Source func_name="Manager" ri_name="SunSensor_InitSunSensorCmd_Pi"/>
+    <Target func_name="SunSensorDriver" pi_name="SunSensor_InitSunSensorCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-98800 115000 -45700 115000 7400 114900"/>
 </Connection>
 
-<Connection  required_system_element="NO">
-    <Source func_name="MP6500Driver" ri_name="PioHwas_GetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
-    <Property name="Taste::coordinates" value="130000 69800 140800 69800 140800 51600 151500 51600"/>
+<Connection  name="AfecHwasDriver.InterruptSubscriptionManagement_SubscribeToInterrupt_Ri -&gt; HWAS.InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" required_system_element="NO">
+    <Source func_name="AfecHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="172900 120100 202300 120100 202300 47900 231800 47900"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
 </Connection>
 
 <Connection  name="AfecHwasDriver.RawMemoryAccess_WriteWord_Ri -&gt; HWAS.RawMemoryAccess_WriteWord_Pi" required_system_element="NO">
@@ -919,166 +942,9 @@
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="TfLunaDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
-    <Target func_name="UartHwasDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="65000 2200 87900 2200 110700 2300"/>
-</Connection>
-
-<Connection  name="UartHwasDriver.RawMemoryAccess_WriteWord_Ri -&gt; HWAS.RawMemoryAccess_WriteWord_Pi" required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
-    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
-    <Property name="Taste::coordinates" value="131600 -7300 181700 -7300 181700 39300 231800 39300"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="AfecHwasDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
-    <Target func_name="SunSensorDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
-    <Property name="Taste::coordinates" value="151700 119900 89900 119900 89900 121200 28000 121200"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="InterruptProxy" ri_name="InterruptSubscription_Interrupt_Pi_Uart"/>
-    <Target func_name="UartHwasDriver" pi_name="InterruptSubscription_Interrupt_Pi"/>
-    <Property name="Taste::coordinates" value="207400 81900 173400 81900 173400 35900 169300 13400 131300 13400"/>
-</Connection>
-
-<Connection  required_system_element="NO">
     <Source func_name="InterruptProxy" ri_name="InterruptSubscription_Interrupt_Pi_Afec"/>
     <Target func_name="AfecHwasDriver" pi_name="InterruptSubscription_Interrupt_Pi"/>
     <Property name="Taste::coordinates" value="207400 85900 190000 85900 190000 131200 172600 131200"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="TfLuna_InitTfLunaCmd_Ri"/>
-    <Target func_name="TfLunaDriver" pi_name="TfLuna_InitTfLunaCmd_Pi"/>
-    <Property name="Taste::coordinates" value="25100 29700 34600 29700 34600 -4400 44100 -4400"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="InterruptManagement_EnableInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptManagement_EnableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="131600 5400 181700 5400 181700 54200 231800 54200"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="TfLunaDriver" ri_name="UartHwas_InitUartCmd_Ri"/>
-    <Target func_name="UartHwasDriver" pi_name="UartHwas_InitUartCmd_Pi"/>
-    <Property name="Taste::coordinates" value="65000 -4700 87900 -4700 87900 -6800 110700 -6800"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="PioHwas_GetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
-    <Property name="Taste::coordinates" value="25100 56000 88300 56000 88300 51600 151500 51600"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnErrorCmd_Ri"/>
-    <Target func_name="ObjectDetector" pi_name="LidarTrigger_ReturnErrorCmd_Ri"/>
-    <Property name="Taste::coordinates" value="3900 57200 -39600 57400"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ReadDataCmd_Ri"/>
-    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ErrorReadDataCmd_Pi"/>
-    <Property name="Taste::coordinates" value="43900 5400 34400 5400 34400 35700 24800 35700"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
-    <Target func_name="TfLunaDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="110400 10900 87600 10900 87600 8400 64700 8400"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="PioHwas_GetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
-    <Property name="Taste::coordinates" value="131600 26000 141500 26000 141500 51600 151500 51600"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="MP6500Driver" ri_name="PioHwas_SetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="130000 63100 140800 63100 140800 42500 151500 42500"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="HWAS" ri_name="InterruptSubscription_Interrupt_Ri"/>
-    <Target func_name="InterruptProxy" pi_name="InterruptSubscription_Interrupt_Ri"/>
-    <Property name="Taste::coordinates" value="231500 63500 229900 63500 229900 82500 228200 82500"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="Manager" ri_name="Propulsion_InitPropulsionCmd_Pi"/>
-    <Target func_name="PropulsionDriver" pi_name="Propulsion_InitPropulsionCmd_Pi"/>
-    <Property name="Taste::coordinates" value="-68200 88100 -31200 88100 5800 88500"/>
-</Connection>
-
-<Connection  name="AfecHwasDriver.InterruptSubscriptionManagement_SubscribeToInterrupt_Ri -&gt; HWAS.InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" required_system_element="NO">
-    <Source func_name="AfecHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="172900 120100 202300 120100 202300 47900 231800 47900"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ErrorReadDataCmd_Ri"/>
-    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ReadDataCmd_Pi"/>
-    <Property name="Taste::coordinates" value="43900 200 34400 200 34400 32700 24800 32700"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="ObjectDetector" ri_name="Lidar_InitLidarCmd_Pi"/>
-    <Target func_name="LidarDriver" pi_name="Lidar_InitLidarCmd_Pi"/>
-    <Property name="Taste::coordinates" value="-39300 34000 4200 32900"/>
-</Connection>
-
-<Connection  name="UartHwasDriver.InterruptManagement_DisableInterrupt_Ri -&gt; HWAS.InterruptManagement_DisableInterrupt_Pi" required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="131600 9700 181700 9700 181700 58700 231800 58700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Connection>
-
-<Connection  name="PioHwasDriver.RawMemoryAccess_ReadWord_Ri -&gt; HWAS.RawMemoryAccess_ReadWord_Pi" required_system_element="NO">
-    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
-    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
-    <Property name="Taste::coordinates" value="172400 45100 231800 44000"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="MP6500Driver" ri_name="PioHwas_InitPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
-    <Property name="Taste::coordinates" value="130000 59900 140800 59900 140800 39200 151500 39200"/>
-</Connection>
-
-<Connection  name="UartHwasDriver.RawMemoryAccess_ReadWord_Ri -&gt; HWAS.RawMemoryAccess_ReadWord_Pi" required_system_element="NO">
-    <Source func_name="UartHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
-    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
-    <Property name="Taste::coordinates" value="131600 -3700 181700 -3700 181700 44000 231800 44000"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnDataCmd_Ri"/>
-    <Target func_name="ObjectDetector" pi_name="LidarTrigger_ReturnDataCmd_Ri"/>
-    <Property name="Taste::coordinates" value="3900 52700 -39600 53600"/>
-</Connection>
-
-<Connection  name="AfecHwasDriver.InterruptManagement_EnableInterrupt_Ri -&gt; HWAS.InterruptManagement_EnableInterrupt_Pi" required_system_element="NO">
-    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_EnableInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptManagement_EnableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="172900 123100 202300 123100 202300 54200 231800 54200"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
-</Connection>
-
-<Connection  name="AfecHwasDriver.InterruptManagement_DisableInterrupt_Ri -&gt; HWAS.InterruptManagement_DisableInterrupt_Pi" required_system_element="NO">
-    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
-    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
-    <Property name="Taste::coordinates" value="172900 127500 202300 127500 202300 58700 231800 58700"/>
-    <Property name="Taste::InnerCoordinates" value=""/>
 </Connection>
 
 <Connection  name="PioHwasDriver.RawMemoryAccess_WriteWord_Ri -&gt; HWAS.RawMemoryAccess_WriteWord_Pi" required_system_element="NO">
@@ -1089,33 +955,16 @@
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="PioHwas_SetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
-    <Property name="Taste::coordinates" value="25100 48800 88300 48800 88300 42500 151500 42500"/>
+    <Source func_name="TfLunaDriver" ri_name="UartHwas_InitUartCmd_Ri"/>
+    <Target func_name="UartHwasDriver" pi_name="UartHwas_InitUartCmd_Pi"/>
+    <Property name="Taste::coordinates" value="65000 -4700 87900 -4700 87900 -6800 110700 -6800"/>
 </Connection>
 
-<Connection  required_system_element="NO">
-    <Source func_name="PropulsionDriver" ri_name="PioHwas_GetPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
-    <Property name="Taste::coordinates" value="26700 98400 69600 98400 69600 51600 151500 51600"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="TfLunaDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
-    <Target func_name="UartHwasDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
-    <Property name="Taste::coordinates" value="65000 -1400 87900 -1400 87900 -2500 110700 -2500"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="PropulsionDriver" ri_name="PioHwas_InitPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
-    <Property name="Taste::coordinates" value="26700 89100 92800 89100 92800 39200 151500 39200"/>
-</Connection>
-
-<Connection  required_system_element="NO">
-    <Source func_name="SunSensorDriver" ri_name="AfecHwas_InitInstance_Ri"/>
-    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_InitInstance_Pi"/>
-    <Property name="Taste::coordinates" value="28300 115400 90100 115400 90100 112400 152000 112400"/>
+<Connection  name="UartHwasDriver.InterruptManagement_DisableInterrupt_Ri -&gt; HWAS.InterruptManagement_DisableInterrupt_Pi" required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="131600 9700 181700 9700 181700 58700 231800 58700"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
 </Connection>
 
 <Connection  required_system_element="NO">
@@ -1125,15 +974,267 @@
 </Connection>
 
 <Connection  required_system_element="NO">
-    <Source func_name="LidarDriver" ri_name="PioHwas_InitPin_Ri"/>
-    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
-    <Property name="Taste::coordinates" value="25100 45100 88300 45100 88300 39200 151500 39200"/>
+    <Source func_name="ObjectDetector" ri_name="Lidar_DisableCmd_Pi"/>
+    <Target func_name="LidarDriver" pi_name="Lidar_DisableCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-39300 46200 4200 46100"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="LidarDriver" ri_name="TfLuna_InitTfLunaCmd_Ri"/>
+    <Target func_name="TfLunaDriver" pi_name="TfLuna_InitTfLunaCmd_Pi"/>
+    <Property name="Taste::coordinates" value="25100 29700 34600 29700 34600 -4400 44100 -4400"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="SunSensorDriver" ri_name="AfecHwas_InitInstance_Ri"/>
+    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_InitInstance_Pi"/>
+    <Property name="Taste::coordinates" value="28300 115400 90100 115400 90100 112400 152000 112400"/>
 </Connection>
 
 <Connection  required_system_element="NO">
     <Source func_name="LidarDriver" ri_name="MP6500_SetDirectionRightCmd_Ri"/>
     <Target func_name="MP6500Driver" pi_name="MP6500_SetDirectionRightCmd_Pi"/>
     <Property name="Taste::coordinates" value="25100 63700 66900 63700 66900 62300 109200 62300"/>
+</Connection>
+
+<Connection  name="UartHwasDriver.RawMemoryAccess_ReadWord_Ri -&gt; HWAS.RawMemoryAccess_ReadWord_Pi" required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
+    <Property name="Taste::coordinates" value="131600 -3700 181700 -3700 181700 44000 231800 44000"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="EGSE" ri_name="tc"/>
+    <Target func_name="Manager" pi_name="tc"/>
+    <Property name="Taste::coordinates" value="-132900 42200 -126300 42200 -119700 41900"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnErrorCmd_Ri"/>
+    <Target func_name="ObjectDetector" pi_name="LidarTrigger_ReturnErrorCmd_Ri"/>
+    <Property name="Taste::coordinates" value="3900 57200 -39600 57400"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="LidarDriver" ri_name="PioHwas_ResetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
+    <Property name="Taste::coordinates" value="25100 53100 88300 53100 88300 46800 151500 46800"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="131600 26000 141500 26000 141500 51600 151500 51600"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="Manager" ri_name="report"/>
+    <Target func_name="EGSE" pi_name="report"/>
+    <Property name="Taste::coordinates" value="-120000 121600 -126600 121600 -133200 121700"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="Manager" ri_name="Propulsion_ChangeStateCmd_Pi"/>
+    <Target func_name="PropulsionDriver" pi_name="Propulsion_ChangeStateCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-98800 92300 5800 93400"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="Manager" ri_name="tm"/>
+    <Target func_name="EGSE" pi_name="tm"/>
+    <Property name="Taste::coordinates" value="-120000 33400 -126600 33400 -133200 33600"/>
+</Connection>
+
+<Connection  name="PioHwasDriver.RawMemoryAccess_ReadWord_Ri -&gt; HWAS.RawMemoryAccess_ReadWord_Pi" required_system_element="NO">
+    <Source func_name="PioHwasDriver" ri_name="RawMemoryAccess_ReadWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_ReadWord_Pi"/>
+    <Property name="Taste::coordinates" value="172400 45100 231800 44000"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="ObjectDetector" ri_name="Lidar_InitLidarCmd_Pi"/>
+    <Target func_name="LidarDriver" pi_name="Lidar_InitLidarCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-39300 34000 4200 32900"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="LidarDriver" ri_name="LidarTrigger_ReturnDataCmd_Ri"/>
+    <Target func_name="ObjectDetector" pi_name="LidarTrigger_ReturnDataCmd_Ri"/>
+    <Property name="Taste::coordinates" value="3900 52700 -39600 53600"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="26700 98400 69600 98400 69600 51600 151500 51600"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="TfLunaDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
+    <Target func_name="UartHwasDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="65000 2200 87900 2200 110700 2300"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="SunSensorDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
+    <Target func_name="AfecHwasDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
+    <Property name="Taste::coordinates" value="28300 118600 90100 118600 90100 115700 152000 115700"/>
+</Connection>
+
+<Connection  name="UartHwasDriver.InterruptSubscriptionManagement_SubscribeToInterrupt_Ri -&gt; HWAS.InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptSubscriptionManagement_SubscribeToInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="131600 600 181700 600 181700 47900 231800 47900"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_ResetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
+    <Property name="Taste::coordinates" value="26700 95400 92800 95400 92800 46800 151500 46800"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="26700 92300 69600 92300 69600 42500 151500 42500"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="LidarDriver" ri_name="MP6500_InitMP6500Cmd_Ri"/>
+    <Target func_name="MP6500Driver" pi_name="MP6500_InitMP6500Cmd_Pi"/>
+    <Property name="Taste::coordinates" value="25100 60500 66900 60500 66900 59100 109200 59100"/>
+</Connection>
+
+<Connection  name="AfecHwasDriver.InterruptManagement_DisableInterrupt_Ri -&gt; HWAS.InterruptManagement_DisableInterrupt_Pi" required_system_element="NO">
+    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_DisableInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptManagement_DisableInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="172900 127500 202300 127500 202300 58700 231800 58700"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="LidarDriver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="25100 48800 88300 48800 88300 42500 151500 42500"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="TfLunaDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
+    <Target func_name="UartHwasDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="65000 -1400 87900 -1400 87900 -2500 110700 -2500"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="MP6500Driver" ri_name="PioHwas_SetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_SetPin_Pi"/>
+    <Property name="Taste::coordinates" value="130000 63100 140800 63100 140800 42500 151500 42500"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ReadDataCmd_Ri"/>
+    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ErrorReadDataCmd_Pi"/>
+    <Property name="Taste::coordinates" value="43900 5400 34400 5400 34400 35700 24800 35700"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="ObjectDetector" ri_name="ObjectDetection_Report"/>
+    <Target func_name="Manager" pi_name="ObjectDetection_Report"/>
+    <Property name="Taste::coordinates" value="-60500 49800 -79800 49800 -99100 49400"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="MP6500Driver" ri_name="PioHwas_GetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_GetPin_Pi"/>
+    <Property name="Taste::coordinates" value="130000 69800 140800 69800 140800 51600 151500 51600"/>
+</Connection>
+
+<Connection  name="UartHwasDriver.RawMemoryAccess_WriteWord_Ri -&gt; HWAS.RawMemoryAccess_WriteWord_Pi" required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="RawMemoryAccess_WriteWord_Ri"/>
+    <Target func_name="HWAS" pi_name="RawMemoryAccess_WriteWord_Pi"/>
+    <Property name="Taste::coordinates" value="131600 -7300 181700 -7300 181700 39300 231800 39300"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="LidarDriver" ri_name="MP6500_StepCmd_Ri"/>
+    <Target func_name="MP6500Driver" pi_name="MP6500_StepCmd_Pi"/>
+    <Property name="Taste::coordinates" value="25100 70700 66900 70700 109200 70300"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="HWAS" ri_name="InterruptSubscription_Interrupt_Ri"/>
+    <Target func_name="InterruptProxy" pi_name="InterruptSubscription_Interrupt_Ri"/>
+    <Property name="Taste::coordinates" value="231500 63500 229900 63500 229900 82500 228200 82500"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="MP6500Driver" ri_name="PioHwas_ResetPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_ResetPin_Pi"/>
+    <Property name="Taste::coordinates" value="130000 66100 140800 66100 140800 46800 151500 46800"/>
+</Connection>
+
+<Connection  name="AfecHwasDriver.InterruptManagement_EnableInterrupt_Ri -&gt; HWAS.InterruptManagement_EnableInterrupt_Pi" required_system_element="NO">
+    <Source func_name="AfecHwasDriver" ri_name="InterruptManagement_EnableInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptManagement_EnableInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="172900 123100 202300 123100 202300 54200 231800 54200"/>
+    <Property name="Taste::InnerCoordinates" value=""/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="Manager" ri_name="Propulsion_InitPropulsionCmd_Pi"/>
+    <Target func_name="PropulsionDriver" pi_name="Propulsion_InitPropulsionCmd_Pi"/>
+    <Property name="Taste::coordinates" value="-98800 87300 5800 88500"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="InterruptProxy" ri_name="InterruptSubscription_Interrupt_Pi_Uart"/>
+    <Target func_name="UartHwasDriver" pi_name="InterruptSubscription_Interrupt_Pi"/>
+    <Property name="Taste::coordinates" value="207400 81900 173400 81900 173400 35900 169300 13400 131300 13400"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="AfecHwasDriver" ri_name="AfecHwas_GetValueCmd_Ri"/>
+    <Target func_name="SunSensorDriver" pi_name="AfecHwas_GetValueCmd_Pi"/>
+    <Property name="Taste::coordinates" value="151700 119900 89900 119900 89900 121200 28000 121200"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="UartHwas_SendByteAsyncCmd_Ri"/>
+    <Target func_name="TfLunaDriver" pi_name="UartHwas_SendByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="110400 7200 87600 7200 87600 5500 64700 5500"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="InterruptManagement_EnableInterrupt_Ri"/>
+    <Target func_name="HWAS" pi_name="InterruptManagement_EnableInterrupt_Pi"/>
+    <Property name="Taste::coordinates" value="131600 5400 181700 5400 181700 54200 231800 54200"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="MP6500Driver" ri_name="PioHwas_InitPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
+    <Property name="Taste::coordinates" value="130000 59900 140800 59900 140800 39200 151500 39200"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="TfLunaDriver" ri_name="TfLunaReturn_ErrorReadDataCmd_Ri"/>
+    <Target func_name="LidarDriver" pi_name="TfLunaReturn_ReadDataCmd_Pi"/>
+    <Property name="Taste::coordinates" value="43900 200 34400 200 34400 32700 24800 32700"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="UartHwasDriver" ri_name="UartHwas_ReadByteAsyncCmd_Ri"/>
+    <Target func_name="TfLunaDriver" pi_name="UartHwas_ReadByteAsyncCmd_Pi"/>
+    <Property name="Taste::coordinates" value="110400 10900 87600 10900 87600 8400 64700 8400"/>
+</Connection>
+
+<Connection  required_system_element="NO">
+    <Source func_name="PropulsionDriver" ri_name="PioHwas_InitPin_Ri"/>
+    <Target func_name="PioHwasDriver" pi_name="PioHwas_InitPin_Pi"/>
+    <Property name="Taste::coordinates" value="26700 89100 92800 89100 92800 39200 151500 39200"/>
 </Connection>
 
 <Layer name="default"/>

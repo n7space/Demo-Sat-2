@@ -1,7 +1,93 @@
 DEMOSAT2-DATAVIEW DEFINITIONS ::=
 BEGIN
 
-   MyInteger ::= INTEGER (0 .. 10000)
+   TAngularPosition ::= REAL(-360..360)
+
+   TDistance ::= REAL(0..100000)
+
+   TLuminance ::= REAL(0..1000)
+
+   TEnabled ::= BOOLEAN
+
+   TPower ::= REAL(0..1)
+
+   TMode ::= ENUMERATED {
+      m-idle,
+      m-passive,
+      m-active,
+      m-safe
+   }
+
+   TValidityStatus ::= ENUMERATED {
+      vs-invalid,
+      vs-nil,
+      vs-ok
+   }
+
+   TObjectDetectionReport ::= SEQUENCE {
+      position TAngularPosition,
+      distance TDistance,
+      status TValidityStatus
+   }
+
+   TSunMonitoringReport ::= SEQUENCE {
+      luminance TLuminance,
+      status TValidityStatus
+   }
+
+   THouseKeepingReport ::= SEQUENCE {
+      mode TMode,
+      objectDetection TObjectDetectionReport,
+      propulsion SEQUENCE (SIZE(4)) OF TPower,
+      luminance TSunMonitoringReport
+   }
+
+   TCID ::= INTEGER(0..65535)
+
+   TTCGoToIdle ::= SEQUENCE {
+      id TCID
+   }
+
+   TTCGoToPassive ::= SEQUENCE {
+      id TCID,
+      sunThreshold TLuminance
+   }
+
+   TTCGoToActive ::= SEQUENCE {
+      id TCID,
+      distanceThreshold TDistance
+   }
+
+   TTC ::= CHOICE {
+      tc-goToIdle TTCGoToIdle,
+      tc-goToPassive TTCGoToPassive,
+      tc-goToActive TTCGoToActive
+   }
+
+   TTMExecuted ::= SEQUENCE {
+      id TCID
+   }
+
+   TFailureReason ::= ENUMERATED {
+      fr-incorrectState,
+      fr-other
+   }
+
+   TTMFailed ::= SEQUENCE {
+      id TCID,
+      reason TFailureReason
+   }
+
+   TTMModeChanged ::= SEQUENCE {
+      id TCID,
+      mode TMode
+   }
+
+   TTM ::= CHOICE {
+      tm-executed TTMExecuted,
+      tm-failed TTMFailed,
+      tm-modeChanged TTMModeChanged 
+   }
    
 END
 

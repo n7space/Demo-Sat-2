@@ -5,6 +5,10 @@ use Datamodel;
 
 system Manager;
 
+   /* CIF Keep Specific Geode PARAMNAMES report */
+   signal ObjectDetection_Report (TObjectDetectionReport);
+   
+   
    -- Synchronous PI SunSensorReturn_ReturnDataCmd_Ri
    -- You must create a procedure with this name
    -- and copy the signature (the FPAR section) in a text box
@@ -13,7 +17,21 @@ system Manager;
             in     Choutput ConversionData;
    
       referenced;
+   
+   
+   signal pps;
+   
+   
+   /* CIF Keep Specific Geode PARAMNAMES request */
+   signal tc (TTC);
 
+   procedure ObjectDetection_SetEnabled;
+      fpar
+            in     Isenabled TEnabled;
+   
+      external;
+   
+   
    procedure Propulsion_ChangeStateCmd_Pi;
       fpar
             in     Index PropulsionThrusterIndex,
@@ -43,15 +61,31 @@ system Manager;
             in     Sunsensor SunSensor;
    
       external;
+   
+   
+   /* CIF Keep Specific Geode PARAMNAMES report */
+   signal report (THouseKeepingReport);
+   
+   
+   /* CIF Keep Specific Geode PARAMNAMES report */
+   signal tm (TTM);
 
    -- For internal use, return the PID of the caller
    procedure get_sender;
       fpar out sender PID;
    external;
 
+   channel c
+      from env to Manager with ObjectDetection_Report, pps, tc;
+      from Manager to env with report, tm;
+   endchannel;
 
    block Manager;
 
+      signalroute r
+      from env to Manager with ObjectDetection_Report, pps, tc;
+      from Manager to env with report, tm;
+      connect c and r;
 
       process Manager referenced;
    endblock;

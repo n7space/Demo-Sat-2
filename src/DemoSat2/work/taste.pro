@@ -2,6 +2,7 @@ INCLUDEPATH += work/dataview/C
 HEADERS += work/dataview/C/dataview-uniq.h
 HEADERS += work/dataview/Ada/src/*.ads
 include(afechwasdriver/afechwasdriver.pro)
+include(egse/egse.pro)
 include(hwas/hwas.pro)
 include(interruptproxy/interruptproxy.pro)
 include(lidardriver/lidardriver.pro)
