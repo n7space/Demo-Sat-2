@@ -8,21 +8,64 @@
     !! file. The up-to-date signatures can be found in the .ads file.   !!
 */
 #include "objectdetector.h"
-//#include <stdio.h>
+
+static bool objectdetector_isEnabled = false;
+static bool objectdetector_isInitialized = false;
+
+static asn1SccLidar objectdetector_lidar;
+static asn1SccLidarConfig objectdetector_lidarConfig = {
+    .mMP6500Config = {
+        .mStepPioConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_D,
+                           .mPinConfig = 27,
+                           .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+                           .mControlConfig = PioHwas_Control_pioHwas_Control_Pio},
+        .mDirPioConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_C,
+                          .mPinConfig = 19,
+                          .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+                          .mControlConfig = PioHwas_Control_pioHwas_Control_Pio},
+    },
+            .mLeftEndSwitchConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_D,
+                                     .mPinConfig = 28,
+                                     .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Input,
+                                     .mControlConfig = PioHwas_Control_pioHwas_Control_Pio},
+            .mRightEndSwitchConfig = {.mPortConfig = PioHwas_Port_pioHwas_Port_A,
+                                      .mPinConfig = 6,
+                                      .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Input,
+                                      .mControlConfig = PioHwas_Control_pioHwas_Control_Pio}};
+
 
 
 void objectdetector_startup(void)
 {
-   // Write your initialisation code
-   // You may call sporadic required interfaces and start timers
-   // puts ("[ObjectDetector] Startup");
+   // NOP, initialization on first use
+}
+
+
+void objectdetector_PI_ObjectDetection_SetEnabled( const asn1SccTEnabled * isEnabled)
+{
+   if (isEnabled && !objectdetector_isInitialized) {
+      objectdetector_RI_Lidar_InitLidarCmd_Pi(&objectdetector_lidar, &objectdetector_lidarConfig);
+      objectdetector_isInitialized = true;
+   }
+   if (isEnabled == objectdetector_isEnabled) {
+      // Avoid unnecessary actions on the fragile LIDAR driver
+      return;
+   }
+
+   if (isEnabled){
+      objectdetector_RI_Lidar_EnableCmd_Pi();
+   }
+   else {
+      objectdetector_RI_Lidar_DisableCmd_Pi();
+   }
+   objectdetector_isEnabled = isEnabled;
 }
 
 void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
       (const asn1SccLidarTriggerInterfaceType_ReturnDataCmd_Type *IN_inputparam)
 
 {
-   // Write your code here
+
 }
 
 
@@ -30,7 +73,8 @@ void objectdetector_PI_LidarTrigger_ReturnErrorCmd_Ri
       (const asn1SccLidarTriggerInterfaceType_ReturnErrorCmd_Type *IN_inputparam)
 
 {
-   // Write your code here
+   // TODO
+   // Ignore for now
 }
 
 
