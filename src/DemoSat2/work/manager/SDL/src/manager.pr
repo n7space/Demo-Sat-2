@@ -1,21 +1,278 @@
 /* CIF PROCESS (250, 150), (150, 75) */
 process Manager;
-    /* CIF procedure (958, 66), (321, 35) */
+    state PassiveMode;
+    substructure
+            /* CIF START (233, 39), (70, 35) */
+            START;
+                /* CIF task (192, 94), (151, 35) */
+                task m_mode := m_passive;
+                /* CIF PROCEDURECALL (154, 149), (228, 35) */
+                call ObjectDetection_SetEnabled(true);
+                /* CIF PROCEDURECALL (0, 204), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(0, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 259), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(1, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 314), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(2, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 369), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(3, propulsion_ThrusterState_Off);
+                /* CIF NEXTSTATE (233, 419), (70, 35) */
+                NEXTSTATE Inited;
+            /* CIF state (356, 29), (70, 35) */
+            state Inited;
+            endstate;
+    endsubstructure;
+    state ActiveMode;
+    substructure
+            /* CIF START (119, 33), (70, 35) */
+            START;
+                /* CIF task (82, 88), (143, 35) */
+                task m_mode := m_active;
+                /* CIF PROCEDURECALL (40, 143), (228, 35) */
+                call ObjectDetection_SetEnabled(true);
+                /* CIF NEXTSTATE (119, 193), (70, 35) */
+                NEXTSTATE Inited;
+            /* CIF state (291, 27), (70, 35) */
+            state Inited;
+            endstate;
+    endsubstructure;
+    state SafeMode;
+    substructure
+            /* CIF START (233, 20), (70, 35) */
+            START;
+                /* CIF task (201, 75), (133, 35) */
+                task m_mode := m_safe;
+                /* CIF PROCEDURECALL (152, 130), (231, 35) */
+                call ObjectDetection_SetEnabled(false);
+                /* CIF PROCEDURECALL (0, 180), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(0, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 235), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(1, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 290), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(2, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 345), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(3, propulsion_ThrusterState_Off);
+                /* CIF NEXTSTATE (233, 403), (70, 35) */
+                NEXTSTATE Inited;
+            /* CIF state (401, 26), (70, 35) */
+            state Inited;
+            endstate;
+    endsubstructure;
+    state IdleMode;
+    substructure
+            /* CIF START (233, 37), (70, 35) */
+            START;
+                /* CIF task (203, 92), (130, 35) */
+                task m_mode := m_idle;
+                /* CIF PROCEDURECALL (152, 147), (231, 35) */
+                call ObjectDetection_SetEnabled(false);
+                /* CIF PROCEDURECALL (0, 197), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(0, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 252), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(1, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 307), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(2, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 362), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(3, propulsion_ThrusterState_Off);
+                /* CIF NEXTSTATE (233, 412), (70, 35) */
+                NEXTSTATE Inited;
+            /* CIF state (403, 48), (70, 35) */
+            state Inited;
+            endstate;
+    endsubstructure;
+    /* CIF TEXT (325, 25), (299, 248) */
+    DCL m_mode TMode := m_idle;
+    DCL m_tc TTC;
+    DCL m_tm TTM;
+    DCL m_hk THouseKeepingReport;
+    DCL m_sunReport TSunMonitoringReport;
+    DCL m_objectReport TObjectDetectionReport;
+    DCL m_power0 TPower;
+    DCL m_power1 TPower;
+    DCL m_power2 TPower;
+    DCL m_power3 TPower;
+    DCL m_sunThreshold TLuminance;
+    DCL m_distanceThreshold TDistance;
+    DCL m_propulsionConfig PropulsionConfig;
+    DCL m_propulsion Propulsion;
+    DCL m_sun SunSensor;
+    DCL m_sunConfig  SunSensorConfig;
+    /* CIF ENDTEXT */
+    /* CIF procedure (349, 807), (91, 35) */
+    procedure InitializeHw;
+        /* CIF START (531, 33), (70, 35) */
+        START;
+            /* CIF task (90, 88), (951, 35) */
+            task m_propulsionConfig(0) :=  {mPortConfig PioHwas_Port_B, mPinConfig 3, mDirectionConfig PioHwas_Direction_Output, mControlConfig PioHwas_Control_Pio};
+            /* CIF task (90, 143), (951, 35) */
+            task m_propulsionConfig(1) :=  {mPortConfig PioHwas_Port_B, mPinConfig 2, mDirectionConfig PioHwas_Direction_Output, mControlConfig PioHwas_Control_Pio};
+            /* CIF task (87, 198), (959, 35) */
+            task m_propulsionConfig(2) :=  {mPortConfig PioHwas_Port_B, mPinConfig 13, mDirectionConfig PioHwas_Direction_Output, mControlConfig PioHwas_Control_Pio};
+            /* CIF task (86, 253), (959, 35) */
+            task m_propulsionConfig(3) :=  {mPortConfig PioHwas_Port_D, mPinConfig 24, mDirectionConfig PioHwas_Direction_Output, mControlConfig PioHwas_Control_Pio};
+            /* CIF PROCEDURECALL (349, 308), (434, 35) */
+            call Propulsion_InitPropulsionCmd_Pi(m_propulsion, m_propulsionConfig);
+            /* CIF task (175, 363), (782, 35) */
+            task m_sunConfig := {mAfecConfig {mAfecInstance AfecHwas_Instance_Afec0 , mStartupTime 15, mPrescalerValue 255  }, mChannel 8};
+            /* CIF PROCEDURECALL (393, 418), (346, 35) */
+            call SunSensor_InitSunSensorCmd_Pi(m_sunConfig, m_sun);
+            /* CIF return (549, 468), (35, 35) */
+            return ;
+    endprocedure;
+    /* CIF procedure (354, 740), (74, 35) */
+    procedure ToPower;
+        /* CIF TEXT (100, 32), (226, 140) */
+        fpar
+        in x Tpower;
+        returns Propulsion_ThrusterState;
+        /* CIF ENDTEXT */
+        /* CIF START (414, 178), (70, 35) */
+        START;
+            /* CIF decision (414, 233), (70, 50) */
+            decision x;
+                /* CIF ANSWER (92, 303), (70, 23) */
+                (< 0.25):
+                    /* CIF return (109, 346), (35, 35) */
+                    return propulsion_ThrusterState_Off;
+                /* CIF ANSWER (287, 303), (70, 23) */
+                (>= 0.75):
+                    /* CIF return (304, 346), (35, 35) */
+                    return propulsion_ThrusterState_On;
+                /* CIF ANSWER (619, 303), (70, 23) */
+                else:
+                    /* CIF decision (619, 346), (70, 50) */
+                    decision x;
+                        /* CIF ANSWER (498, 416), (70, 23) */
+                        (< 0.5):
+                            /* CIF return (515, 459), (35, 35) */
+                            return propulsion_ThrusterState_BlinkLow;
+                        /* CIF ANSWER (729, 416), (70, 23) */
+                        else:
+                            /* CIF return (746, 459), (35, 35) */
+                            return propulsion_ThrusterState_BlinkHigh;
+                    enddecision;
+            enddecision;
+    endprocedure;
+    /* CIF procedure (350, 670), (126, 35) */
+    procedure SetEnginesPower;
+        /* CIF START (409, 81), (70, 35) */
+        START;
+            /* CIF decision (290, 136), (307, 50) */
+            decision m_objectreport.distance < m_distanceThreshold;
+                /* CIF ANSWER (730, 206), (70, 23) */
+                (false):
+                    /* CIF task (551, 249), (428, 35) */
+                    task m_power0 := 0.0, m_power1 := 0.0, m_power2 := 0.0, m_power3 := 0.0;
+                    /* CIF PROCEDURECALL (497, 304), (536, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(0, propulsion_ThrusterState_Off);
+                    /* CIF PROCEDURECALL (497, 359), (536, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(1, propulsion_ThrusterState_Off);
+                    /* CIF PROCEDURECALL (497, 414), (536, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(2, propulsion_ThrusterState_Off);
+                    /* CIF PROCEDURECALL (497, 469), (536, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(3, propulsion_ThrusterState_Off);
+                /* CIF ANSWER (229, 206), (70, 23) */
+                (true):
+                    /* CIF task (73, 249), (381, 35) */
+                    task m_power0 := abs(cos(m_objectreport.position * 3.14 - 2.355));
+                    /* CIF task (73, 304), (381, 35) */
+                    task m_power1 := abs(cos(m_objectreport.position * 3.14 - 0.785));
+                    /* CIF task (71, 359), (385, 35) */
+                    task m_power2 := abs(cos(m_objectreport.position * 3.14 + 0.785));
+                    /* CIF task (71, 414), (385, 35) */
+                    task m_power3 := abs(cos(m_objectreport.position * 3.14 + 2.355));
+                    /* CIF PROCEDURECALL (42, 464), (444, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(0, ToPower(m_power0));
+                    /* CIF PROCEDURECALL (42, 519), (444, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(1, ToPower(m_power1));
+                    /* CIF PROCEDURECALL (42, 574), (444, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(2, ToPower(m_power2));
+                    /* CIF PROCEDURECALL (42, 629), (444, 35) */
+                    call Propulsion_ChangeStateCmd_Pi(3, ToPower(m_power3));
+            enddecision;
+            /* CIF return (427, 680), (35, 35) */
+            return ;
+    endprocedure;
+    /* CIF procedure (348, 611), (245, 35) */
     procedure SunSensorReturn_ReturnDataCmd_Ri;
-        /* CIF TEXT (447, 79), (170, 140) */
+        /* CIF TEXT (447, 79), (217, 140) */
         fpar
             in     Choutput ConversionData;
         /* CIF ENDTEXT */
-        /* CIF START (251, 149), (70, 35) */
+        /* CIF START (628, 237), (70, 35) */
         START;
-            /* CIF return (268, 204), (35, 35) */
+            /* CIF task (323, 292), (679, 35) */
+            task m_sunReport := {luminance float(choutput.mValue) / 500000000.0, status vs_ok };
+            /* CIF return (645, 342), (35, 35) */
             return ;
     endprocedure;
-    /* CIF START (320, 10), (70, 35) */
+    /* CIF START (348, 366), (70, 35) */
     START;
-        /* CIF NEXTSTATE (320, 60), (70, 35) */
-        NEXTSTATE Wait;
-    /* CIF state (450, 10), (70, 35) */
-    state Wait;
+        /* CIF PROCEDURECALL (337, 421), (91, 35) */
+        call InitializeHw;
+        /* CIF NEXTSTATE (344, 471), (78, 35) */
+        NEXTSTATE IdleMode;
+    /* CIF state (1039, 877), (93, 35) */
+    state ActiveMode;
+        /* CIF input (951, 932), (269, 35) */
+        input ObjectDetection_Report(m_objectreport);
+            /* CIF decision (1008, 987), (155, 50) */
+            decision m_objectreport.status;
+                /* CIF ANSWER (1006, 1057), (70, 23) */
+                (vs_ok):
+                    /* CIF PROCEDURECALL (978, 1100), (126, 35) */
+                    call SetEnginesPower;
+                    /* CIF NEXTSTATE (1006, 1155), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (1205, 1057), (70, 23) */
+                else:
+                    /* CIF NEXTSTATE (1205, 1100), (70, 35) */
+                    NEXTSTATE -;
+            enddecision;
+    endstate;
+    /* CIF state (1028, 396), (176, 35) */
+    state PassiveMode, ActiveMode;
+        /* CIF input (994, 451), (245, 35) */
+        input SunSensorReturn_ReturnDataCmd_Ri;
+            /* CIF decision (981, 506), (271, 50) */
+            decision m_sunreport.luminance < m_sunthreshold;
+                /* CIF ANSWER (1230, 576), (70, 23) */
+                (false):
+                    /* CIF NEXTSTATE (1230, 619), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (1036, 576), (70, 23) */
+                (true):
+                    /* CIF task (919, 619), (304, 35) */
+                    task m_tm := tm_modechanged : {id 0, mode m_safe};
+                    /* CIF output (1031, 669), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (1030, 724), (82, 35) */
+                    NEXTSTATE SafeMode;
+            enddecision;
+    endstate;
+    /* CIF state (999, 62), (238, 35) */
+    state IdleMode, PassiveMode, ActiveMode;
+        /* CIF input (1083, 117), (70, 35) */
+        input pps;
+            /* CIF task (684, 172), (866, 35) */
+            task m_hk := {mode m_mode, objectDetection m_objectReport, propulsion {m_power0, m_power1, m_power2, m_power3}, luminance m_sunReport};
+            /* CIF output (1079, 227), (77, 35) */
+            output hk(m_hk);
+            /* CIF PROCEDURECALL (988, 282), (258, 35) */
+            call SunSensor_RequestDataCmd_Pi(m_sun);
+            /* CIF NEXTSTATE (1083, 332), (70, 35) */
+            NEXTSTATE -;
+    endstate;
+    /* CIF state (468, 362), (78, 35) */
+    state IdleMode;
+    endstate;
+    /* CIF state (466, 500), (82, 35) */
+    state SafeMode;
+    endstate;
+    /* CIF state (460, 458), (93, 35) */
+    state ActiveMode;
+    endstate;
+    /* CIF state (452, 408), (99, 35) */
+    state PassiveMode;
     endstate;
 endprocess Manager;

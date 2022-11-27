@@ -15,12 +15,28 @@ IMPORTS
    T-Int32, T-UInt32, T-Int8, T-UInt8, T-Boolean, T-Null-Record FROM TASTE-BasicTypes
    PID-Range, PID FROM System-Dataview;
 
-Manager-States ::= ENUMERATED {wait}
+Manager-States ::= ENUMERATED {idlemode-0-inited, passivemode-0-inited, activemode-0-inited, safemode-0-inited}
 
 Manager-Context ::= SEQUENCE {
    state Manager-States,
    init-done BOOLEAN,
-   sender PID
+   sender PID,
+   m-mode TMode,
+   m-tc TTC,
+   m-tm TTM,
+   m-hk THouseKeepingReport,
+   m-sunreport TSunMonitoringReport,
+   m-objectreport TObjectDetectionReport,
+   m-power0 TPower,
+   m-power1 TPower,
+   m-power2 TPower,
+   m-power3 TPower,
+   m-sunthreshold TLuminance,
+   m-distancethreshold TDistance,
+   m-propulsionconfig PropulsionConfig,
+   m-propulsion Propulsion,
+   m-sun SunSensor,
+   m-sunconfig SunSensorConfig
 }
 
 Manager-Ttc-Selection  ::= ENUMERATED {tc-goToIdle-present(1), tc-goToPassive-present(2), tc-goToActive-present(3)}

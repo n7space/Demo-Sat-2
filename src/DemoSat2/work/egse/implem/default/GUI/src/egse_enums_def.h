@@ -4,7 +4,7 @@
 */
 #pragma once
 
-// 3 poll, hk, tm
+// 2 hk, tm
 typedef enum {
    i_hk,
    i_tm
