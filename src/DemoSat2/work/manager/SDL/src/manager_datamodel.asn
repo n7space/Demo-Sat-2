@@ -15,7 +15,7 @@ IMPORTS
    T-Int32, T-UInt32, T-Int8, T-UInt8, T-Boolean, T-Null-Record FROM TASTE-BasicTypes
    PID-Range, PID FROM System-Dataview;
 
-Manager-States ::= ENUMERATED {idlemode-0-inited, safemode-0-inited, activemode-0-inited, passivemode-0-inited}
+Manager-States ::= ENUMERATED {safemode-0-inited, idlemode-0-inited, activemode-0-inited, passivemode-0-inited}
 
 Manager-Context ::= SEQUENCE {
    state Manager-States,
