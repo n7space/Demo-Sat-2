@@ -1,41 +1,5 @@
 /* CIF PROCESS (250, 150), (150, 75) */
 process Manager;
-    state PassiveMode;
-    substructure
-            /* CIF START (233, 39), (70, 35) */
-            START;
-                /* CIF task (192, 94), (151, 35) */
-                task m_mode := m_passive;
-                /* CIF PROCEDURECALL (154, 149), (228, 35) */
-                call ObjectDetection_SetEnabled(true);
-                /* CIF PROCEDURECALL (0, 204), (536, 35) */
-                call Propulsion_ChangeStateCmd_Pi(0, propulsion_ThrusterState_Off);
-                /* CIF PROCEDURECALL (0, 259), (536, 35) */
-                call Propulsion_ChangeStateCmd_Pi(1, propulsion_ThrusterState_Off);
-                /* CIF PROCEDURECALL (0, 314), (536, 35) */
-                call Propulsion_ChangeStateCmd_Pi(2, propulsion_ThrusterState_Off);
-                /* CIF PROCEDURECALL (0, 369), (536, 35) */
-                call Propulsion_ChangeStateCmd_Pi(3, propulsion_ThrusterState_Off);
-                /* CIF NEXTSTATE (233, 419), (70, 35) */
-                NEXTSTATE Inited;
-            /* CIF state (356, 29), (70, 35) */
-            state Inited;
-            endstate;
-    endsubstructure;
-    state ActiveMode;
-    substructure
-            /* CIF START (119, 33), (70, 35) */
-            START;
-                /* CIF task (82, 88), (143, 35) */
-                task m_mode := m_active;
-                /* CIF PROCEDURECALL (40, 143), (228, 35) */
-                call ObjectDetection_SetEnabled(true);
-                /* CIF NEXTSTATE (119, 193), (70, 35) */
-                NEXTSTATE Inited;
-            /* CIF state (291, 27), (70, 35) */
-            state Inited;
-            endstate;
-    endsubstructure;
     state SafeMode;
     substructure
             /* CIF START (233, 20), (70, 35) */
@@ -58,7 +22,7 @@ process Manager;
             state Inited;
             endstate;
     endsubstructure;
-    state IdleMode;
+    state PassiveMode;
     substructure
             /* CIF START (233, 37), (70, 35) */
             START;
@@ -80,7 +44,51 @@ process Manager;
             state Inited;
             endstate;
     endsubstructure;
-    /* CIF TEXT (325, 25), (299, 248) */
+    state ActiveMode;
+    substructure
+            /* CIF START (233, 39), (70, 35) */
+            START;
+                /* CIF task (192, 94), (151, 35) */
+                task m_mode := m_passive;
+                /* CIF PROCEDURECALL (154, 149), (228, 35) */
+                call ObjectDetection_SetEnabled(true);
+                /* CIF PROCEDURECALL (0, 204), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(0, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 259), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(1, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 314), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(2, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 369), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(3, propulsion_ThrusterState_Off);
+                /* CIF NEXTSTATE (233, 419), (70, 35) */
+                NEXTSTATE Inited;
+            /* CIF state (356, 29), (70, 35) */
+            state Inited;
+            endstate;
+    endsubstructure;
+    state IdleMode;
+    substructure
+            /* CIF START (233, 20), (70, 35) */
+            START;
+                /* CIF task (201, 75), (133, 35) */
+                task m_mode := m_safe;
+                /* CIF PROCEDURECALL (152, 130), (231, 35) */
+                call ObjectDetection_SetEnabled(false);
+                /* CIF PROCEDURECALL (0, 180), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(0, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 235), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(1, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 290), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(2, propulsion_ThrusterState_Off);
+                /* CIF PROCEDURECALL (0, 345), (536, 35) */
+                call Propulsion_ChangeStateCmd_Pi(3, propulsion_ThrusterState_Off);
+                /* CIF NEXTSTATE (233, 403), (70, 35) */
+                NEXTSTATE Inited;
+            /* CIF state (401, 26), (70, 35) */
+            state Inited;
+            endstate;
+    endsubstructure;
+    /* CIF TEXT (336, 25), (299, 248) */
     DCL m_mode TMode := m_idle;
     DCL m_tc TTC;
     DCL m_tm TTM;
@@ -98,7 +106,7 @@ process Manager;
     DCL m_sun SunSensor;
     DCL m_sunConfig  SunSensorConfig;
     /* CIF ENDTEXT */
-    /* CIF procedure (349, 807), (91, 35) */
+    /* CIF procedure (361, 807), (91, 35) */
     procedure InitializeHw;
         /* CIF START (531, 33), (70, 35) */
         START;
@@ -119,7 +127,7 @@ process Manager;
             /* CIF return (549, 468), (35, 35) */
             return ;
     endprocedure;
-    /* CIF procedure (354, 740), (74, 35) */
+    /* CIF procedure (365, 740), (74, 35) */
     procedure ToPower;
         /* CIF TEXT (100, 32), (226, 140) */
         fpar
@@ -153,7 +161,7 @@ process Manager;
                     enddecision;
             enddecision;
     endprocedure;
-    /* CIF procedure (350, 670), (126, 35) */
+    /* CIF procedure (361, 670), (126, 35) */
     procedure SetEnginesPower;
         /* CIF START (409, 81), (70, 35) */
         START;
@@ -193,7 +201,7 @@ process Manager;
             /* CIF return (427, 680), (35, 35) */
             return ;
     endprocedure;
-    /* CIF procedure (348, 611), (245, 35) */
+    /* CIF procedure (359, 611), (245, 35) */
     procedure SunSensorReturn_ReturnDataCmd_Ri;
         /* CIF TEXT (447, 79), (217, 140) */
         fpar
@@ -206,73 +214,221 @@ process Manager;
             /* CIF return (645, 342), (35, 35) */
             return ;
     endprocedure;
-    /* CIF START (348, 366), (70, 35) */
+    /* CIF START (359, 366), (70, 35) */
     START;
-        /* CIF PROCEDURECALL (337, 421), (91, 35) */
+        /* CIF PROCEDURECALL (348, 421), (91, 35) */
         call InitializeHw;
-        /* CIF NEXTSTATE (344, 471), (78, 35) */
+        /* CIF NEXTSTATE (355, 471), (78, 35) */
         NEXTSTATE IdleMode;
-    /* CIF state (1039, 877), (93, 35) */
-    state ActiveMode;
-        /* CIF input (951, 932), (269, 35) */
-        input ObjectDetection_Report(m_objectreport);
-            /* CIF decision (1008, 987), (155, 50) */
-            decision m_objectreport.status;
-                /* CIF ANSWER (1006, 1057), (70, 23) */
-                (vs_ok):
-                    /* CIF PROCEDURECALL (978, 1100), (126, 35) */
-                    call SetEnginesPower;
-                    /* CIF NEXTSTATE (1006, 1155), (70, 35) */
+    /* CIF state (2056, 1212), (78, 35) */
+    state IdleMode;
+        /* CIF input (2060, 1267), (71, 35) */
+        input tc(m_tc);
+            /* CIF decision (2042, 1322), (108, 50) */
+            decision present(m_tc);
+                /* CIF ANSWER (2530, 1392), (106, 23) */
+                (tc_goToActive):
+                    /* CIF task (2363, 1435), (440, 35) */
+                    task m_tm := tm_failed : {id m_tc.tc_goToActive.id, reason fr_incorrectState};
+                    /* CIF output (2542, 1490), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (2548, 1545), (70, 35) */
                     NEXTSTATE -;
-                /* CIF ANSWER (1205, 1057), (70, 23) */
+                /* CIF ANSWER (1625, 1392), (91, 23) */
+                (tc_goToIdle):
+                    /* CIF task (1457, 1435), (426, 35) */
+                    task m_tm := tm_failed : {id m_tc.tc_goToIdle.id, reason fr_incorrectState};
+                    /* CIF output (1630, 1490), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (1636, 1545), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (2072, 1392), (112, 23) */
+                (tc_goToPassive):
+                    /* CIF task (1969, 1435), (318, 35) */
+                    task m_tm := tm_executed : {id m_tc.tc_goToPassive.id};
+                    /* CIF output (2087, 1490), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF task (1902, 1545), (451, 35) */
+                    task m_tm := tm_modechanged : {id m_tc.tc_goToPassive.id, mode m_passive};
+                    /* CIF output (2087, 1600), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (2078, 1650), (99, 35) */
+                    NEXTSTATE PassiveMode;
+            enddecision;
+    endstate;
+    /* CIF state (635, 1221), (82, 35) */
+    state SafeMode;
+        /* CIF input (641, 1276), (71, 35) */
+        input tc(m_tc);
+            /* CIF decision (623, 1331), (108, 50) */
+            decision present(m_tc);
+                /* CIF ANSWER (1112, 1401), (106, 23) */
+                (tc_goToActive):
+                    /* CIF task (945, 1444), (440, 35) */
+                    task m_tm := tm_failed : {id m_tc.tc_goToActive.id, reason fr_incorrectState};
+                    /* CIF output (1125, 1499), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (1131, 1554), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (654, 1401), (112, 23) */
+                (tc_goToPassive):
+                    /* CIF task (487, 1444), (447, 35) */
+                    task m_tm := tm_failed : {id m_tc.tc_goToPassive.id, reason fr_incorrectState};
+                    /* CIF output (670, 1499), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (676, 1554), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (207, 1401), (91, 23) */
+                (tc_goToIdle):
+                    /* CIF task (104, 1444), (297, 35) */
+                    task m_tm := tm_executed : {id m_tc.tc_goToIdle.id};
+                    /* CIF output (212, 1499), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF task (48, 1554), (409, 35) */
+                    task m_tm := tm_modechanged : {id m_tc.tc_goToIdle.id, mode m_idle};
+                    /* CIF output (212, 1609), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (213, 1659), (78, 35) */
+                    NEXTSTATE IdleMode;
+            enddecision;
+    endstate;
+    /* CIF state (1050, 877), (93, 35) */
+    state ActiveMode;
+        /* CIF input (962, 932), (269, 35) */
+        input ObjectDetection_Report(m_objectreport);
+            /* CIF decision (1020, 987), (155, 50) */
+            decision m_objectreport.status;
+                /* CIF ANSWER (1017, 1057), (70, 23) */
+                (vs_ok):
+                    /* CIF PROCEDURECALL (989, 1100), (126, 35) */
+                    call SetEnginesPower;
+                    /* CIF NEXTSTATE (1017, 1155), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (1216, 1057), (70, 23) */
                 else:
-                    /* CIF NEXTSTATE (1205, 1100), (70, 35) */
+                    /* CIF NEXTSTATE (1216, 1100), (70, 35) */
                     NEXTSTATE -;
             enddecision;
     endstate;
-    /* CIF state (1028, 396), (176, 35) */
+    /* CIF state (1039, 396), (176, 35) */
     state PassiveMode, ActiveMode;
-        /* CIF input (994, 451), (245, 35) */
+        /* CIF input (1005, 451), (245, 35) */
         input SunSensorReturn_ReturnDataCmd_Ri;
-            /* CIF decision (981, 506), (271, 50) */
+            /* CIF decision (992, 506), (271, 50) */
             decision m_sunreport.luminance < m_sunthreshold;
-                /* CIF ANSWER (1230, 576), (70, 23) */
+                /* CIF ANSWER (1241, 576), (70, 23) */
                 (false):
-                    /* CIF NEXTSTATE (1230, 619), (70, 35) */
+                    /* CIF NEXTSTATE (1241, 619), (70, 35) */
                     NEXTSTATE -;
-                /* CIF ANSWER (1036, 576), (70, 23) */
+                /* CIF ANSWER (1048, 576), (70, 23) */
                 (true):
-                    /* CIF task (919, 619), (304, 35) */
+                    /* CIF task (930, 619), (304, 35) */
                     task m_tm := tm_modechanged : {id 0, mode m_safe};
-                    /* CIF output (1031, 669), (81, 35) */
+                    /* CIF output (1042, 669), (81, 35) */
                     output tm(m_tm);
-                    /* CIF NEXTSTATE (1030, 724), (82, 35) */
+                    /* CIF NEXTSTATE (1041, 724), (82, 35) */
                     NEXTSTATE SafeMode;
             enddecision;
     endstate;
-    /* CIF state (999, 62), (238, 35) */
+    /* CIF state (2058, 1746), (93, 35) */
+    state ActiveMode;
+        /* CIF input (2070, 1801), (71, 35) */
+        input tc(m_tc);
+            /* CIF decision (2051, 1856), (108, 50) */
+            decision present(m_tc);
+                /* CIF ANSWER (2536, 1926), (106, 23) */
+                (tc_goToActive):
+                    /* CIF task (2369, 1969), (440, 35) */
+                    task m_tm := tm_failed : {id m_tc.tc_goToActive.id, reason fr_incorrectState};
+                    /* CIF output (2549, 2024), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (2555, 2079), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (2078, 1926), (112, 23) */
+                (tc_goToPassive):
+                    /* CIF task (1976, 1969), (318, 35) */
+                    task m_tm := tm_executed : {id m_tc.tc_goToPassive.id};
+                    /* CIF output (2094, 2024), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF task (1909, 2079), (451, 35) */
+                    task m_tm := tm_modechanged : {id m_tc.tc_goToPassive.id, mode m_passive};
+                    /* CIF output (2094, 2134), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (2085, 2184), (99, 35) */
+                    NEXTSTATE PassiveMode;
+                /* CIF ANSWER (1631, 1926), (91, 23) */
+                (tc_goToIdle):
+                    /* CIF task (1464, 1969), (426, 35) */
+                    task m_tm := tm_failed : {id m_tc.tc_goToIdle.id, reason fr_incorrectState};
+                    /* CIF output (1636, 2024), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (1642, 2079), (70, 35) */
+                    NEXTSTATE -;
+            enddecision;
+    endstate;
+    /* CIF state (580, 1752), (99, 35) */
+    state PassiveMode;
+        /* CIF input (596, 1807), (71, 35) */
+        input tc(m_tc);
+            /* CIF decision (577, 1862), (108, 50) */
+            decision present(m_tc);
+                /* CIF ANSWER (605, 1932), (112, 23) */
+                (tc_goToPassive):
+                    /* CIF task (438, 1975), (447, 35) */
+                    task m_tm := tm_failed : {id m_tc.tc_goToPassive.id, reason fr_incorrectState};
+                    /* CIF output (621, 2030), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (627, 2085), (70, 35) */
+                    NEXTSTATE -;
+                /* CIF ANSWER (158, 1932), (91, 23) */
+                (tc_goToIdle):
+                    /* CIF task (55, 1975), (297, 35) */
+                    task m_tm := tm_executed : {id m_tc.tc_goToIdle.id};
+                    /* CIF output (163, 2030), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF task (0, 2085), (409, 35) */
+                    task m_tm := tm_modechanged : {id m_tc.tc_goToIdle.id, mode m_idle};
+                    /* CIF output (163, 2140), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (165, 2190), (78, 35) */
+                    NEXTSTATE IdleMode;
+                /* CIF ANSWER (1063, 1932), (106, 23) */
+                (tc_goToActive):
+                    /* CIF task (961, 1975), (312, 35) */
+                    task m_tm := tm_executed : {id m_tc.tc_goToActive.id};
+                    /* CIF output (1076, 2030), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF task (905, 2085), (423, 35) */
+                    task m_tm := tm_modechanged : {id m_tc.tc_goToActive.id, mode m_idle};
+                    /* CIF output (1076, 2140), (81, 35) */
+                    output tm(m_tm);
+                    /* CIF NEXTSTATE (1070, 2190), (93, 35) */
+                    NEXTSTATE ActiveMode;
+            enddecision;
+    endstate;
+    /* CIF state (1010, 62), (238, 35) */
     state IdleMode, PassiveMode, ActiveMode;
-        /* CIF input (1083, 117), (70, 35) */
+        /* CIF input (1094, 117), (70, 35) */
         input pps;
-            /* CIF task (684, 172), (866, 35) */
+            /* CIF task (695, 172), (866, 35) */
             task m_hk := {mode m_mode, objectDetection m_objectReport, propulsion {m_power0, m_power1, m_power2, m_power3}, luminance m_sunReport};
-            /* CIF output (1079, 227), (77, 35) */
+            /* CIF output (1090, 227), (77, 35) */
             output hk(m_hk);
-            /* CIF PROCEDURECALL (988, 282), (258, 35) */
+            /* CIF PROCEDURECALL (1000, 282), (258, 35) */
             call SunSensor_RequestDataCmd_Pi(m_sun);
-            /* CIF NEXTSTATE (1083, 332), (70, 35) */
+            /* CIF NEXTSTATE (1094, 332), (70, 35) */
             NEXTSTATE -;
     endstate;
-    /* CIF state (468, 362), (78, 35) */
+    /* CIF state (479, 362), (78, 35) */
     state IdleMode;
     endstate;
-    /* CIF state (466, 500), (82, 35) */
+    /* CIF state (477, 500), (82, 35) */
     state SafeMode;
     endstate;
-    /* CIF state (460, 458), (93, 35) */
+    /* CIF state (472, 458), (93, 35) */
     state ActiveMode;
     endstate;
-    /* CIF state (452, 408), (99, 35) */
+    /* CIF state (463, 408), (99, 35) */
     state PassiveMode;
     endstate;
 endprocess Manager;
