@@ -9,7 +9,7 @@ BEGIN
 
    TEnabled ::= BOOLEAN
 
-   TPower ::= REAL(0..1)
+   TPower ::= REAL(0..10)
 
    TMode ::= ENUMERATED {
       m-idle,
