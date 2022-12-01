@@ -1,6 +1,6 @@
 all:
 	mkdir -p code
-	cd code && opengeode --toAda /home/taste/workspace/Demo-Sat-2/src/DemoSat2/work/manager/SDL/src/system_structure.pr 
+	cd code && opengeode --toAda /home/taste/workspace/Demo-Sat-2/src/DemoSat2/work/manager/SDL/src/manager.pr 
 	asn1scc -fp AUTO -typePrefix asn1Scc -o code -equal -Ada dataview-uniq.asn code/manager_datamodel.asn
 	cd code && gnat make manager
 clean:
