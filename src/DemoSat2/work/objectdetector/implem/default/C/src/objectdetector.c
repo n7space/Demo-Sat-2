@@ -57,7 +57,7 @@ void objectdetector_startup(void)
 
 void objectdetector_PI_ObjectDetection_SetEnabled( const asn1SccTEnabled * isEnabled)
 {
-   if (isEnabled && !objectdetector_isInitialized) {
+   if (*isEnabled && !objectdetector_isInitialized) {
       objectdetector_RI_Lidar_InitLidarCmd_Pi(&objectdetector_lidar, &objectdetector_lidarConfig);
       objectdetector_isInitialized = true;
    }
