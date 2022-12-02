@@ -58,6 +58,9 @@ static asn1SccTSunMonitoringReport manager_luminanceReport = {
     .luminance = 0.0f,
     .status = TValidityStatus_vs_nil};
 
+static asn1SccTLuminance manager_luminanceThreshold = 0.0f;
+static asn1SccTDistance manager_distanceThreshold = 0.0f;
+
 static void initializeHw()
 {
    manager_RI_SunSensor_InitSunSensorCmd_Pi(&manager_sunSensorConfig, &manager_sunSensorAfec);
@@ -133,17 +136,20 @@ void manager_PI_pps(void)
    switch (manager_mode)
    {
    case TMode_m_initializing:
-      //initializeHw();
+      initializeHw();
       enterIdle(0);
       break;
    case TMode_m_idle:
       reportHk();
+      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_passive:
       reportHk();
+      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_active:
       reportHk();
+      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_safe:
       // NOP
@@ -194,6 +200,7 @@ void manager_PI_tc(const asn1SccTTC *IN_request)
       {
       case TMode_m_idle:
          reportSuccess(IN_request->u.tc_goToPassive.id);
+         manager_luminanceThreshold = IN_request->u.tc_goToPassive.sunThreshold;
          enterPassive(IN_request->u.tc_goToPassive.id);
          break;
       case TMode_m_passive:
@@ -201,6 +208,7 @@ void manager_PI_tc(const asn1SccTTC *IN_request)
          break;
       case TMode_m_active:
          reportSuccess(IN_request->u.tc_goToPassive.id);
+         manager_luminanceThreshold = IN_request->u.tc_goToPassive.sunThreshold;
          enterPassive(IN_request->u.tc_goToPassive.id);
          break;
       case TMode_m_safe:
@@ -216,6 +224,7 @@ void manager_PI_tc(const asn1SccTTC *IN_request)
          break;
       case TMode_m_passive:
          reportSuccess(IN_request->u.tc_goToActive.id);
+         manager_distanceThreshold = IN_request->u.tc_goToActive.distanceThreshold;
          enterActive(IN_request->u.tc_goToActive.id);
          break;
       case TMode_m_active:
