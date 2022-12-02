@@ -8,6 +8,7 @@
     !! file. The up-to-date signatures can be found in the .ads file.   !!
 */
 #include "manager.h"
+#include <math.h>
 
 static asn1SccTMode manager_mode = TMode_m_initializing;
 static asn1SccSunSensor manager_sunSensorAfec;
@@ -60,6 +61,8 @@ static asn1SccTSunMonitoringReport manager_luminanceReport = {
 
 static asn1SccTLuminance manager_luminanceThreshold = 0.0f;
 static asn1SccTDistance manager_distanceThreshold = 0.0f;
+static asn1SccTEnabled ENABLED = true;
+static asn1SccTEnabled DISABLED = false;
 
 static void initializeHw()
 {
@@ -107,28 +110,83 @@ static void reportMode(asn1SccTCID id)
    manager_RI_tm(&tm);
 }
 
+static asn1SccPropulsion_ThrusterState toThrusterState(const float value)
+{
+   if (value >= 0.75f)
+   {
+      return Propulsion_ThrusterState_propulsion_ThrusterState_On;
+   }
+   else if (value >= 0.5f)
+   {
+      return Propulsion_ThrusterState_propulsion_ThrusterState_BlinkHigh;
+   }
+   else if (value >= 0.25f)
+   {
+      return Propulsion_ThrusterState_propulsion_ThrusterState_BlinkLow;
+   }
+   else
+   {
+      return Propulsion_ThrusterState_propulsion_ThrusterState_Off;
+   }
+}
+
+static void setThruster(const uint32_t index, const float power) {
+   manager_propulsionReport.arr[index] = power;
+   asn1SccPropulsionThrusterIndex thruster = index;
+   asn1SccPropulsion_ThrusterState state = toThrusterState(power);
+   manager_RI_Propulsion_ChangeStateCmd_Pi(&thruster, &state);
+}
+
+static void disablePropulsion()
+{
+   setThruster(0, 0.0f);
+   setThruster(1, 0.0f);
+   setThruster(2, 0.0f);
+   setThruster(3, 0.0f);
+ }
+
 static void enterIdle(asn1SccTCID id)
 {
    manager_mode = TMode_m_idle;
    reportMode(id);
+   disablePropulsion();
+   manager_RI_ObjectDetection_SetEnabled(&DISABLED);
 }
 
 static void enterPassive(asn1SccTCID id)
 {
    manager_mode = TMode_m_passive;
    reportMode(id);
+   disablePropulsion();
+   manager_RI_ObjectDetection_SetEnabled(&ENABLED);
 }
 
 static void enterActive(asn1SccTCID id)
 {
    manager_mode = TMode_m_active;
    reportMode(id);
+   manager_RI_ObjectDetection_SetEnabled(&ENABLED);
 }
 
 static void enterSafe(asn1SccTCID id)
 {
    manager_mode = TMode_m_safe;
    reportMode(id);
+   disablePropulsion();
+   manager_RI_ObjectDetection_SetEnabled(&DISABLED);
+}
+
+static float alignmentFactor(const float position, const float reference, const float margin)
+{
+   const float distance = abs(position - reference);
+   if (distance < margin)
+   {
+      return (margin - distance) / margin;
+   }
+   else
+   {
+      return 0.0f;
+   }
 }
 
 void manager_PI_pps(void)
@@ -164,6 +222,25 @@ void manager_startup(void)
 void manager_PI_ObjectDetection_Report(const asn1SccTObjectDetectionReport *IN_report)
 {
    manager_objectDetectionReport = *IN_report;
+   if (manager_mode != TMode_m_active)
+   {
+      return;
+   }
+   if (manager_objectDetectionReport.status != TValidityStatus_vs_ok)
+   {
+      return;
+   }
+   if (manager_objectDetectionReport.distance < manager_distanceThreshold)
+   {
+      setThruster(0, alignmentFactor(manager_objectDetectionReport.position, -0.75f, 0.5f));
+      setThruster(1, alignmentFactor(manager_objectDetectionReport.position, -0.25f, 0.5f));
+      setThruster(2, alignmentFactor(manager_objectDetectionReport.position, 0.25f, 0.5f));
+      setThruster(3, alignmentFactor(manager_objectDetectionReport.position, 0.75f, 0.5f));
+   }
+   else
+   {
+      disablePropulsion();
+   }
 }
 
 void manager_PI_SunSensorReturn_ReturnDataCmd_Ri(const asn1SccConversionData *IN_choutput)
