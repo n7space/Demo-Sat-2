@@ -48,9 +48,15 @@ const asn1SccPropulsionConfig manager_propulsionConfig = {.arr =
                                                                   },
                                                               }};
 
-static asn1SccTObjectDetectionReport manager_objectDetectionReport;
-static asn1SccTHouseKeepingReport_propulsion manager_propulsionReport;
-static asn1SccTSunMonitoringReport manager_luminanceReport;
+static asn1SccTObjectDetectionReport manager_objectDetectionReport = {
+    .position = 0.0f,
+    .distance = 0.0f,
+    .status = TValidityStatus_vs_nil};
+static asn1SccTHouseKeepingReport_propulsion manager_propulsionReport = {
+    .arr = {0.0f, 0.0f, 0.0f, 0.0f}};
+static asn1SccTSunMonitoringReport manager_luminanceReport = {
+    .luminance = 0.0f,
+    .status = TValidityStatus_vs_nil};
 
 static void initializeHw()
 {
