@@ -67,6 +67,7 @@ static void initializeHw()
 static void reportHk()
 {
    asn1SccTHouseKeepingReport report;
+   memset(&report, 0, sizeof(asn1SccTHouseKeepingReport));
    report.mode = manager_mode;
    report.objectDetection = manager_objectDetectionReport;
    report.propulsion = manager_propulsionReport;
@@ -77,6 +78,7 @@ static void reportHk()
 static void reportSuccess(asn1SccTCID id)
 {
    asn1SccTTM tm;
+   memset(&tm, 0, sizeof(asn1SccTTM));
    tm.kind = TTM_tm_executed_PRESENT;
    tm.u.tm_executed.id = id;
    manager_RI_tm(&tm);
@@ -85,6 +87,7 @@ static void reportSuccess(asn1SccTCID id)
 static void reportFailure(asn1SccTCID id, asn1SccTFailureReason reason)
 {
    asn1SccTTM tm;
+   memset(&tm, 0, sizeof(asn1SccTTM));
    tm.kind = TTM_tm_failed_PRESENT;
    tm.u.tm_failed.id = id;
    tm.u.tm_failed.reason = reason;
@@ -94,6 +97,7 @@ static void reportFailure(asn1SccTCID id, asn1SccTFailureReason reason)
 static void reportMode(asn1SccTCID id)
 {
    asn1SccTTM tm;
+   memset(&tm, 0, sizeof(asn1SccTTM));
    tm.kind = TTM_tm_modeChanged_PRESENT;
    tm.u.tm_modeChanged.id = id;
    tm.u.tm_modeChanged.mode = manager_mode;
@@ -129,7 +133,7 @@ void manager_PI_pps(void)
    switch (manager_mode)
    {
    case TMode_m_initializing:
-      initializeHw();
+      //initializeHw();
       enterIdle(0);
       break;
    case TMode_m_idle:
