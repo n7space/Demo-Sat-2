@@ -35,10 +35,6 @@ dataview:	dataview/C/built dataview/Ada/built
 	cp -u ${DATAVIEW_UNIQ} lidardriver/SDL/src
 	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
 	md5sum -c "lidardriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "lidardriver/SDL/src/dataview-uniq.asn" >  "lidardriver/SDL/src/dataview.md5"
-	# Copy the dataview to SDL/SEDS function Manager (no context parameters)
-	cp -u ${DATAVIEW_UNIQ} manager/SDL/src
-	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
-	md5sum -c "manager/SDL/src/dataview.md5"  &> /dev/null || md5sum  "manager/SDL/src/dataview-uniq.asn" >  "manager/SDL/src/dataview.md5"
 	# Copy the dataview to SDL/SEDS function MP6500Driver (no context parameters)
 	cp -u ${DATAVIEW_UNIQ} mp6500driver/SDL/src
 	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
@@ -107,7 +103,7 @@ build/system_config.h:	$(wildcard */*/wrappers/*_system_config.h)
 	cat $^ > $@
 
 #  Call DMT/aadl2glueC to generate glue code from the mini-cv.aadl files
-aadl2glueC:	afechwasdriver/SDL/wrappers/aadl2glueC_built egse/GUI/wrappers/aadl2glueC_built hwas/C/wrappers/aadl2glueC_built interruptproxy/SDL/wrappers/aadl2glueC_built lidardriver/SDL/wrappers/aadl2glueC_built manager/SDL/wrappers/aadl2glueC_built mp6500driver/SDL/wrappers/aadl2glueC_built objectdetector/C/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built propulsiondriver/SDL/wrappers/aadl2glueC_built sunsensordriver/SDL/wrappers/aadl2glueC_built tflunadriver/SDL/wrappers/aadl2glueC_built uarthwasdriver/SDL/wrappers/aadl2glueC_built
+aadl2glueC:	afechwasdriver/SDL/wrappers/aadl2glueC_built asw_timer_manager/Timer_Manager/wrappers/aadl2glueC_built egse/GUI/wrappers/aadl2glueC_built hwas/C/wrappers/aadl2glueC_built interruptproxy/SDL/wrappers/aadl2glueC_built lidardriver/SDL/wrappers/aadl2glueC_built manager/C/wrappers/aadl2glueC_built mp6500driver/SDL/wrappers/aadl2glueC_built objectdetector/C/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built propulsiondriver/SDL/wrappers/aadl2glueC_built sunsensordriver/SDL/wrappers/aadl2glueC_built tflunadriver/SDL/wrappers/aadl2glueC_built uarthwasdriver/SDL/wrappers/aadl2glueC_built
 
 # Build dataview.aadl in AADLv1 format, used by DMT to generate glue code
 ${DATAVIEW_AADLV1}: ${DATAVIEW_UNIQ}
@@ -118,6 +114,10 @@ ${DATAVIEW_AADLV2}: ${DATAVIEW_UNIQ}
 	asn2aadlPlus --aadlv2  $< $@
 
 afechwasdriver/SDL/wrappers/aadl2glueC_built: afechwasdriver/SDL/wrappers/afechwasdriver_mini_cv.aadl ${DATAVIEW_AADLV1}
+	aadl2glueC -allboards -o $(dir $@) $^
+	touch $@
+
+asw_timer_manager/Timer_Manager/wrappers/aadl2glueC_built: asw_timer_manager/Timer_Manager/wrappers/asw_timer_manager_mini_cv.aadl ${DATAVIEW_AADLV1}
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
 
@@ -137,7 +137,7 @@ lidardriver/SDL/wrappers/aadl2glueC_built: lidardriver/SDL/wrappers/lidardriver_
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
 
-manager/SDL/wrappers/aadl2glueC_built: manager/SDL/wrappers/manager_mini_cv.aadl ${DATAVIEW_AADLV1}
+manager/C/wrappers/aadl2glueC_built: manager/C/wrappers/manager_mini_cv.aadl ${DATAVIEW_AADLV1}
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
 

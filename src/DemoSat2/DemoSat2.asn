@@ -12,6 +12,7 @@ BEGIN
    TPower ::= REAL(0..10)
 
    TMode ::= ENUMERATED {
+      m-initializing,
       m-idle,
       m-passive,
       m-active,

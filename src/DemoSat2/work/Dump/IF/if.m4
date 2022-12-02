@@ -302,38 +302,15 @@ include(lidardriver.if)
 
 include(mp6500driver.if)
 
-m4_sporadic_itf_handler(
-    manager,
-    objectdetection_report,
-    TObjectDetectionReport,
-     0,
-     1)
+m4_c_function(manager,// ERROR: Interface "ObjectDetection_Report" in function "Manager" has unsupported kind: "SPORADIC_OPERATION"
 
-// ERROR: Interface "SunSensorReturn_ReturnDataCmd_Ri" in function "Manager" has unsupported kind: "PROTECTED_OPERATION"
+(SunSensorReturn_ReturnDataCmd_Ri,(chOutput),(ConversionData),(PARAM_IN), 0),
 
-m4_cyclic_itf_handler(
-    manager,
-    pps,
-     1000,
-     1)
+(pps,(),(),(), 0),
 
-m4_sporadic_itf_handler(
-    manager,
-    tc,
-    TTC,
-     0,
-     1)
+// ERROR: Interface "tc" in function "Manager" has unsupported kind: "SPORADIC_OPERATION"
 
-
-
-
-
-
-
-
-
-
-include(manager.if)
+)
 
 m4_c_function(objectdetector,// ERROR: Interface "LidarTrigger_ReturnDataCmd_Ri" in function "ObjectDetector" has unsupported kind: "SPORADIC_OPERATION"
 
