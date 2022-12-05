@@ -11,8 +11,6 @@
 extern "C" {
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
 
 void objectdetector_startup(void);
 

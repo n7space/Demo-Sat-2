@@ -109,7 +109,7 @@ void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
 
    objectdetector_maxStep = max(objectdetector_maxStep, IN_inputparam->data.mStep);
    objectdetector_minStep = min(objectdetector_minStep, IN_inputparam->data.mStep);
-   if (objectdetector_anchorStep = OBJECT_DETECTOR_INVALID_STEP) {
+   if (objectdetector_anchorStep == OBJECT_DETECTOR_INVALID_STEP) {
       objectdetector_anchorStep = IN_inputparam->data.mStep;
    }
    else if (objectdetector_anchorStep == IN_inputparam->data.mStep) {

@@ -869,69 +869,72 @@ process UartHwasDriver;
             enddecision;
             /* CIF Label (1200, 637), (100, 50) */
             condition_1:
+            -- Read RXRDY bit from UART_SR
+            /* CIF ProcedureCall (1200, 712), (100, 50) */
+            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, bitsMaskVar, Bitsvaluevar);
             -- Is RxRDY set in SR and IMR?
-            /* CIF Decision (1200, 637), (400, 50) */
+            /* CIF Decision (1200, 712), (400, 50) */
             decision Bitsvaluevar = 1;
-                /* CIF Answer (1200, 712), (400, 50) */
+                /* CIF Answer (1200, 787), (400, 50) */
                 (True):
-                    /* CIF Task (1200, 787), (100, 50) */
+                    /* CIF Task (1200, 862), (100, 50) */
                     task Sourceaddressvar := Uartvar.Muartrhraddress;
                     -- Read byte
-                    /* CIF ProcedureCall (1200, 862), (100, 50) */
+                    /* CIF ProcedureCall (1200, 937), (100, 50) */
                     call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 255, Bitsvaluevar);
-                    /* CIF Task (1200, 937), (100, 50) */
-                    task Bytevar := Bitsvaluevar;
                     /* CIF Task (1200, 1012), (100, 50) */
+                    task Bytevar := Bitsvaluevar;
+                    /* CIF Task (1200, 1087), (100, 50) */
                     task Io_uarthwas_readbyteasynccmd_ri.Bytetoread := Bytevar;
-                    /* CIF Output (1200, 1087), (200, 50) */
+                    /* CIF Output (1200, 1162), (200, 50) */
                     output UartHwas_ReadByteAsyncCmd_Ri(Io_uarthwas_readbyteasynccmd_ri);
-                    /* CIF Join (1200, 1162), (100, 50) */
+                    /* CIF Join (1200, 1237), (100, 50) */
                     join condition_2;
-                /* CIF Answer (1800, 712), (400, 50) */
+                /* CIF Answer (1800, 787), (400, 50) */
                 (False):
-                    /* CIF Join (1800, 787), (100, 50) */
+                    /* CIF Join (1800, 862), (100, 50) */
                     join condition_2;
             enddecision;
-            /* CIF Label (2400, 787), (100, 50) */
+            /* CIF Label (2400, 862), (100, 50) */
             condition_2:
-            /* CIF Task (2400, 862), (100, 50) */
+            /* CIF Task (2400, 937), (100, 50) */
             task Sourceaddressvar := Uartvar.Muartimraddress;
             -- Read interrupt mask for TXEMPTY(IMR)
-            /* CIF ProcedureCall (2400, 937), (100, 50) */
+            /* CIF ProcedureCall (2400, 1012), (100, 50) */
             call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 512, Bitsmaskvar);
-            /* CIF Task (2400, 1012), (100, 50) */
+            /* CIF Task (2400, 1087), (100, 50) */
             task Sourceaddressvar := Uartvar.Muartsraddress;
             -- Read uartVar status of RXRDY masked taking value from IMR
-            /* CIF ProcedureCall (2400, 1087), (100, 50) */
+            /* CIF ProcedureCall (2400, 1162), (100, 50) */
             call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, Bitsmaskvar, Bitsvaluevar);
             -- Is TXEMPTY set in SR and IMR?
-            /* CIF Decision (2400, 1087), (400, 50) */
+            /* CIF Decision (2400, 1162), (400, 50) */
             decision Bitsvaluevar = 512;
-                /* CIF Answer (2400, 1162), (400, 50) */
+                /* CIF Answer (2400, 1237), (400, 50) */
                 (True):
-                    /* CIF Task (2400, 1237), (100, 50) */
+                    /* CIF Task (2400, 1312), (100, 50) */
                     task Destinationaddressvar := Uartvar.Muartidraddress;
                     -- Disable uartVar TXEmpty interrupt
-                    /* CIF ProcedureCall (2400, 1312), (100, 50) */
+                    /* CIF ProcedureCall (2400, 1387), (100, 50) */
                     call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 512, 512);
-                    /* CIF Task (2400, 1387), (100, 50) */
+                    /* CIF Task (2400, 1462), (100, 50) */
                     task Io_uarthwas_sendbyteasynccmd_ri.Bytesentflag := 1;
                     -- Notify that byte was received
-                    /* CIF Output (2400, 1462), (200, 50) */
+                    /* CIF Output (2400, 1537), (200, 50) */
                     output UartHwas_SendByteAsyncCmd_Ri(Io_uarthwas_sendbyteasynccmd_ri);
-                    /* CIF Join (2400, 1537), (100, 50) */
+                    /* CIF Join (2400, 1612), (100, 50) */
                     join condition_3;
-                /* CIF Answer (3000, 1162), (400, 50) */
+                /* CIF Answer (3000, 1237), (400, 50) */
                 (False):
-                    /* CIF Join (3000, 1237), (100, 50) */
+                    /* CIF Join (3000, 1312), (100, 50) */
                     join condition_3;
             enddecision;
-            /* CIF Label (3600, 1237), (100, 50) */
+            /* CIF Label (3600, 1312), (100, 50) */
             condition_3:
-            /* CIF Task (3600, 1312), (100, 50) */
+            /* CIF Task (3600, 1387), (100, 50) */
             task Irqnumbervar := Uartvar.Mirqnumber;
             -- Enable uartVar interrupt
-            /* CIF ProcedureCall (3600, 1387), (100, 50) */
+            /* CIF ProcedureCall (3600, 1462), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
     return;
     endprocedure;
