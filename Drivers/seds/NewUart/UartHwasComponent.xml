@@ -1206,6 +1206,13 @@
                 </SendCommandPrimitive>
               </Body>
             </Activity>
+            <Activity name="OverrunActivity">
+              <Body>
+                <Assignment outputVariableRef="sourceAddressVar">
+                  <VariableRef variableRef="sourceAddressVar" />
+                </Assignment>
+              </Body>
+            </Activity>
           </ActivitySet>
           <StateMachineSet>
             <StateMachine name="UartHwasDriver">
@@ -1249,6 +1256,10 @@
                 <OnCommandPrimitive command="Interrupt" interface="InterruptSubscription">
                   <ArgumentValue name="interrupt" outputVariableRef="irqNumberVar" />
                 </OnCommandPrimitive>
+                <Do activity="IRQHandler"></Do>
+              </Transition>
+              <Transition fromState="Idle" toState="Idle" name="Overrun">
+                <OnCommandPrimitive command="OverrunError" interface="UartHwas"></OnCommandPrimitive>
                 <Do activity="IRQHandler"></Do>
               </Transition>
             </StateMachine>
