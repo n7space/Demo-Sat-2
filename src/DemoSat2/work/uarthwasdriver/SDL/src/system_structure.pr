@@ -5,8 +5,14 @@ use Datamodel;
 
 system Uarthwasdriver;
 
-   /* CIF Keep Specific Geode PARAMNAMES InputParam */
-   signal InterruptSubscription_Interrupt_Pi (InterruptSubscriptionInterfaceType_Interrupt_Type);
+   -- Synchronous PI InterruptSubscription_Interrupt_Pi
+   -- You must create a procedure with this name
+   -- and copy the signature (the FPAR section) in a text box
+   exported procedure InterruptSubscription_Interrupt_Pi;
+      fpar
+            in     Interrupt InterruptNumber;
+   
+      referenced;
    
    
    -- Synchronous PI UartHwas_InitUartCmd_Pi
@@ -109,14 +115,14 @@ system Uarthwasdriver;
    external;
 
    channel c
-      from env to Uarthwasdriver with InterruptSubscription_Interrupt_Pi, UartHwas_ReadByteAsyncCmd_Pi, UartHwas_SendByteAsyncCmd_Pi;
+      from env to Uarthwasdriver with UartHwas_ReadByteAsyncCmd_Pi, UartHwas_SendByteAsyncCmd_Pi;
       from Uarthwasdriver to env with UartHwas_ReadByteAsyncCmd_Ri, UartHwas_SendByteAsyncCmd_Ri;
    endchannel;
 
    block Uarthwasdriver;
 
       signalroute r
-      from env to Uarthwasdriver with InterruptSubscription_Interrupt_Pi, UartHwas_ReadByteAsyncCmd_Pi, UartHwas_SendByteAsyncCmd_Pi;
+      from env to Uarthwasdriver with UartHwas_ReadByteAsyncCmd_Pi, UartHwas_SendByteAsyncCmd_Pi;
       from Uarthwasdriver to env with UartHwas_ReadByteAsyncCmd_Ri, UartHwas_SendByteAsyncCmd_Ri;
       connect c and r;
 

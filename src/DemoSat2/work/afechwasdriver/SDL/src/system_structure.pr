@@ -20,8 +20,14 @@ system Afechwasdriver;
       referenced;
    
    
-   /* CIF Keep Specific Geode PARAMNAMES InputParam */
-   signal InterruptSubscription_Interrupt_Pi (InterruptSubscriptionInterfaceType_Interrupt_Type);
+   -- Synchronous PI InterruptSubscription_Interrupt_Pi
+   -- You must create a procedure with this name
+   -- and copy the signature (the FPAR section) in a text box
+   exported procedure InterruptSubscription_Interrupt_Pi;
+      fpar
+            in     Interrupt InterruptNumber;
+   
+      referenced;
 
    /* CIF Keep Specific Geode PARAMNAMES InputParam */
    signal AfecHwas_GetValueCmd_Ri (AfecHwasInterfaceType_GetValueCmd_TypeNotify);
@@ -71,14 +77,14 @@ system Afechwasdriver;
    external;
 
    channel c
-      from env to Afechwasdriver with AfecHwas_GetValueCmd_Pi, InterruptSubscription_Interrupt_Pi;
+      from env to Afechwasdriver with AfecHwas_GetValueCmd_Pi;
       from Afechwasdriver to env with AfecHwas_GetValueCmd_Ri;
    endchannel;
 
    block Afechwasdriver;
 
       signalroute r
-      from env to Afechwasdriver with AfecHwas_GetValueCmd_Pi, InterruptSubscription_Interrupt_Pi;
+      from env to Afechwasdriver with AfecHwas_GetValueCmd_Pi;
       from Afechwasdriver to env with AfecHwas_GetValueCmd_Ri;
       connect c and r;
 

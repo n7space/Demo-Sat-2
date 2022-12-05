@@ -173,12 +173,7 @@ m4_sporadic_itf_handler(
 
 // ERROR: Interface "AfecHwas_InitInstance_Pi" in function "AfecHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
 
-m4_sporadic_itf_handler(
-    afechwasdriver,
-    interruptsubscription_interrupt_pi,
-    InterruptSubscriptionInterfaceType_Interrupt_Type,
-     0,
-     1)
+// ERROR: Interface "InterruptSubscription_Interrupt_Pi" in function "AfecHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
 
 
 
@@ -216,30 +211,24 @@ divert(10)
 
 m4_gui_handler(egse)
 
-m4_c_function(hwas,(InterruptManagement_DisableInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
+// ERROR: Interface "InterruptManagement_DisableInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
 
-(InterruptManagement_EnableInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
+// ERROR: Interface "InterruptManagement_EnableInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
 
-(InterruptSubscriptionManagement_SubscribeToInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
+// ERROR: Interface "InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
 
-(RawMemoryAccess_ReadWord_Pi,(address, mask, outputValue),(SourceAddress, WordMask, Word),(PARAM_IN, PARAM_IN, PARAM_OUT), 0),
+// ERROR: Interface "RawMemoryAccess_ReadWord_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
 
-(RawMemoryAccess_WriteWord_Pi,(address, mask, inputValue),(DestinationAddress, WordMask, Word),(PARAM_IN, PARAM_IN, PARAM_IN), 0),
+// ERROR: Interface "RawMemoryAccess_WriteWord_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+
+
+
+
+include(hwas.if)
+
+m4_c_function(interruptproxy,(InterruptSubscription_Interrupt_Ri,(interrupt),(InterruptNumber),(PARAM_IN), 0),
 
 )
-
-m4_sporadic_itf_handler(
-    interruptproxy,
-    interruptsubscription_interrupt_ri,
-    InterruptSubscriptionInterfaceType_Interrupt_Type,
-     0,
-     1)
-
-
-
-
-
-include(interruptproxy.if)
 
 m4_sporadic_itf_handler(
     lidardriver,
@@ -390,12 +379,7 @@ m4_sporadic_itf_handler(
 
 include(tflunadriver.if)
 
-m4_sporadic_itf_handler(
-    uarthwasdriver,
-    interruptsubscription_interrupt_pi,
-    InterruptSubscriptionInterfaceType_Interrupt_Type,
-     0,
-     1)
+// ERROR: Interface "InterruptSubscription_Interrupt_Pi" in function "UartHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
 
 // ERROR: Interface "UartHwas_InitUartCmd_Pi" in function "UartHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
 

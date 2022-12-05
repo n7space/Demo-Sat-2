@@ -14,7 +14,7 @@ static volatile bool interruptSubscribe[Nvic_InterruptCount] = { 0 };
 
 #define HWAS_INTERRUPT_QUEUE_SIZE 100
 #define HWAS_INTERRUPT_QUEUE_ITEM_SIZE (sizeof(asn1SccInterruptSubscriptionInterfaceType_Interrupt_Type))
-#define HWAS_INTERRUPT_STACK_SIZE 100
+#define HWAS_INTERRUPT_STACK_SIZE 8192
 #define HWAS_INTERRUPT_PRIORITY 1
 
 #define PERIPH_INTERRUPT_PRIORITY 1
