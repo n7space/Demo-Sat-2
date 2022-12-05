@@ -1097,11 +1097,7 @@
                     </Condition>
                   </Condition>
                   <OnConditionTrue>
-                    <SendCommandPrimitive interface="UartErrorReporting" command="OverrunError">
-                      <ArgumentValue name="byteToRead">
-                        <VariableRef variableRef="byteVar" />
-                      </ArgumentValue>
-                    </SendCommandPrimitive>
+                    <SendCommandPrimitive interface="UartErrorReporting" command="OverrunError"></SendCommandPrimitive>
                   </OnConditionTrue>
                 </Conditional>
                 <Conditional>
