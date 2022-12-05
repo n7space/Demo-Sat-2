@@ -30,7 +30,7 @@ void hwas_PI_RawMemoryAccess_ReadWord_Pi( const asn1SccSourceAddress *, const as
 void hwas_PI_RawMemoryAccess_WriteWord_Pi( const asn1SccDestinationAddress *, const asn1SccWordMask *, const asn1SccWord * );
 
 /* Required interfaces */
-extern void hwas_RI_InterruptSubscription_Interrupt_Ri( const asn1SccInterruptSubscriptionInterfaceType_Interrupt_Type * );
+extern void hwas_RI_InterruptSubscription_Interrupt_Ri( const asn1SccInterruptNumber * );
 
 
 #ifdef __cplusplus

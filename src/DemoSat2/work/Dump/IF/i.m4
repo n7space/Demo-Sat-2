@@ -200,6 +200,7 @@ if_TTC_type if_cast_Egse_tc_request_to_TTC_function(if_Egse_tc_request_type p) {
 
 
 
+
 divert(-1)
 # inlined from /usr/share/doc/m4/examples/quote.m4
 # quote(args) - convert args to single-quoted string

@@ -118,6 +118,10 @@ void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
 
 }
 
+void objectdetector_PI_UartErrorReporting_OverrunError_Ri( void ) {
+  // TODO
+  // Ignore for now
+}
 
 void objectdetector_PI_LidarTrigger_ReturnErrorCmd_Ri
       (const asn1SccLidarTriggerInterfaceType_ReturnErrorCmd_Type *IN_inputparam)

@@ -11,8 +11,6 @@
 extern "C" {
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
 
 void objectdetector_startup(void);
 
@@ -24,6 +22,9 @@ void objectdetector_PI_LidarTrigger_ReturnErrorCmd_Ri( const asn1SccLidarTrigger
 
 
 void objectdetector_PI_ObjectDetection_SetEnabled( const asn1SccTEnabled * );
+
+
+void objectdetector_PI_UartErrorReporting_OverrunError_Ri( void );
 
 /* Required interfaces */
 extern void objectdetector_RI_Lidar_DisableCmd_Pi( void );

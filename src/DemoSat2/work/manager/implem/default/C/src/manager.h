@@ -11,8 +11,6 @@
 extern "C" {
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
 
 void manager_startup(void);
 

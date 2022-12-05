@@ -127,6 +127,8 @@ define(`m4_uarthwasdriver_rawmemoryaccess_readword_ri',`hwas_rawmemoryaccess_rea
 define(`m4_uarthwasdriver_RawMemoryAccess_ReadWord_Ri_provider',`hwas')dnl
 define(`m4_uarthwasdriver_rawmemoryaccess_writeword_ri',`hwas_rawmemoryaccess_writeword_pi')dnl
 define(`m4_uarthwasdriver_RawMemoryAccess_WriteWord_Ri_provider',`hwas')dnl
+define(`m4_uarthwasdriver_uarterrorreporting_overrunerror_ri',`objectdetector_uarterrorreporting_overrunerror_ri')dnl
+define(`m4_uarthwasdriver_UartErrorReporting_OverrunError_Ri_provider',`objectdetector')dnl
 define(`m4_uarthwasdriver_uarthwas_readbyteasynccmd_ri',`tflunadriver_uarthwas_readbyteasynccmd_pi')dnl
 define(`m4_uarthwasdriver_UartHwas_ReadByteAsyncCmd_Ri_provider',`tflunadriver')dnl
 define(`m4_uarthwasdriver_uarthwas_sendbyteasynccmd_ri',`tflunadriver_uarthwas_sendbyteasynccmd_pi')dnl
@@ -211,20 +213,17 @@ divert(10)
 
 m4_gui_handler(egse)
 
-// ERROR: Interface "InterruptManagement_DisableInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+m4_c_function(hwas,(InterruptManagement_DisableInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
 
-// ERROR: Interface "InterruptManagement_EnableInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+(InterruptManagement_EnableInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
 
-// ERROR: Interface "InterruptSubscriptionManagement_SubscribeToInterrupt_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+(InterruptSubscriptionManagement_SubscribeToInterrupt_Pi,(interrupt),(InterruptNumber),(PARAM_IN), 0),
 
-// ERROR: Interface "RawMemoryAccess_ReadWord_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+(RawMemoryAccess_ReadWord_Pi,(address, mask, outputValue),(SourceAddress, WordMask, Word),(PARAM_IN, PARAM_IN, PARAM_OUT), 0),
 
-// ERROR: Interface "RawMemoryAccess_WriteWord_Pi" in function "HWAS" has unsupported kind: "PROTECTED_OPERATION"
+(RawMemoryAccess_WriteWord_Pi,(address, mask, inputValue),(DestinationAddress, WordMask, Word),(PARAM_IN, PARAM_IN, PARAM_IN), 0),
 
-
-
-
-include(hwas.if)
+)
 
 m4_c_function(interruptproxy,(InterruptSubscription_Interrupt_Ri,(interrupt),(InterruptNumber),(PARAM_IN), 0),
 
@@ -307,6 +306,8 @@ m4_c_function(objectdetector,// ERROR: Interface "LidarTrigger_ReturnDataCmd_Ri"
 
 (ObjectDetection_SetEnabled,(isEnabled),(TEnabled),(PARAM_IN), 0),
 
+(UartErrorReporting_OverrunError_Ri,(),(),(), 0),
+
 )
 
 // ERROR: Interface "PioHwas_GetPin_Pi" in function "PioHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
@@ -383,8 +384,6 @@ include(tflunadriver.if)
 
 // ERROR: Interface "UartHwas_InitUartCmd_Pi" in function "UartHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
 
-// ERROR: Interface "UartHwas_OverrunError_Pi" in function "UartHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
-
 m4_sporadic_itf_handler(
     uarthwasdriver,
     uarthwas_readbyteasynccmd_pi,
@@ -398,6 +397,7 @@ m4_sporadic_itf_handler(
     UartHwasInterfaceType_SendByteAsyncCmd_Type,
      0,
      1)
+
 
 
 
