@@ -398,6 +398,9 @@
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
+<Provided_Interface name="UartHwas_OverrunError_Pi" comment="Indicates an occurrence of an overrun error." kind="Protected" layer="default">
+</Provided_Interface>
+
 <Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" kind="Sporadic" enable_multicast="true" layer="default" required_system_element="NO" wcet="0" stack_size="16384" priority="1" dispatch_offset="0" queue_size="1" miat="0">
     <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="ACN"/>
     <Property name="Taste::coordinates" value="111000 -2500"/>
@@ -410,7 +413,7 @@
     <Property name="Taste::InnerCoordinates" value=""/>
 </Provided_Interface>
 
-<Provided_Interface name="InterruptSubscription_Interrupt_Pi" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" wcet="0">
+<Provided_Interface name="InterruptSubscription_Interrupt_Pi" comment="Receive a hardware interrupt notification." kind="Protected" layer="default">
     <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
     <Property name="Taste::coordinates" value="131000 13400"/>
     <Property name="Taste::InnerCoordinates" value=""/>

@@ -19,7 +19,6 @@ process UartHwasDriver;
     dcl Piovar PioHwas;
     dcl Io_uarthwas_readbyteasynccmd_pi UartHwasInterfaceType_ReadByteAsyncCmd_Type;
     dcl Io_uarthwas_sendbyteasynccmd_pi UartHwasInterfaceType_SendByteAsyncCmd_Type;
-    dcl Io_interruptsubscription_interrupt_pi InterruptSubscriptionInterfaceType_Interrupt_Type;
     dcl Io_uarthwas_readbyteasynccmd_ri UartHwasInterfaceType_ReadByteAsyncCmd_TypeNotify;
     dcl Io_uarthwas_sendbyteasynccmd_ri UartHwasInterfaceType_SendByteAsyncCmd_TypeNotify;
     /* CIF ENDTEXT */
@@ -851,26 +850,15 @@ process UartHwasDriver;
             call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 1, Bitsmaskvar);
             /* CIF Task (0, 412), (100, 50) */
             task Sourceaddressvar := Uartvar.Muartsraddress;
-            -- Read uartVar status of RXRDY masked taking value from IMR
+            -- Read OVRE bit from UART_SR
             /* CIF ProcedureCall (0, 487), (100, 50) */
-            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, Bitsmaskvar, Bitsvaluevar);
-            -- Is RxRDY set in SR and IMR?
+            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 32, Bitsvaluevar);
+            -- Is OVRE set in SR and IMR?
             /* CIF Decision (0, 487), (400, 50) */
-            decision Bitsvaluevar = 1;
+            decision Bitsvaluevar = 32;
                 /* CIF Answer (0, 562), (400, 50) */
                 (True):
-                    /* CIF Task (0, 637), (100, 50) */
-                    task Sourceaddressvar := Uartvar.Muartrhraddress;
-                    -- Read interrupt mask for RXRDY(IMR)
-                    /* CIF ProcedureCall (0, 712), (100, 50) */
-                    call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 255, Bitsvaluevar);
-                    /* CIF Task (0, 787), (100, 50) */
-                    task Bytevar := Bitsvaluevar;
-                    /* CIF Task (0, 862), (100, 50) */
-                    task Io_uarthwas_readbyteasynccmd_ri.Bytetoread := Bytevar;
-                    /* CIF Output (0, 937), (200, 50) */
-                    output UartHwas_ReadByteAsyncCmd_Ri(Io_uarthwas_readbyteasynccmd_ri);
-                    /* CIF Join (0, 1012), (100, 50) */
+                    /* CIF Join (0, 637), (100, 50) */
                     join condition_1;
                 /* CIF Answer (600, 562), (400, 50) */
                 (False):
@@ -879,48 +867,97 @@ process UartHwasDriver;
             enddecision;
             /* CIF Label (1200, 637), (100, 50) */
             condition_1:
-            /* CIF Task (1200, 712), (100, 50) */
-            task Sourceaddressvar := Uartvar.Muartimraddress;
-            -- Read interrupt mask for TXEMPTY(IMR)
-            /* CIF ProcedureCall (1200, 787), (100, 50) */
-            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 512, Bitsmaskvar);
-            /* CIF Task (1200, 862), (100, 50) */
-            task Sourceaddressvar := Uartvar.Muartsraddress;
-            -- Read uartVar status of RXRDY masked taking value from IMR
-            /* CIF ProcedureCall (1200, 937), (100, 50) */
-            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, Bitsmaskvar, Bitsvaluevar);
-            -- Is TXEMPTY set in SR and IMR?
-            /* CIF Decision (1200, 937), (400, 50) */
-            decision Bitsvaluevar = 512;
-                /* CIF Answer (1200, 1012), (400, 50) */
+            -- Is RxRDY set in SR and IMR?
+            /* CIF Decision (1200, 637), (400, 50) */
+            decision Bitsvaluevar = 1;
+                /* CIF Answer (1200, 712), (400, 50) */
                 (True):
-                    /* CIF Task (1200, 1087), (100, 50) */
-                    task Destinationaddressvar := Uartvar.Muartidraddress;
-                    -- Disable uartVar TXEmpty interrupt
-                    /* CIF ProcedureCall (1200, 1162), (100, 50) */
-                    call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 512, 512);
-                    /* CIF Task (1200, 1237), (100, 50) */
-                    task Io_uarthwas_sendbyteasynccmd_ri.Bytesentflag := 1;
-                    -- Notify that byte was received
-                    /* CIF Output (1200, 1312), (200, 50) */
-                    output UartHwas_SendByteAsyncCmd_Ri(Io_uarthwas_sendbyteasynccmd_ri);
-                    /* CIF Join (1200, 1387), (100, 50) */
+                    /* CIF Task (1200, 787), (100, 50) */
+                    task Sourceaddressvar := Uartvar.Muartrhraddress;
+                    -- Read byte
+                    /* CIF ProcedureCall (1200, 862), (100, 50) */
+                    call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 255, Bitsvaluevar);
+                    /* CIF Task (1200, 937), (100, 50) */
+                    task Bytevar := Bitsvaluevar;
+                    /* CIF Task (1200, 1012), (100, 50) */
+                    task Io_uarthwas_readbyteasynccmd_ri.Bytetoread := Bytevar;
+                    /* CIF Output (1200, 1087), (200, 50) */
+                    output UartHwas_ReadByteAsyncCmd_Ri(Io_uarthwas_readbyteasynccmd_ri);
+                    /* CIF Join (1200, 1162), (100, 50) */
                     join condition_2;
-                /* CIF Answer (1800, 1012), (400, 50) */
+                /* CIF Answer (1800, 712), (400, 50) */
                 (False):
-                    /* CIF Join (1800, 1087), (100, 50) */
+                    /* CIF Join (1800, 787), (100, 50) */
                     join condition_2;
             enddecision;
-            /* CIF Label (2400, 1087), (100, 50) */
+            /* CIF Label (2400, 787), (100, 50) */
             condition_2:
-            /* CIF Task (2400, 1162), (100, 50) */
+            /* CIF Task (2400, 862), (100, 50) */
+            task Sourceaddressvar := Uartvar.Muartimraddress;
+            -- Read interrupt mask for TXEMPTY(IMR)
+            /* CIF ProcedureCall (2400, 937), (100, 50) */
+            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, 512, Bitsmaskvar);
+            /* CIF Task (2400, 1012), (100, 50) */
+            task Sourceaddressvar := Uartvar.Muartsraddress;
+            -- Read uartVar status of RXRDY masked taking value from IMR
+            /* CIF ProcedureCall (2400, 1087), (100, 50) */
+            call RawMemoryAccess_ReadWord_Ri(Sourceaddressvar, Bitsmaskvar, Bitsvaluevar);
+            -- Is TXEMPTY set in SR and IMR?
+            /* CIF Decision (2400, 1087), (400, 50) */
+            decision Bitsvaluevar = 512;
+                /* CIF Answer (2400, 1162), (400, 50) */
+                (True):
+                    /* CIF Task (2400, 1237), (100, 50) */
+                    task Destinationaddressvar := Uartvar.Muartidraddress;
+                    -- Disable uartVar TXEmpty interrupt
+                    /* CIF ProcedureCall (2400, 1312), (100, 50) */
+                    call RawMemoryAccess_WriteWord_Ri(Destinationaddressvar, 512, 512);
+                    /* CIF Task (2400, 1387), (100, 50) */
+                    task Io_uarthwas_sendbyteasynccmd_ri.Bytesentflag := 1;
+                    -- Notify that byte was received
+                    /* CIF Output (2400, 1462), (200, 50) */
+                    output UartHwas_SendByteAsyncCmd_Ri(Io_uarthwas_sendbyteasynccmd_ri);
+                    /* CIF Join (2400, 1537), (100, 50) */
+                    join condition_3;
+                /* CIF Answer (3000, 1162), (400, 50) */
+                (False):
+                    /* CIF Join (3000, 1237), (100, 50) */
+                    join condition_3;
+            enddecision;
+            /* CIF Label (3600, 1237), (100, 50) */
+            condition_3:
+            /* CIF Task (3600, 1312), (100, 50) */
             task Irqnumbervar := Uartvar.Mirqnumber;
             -- Enable uartVar interrupt
-            /* CIF ProcedureCall (2400, 1237), (100, 50) */
+            /* CIF ProcedureCall (3600, 1387), (100, 50) */
             call InterruptManagement_EnableInterrupt_Ri(Irqnumbervar);
     return;
     endprocedure;
     /* CIF Procedure (0, 1575), (800, 50) */
+    procedure OverrunActivity;
+        /* CIF Start (0, 0), (200, 75) */
+        START;
+            /* CIF Task (0, 187), (100, 50) */
+            task Sourceaddressvar := Sourceaddressvar;
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1650), (800, 50) */
+    procedure InterruptSubscription_Interrupt_Pi;
+        /* CIF Text (0, 0), (400, 500) */
+        fpar
+            in Interrupt InterruptNumber;
+        /* CIF ENDTEXT */
+        /* CIF Start (0, 750), (200, 75) */
+        START;
+            /* CIF Task (0, 937), (100, 50) */
+            task Irqnumbervar := Interrupt;
+            /* CIF ProcedureCall (0, 1012), (100, 50) */
+            call IRQHandler;
+            /* CIF Task (0, 1087), (100, 50) */
+            task Bytetoread := Bytevar;
+    return;
+    endprocedure;
+    /* CIF Procedure (0, 1725), (800, 50) */
     procedure UartHwas_InitUartCmd_Pi;
         /* CIF Text (0, 0), (400, 500) */
         fpar
@@ -937,44 +974,54 @@ process UartHwasDriver;
             task Uart := Uartvar;
     return;
     endprocedure;
-    /* CIF Start (0, 1650), (200, 75) */
-    START;
-        /* CIF NextState (0, 1837), (200, 50) */
-        NEXTSTATE Off;
-    /* CIF State (0, 1912), (200, 50) */
-    state Idle;
-        /* CIF Input (0, 1912), (200, 50) */
-        input InterruptSubscription_Interrupt_Pi(Io_interruptsubscription_interrupt_pi);
-            /* CIF Task (0, 1987), (100, 50) */
-            task Irqnumbervar := Io_interruptsubscription_interrupt_pi.Interrupt;
-            /* CIF ProcedureCall (0, 2062), (100, 50) */
+    /* CIF Procedure (0, 1800), (800, 50) */
+    procedure UartHwas_OverrunError_Pi;
+        /* CIF Start (0, 0), (200, 75) */
+        START;
+            /* CIF ProcedureCall (0, 187), (100, 50) */
             call IRQHandler;
-            /* CIF NextState (0, 2137), (200, 50) */
-            NEXTSTATE Idle;
-        /* CIF Input (300, 1912), (200, 50) */
+            /* CIF Task (0, 262), (100, 50) */
+            task Bytetoread := Bytevar;
+    return;
+    endprocedure;
+    /* CIF Start (0, 1875), (200, 75) */
+    START;
+        /* CIF NextState (0, 2062), (200, 50) */
+        NEXTSTATE Off;
+    /* CIF State (0, 2137), (200, 50) */
+    state Idle;
+        /* CIF Input (0, 2137), (200, 50) */
         input UartHwas_ReadByteAsyncCmd_Pi(Io_uarthwas_readbyteasynccmd_pi);
-            /* CIF Task (300, 1987), (100, 50) */
+            /* CIF Task (0, 2212), (100, 50) */
             task Uartvar := Io_uarthwas_readbyteasynccmd_pi.Uart;
-            /* CIF ProcedureCall (300, 2062), (100, 50) */
+            /* CIF ProcedureCall (0, 2287), (100, 50) */
             call ReadByteAsync(Uartvar);
-            /* CIF NextState (300, 2137), (200, 50) */
+            /* CIF NextState (0, 2362), (200, 50) */
             NEXTSTATE Idle;
-        /* CIF Input (600, 1912), (200, 50) */
+        /* CIF Input (300, 2137), (200, 50) */
         input UartHwas_SendByteAsyncCmd_Pi(Io_uarthwas_sendbyteasynccmd_pi);
-            /* CIF Task (600, 1987), (100, 50) */
+            /* CIF Task (300, 2212), (100, 50) */
             task Uartvar := Io_uarthwas_sendbyteasynccmd_pi.Uart;
-            /* CIF Task (600, 2062), (100, 50) */
+            /* CIF Task (300, 2287), (100, 50) */
             task Bitsvaluevar := Io_uarthwas_sendbyteasynccmd_pi.Bytetosend;
-            /* CIF ProcedureCall (600, 2137), (100, 50) */
+            /* CIF ProcedureCall (300, 2362), (100, 50) */
             call SendByteAsync(Uartvar, Bitsvaluevar);
+            /* CIF NextState (300, 2437), (200, 50) */
+            NEXTSTATE Idle;
+        /* CIF Input (600, 2137), (200, 50) */
+        input InterruptSubscription_Interrupt_Pi;
             /* CIF NextState (600, 2212), (200, 50) */
             NEXTSTATE Idle;
+        /* CIF Input (900, 2137), (200, 50) */
+        input UartHwas_OverrunError_Pi;
+            /* CIF NextState (900, 2212), (200, 50) */
+            NEXTSTATE Idle;
     endstate;
-    /* CIF State (1200, 1912), (200, 50) */
+    /* CIF State (1500, 2137), (200, 50) */
     state Off;
-        /* CIF Input (1200, 1912), (200, 50) */
+        /* CIF Input (1500, 2137), (200, 50) */
         input UartHwas_InitUartCmd_Pi;
-            /* CIF NextState (1200, 1987), (200, 50) */
+            /* CIF NextState (1500, 2212), (200, 50) */
             NEXTSTATE Idle;
     endstate;
 endprocess UartHwasDriver;

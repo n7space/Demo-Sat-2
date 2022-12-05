@@ -26,6 +26,13 @@ system Uarthwasdriver;
       referenced;
    
    
+   -- Synchronous PI UartHwas_OverrunError_Pi
+   -- You must create a procedure with this name
+   -- and copy the signature (the FPAR section) in a text box
+   exported procedure UartHwas_OverrunError_Pi;
+      referenced;
+   
+   
    /* CIF Keep Specific Geode PARAMNAMES InputParam */
    signal UartHwas_ReadByteAsyncCmd_Pi (UartHwasInterfaceType_ReadByteAsyncCmd_Type);
    

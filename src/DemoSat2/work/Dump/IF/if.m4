@@ -383,6 +383,8 @@ include(tflunadriver.if)
 
 // ERROR: Interface "UartHwas_InitUartCmd_Pi" in function "UartHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
 
+// ERROR: Interface "UartHwas_OverrunError_Pi" in function "UartHwasDriver" has unsupported kind: "PROTECTED_OPERATION"
+
 m4_sporadic_itf_handler(
     uarthwasdriver,
     uarthwas_readbyteasynccmd_pi,
