@@ -62,9 +62,6 @@
             <Argument name="uart" type="UartHwas" mode="out" />
             <Argument name="config" type="UartHwasConfig" mode="in" />
           </Command>
-          <Command name="OverrunError" mode="sync">
-            <LongDescription>Indicates an occurrence of an overrun error.</LongDescription>
-          </Command>
           <Command name="ReadByteAsyncCmd" mode="async">
             <LongDescription>Reads one byte asynchroniously</LongDescription>
             <Argument name="uart" type="UartHwas" mode="in" />
@@ -75,6 +72,13 @@
             <Argument name="uart" type="UartHwas" mode="in" />
             <Argument name="byteToSend" type="com/n7space/Hwas/Byte" mode="in" />
             <Argument name="byteSentFlag" type="com/n7space/Hwas/Byte" mode="notify" />
+          </Command>
+        </CommandSet>
+      </Interface>
+      <Interface level="functional" name="UartErrorReportingInterfaceType">
+        <CommandSet>
+          <Command name="OverrunError" mode="sync">
+            <LongDescription>Indicates an occurrence of an overrun error.</LongDescription>
           </Command>
         </CommandSet>
       </Interface>

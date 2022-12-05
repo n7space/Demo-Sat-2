@@ -14,6 +14,7 @@
           <Interface name="InterruptSubscriptionManagement" type="com/n7space/Hwas/InterruptSubscriptionManagementInterfaceType" />
           <Interface name="InterruptManagement" type="com/n7space/Hwas/InterruptManagementInterfaceType" />
           <Interface name="RawMemoryAccess" type="com/n7space/Hwas/RawMemoryAccessInterfaceType" />
+          <Interface name="UartErrorReporting" type="com/n7space/UartHwas/UartErrorReportingInterfaceType"></Interface>
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
@@ -1096,7 +1097,7 @@
                     </Condition>
                   </Condition>
                   <OnConditionTrue>
-                    <SendCommandPrimitive interface="UartHwas" command="OverrunError">
+                    <SendCommandPrimitive interface="UartErrorReporting" command="OverrunError">
                       <ArgumentValue name="byteToRead">
                         <VariableRef variableRef="byteVar" />
                       </ArgumentValue>
@@ -1206,13 +1207,6 @@
                 </SendCommandPrimitive>
               </Body>
             </Activity>
-            <Activity name="OverrunActivity">
-              <Body>
-                <Assignment outputVariableRef="sourceAddressVar">
-                  <VariableRef variableRef="sourceAddressVar" />
-                </Assignment>
-              </Body>
-            </Activity>
           </ActivitySet>
           <StateMachineSet>
             <StateMachine name="UartHwasDriver">
@@ -1256,10 +1250,6 @@
                 <OnCommandPrimitive command="Interrupt" interface="InterruptSubscription">
                   <ArgumentValue name="interrupt" outputVariableRef="irqNumberVar" />
                 </OnCommandPrimitive>
-                <Do activity="IRQHandler"></Do>
-              </Transition>
-              <Transition fromState="Idle" toState="Idle" name="Overrun">
-                <OnCommandPrimitive command="OverrunError" interface="UartHwas"></OnCommandPrimitive>
                 <Do activity="IRQHandler"></Do>
               </Transition>
             </StateMachine>
