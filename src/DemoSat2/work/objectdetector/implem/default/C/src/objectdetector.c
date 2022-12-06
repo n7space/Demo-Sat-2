@@ -19,6 +19,7 @@ static int objectdetector_anchorStep = OBJECT_DETECTOR_INVALID_STEP;
 static int objectdetector_minStep = 1000000;
 static int objectdetector_maxStep = -1000000;
 static int objectdetector_stepData[OBJECT_DETECTOR_MAX_DATA_SIZE];
+static int objectdetector_lastDistance = 1000;
 
 static asn1SccLidar objectdetector_lidar;
 static asn1SccLidarConfig objectdetector_lidarConfig = {
@@ -119,7 +120,13 @@ void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
    int step = IN_inputparam->data.mStep;
    step = min(step, OBJECT_DETECTOR_MAX_DATA_SIZE);
    step = max(step, 0);
-   objectdetector_stepData[step] = IN_inputparam->data.mTfLunaData.mDistance;
+   if (IN_inputparam->data.mTfLunaData.mDistance > 0) {
+      objectdetector_lastDistance = IN_inputparam->data.mTfLunaData.mDistance;
+      objectdetector_stepData[step] = IN_inputparam->data.mTfLunaData.mDistance;
+   }
+   else {
+      objectdetector_stepData[step] = objectdetector_lastDistance;
+   }
 
    objectdetector_maxStep = max(objectdetector_maxStep, step);
    objectdetector_minStep = min(objectdetector_minStep, step);

@@ -179,7 +179,7 @@ static void enterSafe(asn1SccTCID id)
 
 static float alignmentFactor(const float position, const float reference, const float margin)
 {
-   const float distance = abs(position - reference);
+   const float distance = fabs(position - reference);
    if (distance < margin)
    {
       return (margin - distance) / margin;
@@ -266,6 +266,19 @@ void manager_PI_SunSensorReturn_ReturnDataCmd_Ri(const asn1SccConversionData *IN
 {
    manager_luminanceReport.luminance = 101 - ((float)IN_choutput->mValue);
    manager_luminanceReport.status = TValidityStatus_vs_ok;
+   if (manager_luminanceReport.luminance >= manager_luminanceThreshold) {
+      return;
+   }
+   switch (manager_mode)
+      {
+      case TMode_m_passive:
+         enterSafe(0);
+      case TMode_m_active:
+         enterSafe(0);
+         break;
+      default:
+         break;
+      }
 }
 
 void manager_PI_tc(const asn1SccTTC *IN_request)
