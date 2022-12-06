@@ -75,7 +75,7 @@ static void reportHk()
    asn1SccTHouseKeepingReport report;
    memset(&report, 0, sizeof(asn1SccTHouseKeepingReport));
    report.mode = manager_mode;
-   report.objectDetection = manager_objectDetectionReport;
+   //report.objectDetection = manager_objectDetectionReport;
    report.propulsion = manager_propulsionReport;
    report.luminance = manager_luminanceReport;
    manager_RI_hk(&report);
@@ -189,7 +189,28 @@ static float alignmentFactor(const float position, const float reference, const 
    }
 }
 
-void manager_PI_pps(void)
+void manager_PI_pps_ss(void) {
+   switch (manager_mode)
+   {
+   case TMode_m_initializing:
+      // NOP
+      break;
+   case TMode_m_idle:
+      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
+      break;
+   case TMode_m_passive:
+      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
+      break;
+   case TMode_m_active:
+      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
+      break;
+   case TMode_m_safe:
+      // NOP
+      break;
+   }
+}
+
+void manager_PI_pps_hk(void)
 {
    switch (manager_mode)
    {
@@ -199,15 +220,15 @@ void manager_PI_pps(void)
       break;
    case TMode_m_idle:
       reportHk();
-      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
+      //manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_passive:
       reportHk();
-      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
+      //manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_active:
       reportHk();
-      manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
+      //manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_safe:
       // NOP
@@ -245,7 +266,7 @@ void manager_PI_ObjectDetection_Report(const asn1SccTObjectDetectionReport *IN_r
 
 void manager_PI_SunSensorReturn_ReturnDataCmd_Ri(const asn1SccConversionData *IN_choutput)
 {
-   manager_luminanceReport.luminance = ((float)IN_choutput->mValue) / 500000000.0f;
+   manager_luminanceReport.luminance = 101 - ((float)IN_choutput->mValue);
    manager_luminanceReport.status = TValidityStatus_vs_ok;
 }
 

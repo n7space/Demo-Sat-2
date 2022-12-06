@@ -1,0 +1,90 @@
+<InterfaceView>
+<Function name="UartHwasDriver" comment="SEDS UartHwas driver implementation" is_type="NO" language="SDL" default_implementation="default">
+<Provided_Interface name="UartHwas_InitUartCmd_Pi" comment="Initializes uart instance" kind="Protected" layer="default">
+    <Output_Parameter name="uart" type="UartHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="UartHwasConfig" encoding="ACN"/>
+</Provided_Interface>
+
+<Provided_Interface name="UartHwas_ReadByteAsyncCmd_Pi" comment="Reads one byte asynchroniously" layer="default">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-Type" encoding="ACN"/>
+</Provided_Interface>
+
+<Provided_Interface name="UartHwas_SendByteAsyncCmd_Pi" comment="Sends one byte asynchroniously" layer="default">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-Type" encoding="ACN"/>
+</Provided_Interface>
+
+<Provided_Interface name="InterruptSubscription_Interrupt_Pi" comment="Receive a hardware interrupt notification." kind="Protected" layer="default">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+</Provided_Interface>
+
+<Required_Interface name="UartHwas_ReadByteAsyncCmd_Ri" comment="Reads one byte asynchroniously" kind="Sporadic" layer="default">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-ReadByteAsyncCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="UartHwas_SendByteAsyncCmd_Ri" comment="Sends one byte asynchroniously" kind="Sporadic" layer="default">
+    <Input_Parameter name="InputParam" type="UartHwasInterfaceType-SendByteAsyncCmd-TypeNotify" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_InitPin_Ri" comment="Initializes pin" kind="Protected" layer="default">
+    <Output_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Input_Parameter name="config" type="PioHwasPinConfig" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_SetPin_Ri" comment="Sets pin state to high" kind="Protected" layer="default">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_ResetPin_Ri" comment="Sets pin state to low" kind="Protected" layer="default">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="PioHwas_GetPin_Ri" comment="Gets pin value" kind="Protected" layer="default">
+    <Input_Parameter name="pio" type="PioHwas" encoding="ACN"/>
+    <Output_Parameter name="pinValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="InterruptSubscriptionManagement_SubscribeToInterrupt_Ri" comment="Subscribe to a hardware interrupt" kind="Protected" layer="default">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="InterruptManagement_EnableInterrupt_Ri" comment="Enable a hardware interrupt." kind="Protected" layer="default">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="InterruptManagement_DisableInterrupt_Ri" comment="Disable a hardware interrupt." kind="Protected" layer="default">
+    <Input_Parameter name="interrupt" type="InterruptNumber" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_ReadWord_Ri" comment="Read word from memory, masked by the mask. The address must be word-aligned." kind="Protected" layer="default">
+    <Input_Parameter name="address" type="SourceAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Output_Parameter name="outputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="RawMemoryAccess_WriteWord_Ri" comment="Write word to memory, masked by the mask.  The address must be word-aligned." kind="Protected" layer="default">
+    <Input_Parameter name="address" type="DestinationAddress" encoding="ACN"/>
+    <Input_Parameter name="mask" type="WordMask" encoding="ACN"/>
+    <Input_Parameter name="inputValue" type="Word" encoding="ACN"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface name="UartErrorReporting_OverrunError_Ri" comment="Indicates an occurrence of an overrun error." kind="Protected" layer="default">
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="SDL"/>
+    </Implementations>
+</Function>
+
+</InterfaceView>

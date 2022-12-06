@@ -99,7 +99,7 @@ void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
       (const asn1SccLidarTriggerInterfaceType_ReturnDataCmd_Type *IN_inputparam)
 
 {
-   if (!objectdetector_isEnabled) {
+   /*if (!objectdetector_isEnabled) {
       return;
    }
    int step = IN_inputparam->data.mStep;
@@ -115,7 +115,7 @@ void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
    else if (objectdetector_anchorStep == IN_inputparam->data.mStep) {
       objectdetector_gatherData();
    }
-
+   */
 }
 
 void objectdetector_PI_UartErrorReporting_OverrunError_Ri( void ) {

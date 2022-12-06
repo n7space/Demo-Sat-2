@@ -97,8 +97,10 @@ define(`m4_sunsensordriver_afechwas_getvaluecmd_ri',`afechwasdriver_afechwas_get
 define(`m4_sunsensordriver_AfecHwas_GetValueCmd_Ri_provider',`afechwasdriver')dnl
 define(`m4_sunsensordriver_afechwas_initinstance_ri',`afechwasdriver_afechwas_initinstance_pi')dnl
 define(`m4_sunsensordriver_AfecHwas_InitInstance_Ri_provider',`afechwasdriver')dnl
-define(`m4_sunsensordriver_sunsensorreturn_returndatacmd_ri',`manager_sunsensorreturn_returndatacmd_ri')dnl
-define(`m4_sunsensordriver_SunSensorReturn_ReturnDataCmd_Ri_provider',`manager')dnl
+define(`m4_sunsensordriver_sunsensorreturn_returndatacmd_ri',`sunsensorproxy_sunsensorreturn_returndatacmd_in')dnl
+define(`m4_sunsensordriver_SunSensorReturn_ReturnDataCmd_Ri_provider',`sunsensorproxy')dnl
+define(`m4_sunsensorproxy_sunsensorreturn_returndatacmd_out',`manager_sunsensorreturn_returndatacmd_ri')dnl
+define(`m4_sunsensorproxy_SunSensorReturn_ReturnDataCmd_Out_provider',`manager')dnl
 define(`m4_tflunadriver_tflunareturn_errorreaddatacmd_ri',`lidardriver_tflunareturn_errorreaddatacmd_pi')dnl
 define(`m4_tflunadriver_TfLunaReturn_ErrorReadDataCmd_Ri_provider',`lidardriver')dnl
 define(`m4_tflunadriver_tflunareturn_readdatacmd_ri',`lidardriver_tflunareturn_readdatacmd_pi')dnl
@@ -133,8 +135,10 @@ define(`m4_uarthwasdriver_uarthwas_readbyteasynccmd_ri',`tflunadriver_uarthwas_r
 define(`m4_uarthwasdriver_UartHwas_ReadByteAsyncCmd_Ri_provider',`tflunadriver')dnl
 define(`m4_uarthwasdriver_uarthwas_sendbyteasynccmd_ri',`tflunadriver_uarthwas_sendbyteasynccmd_pi')dnl
 define(`m4_uarthwasdriver_UartHwas_SendByteAsyncCmd_Ri_provider',`tflunadriver')dnl
-define(`m4_env_pps',`manager_pps')dnl
-define(`m4_env_pps_provider',`manager')dnl
+define(`m4_env_pps_hk',`manager_pps_hk')dnl
+define(`m4_env_pps_hk_provider',`manager')dnl
+define(`m4_env_pps_ss',`manager_pps_ss')dnl
+define(`m4_env_pps_ss_provider',`manager')dnl
 divert(1)dnl
 system taste;
 /*
@@ -292,9 +296,11 @@ include(mp6500driver.if)
 
 m4_c_function(manager,// ERROR: Interface "ObjectDetection_Report" in function "Manager" has unsupported kind: "SPORADIC_OPERATION"
 
-(SunSensorReturn_ReturnDataCmd_Ri,(chOutput),(ConversionData),(PARAM_IN), 0),
+// ERROR: Interface "SunSensorReturn_ReturnDataCmd_Ri" in function "Manager" has unsupported kind: "SPORADIC_OPERATION"
 
-(pps,(),(),(), 0),
+(pps_hk,(),(),(), 0),
+
+(pps_ss,(),(),(), 0),
 
 // ERROR: Interface "tc" in function "Manager" has unsupported kind: "SPORADIC_OPERATION"
 
@@ -354,6 +360,10 @@ m4_sporadic_itf_handler(
 
 
 include(sunsensordriver.if)
+
+m4_c_function(sunsensorproxy,(SunSensorReturn_ReturnDataCmd_In,(chOutput),(ConversionData),(PARAM_IN), 0),
+
+)
 
 // ERROR: Interface "TfLuna_InitTfLunaCmd_Pi" in function "TfLunaDriver" has unsupported kind: "PROTECTED_OPERATION"
 

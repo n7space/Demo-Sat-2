@@ -99,7 +99,7 @@ build/system_config.h:	$(wildcard */*/wrappers/*_system_config.h)
 	cat $^ > $@
 
 #  Call DMT/aadl2glueC to generate glue code from the mini-cv.aadl files
-aadl2glueC:	afechwasdriver/SDL/wrappers/aadl2glueC_built asw_timer_manager/Timer_Manager/wrappers/aadl2glueC_built egse/GUI/wrappers/aadl2glueC_built hwas/C/wrappers/aadl2glueC_built interruptproxy/C/wrappers/aadl2glueC_built lidardriver/SDL/wrappers/aadl2glueC_built manager/C/wrappers/aadl2glueC_built mp6500driver/SDL/wrappers/aadl2glueC_built objectdetector/C/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built propulsiondriver/SDL/wrappers/aadl2glueC_built sunsensordriver/SDL/wrappers/aadl2glueC_built tflunadriver/SDL/wrappers/aadl2glueC_built uarthwasdriver/SDL/wrappers/aadl2glueC_built
+aadl2glueC:	afechwasdriver/SDL/wrappers/aadl2glueC_built asw_timer_manager/Timer_Manager/wrappers/aadl2glueC_built egse/GUI/wrappers/aadl2glueC_built hwas/C/wrappers/aadl2glueC_built interruptproxy/C/wrappers/aadl2glueC_built lidardriver/SDL/wrappers/aadl2glueC_built manager/C/wrappers/aadl2glueC_built mp6500driver/SDL/wrappers/aadl2glueC_built objectdetector/C/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built propulsiondriver/SDL/wrappers/aadl2glueC_built sunsensordriver/SDL/wrappers/aadl2glueC_built sunsensorproxy/C/wrappers/aadl2glueC_built tflunadriver/SDL/wrappers/aadl2glueC_built uarthwasdriver/SDL/wrappers/aadl2glueC_built
 
 # Build dataview.aadl in AADLv1 format, used by DMT to generate glue code
 ${DATAVIEW_AADLV1}: ${DATAVIEW_UNIQ}
@@ -154,6 +154,10 @@ propulsiondriver/SDL/wrappers/aadl2glueC_built: propulsiondriver/SDL/wrappers/pr
 	touch $@
 
 sunsensordriver/SDL/wrappers/aadl2glueC_built: sunsensordriver/SDL/wrappers/sunsensordriver_mini_cv.aadl ${DATAVIEW_AADLV1}
+	aadl2glueC -allboards -o $(dir $@) $^
+	touch $@
+
+sunsensorproxy/C/wrappers/aadl2glueC_built: sunsensorproxy/C/wrappers/sunsensorproxy_mini_cv.aadl ${DATAVIEW_AADLV1}
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
 

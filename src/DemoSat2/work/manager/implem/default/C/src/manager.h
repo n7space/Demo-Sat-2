@@ -21,7 +21,10 @@ void manager_PI_ObjectDetection_Report( const asn1SccTObjectDetectionReport * );
 void manager_PI_SunSensorReturn_ReturnDataCmd_Ri( const asn1SccConversionData * );
 
 
-void manager_PI_pps( void );
+void manager_PI_pps_hk( void );
+
+
+void manager_PI_pps_ss( void );
 
 
 void manager_PI_tc( const asn1SccTTC * );

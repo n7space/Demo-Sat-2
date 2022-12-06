@@ -15,6 +15,7 @@
             <Function name="SunSensorDriver" path="SunSensorDriver"/>
             <Function name="ObjectDetector" path="ObjectDetector"/>
             <Function name="InterruptProxy" path="InterruptProxy"/>
+            <Function name="SunSensorProxy" path="SunSensorProxy"/>
         </Partition>
         <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" config="{ devname  uart4, speed  b9600, parity  even, bits  8, use-paritybit  FALSE }" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-SAMV71-Drivers/configurations/samv71-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-SamV71-Conf-T" asn1module="SAMV71-SERIAL-CCSDS-DRIVER" bus_namespace="ocarina_buses" namespace="ocarina_drivers" extends="ocarina_drivers::serial_ccsds" impl_extends="ocarina_drivers::serial_ccsds.samv71">
             <Property name="Taste::coordinates" value="83000 102200"/>

@@ -13,6 +13,7 @@ include(objectdetector/objectdetector.pro)
 include(piohwasdriver/piohwasdriver.pro)
 include(propulsiondriver/propulsiondriver.pro)
 include(sunsensordriver/sunsensordriver.pro)
+include(sunsensorproxy/sunsensorproxy.pro)
 include(tflunadriver/tflunadriver.pro)
 include(uarthwasdriver/uarthwasdriver.pro)
 

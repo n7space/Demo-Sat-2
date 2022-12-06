@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ccsds.org/schema/sois/seds seds.xsd">
+  <Package name="com/n7space/PioHwas">
+    <DataTypeSet>
+      <IntegerDataType name="PinNumber">
+        <IntegerDataEncoding byteOrder="littleEndian" sizeInBits="8" encoding="unsigned" />
+        <Range>
+          <MinMaxRange max="31" min="0" rangeType="inclusiveMinInclusiveMax" />
+        </Range>
+      </IntegerDataType>
+      <EnumeratedDataType name="PioHwas_Port">
+        <LongDescription>Definitions of PIO ports</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="PioHwas_Port_A" value="0"></Enumeration>
+          <Enumeration label="PioHwas_Port_B" value="1" />
+          <Enumeration label="PioHwas_Port_C" value="2" />
+          <Enumeration label="PioHwas_Port_D" value="3" />
+          <Enumeration label="PioHwas_Port_E" value="4" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <EnumeratedDataType name="PioHwas_Direction">
+        <LongDescription>I/O line flow direction</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="PioHwas_Direction_Input" value="0"></Enumeration>
+          <Enumeration label="PioHwas_Direction_Output" value="1" />
+        </EnumerationList>
+      </EnumeratedDataType>
+      <EnumeratedDataType name="PioHwas_Control">
+        <LongDescription>Possible I/O line assignment to peripherals.</LongDescription>
+        <IntegerDataEncoding encoding="unsigned" byteOrder="littleEndian" sizeInBits="8" />
+        <EnumerationList>
+          <Enumeration label="PioHwas_Control_Pio" value="0"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralA" value="1"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralB" value="2"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralC" value="3"></Enumeration>
+          <Enumeration label="PioHwas_Control_PeripheralD" value="4"></Enumeration>
+        </EnumerationList>
+      </EnumeratedDataType>
+      <ContainerDataType name="PioHwas" shortDescription="Pio descriptor">
+        <EntryList>
+          <Entry name="mPortAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPin" type="com/n7space/Hwas/Word" />
+          <Entry name="mPortPerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortIfdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortSodrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortCodrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPdsrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortMddrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPuerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPudrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOwerAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortOwdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortIfscdrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortAbcdsr0Address" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortAbcdsr1Address" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortPpddrAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+          <Entry name="mPortSchmittAddress" type="com/n7space/Hwas/DestinationAddress"></Entry>
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="PioHwasPinConfig" shortDescription="Pin configuration container">
+        <EntryList>
+          <Entry name="mPortConfig" type="PioHwas_Port" />
+          <Entry name="mPinConfig" type="PinNumber" />
+          <Entry name="mDirectionConfig" type="PioHwas_Direction" />
+          <Entry name="mControlConfig" type="PioHwas_Control" />
+        </EntryList>
+      </ContainerDataType>
+      <ContainerDataType name="PmcHwas" shortDescription="Pmc descriptor">
+        <EntryList>
+          <Entry name="PMC_PCER0_OFFSET" type="com/n7space/Hwas/DestinationAddress" />
+          <Entry name="PMC_PCxR0_PID10_PIOA_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID11_PIOB_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID12_PIOC_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID16_PIOD_MASK" type="com/n7space/Hwas/WordMask" />
+          <Entry name="PMC_PCxR0_PID17_PIOE_MASK" type="com/n7space/Hwas/WordMask" />
+        </EntryList>
+      </ContainerDataType>
+    </DataTypeSet>
+    <DeclaredInterfaceSet>
+      <Interface level="functional" name="PioHwasInterfaceType">
+        <CommandSet>
+          <Command name="InitPin" mode="sync">
+            <LongDescription>Initializes pin</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="out" />
+            <Argument name="config" type="PioHwasPinConfig" mode="in" />
+          </Command>
+          <Command name="SetPin" mode="sync">
+            <LongDescription>Sets pin state to high</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="in" />
+          </Command>
+          <Command name="ResetPin" mode="sync">
+            <LongDescription>Sets pin state to low</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="in" />
+          </Command>
+          <Command name="GetPin" mode="sync">
+            <LongDescription>Gets pin value</LongDescription>
+            <Argument name="pio" type="PioHwas" mode="in" />
+            <Argument name="pinValue" type="com/n7space/Hwas/Word" mode="out" />
+          </Command>
+        </CommandSet>
+      </Interface>
+    </DeclaredInterfaceSet>
+  </Package>
+  <xi:include href="Hwas.xml" xpointer="element(/1/1)" />
+</PackageFile>
