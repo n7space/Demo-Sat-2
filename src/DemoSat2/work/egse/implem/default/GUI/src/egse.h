@@ -20,6 +20,9 @@ void egse_startup(void);
 void egse_PI_Poll( void );
 
 
+void egse_PI_debug_hk( const asn1SccLidarData * );
+
+
 void egse_PI_hk( const asn1SccTHouseKeepingReport * );
 
 

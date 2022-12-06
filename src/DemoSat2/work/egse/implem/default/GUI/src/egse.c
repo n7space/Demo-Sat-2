@@ -12,6 +12,7 @@
 typedef struct _PI_Messages {
    T_egse_PI_list msg_id;
    union {
+      asn1SccLidarData debug_hk_param;
       asn1SccTHouseKeepingReport hk_param;
       asn1SccTTM tm_param;
    } msg_data;
@@ -118,6 +119,24 @@ void egse_PI_Poll(void)
    free(msgcontent);
    return;
 }
+
+void egse_PI_debug_hk
+      (const asn1SccLidarData *IN_dd)
+
+{
+   write_message_to_queue
+      (egse_PI_queue_id,
+       sizeof(asn1SccLidarData),
+       (void*)IN_dd,
+       i_debug_hk);
+
+   write_message_to_queue
+      (egse_PI_Python_queue_id,
+       sizeof(asn1SccLidarData),
+       (void*)IN_dd,
+       i_debug_hk);
+}
+
 
 void egse_PI_hk
       (const asn1SccTHouseKeepingReport *IN_report)

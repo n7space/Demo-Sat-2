@@ -10,6 +10,7 @@
 #include "objectdetector.h"
 
 #define OBJECT_DETECTOR_INVALID_STEP  -10000
+#define OBJECT_DETECTOR_MIDDLE_STEP  100
 #define OBJECT_DETECTOR_MAX_DATA_SIZE   1000
 
 static bool objectdetector_isEnabled = false;
@@ -40,6 +41,9 @@ static asn1SccLidarConfig objectdetector_lidarConfig = {
                                       .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Input,
                                       .mControlConfig = PioHwas_Control_pioHwas_Control_Pio}};
 
+static asn1SccTEnabled objectdetector_debugEnabled = false;
+static int64_t objectdetector_debugStep = 0;
+
 
 static inline int max(const int a, const int b) {
    return a > b ? a : b;
@@ -65,7 +69,7 @@ void objectdetector_PI_ObjectDetection_SetEnabled( const asn1SccTEnabled * isEna
       // Avoid unnecessary actions on the fragile LIDAR driver
       return;
    }
-   objectdetector_anchorStep = OBJECT_DETECTOR_INVALID_STEP;
+   objectdetector_anchorStep = OBJECT_DETECTOR_MIDDLE_STEP;
 
    if (*isEnabled){
       objectdetector_RI_Lidar_EnableCmd_Pi();
@@ -77,6 +81,10 @@ void objectdetector_PI_ObjectDetection_SetEnabled( const asn1SccTEnabled * isEna
 }
 
 static inline void objectdetector_gatherData() {
+   if (objectdetector_maxStep == objectdetector_minStep)
+   {
+      return;
+   }
    int minIndex = objectdetector_minStep;
    int minValue = INT32_MAX;
    for (int i = objectdetector_minStep; i <= objectdetector_maxStep; i++) {
@@ -99,7 +107,13 @@ void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
       (const asn1SccLidarTriggerInterfaceType_ReturnDataCmd_Type *IN_inputparam)
 
 {
-   /*if (!objectdetector_isEnabled) {
+   if (objectdetector_debugEnabled) {
+      objectdetector_debugStep++;
+      if (objectdetector_debugStep % 16 == 0) {
+         objectdetector_RI_debug_hk(&(IN_inputparam->data));
+      }
+   }
+   if (!objectdetector_isEnabled) {
       return;
    }
    int step = IN_inputparam->data.mStep;
@@ -107,15 +121,18 @@ void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri
    step = max(step, 0);
    objectdetector_stepData[step] = IN_inputparam->data.mTfLunaData.mDistance;
 
-   objectdetector_maxStep = max(objectdetector_maxStep, IN_inputparam->data.mStep);
-   objectdetector_minStep = min(objectdetector_minStep, IN_inputparam->data.mStep);
+   objectdetector_maxStep = max(objectdetector_maxStep, step);
+   objectdetector_minStep = min(objectdetector_minStep, step);
    if (objectdetector_anchorStep == OBJECT_DETECTOR_INVALID_STEP) {
-      objectdetector_anchorStep = IN_inputparam->data.mStep;
+      objectdetector_anchorStep = step;
    }
-   else if (objectdetector_anchorStep == IN_inputparam->data.mStep) {
+   else if (objectdetector_anchorStep == step) {
       objectdetector_gatherData();
    }
-   */
+}
+
+void objectdetector_PI_Debug_SetEnabled( const asn1SccTEnabled * enabled) {
+   objectdetector_debugEnabled = *enabled;
 }
 
 void objectdetector_PI_UartErrorReporting_OverrunError_Ri( void ) {

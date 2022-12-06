@@ -15,6 +15,9 @@ extern "C" {
 void objectdetector_startup(void);
 
 /* Provided interfaces */
+void objectdetector_PI_Debug_SetEnabled( const asn1SccTEnabled * );
+
+
 void objectdetector_PI_LidarTrigger_ReturnDataCmd_Ri( const asn1SccLidarTriggerInterfaceType_ReturnDataCmd_Type * );
 
 
@@ -37,6 +40,9 @@ extern void objectdetector_RI_Lidar_InitLidarCmd_Pi( asn1SccLidar *, const asn1S
 
 
 extern void objectdetector_RI_ObjectDetection_Report( const asn1SccTObjectDetectionReport * );
+
+
+extern void objectdetector_RI_debug_hk( const asn1SccLidarData * );
 
 
 #ifdef __cplusplus

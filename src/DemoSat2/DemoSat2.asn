@@ -59,10 +59,16 @@ BEGIN
       distanceThreshold TDistance
    }
 
+   TTCDebug ::= SEQUENCE {
+      id TCID,
+      enabled TEnabled
+   }
+
    TTC ::= CHOICE {
       tc-goToIdle TTCGoToIdle,
       tc-goToPassive TTCGoToPassive,
-      tc-goToActive TTCGoToActive
+      tc-goToActive TTCGoToActive,
+      tc-debug TTCDebug
    }
 
    TTMExecuted ::= SEQUENCE {

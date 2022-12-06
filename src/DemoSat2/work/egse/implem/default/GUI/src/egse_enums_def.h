@@ -4,8 +4,9 @@
 */
 #pragma once
 
-// 3 poll, hk, tm
+// 4 poll, debug_hk, hk, tm
 typedef enum {
+   i_debug_hk,
    i_hk,
    i_tm
 } T_egse_PI_list;

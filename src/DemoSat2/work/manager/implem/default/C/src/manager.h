@@ -30,6 +30,9 @@ void manager_PI_pps_ss( void );
 void manager_PI_tc( const asn1SccTTC * );
 
 /* Required interfaces */
+extern void manager_RI_Debug_SetEnabled( const asn1SccTEnabled * );
+
+
 extern void manager_RI_ObjectDetection_SetEnabled( const asn1SccTEnabled * );
 
 

@@ -51,6 +51,8 @@ define(`m4_lidardriver_piohwas_setpin_ri',`piohwasdriver_piohwas_setpin_pi')dnl
 define(`m4_lidardriver_PioHwas_SetPin_Ri_provider',`piohwasdriver')dnl
 define(`m4_lidardriver_tfluna_inittflunacmd_ri',`tflunadriver_tfluna_inittflunacmd_pi')dnl
 define(`m4_lidardriver_TfLuna_InitTfLunaCmd_Ri_provider',`tflunadriver')dnl
+define(`m4_manager_debug_setenabled',`objectdetector_debug_setenabled')dnl
+define(`m4_manager_Debug_SetEnabled_provider',`objectdetector')dnl
 define(`m4_manager_objectdetection_setenabled',`objectdetector_objectdetection_setenabled')dnl
 define(`m4_manager_ObjectDetection_SetEnabled_provider',`objectdetector')dnl
 define(`m4_manager_propulsion_changestatecmd_pi',`propulsiondriver_propulsion_changestatecmd_pi')dnl
@@ -81,6 +83,8 @@ define(`m4_objectdetector_lidar_initlidarcmd_pi',`lidardriver_lidar_initlidarcmd
 define(`m4_objectdetector_Lidar_InitLidarCmd_Pi_provider',`lidardriver')dnl
 define(`m4_objectdetector_objectdetection_report',`manager_objectdetection_report')dnl
 define(`m4_objectdetector_ObjectDetection_Report_provider',`manager')dnl
+define(`m4_objectdetector_debug_hk',`egse_debug_hk')dnl
+define(`m4_objectdetector_debug_hk_provider',`egse')dnl
 define(`m4_piohwasdriver_rawmemoryaccess_readword_ri',`hwas_rawmemoryaccess_readword_pi')dnl
 define(`m4_piohwasdriver_RawMemoryAccess_ReadWord_Ri_provider',`hwas')dnl
 define(`m4_piohwasdriver_rawmemoryaccess_writeword_ri',`hwas_rawmemoryaccess_writeword_pi')dnl
@@ -190,6 +194,12 @@ m4_sporadic_itf_handler(
 
 
 include(afechwasdriver.if)
+
+m4_sporadic_itf_gui_handler(
+    egse,
+    debug_hk,
+    `LidarData',
+)
 
 m4_sporadic_itf_gui_handler(
     egse,
@@ -306,7 +316,9 @@ m4_c_function(manager,// ERROR: Interface "ObjectDetection_Report" in function "
 
 )
 
-m4_c_function(objectdetector,// ERROR: Interface "LidarTrigger_ReturnDataCmd_Ri" in function "ObjectDetector" has unsupported kind: "SPORADIC_OPERATION"
+m4_c_function(objectdetector,(Debug_SetEnabled,(enabled),(TEnabled),(PARAM_IN), 0),
+
+// ERROR: Interface "LidarTrigger_ReturnDataCmd_Ri" in function "ObjectDetector" has unsupported kind: "SPORADIC_OPERATION"
 
 // ERROR: Interface "LidarTrigger_ReturnErrorCmd_Ri" in function "ObjectDetector" has unsupported kind: "SPORADIC_OPERATION"
 

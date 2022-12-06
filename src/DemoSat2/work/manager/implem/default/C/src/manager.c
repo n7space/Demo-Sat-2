@@ -63,6 +63,7 @@ static asn1SccTLuminance manager_luminanceThreshold = 0.0f;
 static asn1SccTDistance manager_distanceThreshold = 0.0f;
 static asn1SccTEnabled ENABLED = true;
 static asn1SccTEnabled DISABLED = false;
+static asn1SccTEnabled manager_debugEnabled = false;
 
 static void initializeHw()
 {
@@ -75,7 +76,7 @@ static void reportHk()
    asn1SccTHouseKeepingReport report;
    memset(&report, 0, sizeof(asn1SccTHouseKeepingReport));
    report.mode = manager_mode;
-   //report.objectDetection = manager_objectDetectionReport;
+   report.objectDetection = manager_objectDetectionReport;
    report.propulsion = manager_propulsionReport;
    report.luminance = manager_luminanceReport;
    manager_RI_hk(&report);
@@ -220,15 +221,12 @@ void manager_PI_pps_hk(void)
       break;
    case TMode_m_idle:
       reportHk();
-      //manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_passive:
       reportHk();
-      //manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_active:
       reportHk();
-      //manager_RI_SunSensor_RequestDataCmd_Pi(&manager_sunSensorAfec);
       break;
    case TMode_m_safe:
       // NOP
@@ -332,6 +330,11 @@ void manager_PI_tc(const asn1SccTTC *IN_request)
          reportFailure(IN_request->u.tc_goToActive.id, TFailureReason_fr_incorrectState);
          break;
       }
+      break;
+   case TTC_tc_debug_PRESENT:
+      manager_debugEnabled = IN_request->u.tc_debug.enabled;
+      manager_RI_Debug_SetEnabled(&manager_debugEnabled);
+      reportSuccess(IN_request->u.tc_debug.id);
       break;
    }
 }

@@ -17,7 +17,7 @@
             <Function name="InterruptProxy" path="InterruptProxy"/>
             <Function name="SunSensorProxy" path="SunSensorProxy"/>
         </Partition>
-        <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" config="{ devname  uart4, speed  b9600, parity  even, bits  8, use-paritybit  FALSE }" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-SAMV71-Drivers/configurations/samv71-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-SamV71-Conf-T" asn1module="SAMV71-SERIAL-CCSDS-DRIVER" bus_namespace="ocarina_buses" namespace="ocarina_drivers" extends="ocarina_drivers::serial_ccsds" impl_extends="ocarina_drivers::serial_ccsds.samv71">
+        <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" config="{ devname  uart4, speed  b9600, parity  even, bits  8, use-paritybit  FALSE }" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-SAMV71-Drivers/configurations/samv71-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-SamV71-Conf-T" asn1module="SAMV71-SERIAL-CCSDS-DRIVER" extends="ocarina_drivers::serial_ccsds" namespace="ocarina_drivers" bus_namespace="ocarina_buses" impl_extends="ocarina_drivers::serial_ccsds.samv71">
             <Property name="Taste::coordinates" value="83000 102200"/>
         </Device>
     </Node>
@@ -27,19 +27,19 @@
             <Property name="Taste::coordinates" value="52000 104400 60000 112400"/>
             <Function name="EGSE" path="EGSE"/>
         </Partition>
-        <Device name="eth0" requires_bus_access="ocarina_buses::ip.generic" port="eth0" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" bus_namespace="ocarina_buses" namespace="ocarina_drivers" extends="ocarina_drivers::ip_socket" impl_extends="ocarina_drivers::ip_socket.linux">
+        <Device name="eth0" requires_bus_access="ocarina_buses::ip.generic" port="eth0" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" extends="ocarina_drivers::ip_socket" namespace="ocarina_drivers" bus_namespace="ocarina_buses" impl_extends="ocarina_drivers::ip_socket.linux">
             <Property name="Taste::coordinates" value="47600 101700"/>
         </Device>
-        <Device name="eth1" requires_bus_access="ocarina_buses::ip.generic" port="eth1" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" bus_namespace="ocarina_buses" namespace="ocarina_drivers" extends="ocarina_drivers::ip_socket" impl_extends="ocarina_drivers::ip_socket.linux">
+        <Device name="eth1" requires_bus_access="ocarina_buses::ip.generic" port="eth1" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" extends="ocarina_drivers::ip_socket" namespace="ocarina_drivers" bus_namespace="ocarina_buses" impl_extends="ocarina_drivers::ip_socket.linux">
             <Property name="Taste::coordinates" value="47600 105800"/>
         </Device>
-        <Device name="eth2" requires_bus_access="ocarina_buses::ip.generic" port="eth2" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" bus_namespace="ocarina_buses" namespace="ocarina_drivers" extends="ocarina_drivers::ip_socket" impl_extends="ocarina_drivers::ip_socket.linux">
+        <Device name="eth2" requires_bus_access="ocarina_buses::ip.generic" port="eth2" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" extends="ocarina_drivers::ip_socket" namespace="ocarina_drivers" bus_namespace="ocarina_buses" impl_extends="ocarina_drivers::ip_socket.linux">
             <Property name="Taste::coordinates" value="47600 109900"/>
         </Device>
-        <Device name="eth3" requires_bus_access="ocarina_buses::ip.generic" port="eth3" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" bus_namespace="ocarina_buses" namespace="ocarina_drivers" extends="ocarina_drivers::ip_socket" impl_extends="ocarina_drivers::ip_socket.linux">
+        <Device name="eth3" requires_bus_access="ocarina_buses::ip.generic" port="eth3" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-socket-ip-driver.asn" asn1type="Socket-IP-Conf-T" asn1module="LINUX-SOCKET-IP-DRIVER" extends="ocarina_drivers::ip_socket" namespace="ocarina_drivers" bus_namespace="ocarina_buses" impl_extends="ocarina_drivers::ip_socket.linux">
             <Property name="Taste::coordinates" value="47600 114000"/>
         </Device>
-        <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" config="{ devname  &quot;uart0&quot;, speed  b9600, parity  even, bits  8, use-paritybit  FALSE }" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-Linux-Conf-T" asn1module="LINUX-SERIAL-CCSDS-DRIVER" bus_namespace="ocarina_buses" namespace="ocarina_drivers" extends="ocarina_drivers::serial_ccsds" impl_extends="ocarina_drivers::serial_ccsds.linux">
+        <Device name="uart0" requires_bus_access="ocarina_buses::serial.ccsds" config="{ devname  &quot;uart0&quot;, speed  b9600, parity  even, bits  8, use-paritybit  FALSE }" port="uart0" asn1file="/home/taste/tool-inst/include/TASTE-Linux-Drivers/configurations/linux-serial-ccsds-driver.asn" asn1type="Serial-CCSDS-Linux-Conf-T" asn1module="LINUX-SERIAL-CCSDS-DRIVER" extends="ocarina_drivers::serial_ccsds" namespace="ocarina_drivers" bus_namespace="ocarina_buses" impl_extends="ocarina_drivers::serial_ccsds.linux">
             <Property name="Taste::coordinates" value="63600 101700"/>
         </Device>
     </Node>
@@ -48,5 +48,6 @@
             <Message name="Message_1" from_function="EGSE" from_interface="tc" to_function="Manager" to_interface="tc"/>
             <Message name="Message_2" from_function="Manager" from_interface="tm" to_function="EGSE" to_interface="tm"/>
             <Message name="Message_3" from_function="Manager" from_interface="hk" to_function="EGSE" to_interface="hk"/>
+            <Message name="Message_4" from_function="ObjectDetector" from_interface="debug_hk" to_function="EGSE" to_interface="debug_hk"/>
     </Connection>
 </DeploymentView>
