@@ -1,5 +1,7 @@
 # SDL
+SEDS_CONVERTER?=spacecreator.AppImage --sedsconverter
 OPENGEODE?=opengeode
+VISUAL?=kate
 
 all: compile-linux
 
@@ -8,6 +10,10 @@ clean:
 
 edit:
 	cd src && $(OPENGEODE) system_structure.pr propulsiondriver.pr
+
+sdl-to-if:
+	cd src &&\
+	   sdl2if --output-dir ../../../build/modelchecking  ../src/propulsiondriver.pr ../src/system_structure.pr
 
 # Ada
 generate-code:
