@@ -10,8 +10,8 @@
 #include "manager.h"
 #include <math.h>
 
-static asn1SccTMode manager_mode = TMode_m_initializing;
-static asn1SccSunSensor manager_sunSensorAfec;
+static volatile asn1SccTMode manager_mode = TMode_m_initializing;
+static volatile asn1SccSunSensor manager_sunSensorAfec;
 static asn1SccSunSensorConfig manager_sunSensorConfig = {
     .mAfecConfig = {
         .mAfecInstance = AfecHwas_Instance_afecHwas_Instance_Afec0,
@@ -20,7 +20,7 @@ static asn1SccSunSensorConfig manager_sunSensorConfig = {
     },
     .mChannel = 8,
 };
-static asn1SccPropulsion manager_propulsion;
+static volatile asn1SccPropulsion manager_propulsion;
 const asn1SccPropulsionConfig manager_propulsionConfig = {.arr =
                                                               {
                                                                   {
@@ -49,21 +49,21 @@ const asn1SccPropulsionConfig manager_propulsionConfig = {.arr =
                                                                   },
                                                               }};
 
-static asn1SccTObjectDetectionReport manager_objectDetectionReport = {
+static volatile asn1SccTObjectDetectionReport manager_objectDetectionReport = {
     .position = 0.0f,
     .distance = 0.0f,
     .status = TValidityStatus_vs_nil};
-static asn1SccTHouseKeepingReport_propulsion manager_propulsionReport = {
+static volatile asn1SccTHouseKeepingReport_propulsion manager_propulsionReport = {
     .arr = {0.0f, 0.0f, 0.0f, 0.0f}};
-static asn1SccTSunMonitoringReport manager_luminanceReport = {
+static volatile asn1SccTSunMonitoringReport manager_luminanceReport = {
     .luminance = 0.0f,
     .status = TValidityStatus_vs_nil};
 
-static asn1SccTLuminance manager_luminanceThreshold = 0.0f;
-static asn1SccTDistance manager_distanceThreshold = 0.0f;
+static volatile asn1SccTLuminance manager_luminanceThreshold = 0.0f;
+static volatile asn1SccTDistance manager_distanceThreshold = 0.0f;
 static asn1SccTEnabled ENABLED = true;
 static asn1SccTEnabled DISABLED = false;
-static asn1SccTEnabled manager_debugEnabled = false;
+static volatile asn1SccTEnabled manager_debugEnabled = false;
 
 static void initializeHw()
 {
