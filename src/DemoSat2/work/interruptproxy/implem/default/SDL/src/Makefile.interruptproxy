@@ -1,7 +1,0 @@
-all:
-	mkdir -p code
-	cd code && opengeode --toAda /home/taste/workspace/Demo-Sat-2/src/DemoSat2/work/interruptproxy/SDL/src/interruptproxy.pr 
-	asn1scc -fp AUTO -typePrefix asn1Scc -o code -equal -Ada dataview-uniq.asn code/interruptproxy_datamodel.asn
-	cd code && gnat make interruptproxy
-clean:
-	rm -rf code
