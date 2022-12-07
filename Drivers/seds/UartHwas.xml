@@ -75,6 +75,13 @@
           </Command>
         </CommandSet>
       </Interface>
+      <Interface level="functional" name="UartErrorReportingInterfaceType">
+        <CommandSet>
+          <Command name="OverrunError" mode="sync">
+            <LongDescription>Indicates an occurrence of an overrun error.</LongDescription>
+          </Command>
+        </CommandSet>
+      </Interface>
     </DeclaredInterfaceSet>
   </Package>
   <xi:include href="PioHwas.xml" xpointer="element(/1/1)" />
