@@ -8,14 +8,10 @@
     !! file. The up-to-date signatures can be found in the .ads file.   !!
 */
 #include "interruptproxy.h"
-//#include <stdio.h>
-
 
 void interruptproxy_startup(void)
 {
-   // Write your initialisation code
-   // You may call sporadic required interfaces and start timers
-   // puts ("[InterruptProxy] Startup");
+
 }
 
 void interruptproxy_PI_InterruptSubscription_Interrupt_Ri

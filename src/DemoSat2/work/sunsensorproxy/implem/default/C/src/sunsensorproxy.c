@@ -8,7 +8,6 @@
     !! file. The up-to-date signatures can be found in the .ads file.   !!
 */
 #include "sunsensorproxy.h"
-//#include <stdio.h>
 
 
 void sunsensorproxy_startup(void)

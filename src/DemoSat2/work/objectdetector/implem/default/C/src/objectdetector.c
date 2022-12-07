@@ -143,7 +143,6 @@ void objectdetector_PI_Debug_SetEnabled( const asn1SccTEnabled * enabled) {
 }
 
 void objectdetector_PI_UartErrorReporting_OverrunError_Ri( void ) {
-  // TODO
   // Ignore for now
 }
 
@@ -151,7 +150,6 @@ void objectdetector_PI_LidarTrigger_ReturnErrorCmd_Ri
       (const asn1SccLidarTriggerInterfaceType_ReturnErrorCmd_Type *IN_inputparam)
 
 {
-   // TODO
    // Ignore for now
 }
 
