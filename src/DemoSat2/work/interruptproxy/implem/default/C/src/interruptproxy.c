@@ -8,6 +8,7 @@
     !! file. The up-to-date signatures can be found in the .ads file.   !!
 */
 #include "interruptproxy.h"
+#include <Nvic/Nvic.h>
 
 void interruptproxy_startup(void)
 {
