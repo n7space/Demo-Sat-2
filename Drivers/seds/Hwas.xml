@@ -88,8 +88,8 @@
       <Interface level="subnetwork" name="InterruptSubscriptionInterfaceType">
         <LongDescription>Interface for receiving interrupt notifications.</LongDescription>
         <CommandSet>
-          <Command name="Interrupt" mode="async">
-            <LongDescription>Receive a hardware interrupt notification. The notification is asynchronous, as it may not be executed in the interrupt context</LongDescription>
+          <Command name="Interrupt" mode="sync">
+            <LongDescription>Receive a hardware interrupt notification.</LongDescription>
             <Argument name="interrupt" type="InterruptNumber" mode="in" />
           </Command>
         </CommandSet>

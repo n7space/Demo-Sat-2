@@ -18,10 +18,12 @@ void interruptproxy_PI_InterruptSubscription_Interrupt_Ri
       (const asn1SccInterruptNumber *IN_interrupt)
 
 {
-   if(*IN_interrupt >= Nvic_Irq_Uart0 && *IN_interrupt <= Nvic_Irq_Uart4)
+   if(*IN_interrupt >= Nvic_Irq_Uart0 && *IN_interrupt <= Nvic_Irq_Uart4) {
        interruptproxy_RI_InterruptSubscription_Interrupt_Pi_Uart(IN_interrupt);
-   if(*IN_interrupt >= Nvic_Irq_Afec0 && *IN_interrupt <= Nvic_Irq_Afec1)
+   }
+   if(*IN_interrupt >= Nvic_Irq_Afec0 && *IN_interrupt <= Nvic_Irq_Afec1) {
        interruptproxy_RI_InterruptSubscription_Interrupt_Pi_Afec(IN_interrupt);
+   }
 }
 
 
