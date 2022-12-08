@@ -14,6 +14,7 @@
           <Interface name="InterruptSubscriptionManagement" type="com/n7space/Hwas/InterruptSubscriptionManagementInterfaceType" />
           <Interface name="InterruptManagement" type="com/n7space/Hwas/InterruptManagementInterfaceType" />
           <Interface name="RawMemoryAccess" type="com/n7space/Hwas/RawMemoryAccessInterfaceType" />
+          <Interface name="UartErrorReporting" type="com/n7space/UartHwas/UartErrorReportingInterfaceType"></Interface>
         </RequiredInterfaceSet>
         <Implementation>
           <VariableSet>
@@ -1075,12 +1076,36 @@
                 <Assignment outputVariableRef="sourceAddressVar">
                   <VariableRef variableRef="uartVar.mUartSrAddress" />
                 </Assignment>
-                <SendCommandPrimitive shortDescription="Read uartVar status of RXRDY masked taking value from IMR" interface="RawMemoryAccess" command="ReadWord">
+                <SendCommandPrimitive shortDescription="Read OVRE bit from UART_SR" interface="RawMemoryAccess" command="ReadWord">
                   <ArgumentValue name="address">
                     <VariableRef variableRef="sourceAddressVar" />
                   </ArgumentValue>
                   <ArgumentValue name="mask">
-                    <VariableRef variableRef="bitsMaskVar" />
+                    <Value value="32" />
+                  </ArgumentValue>
+                  <ArgumentValue name="outputValue">
+                    <VariableRef variableRef="bitsValueVar" />
+                  </ArgumentValue>
+                </SendCommandPrimitive>
+                <Conditional>
+                  <LongDescription>Is OVRE set in SR and IMR?</LongDescription>
+                  <Condition>
+                    <Condition>
+                      <FirstOperand variableRef="bitsValueVar"></FirstOperand>
+                      <ComparisonOperator>equals</ComparisonOperator>
+                      <Value value="32" />
+                    </Condition>
+                  </Condition>
+                  <OnConditionTrue>
+                    <SendCommandPrimitive interface="UartErrorReporting" command="OverrunError"></SendCommandPrimitive>
+                  </OnConditionTrue>
+                </Conditional>
+                <SendCommandPrimitive shortDescription="Read RXRDY bit from UART_SR" interface="RawMemoryAccess" command="ReadWord">
+                  <ArgumentValue name="address">
+                    <VariableRef variableRef="sourceAddressVar" />
+                  </ArgumentValue>
+                  <ArgumentValue name="mask">
+                    <Value value="bitsMaskVar" />
                   </ArgumentValue>
                   <ArgumentValue name="outputValue">
                     <VariableRef variableRef="bitsValueVar" />
@@ -1099,7 +1124,7 @@
                     <Assignment outputVariableRef="sourceAddressVar">
                       <VariableRef variableRef="uartVar.mUartRhrAddress" />
                     </Assignment>
-                    <SendCommandPrimitive shortDescription="Read interrupt mask for RXRDY(IMR)" interface="RawMemoryAccess" command="ReadWord">
+                    <SendCommandPrimitive shortDescription="Read byte" interface="RawMemoryAccess" command="ReadWord">
                       <ArgumentValue name="address">
                         <VariableRef variableRef="sourceAddressVar" />
                       </ArgumentValue>

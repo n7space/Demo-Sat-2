@@ -16,28 +16,28 @@ asn1SccPropulsion propulsion;
 const asn1SccPropulsionConfig config = {.arr =
     {
         {
-            .mPortConfig = asn1SccpioHwas_Port_B,
+            .mPortConfig = PioHwas_Port_pioHwas_Port_B,
             .mPinConfig =3,
-            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-            .mControlConfig = asn1SccpioHwas_Control_Pio,
+            .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+            .mControlConfig = PioHwas_Control_pioHwas_Control_Pio,
         },
         {
-            .mPortConfig = asn1SccpioHwas_Port_B,
+            .mPortConfig = PioHwas_Port_pioHwas_Port_B,
             .mPinConfig =2,
-            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-            .mControlConfig = asn1SccpioHwas_Control_Pio,
+            .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+            .mControlConfig = PioHwas_Control_pioHwas_Control_Pio,
         },
         {
-            .mPortConfig = asn1SccpioHwas_Port_B,
+            .mPortConfig = PioHwas_Port_pioHwas_Port_B,
             .mPinConfig =13,
-            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-            .mControlConfig = asn1SccpioHwas_Control_Pio,
+            .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+            .mControlConfig = PioHwas_Control_pioHwas_Control_Pio,
         },
         {
-            .mPortConfig = asn1SccpioHwas_Port_D,
+            .mPortConfig = PioHwas_Port_pioHwas_Port_D,
             .mPinConfig =24,
-            .mDirectionConfig = asn1SccpioHwas_Direction_Output,
-            .mControlConfig = asn1SccpioHwas_Control_Pio ,
+            .mDirectionConfig = PioHwas_Direction_pioHwas_Direction_Output,
+            .mControlConfig = PioHwas_Control_pioHwas_Control_Pio ,
         },
      }
    };
@@ -54,8 +54,8 @@ void manager_PI_Init(void)
      if(!initialized)
      {
          manager_RI_Propulsion_InitPropulsionCmd_Pi(&propulsion, &config);
-         asn1SccPropulsion_ThrusterState state1 = asn1Sccpropulsion_ThrusterState_BlinkHigh;
-         asn1SccPropulsion_ThrusterState state2 = asn1Sccpropulsion_ThrusterState_BlinkLow;
+         asn1SccPropulsion_ThrusterState state1 = Propulsion_ThrusterState_propulsion_ThrusterState_BlinkHigh;
+         asn1SccPropulsion_ThrusterState state2 = Propulsion_ThrusterState_propulsion_ThrusterState_BlinkLow;
          manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state1);
          index = 1;
          manager_RI_Propulsion_ChangeStateCmd_Pi(&index, &state2);

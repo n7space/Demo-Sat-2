@@ -3,7 +3,7 @@ MAKEFILE_PATH   := $(lastword $(MAKEFILE_LIST))
 TOOL_INST       := $(shell taste-config --prefix)
 OUTDIR          := $(dir $(MAKEFILE_PATH))
 TASTE_SHARED_TYPES?=${HOME}/.local/share/QtProject/QtCreator/shared_types
-ASN1_FILES      := ../COM-N7SPACE-HWAS.asn ../COM-N7SPACE-PIOHWAS.asn ../COM-N7SPACE-PROPULSION.asn ../project.asn ${TOOL_INST}/share/taste-types/taste-types.asn
+ASN1_FILES      := ../COM-N7SPACE-HWAS.asn ../COM-N7SPACE-PIOHWAS.asn ../COM-N7SPACE-PROPULSION.asn ../project.asn ${TOOL_INST}/share/taste-types/taste-types.asn system.asn
 CP_FILES        :=       # Context parameters
 DATAVIEW_PATH   := ${OUTDIR}/dataview
 DATAVIEW_UNIQ   := ${DATAVIEW_PATH}/dataview-uniq.asn
@@ -14,8 +14,8 @@ DATAVIEW_AADLV2 := ${DATAVIEW_PATH}/dataview_aadlv2.aadl
 
 # Project cache folder is used to speed up all ASN.1-related processing
 export PROJECT_CACHE=${HOME}/.taste_AST_cache
-
 all:	build-default
+
 
 # Check that all runtimes used in the system are installed
 check_targets:
@@ -23,17 +23,17 @@ check_targets:
 
 # Generate the language-specific data view needed before editing user code
 dataview:	dataview/C/built dataview/Ada/built
-	# Copy the dataview to SDL function PioHwasDriver (no context parameters)
+	# Copy the dataview to SDL/SEDS function PioHwasDriver (no context parameters)
 	cp -u ${DATAVIEW_UNIQ} piohwasdriver/SDL/src
 	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
 	md5sum -c "piohwasdriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "piohwasdriver/SDL/src/dataview-uniq.asn" >  "piohwasdriver/SDL/src/dataview.md5"
-	# Copy the dataview to SDL function PropulsionDriver (no context parameters)
+	# Copy the dataview to SDL/SEDS function PropulsionDriver (no context parameters)
 	cp -u ${DATAVIEW_UNIQ} propulsiondriver/SDL/src
 	# Compute MD5 of the dataview, needed to decide if code needs to be re-generated
 	md5sum -c "propulsiondriver/SDL/src/dataview.md5"  &> /dev/null || md5sum  "propulsiondriver/SDL/src/dataview-uniq.asn" >  "propulsiondriver/SDL/src/dataview.md5"
 
 # Generate the complete dataview, including Python bindings if there is a GUI
-${DATAVIEW_PATH}/built:	dataview
+${DATAVIEW_PATH}/built:  dataview
 	touch $@
 
 # Build based on the deployment view
@@ -75,7 +75,7 @@ build/system_config.h:	$(wildcard */*/wrappers/*_system_config.h)
 	cat $^ > $@
 
 #  Call DMT/aadl2glueC to generate glue code from the mini-cv.aadl files
-aadl2glueC:	hwas/C/wrappers/aadl2glueC_built manager/C/wrappers/aadl2glueC_built partition_1_timer_manager/Timer_Manager/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built propulsiondriver/SDL/wrappers/aadl2glueC_built
+aadl2glueC:	hwas/C/wrappers/aadl2glueC_built manager/C/wrappers/aadl2glueC_built piohwasdriver/SDL/wrappers/aadl2glueC_built propulsiondriver/SDL/wrappers/aadl2glueC_built
 
 # Build dataview.aadl in AADLv1 format, used by DMT to generate glue code
 ${DATAVIEW_AADLV1}: ${DATAVIEW_UNIQ}
@@ -93,10 +93,6 @@ manager/C/wrappers/aadl2glueC_built: manager/C/wrappers/manager_mini_cv.aadl ${D
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
 
-partition_1_timer_manager/Timer_Manager/wrappers/aadl2glueC_built: partition_1_timer_manager/Timer_Manager/wrappers/partition_1_timer_manager_mini_cv.aadl ${DATAVIEW_AADLV1}
-	aadl2glueC -allboards -o $(dir $@) $^
-	touch $@
-
 piohwasdriver/SDL/wrappers/aadl2glueC_built: piohwasdriver/SDL/wrappers/piohwasdriver_mini_cv.aadl ${DATAVIEW_AADLV1}
 	aadl2glueC -allboards -o $(dir $@) $^
 	touch $@
@@ -111,10 +107,10 @@ dataview/C/built: ${DATAVIEW_UNIQ} ${DATAVIEW_ACN} ${CP_FILES}
 	mkdir -p $(dir $@)
 	# asn2dataModel does not take the ACN files, and only calls asn1scc
 	# asn2dataModel -o $(dir $@) -toC ${DATAVIEW_UNIQ} ${DATAVIEW_ACN}
-	asn1scc -typePrefix asn1Scc -equal -fp AUTO -o $(dir $@) -c -uPER -ACN $^
+	asn1scc -typePrefix asn1Scc ${ASN1SCC_FLAGS} -renamePolicy 3 -equal -fp AUTO -o $(dir $@) -c -uPER -ACN $^
 	cp ${TOOL_INST}/share/AutoGUI/debug_messages.? dataview/C
 	cp ${TOOL_INST}/share/AutoGUI/timeInMS.? dataview/C
-	cd dataview/C && msgPrinter ../dataview-uniq.asn
+	#cd dataview/C && msgPrinter ../dataview-uniq.asn  (disabled: this is not used anywhere)
 	cd dataview/C && msgPrinterASN1 ../dataview-uniq.asn
 	touch $@
 
@@ -129,4 +125,5 @@ clean:
 	rm -rf binaries dataview
 	$(MAKE) -C build -f Makefile.taste clean
 
-.PHONY: clean simu compile-all-linux function-instances-linux function-types-linux build-default dataview build-rtems-ada dataview run_cv
+.PHONY: clean simu compile-all-linux function-instances-linux function-types-linux build-default dataview build-rtems-ada dataview build/modelchecking modelchecking/subtypes/$(SUBTYPE) obs-to-if aadl-to-if asn-to-if $(PROPERTIES_CONFIG) run_cv
+
